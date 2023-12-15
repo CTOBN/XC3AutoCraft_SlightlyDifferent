@@ -85,16 +85,16 @@ struct GameData
 	size_t cameraIndex = 0;
 	String cameraName = U"未選択";
 
-	Array<uint16> accessoriesID = { 0 };
-	Array<String> accessoriesDiscription = { U"-" };
-	Array<String> accessoriesDiscriptionModdified = { U"未選択" };
-	Array<String> accessoriesAlready = { U"-" };
-	Array<String> accessoriesWristProbability = { U"0.00" };
-	Array<String> accessoriesFingerProbability = { U"0.00" };
-	Array<String> accessoriesNecklacesProbability = { U"0.00" };
-	Array<String> accessoriesCrownsProbability = { U"0.00" };
+	//Array<uint16> accessoriesID = { 0 };
+	//Array<String> accessoriesDiscription = { U"-" };
+	//Array<String> accessoriesDiscriptionModdified = { U"未選択" };
+	//Array<String> accessoriesAlready = { U"-" };
+	//Array<String> accessoriesWristProbability = { U"0.00" };
+	//Array<String> accessoriesFingerProbability = { U"0.00" };
+	//Array<String> accessoriesNecklacesProbability = { U"0.00" };
+	//Array<String> accessoriesCrownsProbability = { U"0.00" };
 
-	Array<Accsessorie> sortedAccessories = { };
+	// Array<Accsessorie> sortedAccessories = { };
 	const Array<String> statusIconsFileName = { U"agility", U"attack", U"critical", U"dexterity", U"guard", U"healing", U"hp" };
 	const Array<String> statusIconsFileNameJP = { U"素早さ", U"攻撃力", U"ｸﾘﾃｨｶﾙ率", U"器用さ", U"ガード率", U"回復力", U"HP" };
 	Array<Accsessorie> desiredAccessories = { };
@@ -133,8 +133,7 @@ using App = SceneManager<String, GameData>;
 class Loading : public App::Scene
 {
 public:
-	const CSV csv{ U"csv/accessories.csv" };
-	const CSV csvSorted{ U"csv/accessoriesSorted.csv" };
+	const CSV csv{ U"csv/test.csv" };
 	const String discriptionJPTemplateFolderPath = U"images/Xenoblade3_Temp_Jp";
 	const String statusIconsFolderPath = U"images/statusIcons";
 	const String UnkonwnMatterNumbersPath = U"images/UnknownMatterNumbers";
@@ -151,31 +150,33 @@ public:
 			throw Error{ U"Failed to load `accessories.csv`" };
 		}
 
-		for (size_t row = 0; row < csv.rows(); ++row)
+		for (size_t row = 1; row < csv.rows(); ++row) // 1行目はヘッダなので飛ばす
 		{
-			getData().accessoriesID.push_back(Parse<uint16>(csv[row][0]));
-			getData().accessoriesDiscription.push_back(csv[row][1]);
-			getData().accessoriesDiscriptionModdified.push_back(csv[row][2]);
-			getData().accessoriesAlready.push_back(csv[row][3]);
-			getData().accessoriesWristProbability.push_back(csv[row][4]);
-			getData().accessoriesFingerProbability.push_back(csv[row][5]);
-			getData().accessoriesNecklacesProbability.push_back(csv[row][6]);
-			getData().accessoriesCrownsProbability.push_back(csv[row][7]);
+			Accsessorie::pushBackID(Parse<uint16>(csv[row][0]));
+			Accsessorie::pushBackDiscriptionEN(csv[row][1]);
+			Accsessorie::pushBackDiscriptionJP(csv[row][2]);
+			Accsessorie::pushBackDiscriptionDetailJP(csv[row][3]);
+			Accsessorie::pushBackAlready(csv[row][4]);
+			Accsessorie::pushBackWrist(csv[row][5]);
+			Accsessorie::pushBackFinger(csv[row][6]);
+			Accsessorie::pushBackNecklaces(csv[row][7]);
+			Accsessorie::pushBackCrowns(csv[row][8]);
 		}
 
-		if (not csvSorted) // もし読み込みに失敗したら
-		{
-			throw Error{ U"Failed to load `accessoriesSorted.csv`" };
-		}
 
-		for (int row = 1; row < csvSorted.rows(); ++row) // 1行目はヘッダなので飛ばす
-		{
-			uint16 ID = Parse<uint16>(csvSorted[row][0]);
-			String discriptionEN = csvSorted[row][1];
-			String discriptionJP = csvSorted[row][2];
+		//if (not csvSorted) // もし読み込みに失敗したら
+		//{
+		//	throw Error{ U"Failed to load `accessoriesSorted.csv`" };
+		//}
 
-			getData().sortedAccessories.push_back(Accsessorie{ uint16(row-1), ID, discriptionEN, discriptionJP});
-		}
+		//for (int row = 1; row < csvSorted.rows(); ++row) // 1行目はヘッダなので飛ばす
+		//{
+		//	uint16 ID = Parse<uint16>(csvSorted[row][0]);
+		//	String discriptionEN = csvSorted[row][1];
+		//	String discriptionJP = csvSorted[row][2];
+
+		//	getData().sortedAccessories.push_back(Accsessorie{ uint16(row-1)});
+		//}
 
 		for (uint16 i = 3428; i <= 3913; i += 5)
 		{
@@ -297,9 +298,12 @@ public:
 		: IScene{ init }
 
 	{
+		Array<String> DiscriptionDetailJPList = {U"未選択"};
+		DiscriptionDetailJPList.append(Accsessorie::getDiscriptionDetailJPList());
+
 		for (int i = 0; i < TARGET_ACCSESORIES_COUNT_MAX; i++)
 		{
-			accsessoriesPulldowns.push_back(Pulldown{ getData().accessoriesDiscriptionModdified, ACCSESSORIE_FONT, Point{ MENU_X, ACCSESSORIE_TEXT_Y + 50 + (ACCESSORIES_FONT_SIZE + 15) * (i)} });
+			accsessoriesPulldowns.push_back(Pulldown{ DiscriptionDetailJPList, ACCSESSORIE_FONT, Point{MENU_X, ACCSESSORIE_TEXT_Y + 50 + (ACCESSORIES_FONT_SIZE + 15) * (i)}});
 		}
 		desiredAccessories_to_pullDowns();
 
@@ -355,7 +359,7 @@ public:
 			{
 				continue;
 			}
-			Accsessorie acc = getData().sortedAccessories[accsessoriesPulldowns[i].getIndex() - 1];
+			Accsessorie acc{ accsessoriesPulldowns[i].getIndex() - 1 };
 			acc.setStatusList({ abilityValuesPulldowns[i * 4 + 0].getItem(),
 								abilityValuesPulldowns[i * 4 + 1].getItem(),
 								abilityValuesPulldowns[i * 4 + 2].getItem(),
@@ -381,11 +385,15 @@ public:
 		sumProbabilityCrowns = 0;
 		for (size_t i = 0; i < TARGET_ACCSESORIES_COUNT_MAX; i++)
 		{
-			size_t index = accsessoriesPulldowns[i].getIndex();
-			sumProbabilityWrists += Parse<double>(getData().accessoriesWristProbability[index]);
-			sumProbabilityFingers += Parse<double>(getData().accessoriesFingerProbability[index]);
-			sumProbabilityNecklaces += Parse<double>(getData().accessoriesNecklacesProbability[index]);
-			sumProbabilityCrowns += Parse<double>(getData().accessoriesCrownsProbability[index]);
+			if (accsessoriesPulldowns[i].getIndex() == 0)
+			{
+				continue;
+			}
+			int index = accsessoriesPulldowns[i].getIndex() - 1;
+			sumProbabilityWrists += Parse<double>(Accsessorie::getProbabilityWrist(index));
+			sumProbabilityFingers += Parse<double>(Accsessorie::getProbabilityFinger(index));
+			sumProbabilityNecklaces += Parse<double>(Accsessorie::getProbabilityNecklaces(index));
+			sumProbabilityCrowns += Parse<double>(Accsessorie::getProbabilityCrowns(index));
 		}
 	}
 
@@ -417,11 +425,16 @@ public:
 	{
 		for (size_t i = 0; i < TARGET_ACCSESORIES_COUNT_MAX; i++)
 		{
-			probabilityTable.setText(i + 1, 0, getData().accessoriesAlready[accsessoriesPulldowns[i].getIndex()]);
-			probabilityTable.setText(i + 1, 1, getData().accessoriesWristProbability[accsessoriesPulldowns[i].getIndex()]);
-			probabilityTable.setText(i + 1, 2, getData().accessoriesFingerProbability[accsessoriesPulldowns[i].getIndex()]);
-			probabilityTable.setText(i + 1, 3, getData().accessoriesNecklacesProbability[accsessoriesPulldowns[i].getIndex()]);
-			probabilityTable.setText(i + 1, 4, getData().accessoriesCrownsProbability[accsessoriesPulldowns[i].getIndex()]);
+			if (accsessoriesPulldowns[i].getIndex() == 0)
+			{
+				continue;
+			}
+			size_t index = accsessoriesPulldowns[i].getIndex() - 1;
+			probabilityTable.setText(i + 1, 0, Accsessorie::getAlready(index));
+			probabilityTable.setText(i + 1, 1, Accsessorie::getProbabilityWrist(index));
+			probabilityTable.setText(i + 1, 2, Accsessorie::getProbabilityFinger(index));
+			probabilityTable.setText(i + 1, 3, Accsessorie::getProbabilityNecklaces(index));
+			probabilityTable.setText(i + 1, 4, Accsessorie::getProbabilityCrowns(index));
 		}
 
 		probabilityTable.setText(6, 1, U"{:.2f}"_fmt(sumProbabilityWrists));
@@ -744,12 +757,9 @@ private:
 				judgedIndex = i;
 			}
 		}
-		if (0 <= judgedIndex && judgedIndex < getData().sortedAccessories.size())
+		if (0 <= judgedIndex && judgedIndex < Accsessorie::getDiscriptionDetailJPList().size())
 		{
-			currentAccAbilityJP = getData().sortedAccessories[judgedIndex].getDiscriptionJP();
-			currentAccAbilityEN = getData().sortedAccessories[judgedIndex].getDiscriptionEN();
-
-
+			currentAccAbilityJP = Accsessorie::getDiscriptionDetailJP(judgedIndex);
 			Console << Format(judgedIndex) << currentAccAbilityJP;
 		}
 		else
@@ -768,8 +778,8 @@ private:
 			return;
 		}
 
-		size_t judgedAccID = getData().sortedAccessories[judgedAccIndex].getID();
-		currentAccessory = { judgedAccIndex, judgedAccID, currentAccAbilityEN, currentAccAbilityJP };
+		size_t judgedAccID = Accsessorie::getID(judgedAccIndex);
+		currentAccessory = { judgedAccIndex };
 		currentAccessory.setStatusList(judgedIcons);
 		RecognizedAccessories.push_back(currentAccessory);
 	}
@@ -811,11 +821,7 @@ private:
 		if (completeMission())
 		{
 			Console << U"目的のアクセサリが完成しました";
-			Console << currentAccessory.getDiscriptionJP();
-		}
-		else
-		{
-			Console << currentAccessory.getDiscriptionJP();
+			Console << Accsessorie::getDiscriptionDetailJP(currentAccessory.getIndex());
 		}
 	}
 
@@ -1005,10 +1011,11 @@ public:
 		// 目的のアクセサリを表示
 		for (int i = 0; i < getData().desiredAccessories.size(); i++)
 		{
-			FontAsset(U"TextFont")(getData().desiredAccessories[i].getDiscriptionJP()).draw(1000, 80 + i * 30);
+			Accsessorie &acc = getData().desiredAccessories[i];
+			FontAsset(U"TextFont")(Accsessorie::getDiscriptionJP(acc.getIndex())).draw(1000, 80 + i * 30);
 			for (int j = 0; j < 4; j++)
 			{
-				FontAsset(U"TextFont")(getData().desiredAccessories[i].getStatusList()[j]).drawAt(1600 + j * 70, 90 + i * 30);
+				FontAsset(U"TextFont")(acc.getStatusList()[j]).drawAt(1600 + j * 70, 90 + i * 30);
 			}
 		}
 
@@ -1018,7 +1025,7 @@ public:
 		for (int i = 0; i < recognizedAccessoriesSize; i++)
 		{
 			const Accsessorie& acc = RecognizedAccessories[recognizedAccessoriesSize - i - 1];
-			FontAsset(U"TextFont")(acc.getDiscriptionJP()).draw(30, 550 + i * 30);
+			FontAsset(U"TextFont")(Accsessorie::getDiscriptionJP(acc.getIndex())).draw(30, 550 + i * 30);
 			for (int j = 0; j < 4; j++)
 			{
 				FontAsset(U"TextFont")(acc.getStatusList()[j]).drawAt(630 + j * 70, 560 + i * 30);

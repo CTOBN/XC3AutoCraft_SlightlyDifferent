@@ -3,6 +3,7 @@
 Pulldown::Pulldown()
 	: m_font{ Font{ 20, Typeface::Bold } }
 	, m_rect{ 0, 0, 0, 0 }
+	, m_index{ 0 }
 {
 }
 
@@ -10,6 +11,7 @@ Pulldown::Pulldown(const Array<String>& items, const Font& font, const Point& po
 	: m_font{ font }
 	, m_items{ items }
 	, m_rect{ pos, 0, (m_font.height() + m_padding.y * 2) }
+	, m_index{ 0 }
 {
 	for (const auto& item : m_items)
 	{
