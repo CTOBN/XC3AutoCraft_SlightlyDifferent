@@ -6,7 +6,7 @@ Accsessorie::Accsessorie(const size_t& index, const size_t& id, const String& di
 	, m_discriptionEN{ discriptionEN }
 	, m_discriptionJP{ discriptionJP }
 {
-	setStatusList({ U"なし", U"なし", U"なし", U"なし" });
+	setStatusList({ U"", U"", U"", U"" });
 }
 
 size_t Accsessorie::getIndex() const
