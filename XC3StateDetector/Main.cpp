@@ -6,6 +6,28 @@
 constexpr int STATUS_ICON_NUM = 7;
 constexpr Point STATUS_ICON_SIZE = { 30, 30 };
 
+/// @brief 斜めのストライプの背景を描画します。
+/// @param width ストライプの幅
+/// @param angle ストライプの角度
+/// @param color ストライプの色
+void DrawStripedBackground(int32 width, double angle, const ColorF& color)
+{
+	for (int32 x = -Scene::Height(); x < (Scene::Width() + Scene::Height()); x += (width * 2))
+	{
+		Rect{ x, 0, width, Scene::Height() }.skewedX(angle).draw(color);
+	}
+}
+
+/// @brief 上下方向のグラデーションの背景を描画します。
+/// @param topColor 上部の色
+/// @param bottomColor 下部の色
+void DrawVerticalGradientBackground(const ColorF& topColor, const ColorF& bottomColor)
+{
+	Scene::Rect()
+		.draw(Arg::top = topColor, Arg::bottom = bottomColor);
+}
+
+
 struct ButtonByte
 {
 	static const uint8 A = 1;
@@ -190,7 +212,9 @@ public:
 
 	void draw() const override
 	{
-		Scene::SetBackground(ColorF{ 0.3, 0.4, 0.5 });
+		DrawVerticalGradientBackground(ColorF{ 0.2, 0.5, 1.0 }, ColorF{ 0.5, 0.8, 1.0 });
+		Circle{ {Scene::Center().x, Scene::Center().y - 3200}, 3500 }.drawArc(135_deg, 90_deg, 0, 500, Palette::Springgreen);
+
 		FontAsset(U"TitleFont")(U"Now Loading").drawAt(Scene::Center());
 	}
 
@@ -436,34 +460,58 @@ public:
 		return getData().desireConsencutiveStatus || (sumProbabilityWrists > 0 && sumProbabilityFingers > 0 && sumProbabilityNecklaces > 0 && sumProbabilityCrowns > 0);
 	}
 
+	bool isSelectedSerialPort() const
+	{
+		return getData().serialName != U"未選択";
+	}
+
+	bool isSelectedCamera() const
+	{
+		return getData().cameraName != U"未選択";
+	}
 
 	bool canGoRecording() const
 	{
-		return getData().accsessoryTypeIndex != -1 && getData().cameraName != U"未選択" && getData().serialName != U"未選択" && canMake();
+		return getData().accsessoryTypeIndex != -1 && isSelectedCamera() && isSelectedSerialPort() && canMake();
 	}
-
-
 
 	void serialUpdate()
 	{
-		if (getData().serialName == U"未選択")
+		if (isSelectedSerialPort())
 		{
-			getData().serial = Serial{};
-			FontAsset(U"TextFont")(U"シリアルポートを選択してください").draw(SERIAL_TEXT_X, SERIAL_TEXT_Y + 40, Palette::Red);
+			serialSelectionStatus = U"接続テストが可能です(任意)";
+			serialSelectionStatusColor = Palette::Green;
 		}
 		else
 		{
-			// シリアルポートをオープン
+			getData().serial = Serial{};
+			serialSelectionStatus = U"シリアルポートを選択してください";
+			serialSelectionStatusColor = Palette::Red;
+
+			serialConnectionStatus = U"";
+		}
+
+		if (isSelectedSerialPort() && SimpleGUI::Button(U"接続テスト", Vec2{ SERIAL_TEXT_X + 200, SERIAL_TEXT_Y + font_size * 3 + line_padding }))
+		{
 			if (getData().serial.open(getData().infos[getData().serialIndex].port))
 			{
-				FontAsset(U"TextFont")(U"シリアルポートを開きました").draw(SERIAL_TEXT_X, SERIAL_TEXT_Y + 40, Palette::Green);
+				serialConnectionStatus = U"シリアルポートの接続に成功しました";
+				serialConnectionStatusColor = Palette::Green;
 			}
 			else
 			{
-				FontAsset(U"TextFont")(U"シリアルポートを開けませんでした").draw(SERIAL_TEXT_X, SERIAL_TEXT_Y + 40, Palette::Red);
+				serialConnectionStatus = U"シリアルポートの接続に失敗しました";
+				serialConnectionStatusColor = Palette::Red;
 			}
 		}
 	}
+
+	void drawSerialStatus() const
+	{
+		FontAsset(U"TextFont")(serialSelectionStatus).draw(SERIAL_TEXT_X, SERIAL_TEXT_Y + 40, serialSelectionStatusColor);
+		FontAsset(U"TextFont")(serialConnectionStatus).draw(SERIAL_TEXT_X + 200, SERIAL_TEXT_Y + 40, serialConnectionStatusColor);
+	}
+
 
 	void drawNotion() const
 	{
@@ -493,11 +541,11 @@ public:
 
 	void update() override
 	{
-		SimpleGUI::CheckBox(getData().desireConsencutiveStatus, U"特殊効果にかかわらず全て同じ種類のステータス増加のアクセサリも希望する", Vec2{ MENU_X, DESIRE_CONSENCUTIVE_STATUS_Y });
+		DrawVerticalGradientBackground(ColorF{ 0.2, 0.5, 1.0 }, ColorF{ 0.5, 0.8, 1.0 });
 		serialUpdate();
 		drawNotion();
 
-		if (canGoRecording() && SimpleGUI::Button(U"決定", Vec2{1740, 800}))
+		if (canGoRecording() && SimpleGUI::Button(U"決定", Scene::Center()))
 		{
 			assignDesiredAccessories();
 			// Recordingシーンに遷移
@@ -542,12 +590,17 @@ public:
 
 	void draw() const override
 	{
-		Scene::SetBackground(ColorF{ 0.3, 0.4, 0.5 });
+		
+		Circle{ {Scene::Center().x, Scene::Center().y - 3200}, 3500 }.drawArc(135_deg, 90_deg, 0, 500, Palette::Springgreen);
+
+
+		SimpleGUI::CheckBox(getData().desireConsencutiveStatus, U"特殊効果にかかわらず全て同じ種類のステータス増加のアクセサリも希望する", Vec2{ MENU_X, DESIRE_CONSENCUTIVE_STATUS_Y });
 
 		probabilityTable.draw(probabilityTablePos);
 		drawNotion();
 
 		FontAsset(U"SubtitleFont")(U"シリアルポート").draw(SERIAL_TEXT_X, SERIAL_TEXT_Y);
+		drawSerialStatus();
 		serialPulldown.draw();
 
 		FontAsset(U"SubtitleFont")(U"カメラ").draw(CAMERA_TEXT_X, CAMERA_TEXT_Y);
@@ -574,12 +627,15 @@ public:
 
 		Print << Cursor::Pos();
 
-		
-
-		
 		drawMouseOver();
 
 	}
+	private:
+		String serialSelectionStatus = U"シリアルポートを選択してください";
+		ColorF serialSelectionStatusColor = Palette::Red;
+
+		String serialConnectionStatus = U"";
+		ColorF serialConnectionStatusColor = Palette::Red;
 };
 
 
@@ -976,9 +1032,9 @@ public:
 
 void Main()
 {
-	Window::SetTitle(U"METAL GAY SOLID 3");
-	Window::Resize(1920, 900);
-	Window::Centering();
+	Window::SetTitle(U"XC3StateDetector");
+	Window::SetStyle(WindowStyle::Sizable);
+	Window::Maximize();
 	FontAsset::Register(U"TitleFont", 60, Typeface::Heavy);
 	FontAsset::Register(U"SubtitleFont", 30, Typeface::Heavy);
 	FontAsset::Register(U"TextFont", 15, Typeface::Bold);
