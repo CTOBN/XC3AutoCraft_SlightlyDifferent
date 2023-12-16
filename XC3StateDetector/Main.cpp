@@ -691,39 +691,31 @@ private:
 		return judgedNumber;
 	}
 
-	Array<String> findMostSimilarIcons()
+	Array<StatusBoost> findMostSimilarStatusBoost()
 	{
-		Array<String> result = { U"認識不可", U"認識不可", U"認識不可", U"認識不可" };
+		Array<StatusBoost> result;
 		webcam.getFrame(image);
 
 		for (int i = 0; i < 4; i++)
 		{
-			int8 judgedIndex = -1;
+			StatusType judgedStatusType = StatusType::Undefined;
 			double similarityMax = 0;
 			Image clipedImage = image.clipped(clipStatusPosList[i], STATUS_ICON_SIZE).thresholded(128);
 			for (int8 j = 0; j < getData().icons.size(); j++)
 			{
-				Image binarizedIcon = getData().binarizedIcons[j];
+				Image binarizedStatusTypeImage = getData().binarizedIcons[j];
 
-				double similarity = calculateSimilarity(clipedImage, binarizedIcon);
+				double similarity = calculateSimilarity(clipedImage, binarizedStatusTypeImage);
 				Console << Format(similarity);
 				if (similarity > similarityMax)
 				{
 					similarityMax = similarity;
-					judgedIndex = j;
+					judgedStatusType = static_cast<StatusType>(j + 1);
 				}
 			}
-			if (0 <= judgedIndex && judgedIndex < getData().statusIconsFileNameJP.size())
-			{	
-				result[i] = getData().statusIconsFileNameJP[judgedIndex];
-			}
-			else
-			{
-				Console << U"アクセサリの能力上昇の認識に失敗しました";
-			}
+			result.push_back(StatusBoost{ judgedStatusType });
 		}
 		return result;
-		
 	}
 
 	size_t findMostSimilarAbility() {
@@ -758,15 +750,14 @@ private:
 	void recognizeAccessory()
 	{
 		size_t judgedAccIndex = findMostSimilarAbility();
-		Array<String> judgedIcons = findMostSimilarIcons();
+		Array<StatusBoost> judgedStatusBoosts = findMostSimilarStatusBoost();
 
 		if (judgedAccIndex == -1)
 		{
 			return;
 		}
-
-		size_t judgedAccID = Accessory::getID(judgedAccIndex);
-		currentAccessory = Accessory{ judgedAccID };
+		currentAccessory = Accessory{ judgedAccIndex };
+		currentAccessory.setStatusBoosts(judgedStatusBoosts);
 		RecognizedAccessories.push_back(currentAccessory);
 	}
 
@@ -1001,7 +992,7 @@ public:
 			FontAsset(U"TextFont")(Accessory::getDiscriptionJP(acc.getIndex())).draw(1000, 80 + i * 30);
 			for (int j = 0; j < 4; j++)
 			{
-				FontAsset(U"TextFont")(StatusTypeToString[U"jp"][acc.getStatusBoosts()[j].type]).drawAt(1600 + j * 70, 90 + i * 30);
+				FontAsset(U"TextFont")(StatusTypeToString[U"JP"][acc.getStatusBoosts()[j].type]).drawAt(1600 + j * 70, 90 + i * 30);
 			}
 		}
 
@@ -1014,7 +1005,7 @@ public:
 			FontAsset(U"TextFont")(Accessory::getDiscriptionJP(acc.getIndex())).draw(30, 550 + i * 30);
 			for (int j = 0; j < 4; j++)
 			{
-				FontAsset(U"TextFont")(StatusTypeToString[U"jp"][acc.getStatusBoosts()[j].type]).drawAt(630 + j * 70, 560 + i * 30);
+				FontAsset(U"TextFont")(StatusTypeToString[U"JP"][acc.getStatusBoosts()[j].type]).drawAt(630 + j * 70, 560 + i * 30);
 			}
 		}
 

@@ -12,6 +12,7 @@ public:
 	Accessory(const Accessory& other);
 	size_t getIndex() const;
 	void setStatusBoost(const StatusBoost& boost, const int i);
+	void setStatusBoosts(const Array<StatusBoost>& boosts);
 	Array<StatusBoost> getStatusBoosts() const;
 	static size_t getID(int index);
 	static String getDiscriptionEN(int index);

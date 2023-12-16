@@ -39,6 +39,11 @@ void Accessory::setStatusBoost(const StatusBoost& boost, const int i)
 	m_statusBoosts[i] = boost;
 }
 
+void Accessory::setStatusBoosts(const Array<StatusBoost>& boosts)
+{
+	m_statusBoosts = boosts;
+}
+
  Array<StatusBoost> Accessory::getStatusBoosts() const
 {
 	 return m_statusBoosts;
