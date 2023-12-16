@@ -87,18 +87,8 @@ struct GameData
 	size_t cameraIndex = 0;
 	String cameraName = U"未選択";
 
-	//Array<uint16> accessoriesID = { 0 };
-	//Array<String> accessoriesDiscription = { U"-" };
-	//Array<String> accessoriesDiscriptionModdified = { U"未選択" };
-	//Array<String> accessoriesAlready = { U"-" };
-	//Array<String> accessoriesWristProbability = { U"0.00" };
-	//Array<String> accessoriesFingerProbability = { U"0.00" };
-	//Array<String> accessoriesNecklacesProbability = { U"0.00" };
-	//Array<String> accessoriesCrownsProbability = { U"0.00" };
-
-	// Array<Accessory> sortedAccessories = { };
-	const Array<String> statusIconsFileName = { U"agility", U"attack", U"critical", U"dexterity", U"guard", U"healing", U"hp" };
-	const Array<String> statusIconsFileNameJP = { U"素早さ", U"攻撃力", U"ｸﾘﾃｨｶﾙ率", U"器用さ", U"ガード率", U"回復力", U"HP" };
+	const Array<String> statusTypeFileName = {U"HP", U"Attack", U"HealingPower", U"Dexterity", U"Agility", U"BlockRate",  U"CriticalRate"};
+	const Array<String> statusTypeFileNameJP = { U"HP", U"攻撃力", U"回復力", U"器用さ", U"素早さ", U"ガード率", U"ｸﾘﾃｨｶﾙ率" };
 	Array<Accessory> desiredAccessories = { };
 
 	Array<Image> binarizedAbilities;
@@ -135,9 +125,9 @@ using App = SceneManager<String, GameData>;
 class Loading : public App::Scene
 {
 public:
-	const CSV csv{ U"csv/test.csv" };
+	const CSV csv{ U"csv/accessory.csv" };
 	const String discriptionJPTemplateFolderPath = U"images/Xenoblade3_Temp_Jp";
-	const String statusIconsFolderPath = U"images/statusIcons";
+	const String statusIconsFolderPath = U"images/StatusType";
 	const String UnkonwnMatterNumbersPath = U"images/UnknownMatterNumbers";
 	
 	Array<String> discriptionsImagesPathList;
@@ -173,7 +163,7 @@ public:
 			Console << path << U" を読み込みました";
 		}
 
-		for (String statusIconFileName : getData().statusIconsFileName)
+		for (String statusIconFileName : getData().statusTypeFileName)
 		{
 			String path = statusIconsFolderPath + U"/" + statusIconFileName + U".jpg";
 			statusIconsPathList.push_back(path);
