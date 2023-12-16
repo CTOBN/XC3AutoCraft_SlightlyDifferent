@@ -1,11 +1,18 @@
 ﻿#pragma once
+#include "StatusType.hpp"
+#include "StatusBoost.hpp" // Include StatusBoost header file
+
 
 class Accsessorie
 {
 public:
-	Accsessorie() = default;
+	Accsessorie() = delete;
 	Accsessorie(const size_t& index);
+	// コピーコンストラクタ
+	Accsessorie(const Accsessorie& other);
 	size_t getIndex() const;
+	void setStatusBoost(const StatusBoost& boost, const int i);
+	Array<StatusBoost> getStatusBoosts() const;
 	static size_t getID(int index);
 	static String getDiscriptionEN(int index);
 	static String getDiscriptionJP(int index);
@@ -13,16 +20,35 @@ public:
 	static Array<String> getDiscriptionENList();
 	static Array<String> getDiscriptionJPList();
 	static Array<String> getDiscriptionDetailJPList();
-
-	void setStatusList(const Array<String>& statusList);
-	Array<String> getStatusList() const;
 	bool hasConsencutiveStatus() const;
+
+	Accsessorie& operator=(const Accsessorie& other)
+	{
+		if (this == &other) return *this;
+
+		m_index = other.m_index;
+		size_t size = std::min(getStatusBoosts().size(), other.m_statusBoosts.size());
+		for (size_t i = 0; i < size; ++i)
+		{
+			setStatusBoost(other.m_statusBoosts[i], i);
+		}
+		return *this;
+	}
+
+
 	bool operator==(const Accsessorie& other) const
 	{
-		for (size_t i = 0; i < m_statusList.size(); ++i)
+		if (this->m_statusBoosts.size() != other.m_statusBoosts.size())
 		{
-			if (m_statusList[i] != other.m_statusList[i])
+			return false;
+		}
+
+		for (size_t i = 0; i < this->m_statusBoosts.size(); ++i)
+		{
+			if (this->m_statusBoosts[i].type != other.m_statusBoosts[i].type)
+			{
 				return false;
+			}
 		}
 		return m_index == other.m_index;
 	}
@@ -41,18 +67,19 @@ public:
 	static String getProbabilityNecklaces(int index);
 	static String getProbabilityCrowns(int index);
 
-
-
 private:
 	size_t m_index;
+	Array<StatusBoost> m_statusBoosts;
 	static Array<size_t> IDList;
 	static Array<String> DiscriptionENList;
 	static Array<String> DiscriptionJPList;
 	static Array<String> DiscriptionDetailJPList;
+	static Array<String> StatusTypeList_JP;
+	static Array<String> StatusTypeList_EN;
 	static Array<String> AlreadyList;
 	static Array<String> ProbabilityWristList;
 	static Array<String> ProbabilityFingerList;
 	static Array<String> ProbabilityNecklacesList;
 	static Array<String> ProbabilityCrownsList;
-	Array<String> m_statusList;
+
 };

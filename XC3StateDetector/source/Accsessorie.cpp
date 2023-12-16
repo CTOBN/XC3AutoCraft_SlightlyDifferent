@@ -1,5 +1,6 @@
-﻿#include "Accsessorie.hpp"
-
+﻿#include "StatusType.hpp"
+#include "StatusBoost.hpp"
+#include "Accsessorie.hpp"
 
 Array<size_t> Accsessorie::IDList;
 Array<String> Accsessorie::DiscriptionENList;
@@ -11,16 +12,37 @@ Array<String> Accsessorie::ProbabilityFingerList;
 Array<String> Accsessorie::ProbabilityNecklacesList;
 Array<String> Accsessorie::ProbabilityCrownsList;
 
+
+
 Accsessorie::Accsessorie(const size_t& index)
-	: m_index{ index }
+	: m_index(index)
+	, m_statusBoosts({ StatusBoost{StatusType::Undefined},
+					 StatusBoost{StatusType::Undefined},
+					 StatusBoost{StatusType::Undefined},
+					 StatusBoost{StatusType::Undefined} })
 {
-	setStatusList({ U"", U"", U"", U"" });
+}
+
+Accsessorie::Accsessorie(const Accsessorie& other)
+	: m_index(other.m_index)
+	, m_statusBoosts(other.m_statusBoosts)
+{
 }
 
 size_t Accsessorie::getIndex() const
 {
 	return m_index;
 }
+
+void Accsessorie::setStatusBoost(const StatusBoost& boost, const int i)
+{
+	m_statusBoosts[i] = boost;
+}
+
+ Array<StatusBoost> Accsessorie::getStatusBoosts() const
+{
+	 return m_statusBoosts;
+}	
 
 size_t Accsessorie::getID(int index)
 {
@@ -57,25 +79,16 @@ Array<String> Accsessorie::getDiscriptionDetailJPList()
 	return DiscriptionDetailJPList;
 }
 
-void Accsessorie::setStatusList(const Array<String>& statusList)
-{
-	m_statusList = statusList;
-}
-
-Array<String> Accsessorie::getStatusList() const
-{
-	return m_statusList;
-}
 
 bool Accsessorie::hasConsencutiveStatus() const
 {
-	if (m_statusList.size() < 2)
-		return false;
-	String firstStatus = m_statusList[0];
-	for (size_t i = 1; i < m_statusList.size(); ++i)
+	StatusType firstType = m_statusBoosts[0].type;
+	for (size_t i = 1; i < m_statusBoosts.size(); ++i)
 	{
-		if (m_statusList[i] != firstStatus)
+		if (m_statusBoosts[i].type != firstType)
+		{
 			return false;
+		}
 	}
 	return true;
 }
@@ -149,4 +162,3 @@ String Accsessorie::getProbabilityCrowns(int index)
 {
 	return ProbabilityCrownsList[index];
 }
-

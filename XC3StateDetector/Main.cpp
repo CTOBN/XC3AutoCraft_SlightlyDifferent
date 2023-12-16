@@ -1,6 +1,8 @@
 ﻿# include <Siv3D.hpp>
 # include "Pulldown.hpp"
 # include "Accsessorie.hpp"
+# include "StatusType.hpp"
+# include "StatusBoost.hpp"
 # include "JoyConGUI.hpp"
 
 constexpr int STATUS_ICON_NUM = 7;
@@ -305,7 +307,7 @@ public:
 		{
 			accsessoriesPulldowns.push_back(Pulldown{ DiscriptionDetailJPList, ACCSESSORIE_FONT, Point{MENU_X, ACCSESSORIE_TEXT_Y + 50 + (ACCESSORIES_FONT_SIZE + 15) * (i)}});
 		}
-		desiredAccessories_to_pullDowns();
+		
 
 		for (const auto& info : System::EnumerateWebcams())
 		{
@@ -328,7 +330,7 @@ public:
 				abilityValuesPulldowns.push_back(Pulldown{ {U"", U"HP", U"攻撃力", U"回復力", U"器用さ", U"素早さ", U"ガード率", U"ｸﾘﾃｨｶﾙ率"}, ACCSESSORIE_FONT, Point{ABILITY_VALUE_TEXT_X + font_size * x * 6, ACCSESSORIE_TEXT_Y + font_size *(y + 1) * 2 + line_padding}});
 			}
 		}
-
+		desiredAccessories_to_pullDowns();
 
 		accPulldownTable.push_back_row({ U"特殊効果", U"ｽﾃｰﾀｽ１", U"ｽﾃｰﾀｽ2", U"ｽﾃｰﾀｽ3", U"ｽﾃｰﾀｽ4" });
 		accPulldownTable.push_back_row({ U"", U"", U"", U"", U"" }, { 0, 0, 0, 0, 0 });
@@ -360,10 +362,13 @@ public:
 				continue;
 			}
 			Accsessorie acc{ accsessoriesPulldowns[i].getIndex() - 1 };
-			acc.setStatusList({ abilityValuesPulldowns[i * 4 + 0].getItem(),
-								abilityValuesPulldowns[i * 4 + 1].getItem(),
-								abilityValuesPulldowns[i * 4 + 2].getItem(),
-								abilityValuesPulldowns[i * 4 + 3].getItem() });
+
+			for (int j = 0; j < 4; j++)
+			{
+				StatusType statusType1 = static_cast<StatusType>(abilityValuesPulldowns[i * 4 + j].getIndex());
+				acc.setStatusBoost(StatusBoost{ statusType1 }, j);
+			}
+			
 			getData().desiredAccessories.push_back(acc);
 		}
 	}
@@ -374,6 +379,13 @@ public:
 		{
 			Accsessorie &acc = getData().desiredAccessories[i];
 			accsessoriesPulldowns[i].setIndex(acc.getIndex() + 1);
+
+			Array<StatusBoost> statusBoosts = acc.getStatusBoosts();
+			for (size_t j = 0; j < 4; j++)
+			{
+				int index = static_cast<int>(statusBoosts[j].type);
+				abilityValuesPulldowns[i * 4 + j].setIndex(index);
+			}
 		}
 	}
 
@@ -661,7 +673,7 @@ private:
 	const Point UNKOWN_MATTER_NUMBER_TENS_PLACE_POS{ 1646, 522 };
 	const Point UNKOWN_MATTER_NUMBER_SIZE{ 18, 23 };
 	const Point UNKOWN_MATTER_NUMBER_ONES_PLACE_POS = { UNKOWN_MATTER_NUMBER_TENS_PLACE_POS.x + UNKOWN_MATTER_NUMBER_SIZE.x, UNKOWN_MATTER_NUMBER_TENS_PLACE_POS.y };
-	Accsessorie currentAccessory;
+	Accsessorie currentAccessory{ 0 }; // todo アクセサリの特殊効果もOptionalにする?
 	Array<Accsessorie> RecognizedAccessories;
 
 	AsyncTask<Webcam> task;
@@ -779,8 +791,7 @@ private:
 		}
 
 		size_t judgedAccID = Accsessorie::getID(judgedAccIndex);
-		currentAccessory = { judgedAccIndex };
-		currentAccessory.setStatusList(judgedIcons);
+		currentAccessory = Accsessorie{ judgedAccID };
 		RecognizedAccessories.push_back(currentAccessory);
 	}
 
@@ -1015,7 +1026,7 @@ public:
 			FontAsset(U"TextFont")(Accsessorie::getDiscriptionJP(acc.getIndex())).draw(1000, 80 + i * 30);
 			for (int j = 0; j < 4; j++)
 			{
-				FontAsset(U"TextFont")(acc.getStatusList()[j]).drawAt(1600 + j * 70, 90 + i * 30);
+				FontAsset(U"TextFont")(StatusTypeToString[U"jp"][acc.getStatusBoosts()[j].type]).drawAt(1600 + j * 70, 90 + i * 30);
 			}
 		}
 
@@ -1028,7 +1039,7 @@ public:
 			FontAsset(U"TextFont")(Accsessorie::getDiscriptionJP(acc.getIndex())).draw(30, 550 + i * 30);
 			for (int j = 0; j < 4; j++)
 			{
-				FontAsset(U"TextFont")(acc.getStatusList()[j]).drawAt(630 + j * 70, 560 + i * 30);
+				FontAsset(U"TextFont")(StatusTypeToString[U"jp"][acc.getStatusBoosts()[j].type]).drawAt(630 + j * 70, 560 + i * 30);
 			}
 		}
 
