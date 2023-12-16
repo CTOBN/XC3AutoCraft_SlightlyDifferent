@@ -1,6 +1,6 @@
 ﻿# include <Siv3D.hpp>
 # include "Pulldown.hpp"
-# include "Accsessorie.hpp"
+# include "Accessory.hpp"
 # include "StatusType.hpp"
 # include "StatusBoost.hpp"
 # include "JoyConGUI.hpp"
@@ -96,10 +96,10 @@ struct GameData
 	//Array<String> accessoriesNecklacesProbability = { U"0.00" };
 	//Array<String> accessoriesCrownsProbability = { U"0.00" };
 
-	// Array<Accsessorie> sortedAccessories = { };
+	// Array<Accessory> sortedAccessories = { };
 	const Array<String> statusIconsFileName = { U"agility", U"attack", U"critical", U"dexterity", U"guard", U"healing", U"hp" };
 	const Array<String> statusIconsFileNameJP = { U"素早さ", U"攻撃力", U"ｸﾘﾃｨｶﾙ率", U"器用さ", U"ガード率", U"回復力", U"HP" };
-	Array<Accsessorie> desiredAccessories = { };
+	Array<Accessory> desiredAccessories = { };
 
 	Array<Image> binarizedAbilities;
 	Array<Image> icons;
@@ -154,31 +154,16 @@ public:
 
 		for (size_t row = 1; row < csv.rows(); ++row) // 1行目はヘッダなので飛ばす
 		{
-			Accsessorie::pushBackID(Parse<uint16>(csv[row][0]));
-			Accsessorie::pushBackDiscriptionEN(csv[row][1]);
-			Accsessorie::pushBackDiscriptionJP(csv[row][2]);
-			Accsessorie::pushBackDiscriptionDetailJP(csv[row][3]);
-			Accsessorie::pushBackAlready(csv[row][4]);
-			Accsessorie::pushBackWrist(csv[row][5]);
-			Accsessorie::pushBackFinger(csv[row][6]);
-			Accsessorie::pushBackNecklaces(csv[row][7]);
-			Accsessorie::pushBackCrowns(csv[row][8]);
+			Accessory::pushBackID(Parse<uint16>(csv[row][0]));
+			Accessory::pushBackDiscriptionEN(csv[row][1]);
+			Accessory::pushBackDiscriptionJP(csv[row][2]);
+			Accessory::pushBackDiscriptionDetailJP(csv[row][3]);
+			Accessory::pushBackAlready(csv[row][4]);
+			Accessory::pushBackWrist(csv[row][5]);
+			Accessory::pushBackFinger(csv[row][6]);
+			Accessory::pushBackNecklaces(csv[row][7]);
+			Accessory::pushBackCrowns(csv[row][8]);
 		}
-
-
-		//if (not csvSorted) // もし読み込みに失敗したら
-		//{
-		//	throw Error{ U"Failed to load `accessoriesSorted.csv`" };
-		//}
-
-		//for (int row = 1; row < csvSorted.rows(); ++row) // 1行目はヘッダなので飛ばす
-		//{
-		//	uint16 ID = Parse<uint16>(csvSorted[row][0]);
-		//	String discriptionEN = csvSorted[row][1];
-		//	String discriptionJP = csvSorted[row][2];
-
-		//	getData().sortedAccessories.push_back(Accsessorie{ uint16(row-1)});
-		//}
 
 		for (uint16 i = 3428; i <= 3913; i += 5)
 		{
@@ -288,7 +273,7 @@ private:
 public:
 	const Font font{ font_size };
 
-	Array<Pulldown> accsessoriesPulldowns;
+	Array<Pulldown> accessoryPulldowns;
 	Array<Pulldown> abilityValuesPulldowns;
 	Array<String> webcams = { U"未選択" };
 	Pulldown cameraPulldown;
@@ -301,11 +286,11 @@ public:
 
 	{
 		Array<String> DiscriptionDetailJPList = {U"未選択"};
-		DiscriptionDetailJPList.append(Accsessorie::getDiscriptionDetailJPList());
+		DiscriptionDetailJPList.append(Accessory::getDiscriptionDetailJPList());
 
 		for (int i = 0; i < TARGET_ACCSESORIES_COUNT_MAX; i++)
 		{
-			accsessoriesPulldowns.push_back(Pulldown{ DiscriptionDetailJPList, ACCSESSORIE_FONT, Point{MENU_X, ACCSESSORIE_TEXT_Y + 50 + (ACCESSORIES_FONT_SIZE + 15) * (i)}});
+			accessoryPulldowns.push_back(Pulldown{ DiscriptionDetailJPList, ACCSESSORIE_FONT, Point{MENU_X, ACCSESSORIE_TEXT_Y + 50 + (ACCESSORIES_FONT_SIZE + 15) * (i)}});
 		}
 		
 
@@ -357,11 +342,11 @@ public:
 		getData().desiredAccessories.clear();
 		for (int i = 0; i < TARGET_ACCSESORIES_COUNT_MAX; i++)
 		{
-			if (accsessoriesPulldowns[i].getIndex() == 0)
+			if (accessoryPulldowns[i].getIndex() == 0)
 			{
 				continue;
 			}
-			Accsessorie acc{ accsessoriesPulldowns[i].getIndex() - 1 };
+			Accessory acc{ accessoryPulldowns[i].getIndex() - 1 };
 
 			for (int j = 0; j < 4; j++)
 			{
@@ -377,8 +362,8 @@ public:
 	{
 		for (size_t i = 0; i < getData().desiredAccessories.size(); i++)
 		{
-			Accsessorie &acc = getData().desiredAccessories[i];
-			accsessoriesPulldowns[i].setIndex(acc.getIndex() + 1);
+			Accessory &acc = getData().desiredAccessories[i];
+			accessoryPulldowns[i].setIndex(acc.getIndex() + 1);
 
 			Array<StatusBoost> statusBoosts = acc.getStatusBoosts();
 			for (size_t j = 0; j < 4; j++)
@@ -397,15 +382,15 @@ public:
 		sumProbabilityCrowns = 0;
 		for (size_t i = 0; i < TARGET_ACCSESORIES_COUNT_MAX; i++)
 		{
-			if (accsessoriesPulldowns[i].getIndex() == 0)
+			if (accessoryPulldowns[i].getIndex() == 0)
 			{
 				continue;
 			}
-			int index = accsessoriesPulldowns[i].getIndex() - 1;
-			sumProbabilityWrists += Parse<double>(Accsessorie::getProbabilityWrist(index));
-			sumProbabilityFingers += Parse<double>(Accsessorie::getProbabilityFinger(index));
-			sumProbabilityNecklaces += Parse<double>(Accsessorie::getProbabilityNecklaces(index));
-			sumProbabilityCrowns += Parse<double>(Accsessorie::getProbabilityCrowns(index));
+			int index = accessoryPulldowns[i].getIndex() - 1;
+			sumProbabilityWrists += Parse<double>(Accessory::getProbabilityWrist(index));
+			sumProbabilityFingers += Parse<double>(Accessory::getProbabilityFinger(index));
+			sumProbabilityNecklaces += Parse<double>(Accessory::getProbabilityNecklaces(index));
+			sumProbabilityCrowns += Parse<double>(Accessory::getProbabilityCrowns(index));
 		}
 	}
 
@@ -416,7 +401,7 @@ public:
 		{
 			RectF region = accPulldownTable.cellRegion(accPulldownTablePos, i+1, 0);
 			Point pos = region.pos.asPoint();
-			accsessoriesPulldowns[i].setPos(pos);
+			accessoryPulldowns[i].setPos(pos);
 		}
 	}
 
@@ -437,16 +422,16 @@ public:
 	{
 		for (size_t i = 0; i < TARGET_ACCSESORIES_COUNT_MAX; i++)
 		{
-			if (accsessoriesPulldowns[i].getIndex() == 0)
+			if (accessoryPulldowns[i].getIndex() == 0)
 			{
 				continue;
 			}
-			size_t index = accsessoriesPulldowns[i].getIndex() - 1;
-			probabilityTable.setText(i + 1, 0, Accsessorie::getAlready(index));
-			probabilityTable.setText(i + 1, 1, Accsessorie::getProbabilityWrist(index));
-			probabilityTable.setText(i + 1, 2, Accsessorie::getProbabilityFinger(index));
-			probabilityTable.setText(i + 1, 3, Accsessorie::getProbabilityNecklaces(index));
-			probabilityTable.setText(i + 1, 4, Accsessorie::getProbabilityCrowns(index));
+			size_t index = accessoryPulldowns[i].getIndex() - 1;
+			probabilityTable.setText(i + 1, 0, Accessory::getAlready(index));
+			probabilityTable.setText(i + 1, 1, Accessory::getProbabilityWrist(index));
+			probabilityTable.setText(i + 1, 2, Accessory::getProbabilityFinger(index));
+			probabilityTable.setText(i + 1, 3, Accessory::getProbabilityNecklaces(index));
+			probabilityTable.setText(i + 1, 4, Accessory::getProbabilityCrowns(index));
 		}
 
 		probabilityTable.setText(6, 1, U"{:.2f}"_fmt(sumProbabilityWrists));
@@ -579,10 +564,10 @@ public:
 
 		// プルダウンメニューを更新
 		// 逆順に更新することで、選択時のクリックによって別のメニューが開いてしまうのを防ぐ
-		for (auto it = std::rbegin(accsessoriesPulldowns); it != std::rend(accsessoriesPulldowns); ++it) {
+		for (auto it = std::rbegin(accessoryPulldowns); it != std::rend(accessoryPulldowns); ++it) {
 			auto& accessoriesPulldown = *it;
 			// 他のすべてのメニューが閉じている場合にのみ、このメニューを更新
-			if (std::all_of(accsessoriesPulldowns.begin(), accsessoriesPulldowns.end(), [&](const Pulldown& m) { return &m == &accessoriesPulldown || !m.getIsOpen(); }))
+			if (std::all_of(accessoryPulldowns.begin(), accessoryPulldowns.end(), [&](const Pulldown& m) { return &m == &accessoriesPulldown || !m.getIsOpen(); }))
 			{
 				accessoriesPulldown.update();
 			}
@@ -647,7 +632,7 @@ public:
 		// 逆順に描画することで、展開されたメニューが手前に来るようにする
 		for (int i = 0; i < TARGET_ACCSESORIES_COUNT_MAX; i++)
 		{
-			accsessoriesPulldowns[TARGET_ACCSESORIES_COUNT_MAX - i - 1].draw();
+			accessoryPulldowns[TARGET_ACCSESORIES_COUNT_MAX - i - 1].draw();
 		}
 
 		Print << Cursor::Pos();
@@ -673,8 +658,8 @@ private:
 	const Point UNKOWN_MATTER_NUMBER_TENS_PLACE_POS{ 1646, 522 };
 	const Point UNKOWN_MATTER_NUMBER_SIZE{ 18, 23 };
 	const Point UNKOWN_MATTER_NUMBER_ONES_PLACE_POS = { UNKOWN_MATTER_NUMBER_TENS_PLACE_POS.x + UNKOWN_MATTER_NUMBER_SIZE.x, UNKOWN_MATTER_NUMBER_TENS_PLACE_POS.y };
-	Accsessorie currentAccessory{ 0 }; // todo アクセサリの特殊効果もOptionalにする?
-	Array<Accsessorie> RecognizedAccessories;
+	Accessory currentAccessory{ 0 }; // todo アクセサリの特殊効果もOptionalにする?
+	Array<Accessory> RecognizedAccessories;
 
 	AsyncTask<Webcam> task;
 	Webcam webcam;
@@ -769,9 +754,9 @@ private:
 				judgedIndex = i;
 			}
 		}
-		if (0 <= judgedIndex && judgedIndex < Accsessorie::getDiscriptionDetailJPList().size())
+		if (0 <= judgedIndex && judgedIndex < Accessory::getDiscriptionDetailJPList().size())
 		{
-			currentAccAbilityJP = Accsessorie::getDiscriptionDetailJP(judgedIndex);
+			currentAccAbilityJP = Accessory::getDiscriptionDetailJP(judgedIndex);
 			Console << Format(judgedIndex) << currentAccAbilityJP;
 		}
 		else
@@ -790,8 +775,8 @@ private:
 			return;
 		}
 
-		size_t judgedAccID = Accsessorie::getID(judgedAccIndex);
-		currentAccessory = Accsessorie{ judgedAccID };
+		size_t judgedAccID = Accessory::getID(judgedAccIndex);
+		currentAccessory = Accessory{ judgedAccID };
 		RecognizedAccessories.push_back(currentAccessory);
 	}
 
@@ -800,7 +785,7 @@ private:
 	{
 		for (int i = 0; i < getData().desiredAccessories.size(); i++)
 		{
-			Accsessorie &desiredAcc = getData().desiredAccessories[i];
+			Accessory &desiredAcc = getData().desiredAccessories[i];
 			if (currentAccessory == desiredAcc)
 			{
 				return true;
@@ -832,7 +817,7 @@ private:
 		if (completeMission())
 		{
 			Console << U"目的のアクセサリが完成しました";
-			Console << Accsessorie::getDiscriptionDetailJP(currentAccessory.getIndex());
+			Console << Accessory::getDiscriptionDetailJP(currentAccessory.getIndex());
 		}
 	}
 
@@ -1022,8 +1007,8 @@ public:
 		// 目的のアクセサリを表示
 		for (int i = 0; i < getData().desiredAccessories.size(); i++)
 		{
-			Accsessorie &acc = getData().desiredAccessories[i];
-			FontAsset(U"TextFont")(Accsessorie::getDiscriptionJP(acc.getIndex())).draw(1000, 80 + i * 30);
+			Accessory &acc = getData().desiredAccessories[i];
+			FontAsset(U"TextFont")(Accessory::getDiscriptionJP(acc.getIndex())).draw(1000, 80 + i * 30);
 			for (int j = 0; j < 4; j++)
 			{
 				FontAsset(U"TextFont")(StatusTypeToString[U"jp"][acc.getStatusBoosts()[j].type]).drawAt(1600 + j * 70, 90 + i * 30);
@@ -1035,8 +1020,8 @@ public:
 		const size_t recognizedAccessoriesSize = RecognizedAccessories.size();
 		for (int i = 0; i < recognizedAccessoriesSize; i++)
 		{
-			const Accsessorie& acc = RecognizedAccessories[recognizedAccessoriesSize - i - 1];
-			FontAsset(U"TextFont")(Accsessorie::getDiscriptionJP(acc.getIndex())).draw(30, 550 + i * 30);
+			const Accessory& acc = RecognizedAccessories[recognizedAccessoriesSize - i - 1];
+			FontAsset(U"TextFont")(Accessory::getDiscriptionJP(acc.getIndex())).draw(30, 550 + i * 30);
 			for (int j = 0; j < 4; j++)
 			{
 				FontAsset(U"TextFont")(StatusTypeToString[U"jp"][acc.getStatusBoosts()[j].type]).drawAt(630 + j * 70, 560 + i * 30);

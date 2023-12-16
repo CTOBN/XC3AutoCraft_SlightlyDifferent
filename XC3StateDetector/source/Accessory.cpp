@@ -1,20 +1,20 @@
 ﻿#include "StatusType.hpp"
 #include "StatusBoost.hpp"
-#include "Accsessorie.hpp"
+#include "Accessory.hpp"
 
-Array<size_t> Accsessorie::IDList;
-Array<String> Accsessorie::DiscriptionENList;
-Array<String> Accsessorie::DiscriptionJPList;
-Array<String> Accsessorie::DiscriptionDetailJPList;
-Array<String> Accsessorie::AlreadyList;
-Array<String> Accsessorie::ProbabilityWristList;
-Array<String> Accsessorie::ProbabilityFingerList;
-Array<String> Accsessorie::ProbabilityNecklacesList;
-Array<String> Accsessorie::ProbabilityCrownsList;
+Array<size_t> Accessory::IDList;
+Array<String> Accessory::DiscriptionENList;
+Array<String> Accessory::DiscriptionJPList;
+Array<String> Accessory::DiscriptionDetailJPList;
+Array<String> Accessory::AlreadyList;
+Array<String> Accessory::ProbabilityWristList;
+Array<String> Accessory::ProbabilityFingerList;
+Array<String> Accessory::ProbabilityNecklacesList;
+Array<String> Accessory::ProbabilityCrownsList;
 
 
 
-Accsessorie::Accsessorie(const size_t& index)
+Accessory::Accessory(const size_t& index)
 	: m_index(index)
 	, m_statusBoosts({ StatusBoost{StatusType::Undefined},
 					 StatusBoost{StatusType::Undefined},
@@ -23,64 +23,64 @@ Accsessorie::Accsessorie(const size_t& index)
 {
 }
 
-Accsessorie::Accsessorie(const Accsessorie& other)
+Accessory::Accessory(const Accessory& other)
 	: m_index(other.m_index)
 	, m_statusBoosts(other.m_statusBoosts)
 {
 }
 
-size_t Accsessorie::getIndex() const
+size_t Accessory::getIndex() const
 {
 	return m_index;
 }
 
-void Accsessorie::setStatusBoost(const StatusBoost& boost, const int i)
+void Accessory::setStatusBoost(const StatusBoost& boost, const int i)
 {
 	m_statusBoosts[i] = boost;
 }
 
- Array<StatusBoost> Accsessorie::getStatusBoosts() const
+ Array<StatusBoost> Accessory::getStatusBoosts() const
 {
 	 return m_statusBoosts;
 }	
 
-size_t Accsessorie::getID(int index)
+size_t Accessory::getID(int index)
 {
 	return IDList[index];
 }
 
-String Accsessorie::getDiscriptionEN(int index)
+String Accessory::getDiscriptionEN(int index)
 {
 	return DiscriptionENList[index];
 }
 
-String Accsessorie::getDiscriptionJP(int index)
+String Accessory::getDiscriptionJP(int index)
 {
 	return DiscriptionJPList[index];
 }
 
-String Accsessorie::getDiscriptionDetailJP(int index)
+String Accessory::getDiscriptionDetailJP(int index)
 {
 	return DiscriptionDetailJPList[index];
 }
 
-Array<String> Accsessorie::getDiscriptionENList()
+Array<String> Accessory::getDiscriptionENList()
 {
 	return DiscriptionENList;
 }
 
-Array<String> Accsessorie::getDiscriptionJPList()
+Array<String> Accessory::getDiscriptionJPList()
 {
 	return DiscriptionJPList;
 }
 
-Array<String> Accsessorie::getDiscriptionDetailJPList()
+Array<String> Accessory::getDiscriptionDetailJPList()
 {
 	return DiscriptionDetailJPList;
 }
 
 
-bool Accsessorie::hasConsencutiveStatus() const
+bool Accessory::hasConsencutiveStatus() const
 {
 	StatusType firstType = m_statusBoosts[0].type;
 	for (size_t i = 1; i < m_statusBoosts.size(); ++i)
@@ -93,72 +93,72 @@ bool Accsessorie::hasConsencutiveStatus() const
 	return true;
 }
 
-void Accsessorie::pushBackID(const size_t& id)
+void Accessory::pushBackID(const size_t& id)
 {
 	IDList.push_back(id);
 }
 
-void Accsessorie::pushBackDiscriptionEN(const String& discriptionEN)
+void Accessory::pushBackDiscriptionEN(const String& discriptionEN)
 {
 	DiscriptionENList.push_back(discriptionEN);
 }
 
-void Accsessorie::pushBackDiscriptionJP(const String& discriptionJP)
+void Accessory::pushBackDiscriptionJP(const String& discriptionJP)
 {
 	DiscriptionJPList.push_back(discriptionJP);
 }
 
-void Accsessorie::pushBackDiscriptionDetailJP(const String& discriptionDetailJP)
+void Accessory::pushBackDiscriptionDetailJP(const String& discriptionDetailJP)
 {
 	DiscriptionDetailJPList.push_back(discriptionDetailJP);
 }
 
-void Accsessorie::pushBackAlready(const String& already)
+void Accessory::pushBackAlready(const String& already)
 {
 	AlreadyList.push_back(already);
 }
 
-void Accsessorie::pushBackWrist(const String& wrist)
+void Accessory::pushBackWrist(const String& wrist)
 {
 	ProbabilityWristList.push_back(wrist);
 }
 
-void Accsessorie::pushBackFinger(const String& finger)
+void Accessory::pushBackFinger(const String& finger)
 {
 	ProbabilityFingerList.push_back(finger);
 }
 
-void Accsessorie::pushBackNecklaces(const String& necklaces)
+void Accessory::pushBackNecklaces(const String& necklaces)
 {
 	ProbabilityNecklacesList.push_back(necklaces);
 }
 
-void Accsessorie::pushBackCrowns(const String& crowns)
+void Accessory::pushBackCrowns(const String& crowns)
 {
 	ProbabilityCrownsList.push_back(crowns);
 }
 
-String Accsessorie::getAlready(int index)
+String Accessory::getAlready(int index)
 {
 	return AlreadyList[index];
 }
 
-String Accsessorie::getProbabilityWrist(int index)
+String Accessory::getProbabilityWrist(int index)
 {
 	return ProbabilityWristList[index];
 }
 
-String Accsessorie::getProbabilityFinger(int index)
+String Accessory::getProbabilityFinger(int index)
 {
 	return ProbabilityFingerList[index];
 }
 
-String Accsessorie::getProbabilityNecklaces(int index)
+String Accessory::getProbabilityNecklaces(int index)
 {
 	return ProbabilityNecklacesList[index];
 }
 
-String Accsessorie::getProbabilityCrowns(int index)
+String Accessory::getProbabilityCrowns(int index)
 {
 	return ProbabilityCrownsList[index];
 }

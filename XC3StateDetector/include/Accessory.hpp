@@ -3,13 +3,13 @@
 #include "StatusBoost.hpp" // Include StatusBoost header file
 
 
-class Accsessorie
+class Accessory
 {
 public:
-	Accsessorie() = delete;
-	Accsessorie(const size_t& index);
+	Accessory() = delete;
+	Accessory(const size_t& index);
 	// コピーコンストラクタ
-	Accsessorie(const Accsessorie& other);
+	Accessory(const Accessory& other);
 	size_t getIndex() const;
 	void setStatusBoost(const StatusBoost& boost, const int i);
 	Array<StatusBoost> getStatusBoosts() const;
@@ -22,7 +22,7 @@ public:
 	static Array<String> getDiscriptionDetailJPList();
 	bool hasConsencutiveStatus() const;
 
-	Accsessorie& operator=(const Accsessorie& other)
+	Accessory& operator=(const Accessory& other)
 	{
 		if (this == &other) return *this;
 
@@ -36,7 +36,7 @@ public:
 	}
 
 
-	bool operator==(const Accsessorie& other) const
+	bool operator==(const Accessory& other) const
 	{
 		if (this->m_statusBoosts.size() != other.m_statusBoosts.size())
 		{
