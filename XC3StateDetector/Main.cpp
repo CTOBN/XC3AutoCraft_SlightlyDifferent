@@ -3,7 +3,7 @@
 # include "Accessory.hpp"
 # include "StatusType.hpp"
 # include "StatusBoost.hpp"
-# include "JoyConGUI.hpp"
+# include "VirtualJoyCon.hpp"
 
 constexpr int STATUS_ICON_NUM = 7;
 constexpr Point STATUS_ICON_SIZE = { 30, 30 };
@@ -28,37 +28,6 @@ void DrawVerticalGradientBackground(const ColorF& topColor, const ColorF& bottom
 	Scene::Rect()
 		.draw(Arg::top = topColor, Arg::bottom = bottomColor);
 }
-
-
-struct ButtonByte
-{
-	static const uint8 A = 1;
-	static const uint8 B = 2;
-	static const uint8 X = 3;
-	static const uint8 Y = 4;
-	static const uint8 L = 5;
-	static const uint8 R = 6;
-	static const uint8 ZL = 7;
-	static const uint8 ZR = 8;
-	static const uint8 Plus = 9;
-	static const uint8 Minus = 10;
-	static const uint8 Home = 11;
-	static const uint8 Capture = 12;
-	static const uint8 LStickClick = 13;
-	static const uint8 LStickUp = 14;
-	static const uint8 LStickDown = 15;
-	static const uint8 LStickLeft = 16;
-	static const uint8 LStickRight = 17;
-	static const uint8 RStickClick = 18;
-	static const uint8 RStickUp = 19;
-	static const uint8 RStickDown = 20;
-	static const uint8 RStickLeft = 21;
-	static const uint8 RStickRight = 22;
-	static const uint8 Up = 23;
-	static const uint8 Down = 24;
-	static const uint8 Left = 25;
-	static const uint8 Right = 26;
-};
 
 
 double calculateSimilarity(const Image& img1, const Image& img2) {
@@ -666,8 +635,7 @@ private:
 
 	const Vec2 JOYCON_GUI_POS_Left = { 1500, 300 };
 	const Vec2 JOYCON_GUI_POS_Right = { 1600, 300 };
-
-	JoyConGUI joyconGUI{ JOYCON_GUI_POS_Left, JOYCON_GUI_POS_Right };
+	VirtualJoyCon virtualJoyCon{ getData().serial, JOYCON_GUI_POS_Left, JOYCON_GUI_POS_Right };
 
 	size_t findMostSimilarNumber(const Point pos)
 	{
@@ -816,76 +784,7 @@ private:
 		}
 	}
 
-	void sendJoyConButtonSerial() const
-	{
-		Array<uint8> buttons =
-		{
-			ButtonByte::A,
-			ButtonByte::B,
-			ButtonByte::X,
-			ButtonByte::Y,
-			ButtonByte::L,
-			ButtonByte::R,
-			ButtonByte::ZL,
-			ButtonByte::ZR,
-			ButtonByte::Minus,
-			ButtonByte::Plus,
-			ButtonByte::Home,
-			ButtonByte::Capture,
-			ButtonByte::LStickClick,
-			ButtonByte::LStickUp,
-			ButtonByte::LStickDown,
-			ButtonByte::LStickLeft,
-			ButtonByte::LStickRight,
-			ButtonByte::RStickClick,
-			ButtonByte::RStickUp,
-			ButtonByte::RStickDown,
-			ButtonByte::RStickLeft,
-			ButtonByte::RStickRight,
-			ButtonByte::Up,
-			ButtonByte::Down,
-			ButtonByte::Left,
-			ButtonByte::Right,
-		};
-		bool (JoyConGUI:: * funcs[])() const =
-		{
-			&JoyConGUI::getButtonA,
-			&JoyConGUI::getButtonB,
-			&JoyConGUI::getButtonX,
-			&JoyConGUI::getButtonY,
-			&JoyConGUI::getButtonL,
-			&JoyConGUI::getButtonR,
-			&JoyConGUI::getButtonZL,
-			&JoyConGUI::getButtonZR,
-			&JoyConGUI::getButtonMinus,
-			&JoyConGUI::getButtonPlus,
-			&JoyConGUI::getButtonLStickClick,
-			&JoyConGUI::getButtonRStickClick,
-			&JoyConGUI::getButtonHome,
-			&JoyConGUI::getButtonCapture,
-			&JoyConGUI::getButtonLStickClick,
-			&JoyConGUI::getButtonLStickUp,
-			&JoyConGUI::getButtonLStickDown,
-			&JoyConGUI::getButtonLStickLeft,
-			&JoyConGUI::getButtonLStickRight,
-			&JoyConGUI::getButtonRStickClick,
-			&JoyConGUI::getButtonRStickUp,
-			&JoyConGUI::getButtonRStickDown,
-			&JoyConGUI::getButtonRStickLeft,
-			&JoyConGUI::getButtonRStickRight,
-			&JoyConGUI::getButtonUp,
-			&JoyConGUI::getButtonDown,
-			&JoyConGUI::getButtonLeft,
-			&JoyConGUI::getButtonRight,
-		};
 
-
-		for (size_t i = 0; i < buttons.size(); i++) {
-			if ((joyconGUI.*funcs[i])()) {
-				getData().serial.writeByte(buttons[i]);
-			}
-		}
-	}
 
 public:
 	Recording(const InitData& init)
@@ -956,9 +855,8 @@ public:
 			Print << U"uk " << number;
 		}
 
+		virtualJoyCon.update();
 		Console << getData().serial.readBytes();
-
-		joyconGUI.update();
 	}
 
 	void draw() const override
@@ -1008,8 +906,7 @@ public:
 				FontAsset(U"TextFont")(StatusTypeToString[U"JP"][acc.getStatusBoosts()[j].type]).drawAt(630 + j * 70, 560 + i * 30);
 			}
 		}
-
-		joyconGUI.draw();
+		virtualJoyCon.draw();
 		Print << Cursor::Pos();
 	}
 };

@@ -1,8 +1,5 @@
 ﻿#pragma	once
 
-
-
-
 class JoyConGUI {
 public:
 	JoyConGUI() = default;
@@ -22,17 +19,19 @@ public:
 	bool getButtonR() const;
 	bool getButtonZL() const;
 	bool getButtonZR() const;
+
 	bool getButtonPlus() const;
 	bool getButtonMinus() const;
-	bool getButtonLStickClick() const;
-	bool getButtonRStickClick() const;
-
 	bool getButtonHome() const;
 	bool getButtonCapture() const;
+
+	bool getButtonLStickClick() const;
 	bool getButtonLStickUp() const;
 	bool getButtonLStickDown() const;
 	bool getButtonLStickLeft() const;
 	bool getButtonLStickRight() const;
+
+	bool getButtonRStickClick() const;
 	bool getButtonRStickUp() const;
 	bool getButtonRStickDown() const;
 	bool getButtonRStickLeft() const;
