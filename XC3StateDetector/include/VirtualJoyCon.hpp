@@ -12,8 +12,8 @@ public:
 private:
 	JoyConGUI m_joyConGUI;
 	Serial m_serial;
-	const Array<uint8> m_buttons;
-	const size_t m_buttonsSize = m_buttons.size();
+	Array<uint8> m_buttons;
+	size_t m_buttonsSize;
 	bool (JoyConGUI::* funcs[26])() const;
 };
 

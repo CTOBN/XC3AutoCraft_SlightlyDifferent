@@ -4,6 +4,7 @@
 # include "StatusType.hpp"
 # include "StatusBoost.hpp"
 # include "VirtualJoyCon.hpp"
+# include "ButtonByte.hpp"
 
 constexpr int STATUS_ICON_NUM = 7;
 constexpr Point STATUS_ICON_SIZE = { 30, 30 };
@@ -636,6 +637,8 @@ private:
 	const Vec2 JOYCON_GUI_POS_Left = { 1500, 300 };
 	const Vec2 JOYCON_GUI_POS_Right = { 1600, 300 };
 	VirtualJoyCon virtualJoyCon{ getData().serial, JOYCON_GUI_POS_Left, JOYCON_GUI_POS_Right };
+	Array<uint8> currentSerialBytes;
+	Array<uint8> SerialBytesLog;
 
 	size_t findMostSimilarNumber(const Point pos)
 	{
@@ -784,6 +787,28 @@ private:
 		}
 	}
 
+	void receiveSerialBytes()
+	{
+		if (getData().serial.available())
+		{
+			currentSerialBytes = getData().serial.readBytes();
+		}
+		if (currentSerialBytes.size() == 0)
+		{
+			return;
+		}
+		Console << currentSerialBytes << U" を受信しました";
+		SerialBytesLog.append(currentSerialBytes);
+		currentSerialBytes.clear();
+	}
+
+	void drawSerialBytesLog() const
+	{
+		for (size_t i = 0; i < SerialBytesLog.size(); i++)
+		{
+			FontAsset(U"TextFont")(SerialBytesLog[i]).draw(1000, 300 + i * 30);
+		}
+	}
 
 
 public:
@@ -822,6 +847,12 @@ public:
 		{
 			webcam.getFrame(texture);
 		}
+		if (SimpleGUI::Button(U"ｱﾝﾉｳﾝﾏﾀｰを数える", Vec2{ buttonPosX, buttonPosY }))
+		{
+			size_t number = findMostSimilarNumber(UNKOWN_MATTER_NUMBER_TENS_PLACE_POS) * 10 + findMostSimilarNumber(UNKOWN_MATTER_NUMBER_ONES_PLACE_POS);
+			Print << U"uk " << number;
+		}
+
 		if (SimpleGUI::Button(U"シリアルポートを開く", Vec2{ buttonPosX, buttonPosY + 50 }))
 		{
 			openSerialPort();
@@ -846,17 +877,17 @@ public:
 			// 設定に遷移
 			changeScene(U"Setting");
 		}
-
-
-
-		if (SimpleGUI::Button(U"ｱﾝﾉｳﾝﾏﾀｰを数える", Vec2{ buttonPosX, buttonPosY }))
+		if (SimpleGUI::Button(U"ButtonByte::A", Vec2{ buttonPosX, buttonPosY + 300 }))
 		{
-			size_t number = findMostSimilarNumber(UNKOWN_MATTER_NUMBER_TENS_PLACE_POS) * 10 + findMostSimilarNumber(UNKOWN_MATTER_NUMBER_ONES_PLACE_POS);
-			Print << U"uk " << number;
+			getData().serial.writeByte(ButtonByte::A);
+		}
+		if (SimpleGUI::Button(U"ButtonByte::B", Vec2{ buttonPosX, buttonPosY + 350 }))
+		{
+			getData().serial.writeByte(ButtonByte::B);
 		}
 
 		virtualJoyCon.update();
-		Console << getData().serial.readBytes();
+		receiveSerialBytes();
 	}
 
 	void draw() const override
@@ -908,6 +939,8 @@ public:
 		}
 		virtualJoyCon.draw();
 		Print << Cursor::Pos();
+
+		drawSerialBytesLog();
 	}
 };
 
