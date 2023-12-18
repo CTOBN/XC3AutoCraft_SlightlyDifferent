@@ -211,6 +211,13 @@ private:
 
 	const Font tableFont{ FontMethod::MSDF, 36 };
 
+	String serialSelectionStatus = U"シリアルポートを選択してください";
+	ColorF serialSelectionStatusColor = Palette::Red;
+
+	mutable String serialConnectionStatus = U"";
+	mutable ColorF serialConnectionStatusColor = Palette::Red;
+	mutable bool goRecording = false;
+
 	SimpleTable accPulldownTable{ { ACCESSORIES_CELL_WIDTH, STATUS_CELL_WIDTH, STATUS_CELL_WIDTH, STATUS_CELL_WIDTH, STATUS_CELL_WIDTH}, {
 		.cellHeight = 30,
 		.variableWidth = true,
@@ -297,7 +304,7 @@ public:
 		placeAbilityValuesPulldowns();
 
 	}
-	void assignDesiredAccessories()
+	void assignDesiredAccessories() const
 	{
 		getData().desiredAccessories.clear();
 		for (int i = 0; i < TARGET_ACCSESORIES_COUNT_MAX; i++)
@@ -461,19 +468,7 @@ public:
 			serialConnectionStatus = U"";
 		}
 
-		if (isSelectedSerialPort() && SimpleGUI::Button(U"接続テスト", Vec2{ SERIAL_TEXT_X + 200, SERIAL_TEXT_Y + font_size * 3 + line_padding }))
-		{
-			if (getData().serial.open(getData().infos[getData().serialIndex].port))
-			{
-				serialConnectionStatus = U"シリアルポートの接続に成功しました";
-				serialConnectionStatusColor = Palette::Green;
-			}
-			else
-			{
-				serialConnectionStatus = U"シリアルポートの接続に失敗しました";
-				serialConnectionStatusColor = Palette::Red;
-			}
-		}
+
 	}
 
 	void drawSerialStatus() const
@@ -511,16 +506,15 @@ public:
 
 	void update() override
 	{
-		DrawVerticalGradientBackground(ColorF{ 0.2, 0.5, 1.0 }, ColorF{ 0.5, 0.8, 1.0 });
+		if (goRecording)
+		{
+			changeScene(U"Recording");
+		}
+		// DrawVerticalGradientBackground(ColorF{ 0.2, 0.5, 1.0 }, ColorF{ 0.5, 0.8, 1.0 });
 		serialUpdate();
 		drawNotion();
 
-		if (canGoRecording() && SimpleGUI::Button(U"決定", Scene::Center()))
-		{
-			assignDesiredAccessories();
-			// Recordingシーンに遷移
-			changeScene(U"Recording");
-		}
+
 
 		// プルダウンメニューを更新
 		// 逆順に更新することで、選択時のクリックによって別のメニューが開いてしまうのを防ぐ
@@ -560,7 +554,7 @@ public:
 
 	void draw() const override
 	{
-		
+		DrawVerticalGradientBackground(ColorF{ 0.2, 0.5, 1.0 }, ColorF{ 0.5, 0.8, 1.0 });
 		Circle{ {Scene::Center().x, Scene::Center().y - 3200}, 3500 }.drawArc(135_deg, 90_deg, 0, 500, Palette::Springgreen);
 
 
@@ -568,6 +562,20 @@ public:
 
 		probabilityTable.draw(probabilityTablePos);
 		drawNotion();
+
+		if (isSelectedSerialPort() && SimpleGUI::Button(U"接続テスト", Vec2{ SERIAL_TEXT_X + 200, SERIAL_TEXT_Y + font_size * 3 + line_padding }))
+		{
+			if (getData().serial.open(getData().infos[getData().serialIndex].port))
+			{
+				serialConnectionStatus = U"シリアルポートの接続に成功しました";
+				serialConnectionStatusColor = Palette::Green;
+			}
+			else
+			{
+				serialConnectionStatus = U"シリアルポートの接続に失敗しました";
+				serialConnectionStatusColor = Palette::Red;
+			}
+		}
 
 		FontAsset(U"SubtitleFont")(U"シリアルポート").draw(SERIAL_TEXT_X, SERIAL_TEXT_Y);
 		drawSerialStatus();
@@ -597,15 +605,14 @@ public:
 
 		Print << Cursor::Pos();
 
+		if (canGoRecording() && SimpleGUI::Button(U"決定", Scene::Center()))
+		{
+			assignDesiredAccessories();
+			goRecording = true;
+		}
 		drawMouseOver();
-
 	}
-	private:
-		String serialSelectionStatus = U"シリアルポートを選択してください";
-		ColorF serialSelectionStatusColor = Palette::Red;
 
-		String serialConnectionStatus = U"";
-		ColorF serialConnectionStatusColor = Palette::Red;
 };
 
 
@@ -732,13 +739,12 @@ private:
 		RecognizedAccessories.push_back(currentAccessory);
 	}
 
-	// todo 順不同で十分条件で判定
 	bool compareAccessories()
 	{
 		for (int i = 0; i < getData().desiredAccessories.size(); i++)
 		{
 			Accessory &desiredAcc = getData().desiredAccessories[i];
-			if (currentAccessory == desiredAcc)
+			if (currentAccessory.getIndex() == desiredAcc.getIndex() && currentAccessory.hasSameStatusTypeOrMore(desiredAcc))
 			{
 				return true;
 			}
@@ -877,14 +883,7 @@ public:
 			// 設定に遷移
 			changeScene(U"Setting");
 		}
-		if (SimpleGUI::Button(U"ButtonByte::A", Vec2{ buttonPosX, buttonPosY + 300 }))
-		{
-			getData().serial.writeByte(ButtonByte::A);
-		}
-		if (SimpleGUI::Button(U"ButtonByte::B", Vec2{ buttonPosX, buttonPosY + 350 }))
-		{
-			getData().serial.writeByte(ButtonByte::B);
-		}
+
 
 		virtualJoyCon.update();
 		receiveSerialBytes();
@@ -941,6 +940,8 @@ public:
 		Print << Cursor::Pos();
 
 		drawSerialBytesLog();
+
+
 	}
 };
 

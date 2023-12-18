@@ -14,6 +14,7 @@ public:
 	void setStatusBoost(const StatusBoost& boost, const int i);
 	void setStatusBoosts(const Array<StatusBoost>& boosts);
 	Array<StatusBoost> getStatusBoosts() const;
+	bool hasSameStatusTypeOrMore(const Accessory& other) const;
 	static size_t getID(int index);
 	static String getDiscriptionEN(int index);
 	static String getDiscriptionJP(int index);

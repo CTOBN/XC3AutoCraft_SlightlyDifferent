@@ -44,6 +44,33 @@ void Accessory::setStatusBoosts(const Array<StatusBoost>& boosts)
 	m_statusBoosts = boosts;
 }
 
+/// @brief 他のアクセサリーの各ステータスタイプの数が、このアクセサリーのそれと同じか、それ以上であるかを判定する
+/// @param other 比較対象のアクセサリー
+/// @return 他のアクセサリーの各ステータスタイプの数が、このアクセサリーのそれと同じか、それ以上であるか
+bool Accessory::hasSameStatusTypeOrMore(const Accessory& other) const
+{
+	HashTable<StatusType, int8> thisStatusTypesCount;
+	HashTable<StatusType, int8> otherStatusTypesCount;
+
+	for (size_t i = 0; i < m_statusBoosts.size(); ++i)
+	{
+		if (m_statusBoosts[i].type == StatusType::Undefined)
+		{
+			continue;
+		}
+		thisStatusTypesCount[m_statusBoosts[i].type] += 1;
+		otherStatusTypesCount[other.m_statusBoosts[i].type] += 1;
+	}
+	for (auto& pair : otherStatusTypesCount)
+	{
+		if (thisStatusTypesCount[pair.first] < pair.second)
+		{
+			return false;
+		}
+	}
+	return true;
+}
+
  Array<StatusBoost> Accessory::getStatusBoosts() const
 {
 	 return m_statusBoosts;
