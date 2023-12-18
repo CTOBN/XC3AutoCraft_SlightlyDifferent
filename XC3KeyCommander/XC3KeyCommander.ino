@@ -2,6 +2,7 @@
 
 const int BUTTON_INTERVAL = 1000;
 const int STICK_INTERVAL = 200;
+const int HAT_INTERVAL = 1000;
 constexpr int BUTTONS_COUNT = 26;
 enum AccType { Wrist, Finger, Necklaces, Crowns };
 enum AccType selectedAccType = AccType::Wrist;
@@ -134,15 +135,6 @@ void func_Button_MINUS()
 	pushButton(Button::MINUS, BUTTON_INTERVAL);
 }
 
-void func_Button_LCLICK()
-{
-	pushButton(Button::LCLICK, BUTTON_INTERVAL);
-}
-
-void func_Button_RCLICK()
-{
-	pushButton(Button::RCLICK, BUTTON_INTERVAL);
-}
 
 void func_Button_HOME()
 {
@@ -154,24 +146,30 @@ void func_Button_CAPTURE()
 	pushButton(Button::CAPTURE, BUTTON_INTERVAL);
 }
 
-void func_Button_LStickUp()
+
+void func_LStickCLICK()
 {
-	pushHat(Hat::UP, HAT_INTERVAL);
+	pushButton(Button::LCLICK, BUTTON_INTERVAL);
 }
 
-void func_Button_LStickDown()
+void func_LStickUp()
 {
-	pushHat(Hat::DOWN, HAT_INTERVAL);
+	tiltLeftStick(Stick::NEUTRAL, Stick::MIN, STICK_INTERVAL); // 左スティックを上に傾ける
 }
 
-void func_Button_LStickLeft()
+void func_LStickDown()
 {
-	pushHat(Hat::LEFT, HAT_INTERVAL);
+	tiltLeftStick(Stick::NEUTRAL, Stick::MAX, STICK_INTERVAL); // 左スティックを下に傾ける
 }
 
-void func_Button_LStickRight()
+void func_LStickLeft()
 {
-	pushHat(Hat::RIGHT, HAT_INTERVAL);
+	tiltLeftStick(Stick::MIN, Stick::NEUTRAL, STICK_INTERVAL); // 左スティックを左に傾ける
+}
+
+void func_LStickRight()
+{
+	tiltLeftStick(Stick::MAX, Stick::NEUTRAL, STICK_INTERVAL); // 左スティックを右に傾ける
 }
 
 void func_Button_RStickClick()
@@ -179,24 +177,25 @@ void func_Button_RStickClick()
 	pushButton(Button::RCLICK, BUTTON_INTERVAL);
 }
 
-void func_Button_RStickUp()
+void func_RStickUp()
 {
-	pushHat(Hat::UP, HAT_INTERVAL);
+	tiltRightStick(Stick::NEUTRAL, Stick::MIN, STICK_INTERVAL); // 右スティックを上に傾ける
 }
 
-void func_Button_RStickDown()
+void func_RStickDown()
 {
-	pushHat(Hat::DOWN, HAT_INTERVAL);
+	tiltRightStick(Stick::NEUTRAL, Stick::MAX, STICK_INTERVAL); // 右スティックを下に傾ける
+
 }
 
-void func_Button_RStickLeft()
+void func_RStickLeft()
 {
-	pushHat(Hat::LEFT, HAT_INTERVAL);
+	tiltRightStick(Stick::MIN, Stick::NEUTRAL, STICK_INTERVAL); // 右スティックを左に傾ける
 }
 
-void func_Button_RStickRight()
+void func_RStickRight()
 {
-	pushHat(Hat::RIGHT, HAT_INTERVAL);
+	tiltRightStick(Stick::MAX, Stick::NEUTRAL, STICK_INTERVAL); // 右スティックを右に傾ける
 }
 
 void func_Button_Up()
@@ -234,16 +233,16 @@ void (*button_funcs[BUTTONS_COUNT])() =
 	func_Button_MINUS,
 	func_Button_HOME,
 	func_Button_CAPTURE,
-	func_Button_LCLICK,
-	func_Button_LStickUp,
-	func_Button_LStickDown,
-	func_Button_LStickLeft,
-	func_Button_LStickRight,
-	func_Button_RCLICK,
-	func_Button_RStickUp,
-	func_Button_RStickDown,
-	func_Button_RStickLeft,
-	func_Button_RStickRight,
+	func_LStickCLICK,
+	func_LStickUp,
+	func_LStickDown,
+	func_LStickLeft,
+	func_LStickRight,
+	func_Button_RStickClick,
+	func_RStickUp,
+	func_RStickDown,
+	func_RStickLeft,
+	func_RStickRight,
 	func_Button_Up,
 	func_Button_Down,
 	func_Button_Left,
@@ -262,20 +261,36 @@ void Field_to_Camp()
 	pushButton(Button::A, BUTTON_INTERVAL);
 }
 	
-void Camp_to_AccessoryCraft()
+void Camp_to_AccessorySelection()
 {
 	// 休憩ポイントメニューからアクセサリクラフトを選択
-	pushHat(Hat::LEFT, HAT_INTERVAL);
-	pushHat(Hat::LEFT, HAT_INTERVAL);
-	pushHat(Hat::LEFT, HAT_INTERVAL);
+	tiltLeftStick(Stick::MIN, Stick::NEUTRAL, STICK_INTERVAL); // 左スティックを左に傾ける
+	tiltLeftStick(Stick::MIN, Stick::NEUTRAL, STICK_INTERVAL); // 左スティックを左に傾ける
+	tiltLeftStick(Stick::MIN, Stick::NEUTRAL, STICK_INTERVAL); // 左スティックを左に傾ける
 	pushButton(Button::A, BUTTON_INTERVAL);
 	delay(3000);
 }
 
-void Set_AccType(enum AccType acc_type)
+void SetAccTypeAsWrist()
 {
-	selectedAccType = acc_type;
+	selectedAccType = AccType::Wrist;
 }
+
+void SetAccTypeAsFinger()
+{
+	selectedAccType = AccType::Finger;
+}
+
+void SetAccTypeAsNecklaces()
+{
+	selectedAccType = AccType::Necklaces;
+}
+
+void SetAccTypeAsCrowns()
+{
+	selectedAccType = AccType::Crowns;
+}
+
 
 // アクセサリの種類を選択
 void AccessoryCraft_to_AccTypeSelected()
@@ -328,15 +343,28 @@ void MainMenu_to_SystemMenu()
 	pushButton(Button::A, BUTTON_INTERVAL);
 }
 
+void SystemMenu_to_TitleLoading()
+{
+	// システムメニューからタイトル画面に戻る
+	tiltLeftStick(Stick::NEUTRAL, Stick::MIN, STICK_INTERVAL); // 左スティックを上に傾ける
+	pushButton(Button::A, BUTTON_INTERVAL);
+}
+
 void (*xc3_macros[])() =
 {
 	Title_to_FieldLoading,
 	Field_to_Camp,
-	Camp_to_AccessoryCraft,
-	AccessoryCraft_to_AccTypeSelected,
+	Camp_to_AccessorySelection,
 	AccessorySelection_to_Make,
 	Make_to_Judge,
 	Judge_to_MainMenu,
+	MainMenu_to_SystemMenu,
+	SystemMenu_to_TitleLoading,
+	
+	SetAccTypeAsWrist,
+	SetAccTypeAsFinger,
+	SetAccTypeAsNecklaces,
+	SetAccTypeAsCrowns,
 };
 
 void setup()
@@ -353,21 +381,23 @@ void loop()
 	delay(250);
 
 	// シリアル通信で受信したデータを読み込む
-	const int val = Serial1.read();
+	const uint8_t val = Serial1.read();
 	
 	for (size_t i = 0; i < BUTTONS_COUNT; i++)
 	{
 		if (val == siv3dswitch_buttons[i])
 		{
 			button_funcs[i]();
+			Serial1.write(val);
 		}
 	}
 
 	for (size_t i = 0; i < sizeof(xc3_macros) / sizeof(xc3_macros[0]); i++)
 	{
-		if (val == i + 200)
+		if (val == (i + 200))
 		{
 			xc3_macros[i]();
+			Serial1.write(val);
 		}
 	}
 }
