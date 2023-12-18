@@ -3,6 +3,10 @@
 # include "Accessory.hpp"
 # include "StatusType.hpp"
 # include "StatusBoost.hpp"
+# include "Context.hpp"
+# include "State.hpp"
+# include "Make.hpp"
+
 # include "VirtualJoyCon.hpp"
 # include "ButtonByte.hpp"
 
@@ -74,7 +78,7 @@ struct GameData
 	bool desireConsencutiveStatus = false;
 
 	// どのアクセサリを作成するか
-	int accsessoryTypeIndex = -1; // 0:腕輪, 1:指輪, 2:首飾, 3:冠
+	int8 accsessoryTypeIndex = -1; // 0:腕輪, 1:指輪, 2:首飾, 3:冠
 
 	// 開始時のアンノウンマターの数
 	int initialUnknownMatterCount = 99;
@@ -647,6 +651,15 @@ private:
 	Array<uint8> currentSerialBytes;
 	Array<uint8> SerialBytesLog;
 
+	HashTable<int8, uint8> accsessoryTypeIndexToCommandByte = {
+		{0, xc3::Context::CommandByte::SetAccTypeAsWrist},
+		{1, xc3::Context::CommandByte::SetAccTypeAsFinger},
+		{2, xc3::Context::CommandByte::SetAccTypeAsNecklaces},
+		{3, xc3::Context::CommandByte::SetAccTypeAsCrowns}
+	};
+
+	xc3::Context context{ getData().serial };
+
 	size_t findMostSimilarNumber(const Point pos)
 	{
 		size_t judgedNumber = 0;
@@ -770,15 +783,6 @@ private:
 		}
 	}
 
-	void judge()
-	{
-		if (completeMission())
-		{
-			Console << U"目的のアクセサリが完成しました";
-			Console << Accessory::getDiscriptionDetailJP(currentAccessory.getIndex());
-		}
-	}
-
 	bool openSerialPort() const
 	{
 		if (getData().serial.open(getData().infos[getData().serialIndex].port))
@@ -833,6 +837,25 @@ public:
 
 	void update() override
 	{
+		if (context.getCurrentStateName() != U"Undefined")
+		{
+			context.request();
+		}
+
+		if (context.getCurrentStateName() == U"Judge")
+		{
+			if (not context.wasJudged)
+			{
+				recognizeAccessory();
+				if (completeMission())
+				{
+					context.gotDesiredAccesory = true;
+					Console << U"目的のアクセサリが完成しました";
+					Console << Accessory::getDiscriptionDetailJP(currentAccessory.getIndex());
+				}
+				context.wasJudged = true;
+			}
+		}
 
 		// macOS では、ユーザがカメラ使用の権限を許可しないと Webcam の作成に失敗する。再試行の手段を用意する
 # if SIV3D_PLATFORM(MACOS)
@@ -853,25 +876,29 @@ public:
 		{
 			webcam.getFrame(texture);
 		}
-		if (SimpleGUI::Button(U"ｱﾝﾉｳﾝﾏﾀｰを数える", Vec2{ buttonPosX, buttonPosY }))
-		{
-			size_t number = findMostSimilarNumber(UNKOWN_MATTER_NUMBER_TENS_PLACE_POS) * 10 + findMostSimilarNumber(UNKOWN_MATTER_NUMBER_ONES_PLACE_POS);
-			Print << U"uk " << number;
-		}
 
-		if (SimpleGUI::Button(U"シリアルポートを開く", Vec2{ buttonPosX, buttonPosY + 50 }))
+		if (SimpleGUI::Button(U"シリアルポートを開く", Vec2{ buttonPosX, buttonPosY }))
 		{
 			openSerialPort();
 		}
 
+		if (SimpleGUI::Button(U"ｱﾝﾉｳﾝﾏﾀｰの数を認識・設定", Vec2{ buttonPosX, buttonPosY +50}))
+		{
+			size_t unknownMatterCount = findMostSimilarNumber(UNKOWN_MATTER_NUMBER_TENS_PLACE_POS) * 10 + findMostSimilarNumber(UNKOWN_MATTER_NUMBER_ONES_PLACE_POS);
+			context.initialUnkownMatterCount = unknownMatterCount;
+		}
+
 		if (SimpleGUI::Button(U"自動クラフト開始", Vec2{ buttonPosX, buttonPosY + 100 }))
 		{
-			
+			uint8 setAccType = accsessoryTypeIndexToCommandByte[getData().accsessoryTypeIndex];
+			getData().serial.writeByte(setAccType);
+			context.currentUnknownMatterCount = context.initialUnkownMatterCount;
+			context.wasJudged = false;
+			context.setState(std::make_unique<xc3::Make>());
 		}
 		if (webcam && SimpleGUI::Button(U"アクセサリ認識テスト", Vec2{ buttonPosX, buttonPosY + 150 }))
 		{
 			recognizeAccessory();
-			judge();
 		}
 		if (webcam && SimpleGUI::Button(U"PCにスクショを保存", Vec2{ buttonPosX, buttonPosY + 200}))
 		{
@@ -939,6 +966,8 @@ public:
 		virtualJoyCon.draw();
 		Print << Cursor::Pos();
 
+		// 現在の状態を表示
+		FontAsset(U"TextFont")(U"現在の状態" + context.getCurrentStateName()).draw(1000, 200);
 		drawSerialBytesLog();
 
 

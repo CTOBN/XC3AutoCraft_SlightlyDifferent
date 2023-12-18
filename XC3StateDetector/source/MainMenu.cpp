@@ -5,7 +5,7 @@
 
 namespace xc3
 {
-	MainMenu::MainMenu() : State(9000) {}
+	MainMenu::MainMenu() : State(U"MainMenu", 9000) {}
 
 	void MainMenu::handle(Context& context)
 	{

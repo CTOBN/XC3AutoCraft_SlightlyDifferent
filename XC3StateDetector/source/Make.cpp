@@ -5,7 +5,7 @@
 
 namespace xc3
 {
-	Make::Make() : State(1500), hasTransitioned(false) {}
+	Make::Make() : State(U"Make", 1500), hasTransitioned(false) {}
 
 	void Make::handle(Context& context)
 	{
@@ -16,6 +16,7 @@ namespace xc3
 		}
 		if (isTimeToTransition())
 		{
+			context.currentUnknownMatterCount -= 3;
 			context.setState(std::make_unique<Judge>());
 		}
 	}

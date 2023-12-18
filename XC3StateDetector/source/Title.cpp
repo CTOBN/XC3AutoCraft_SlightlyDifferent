@@ -5,7 +5,7 @@
 
 namespace xc3
 {
-	Title::Title() : State(2000), hasTransitioned(false) {}
+	Title::Title() : State(U"Title", 2000), hasTransitioned(false) {}
 
 	void Title::handle(Context& context)
 	{

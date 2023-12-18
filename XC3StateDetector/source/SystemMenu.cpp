@@ -5,7 +5,7 @@
 
 namespace xc3
 {
-	SystemMenu::SystemMenu() : State(2600), hasTransitioned(false) {}
+	SystemMenu::SystemMenu() : State(U"SystemMenu", 2600), hasTransitioned(false) {}
 
 	void SystemMenu::handle(Context& context)
 	{
@@ -16,6 +16,7 @@ namespace xc3
 		}
 		if (isTimeToTransition())
 		{
+			context.currentUnknownMatterCount = context.initialUnkownMatterCount;
 			context.setState(std::make_unique<TitleLoading>());
 		}
 	}

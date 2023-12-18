@@ -5,7 +5,7 @@
 
 namespace xc3
 {
-	TitleLoading::TitleLoading() : State(2000) {}
+	TitleLoading::TitleLoading() : State(U"TitleLoading", 2000) {}
 
 	void TitleLoading::handle(Context& context)
 	{

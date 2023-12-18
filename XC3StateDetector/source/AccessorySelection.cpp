@@ -5,7 +5,7 @@
 
 namespace xc3
 {
-	AccessorySelection::AccessorySelection() : State(1400), hasTransitioned(false) {}
+	AccessorySelection::AccessorySelection() : State(U"AccessorySelection", 1400), hasTransitioned(false) {}
 
 	void AccessorySelection::handle(Context& context)
 	{

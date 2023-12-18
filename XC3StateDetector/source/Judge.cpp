@@ -7,7 +7,7 @@
 
 namespace xc3
 {
-	Judge::Judge() : State(3000) {}
+	Judge::Judge() : State(U"Judge", 3000) {}
 
 	void Judge::handle(Context& context)
 	{
@@ -17,14 +17,16 @@ namespace xc3
 		{
 			context.setState(std::make_unique<GotDesiredAcc>());
 		}
-		else if (context.canMakeAccesory) // アクセサリを作れる
+		else if (context.currentUnknownMatterCount >= 3) // アクセサリを作れる
 		{
 			context.serial.writeByte(Context::CommandByte::AccessorySelection_to_Make);
+			context.wasJudged = false;
 			context.setState(std::make_unique<Make>());
 		}
 		else // アクセサリを作れないならメインメニューに戻る
 		{
 			context.serial.writeByte(Context::CommandByte::Judge_to_MainMenu);
+			context.wasJudged = false;
 			context.setState(std::make_unique<MainMenu>());
 		}
 	}

@@ -3,8 +3,9 @@
 
 namespace xc3
 {
-	State::State(int64 duration)
-		: transitionDuration(duration)
+	State::State(String name, int64 duration)
+		: name(name)
+		, transitionDuration(duration)
 		, transitionTime(0)
 	{}
 	State::~State() {};

@@ -3,9 +3,8 @@
 
 namespace xc3
 {
-	Context::Context(State* state, Serial& serial)
-		: m_state(state)
-		, serial(serial)
+	Context::Context(Serial& serial)
+		: serial(serial)
 	{
 	}
 
@@ -13,11 +12,25 @@ namespace xc3
 		m_state = std::move(newState);
 	}
 
-	void Context::request() {
+	void Context::request()
+	{
+		if (m_state == nullptr)
+		{
+			return;
+		}
 		m_state->handle(*this);
 	}
 	void Context::setSerial(Serial& _serial) {
 		this->serial = _serial;
+	}
+
+	String Context::getCurrentStateName() const
+	{
+		if (m_state == nullptr)
+		{
+			return U"Undefined";
+		}
+		return m_state->getName();
 	}
 }
 

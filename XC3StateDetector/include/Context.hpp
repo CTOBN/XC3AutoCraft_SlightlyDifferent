@@ -7,14 +7,17 @@ namespace xc3
 
 	class Context {
 	public:
-		Context(State* state, Serial& serial);
-		void setState(std::unique_ptr<State> newState);
+		Context(Serial& serial);
 		void request();
 		void setSerial(Serial& serial);
+		void setState(std::unique_ptr<State> newState);
+		String getCurrentStateName() const;
 		Serial& serial;
-		const uint8 ReplyByteFromArduino = 255;
+		uint8 initialUnkownMatterCount = 0;
+		uint8 currentUnknownMatterCount = 0;
 		bool gotDesiredAccesory = false;
 		bool canMakeAccesory = false;
+		bool wasJudged = false;
 		struct CommandByte
 		{
 			static const uint8 Title_to_FieldLoading = 200;
