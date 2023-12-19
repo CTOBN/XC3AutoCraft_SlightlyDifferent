@@ -2,7 +2,7 @@
 #include "Context.hpp"
 #include "Judge.hpp"
 #include "AccessorySelection.hpp"
-#include "MainMenu.hpp"
+#include "GoingMainMenu.hpp"
 #include "GotDesiredAcc.hpp"
 
 namespace xc3
@@ -30,8 +30,7 @@ namespace xc3
 		}
 		else // アクセサリを作れないならメインメニューに戻る
 		{
-			context.serial.writeByte(Context::CommandByte::Judge_to_MainMenu);
-			context.setState(std::make_unique<MainMenu>());
+			context.setState(std::make_unique<GoingMainMenu>());
 		}
 	}
 }

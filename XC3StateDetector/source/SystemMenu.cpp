@@ -5,7 +5,7 @@
 
 namespace xc3
 {
-	SystemMenu::SystemMenu() : State(U"SystemMenu", 2600), hasTransitioned(false) {}
+	SystemMenu::SystemMenu() : State(U"SystemMenu", 2000), hasTransitioned(false) {}
 
 	void SystemMenu::handle(Context& context)
 	{

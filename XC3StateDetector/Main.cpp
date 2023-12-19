@@ -654,6 +654,8 @@ private:
 	Array<uint8> currentSerialBytes;
 	Array<uint8> SerialBytesLog;
 
+	double adjust_interval = 8000;
+
 	HashTable<int8, uint8> accsessoryTypeIndexToCommandByte = {
 		{0, xc3::Context::CommandByte::SetAccTypeAsWrist},
 		{1, xc3::Context::CommandByte::SetAccTypeAsFinger},
@@ -667,7 +669,7 @@ private:
 		{xc3::Context::CommandByte::Camp_to_AccessorySelected, U"Camp_to_AccessorySelected"},
 		{xc3::Context::CommandByte::AccessorySelected_to_Judge, U"AccessorySelected_to_Judge"},
 		{xc3::Context::CommandByte::Judge_to_AccessorySelected, U"Judge_to_AccessorySelected"},
-		{xc3::Context::CommandByte::Judge_to_MainMenu, U"Judge_to_MainMenu"},
+		{xc3::Context::CommandByte::GoingMainMenu_to_MainMenu, U"GoingMainMenu_to_MainMenu"},
 		{xc3::Context::CommandByte::MainMenu_to_SystemMenu, U"MainMenu_to_SystemMenu"},
 		{xc3::Context::CommandByte::SystemMenu_to_TitleLoading, U"SystemMenu_to_TitleLoading"},
 		{xc3::Context::CommandByte::SetAccTypeAsWrist, U"SetAccTypeAsWrist"},
@@ -950,16 +952,16 @@ public:
 			context.init();
 			context.setState(std::make_unique<xc3::Title>());
 		}
-		if (SimpleGUI::Button(U"Judge後、リセット前", Vec2{ buttonPosX, buttonPosY + 400 }))
+		if (SimpleGUI::Button(U"adjust", Vec2{ buttonPosX, buttonPosY + 400 }))
 		{
-			context.wasJudged = true;
-			context.gotDesiredAccesory = false;
-			context.initialUnkownMatterCount = 99;
-			context.currentUnknownMatterCount = 0;
-			uint8 setAccType = accsessoryTypeIndexToCommandByte[getData().accsessoryTypeIndex];
-			getData().serial.writeByte(setAccType);
-			context.setState(std::make_unique<xc3::Judge>());
+			getData().serial.write(xc3::Context::CommandByte::adjust);
 		}
+
+		if (SimpleGUI::Slider(Format(adjust_interval), adjust_interval, 0, 20000, Vec2{ buttonPosX, buttonPosY - 100 }, 100, 200))
+		{
+			getData().serial.write(static_cast<int32>(adjust_interval));
+		}
+
 
 		virtualJoyCon.update();
 		receiveSerialBytes();
@@ -1001,7 +1003,6 @@ public:
 		}
 
 		// 認識したアクセサリを表示
-
 		const size_t recognizedAccessoriesSize = RecognizedAccessories.size();
 		for (int i = 0; i < recognizedAccessoriesSize; i++)
 		{
@@ -1009,7 +1010,7 @@ public:
 			FontAsset(U"TextFont")(Accessory::getDiscriptionJP(acc.getIndex())).draw(30, 550 + i * 30);
 			for (int j = 0; j < 4; j++)
 			{
-				FontAsset(U"TextFont")(StatusTypeToString[U"JP"][acc.getStatusBoosts()[j].type]).drawAt(630 + j * 70, 560 + i * 30);
+				FontAsset(U"TextFont")(StatusTypeToString[U"JP"][acc.getStatusBoosts()[j].type]).drawAt(630 + j * 90, 560 + i * 30);
 			}
 		}
 		virtualJoyCon.draw();
