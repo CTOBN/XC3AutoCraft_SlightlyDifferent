@@ -7,6 +7,8 @@ constexpr int BUTTONS_COUNT = 26;
 enum AccType { Wrist, Finger, Necklaces, Crowns };
 enum AccType selectedAccType = AccType::Wrist;
 
+int32_t ajust_time = 2000;
+
 namespace siv3dswitch
 {
 	struct ButtonByte
@@ -261,7 +263,7 @@ void Field_to_Camp()
 	pushButton(Button::A, BUTTON_INTERVAL);
 }
 	
-void Camp_to_AccessorySelection()
+void Camp_to_AccessorySelected()
 {
 	// 休憩ポイントメニューからアクセサリクラフトを選択
 	tiltLeftStick(Stick::MIN, Stick::NEUTRAL, STICK_INTERVAL); // 左スティックを左に傾ける
@@ -269,6 +271,26 @@ void Camp_to_AccessorySelection()
 	tiltLeftStick(Stick::MIN, Stick::NEUTRAL, STICK_INTERVAL); // 左スティックを左に傾ける
 	pushButton(Button::A, BUTTON_INTERVAL);
 	delay(3000);
+
+	// アクセサリの種類を選択
+	if (selectedAccType == AccType::Wrist)
+	{
+		// 何もしない
+	}
+	else if (selectedAccType == AccType::Finger)
+	{
+		tiltLeftStick(Stick::NEUTRAL, Stick::MAX, STICK_INTERVAL); // 左スティックを下に傾ける
+
+	}
+	else if (selectedAccType == AccType::Necklaces)
+	{
+		tiltLeftStick(Stick::NEUTRAL, Stick::MAX, STICK_INTERVAL); // 左スティックを下に傾ける
+		tiltLeftStick(Stick::NEUTRAL, Stick::MAX, STICK_INTERVAL); // 左スティックを下に傾ける
+	}
+	else if (selectedAccType == AccType::Crowns)
+	{
+		tiltLeftStick(Stick::NEUTRAL, Stick::MIN, STICK_INTERVAL); // 左スティックを上に傾ける
+	}
 }
 
 void SetAccTypeAsWrist()
@@ -291,48 +313,34 @@ void SetAccTypeAsCrowns()
 	selectedAccType = AccType::Crowns;
 }
 
-
-// アクセサリの種類を選択
-void AccessoryCraft_to_AccTypeSelected()
-{
-	if (selectedAccType == AccType::Wrist)
-	{
-		// 何もしない
-	}
-	else if (selectedAccType == AccType::Finger)
-	{
-		tiltLeftStick(Stick::NEUTRAL, Stick::MAX, STICK_INTERVAL); // 左スティックを下に傾ける
-
-	}
-	else if (selectedAccType == AccType::Necklaces)
-	{
-		tiltLeftStick(Stick::NEUTRAL, Stick::MAX, STICK_INTERVAL); // 左スティックを下に傾ける
-		tiltLeftStick(Stick::NEUTRAL, Stick::MAX, STICK_INTERVAL); // 左スティックを下に傾ける
-	}
-	else if (selectedAccType == AccType::Crowns)
-	{
-		tiltLeftStick(Stick::NEUTRAL, Stick::MIN, STICK_INTERVAL); // 左スティックを上に傾ける
-	}
-}
-
-void AccessorySelection_to_Make()
+void AccessorySelected_to_Judge()
 {
 	// アクセサリを作成
 	holdButton(Button::A, 1500);
 }
 
-void Make_to_Judge()
+void Judge_to_AccessorySelected()
 {
 	// アクセサリの作成結果を確認
 	pushButton(Button::A, BUTTON_INTERVAL);
 }
 
-void Judge_to_MainMenu()
+void GoingMainMenu_to_MainMenu()
 {
+	pushButton(Button::A, BUTTON_INTERVAL); // アクセサリの作成結果を確認
 	pushButton(Button::B, BUTTON_INTERVAL);
-	delay(5000);
+	delay(8000);
+	pushButton(Button::B, 500);
+	pushButton(Button::X, 100, 20); //2秒間Xを連打
+}
+
+void adjust()
+{
+	pushButton(Button::A, BUTTON_INTERVAL); // アクセサリの作成結果を確認
 	pushButton(Button::B, BUTTON_INTERVAL);
-	pushButton(Button::X, BUTTON_INTERVAL);
+	delay(ajust_time);
+	pushButton(Button::B, 500);
+	pushButton(Button::X, 100, 40); //4秒間Xを連打
 }
 
 void MainMenu_to_SystemMenu()
@@ -354,17 +362,18 @@ void (*xc3_macros[])() =
 {
 	Title_to_FieldLoading,
 	Field_to_Camp,
-	Camp_to_AccessorySelection,
-	AccessorySelection_to_Make,
-	Make_to_Judge,
-	Judge_to_MainMenu,
+	Camp_to_AccessorySelected,
+	AccessorySelected_to_Judge,
+	Judge_to_AccessorySelected,
+	GoingMainMenu_to_MainMenu,
 	MainMenu_to_SystemMenu,
 	SystemMenu_to_TitleLoading,
-	
+
 	SetAccTypeAsWrist,
 	SetAccTypeAsFinger,
 	SetAccTypeAsNecklaces,
 	SetAccTypeAsCrowns,
+	adjust,
 };
 
 void setup()
@@ -379,6 +388,11 @@ void loop()
 {
 	// 250 ミリ秒止める
 	delay(250);
+
+	if (Serial1.available() >= 4) // 4バイト以上読み取り可能なら
+	{
+		ajust_time = Serial1.parseInt(); // 4バイトを整数として読み取る
+	}
 
 	// シリアル通信で受信したデータを読み込む
 	const uint8_t val = Serial1.read();
