@@ -20,7 +20,7 @@ HashTable<StatusType, String> StatusTypeToString_JP = {
 	{StatusType::Dexterity, U"器用さ"},
 	{StatusType::Agility, U"素早さ"},
 	{StatusType::BlockRate, U"ガード率"},
-	{StatusType::CriticalRate, U"クリティカル率"}
+	{StatusType::CriticalRate, U"ｸﾘﾃｨｶﾙ率"}
 };
 
 HashTable<String, HashTable<StatusType, String>> StatusTypeToString = {

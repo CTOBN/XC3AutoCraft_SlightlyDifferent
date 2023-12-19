@@ -644,7 +644,7 @@ private:
 	String currentAccAbilityJP = U"未解析";
 	String currentAccAbilityEN = U"Unrecorded";
 
-	const int buttonPosX = 1700;
+	const int buttonPosX = 1650;
 	const int buttonPosY = 570;
 
 
@@ -664,6 +664,32 @@ private:
 	};
 
 	HashTable<uint8, String> commandByteToString = {
+		{ButtonByte::A, U"A"},
+		{ButtonByte::B, U"B"},
+		{ButtonByte::X, U"X"},
+		{ButtonByte::Y, U"Y"},
+		{ButtonByte::L, U"L"},
+		{ButtonByte::R, U"R"},
+		{ButtonByte::ZL, U"ZL"},
+		{ButtonByte::ZR, U"ZR"},
+		{ButtonByte::Plus, U"Plus"},
+		{ButtonByte::Minus, U"Minus"},
+		{ButtonByte::Home, U"Home"},
+		{ButtonByte::Capture, U"Capture"},
+		{ButtonByte::LStickClick, U"LStickClick"},
+		{ButtonByte::LStickUp, U"LStickUp"},
+		{ButtonByte::LStickDown, U"LStickDown"},
+		{ButtonByte::LStickLeft, U"LStickLeft"},
+		{ButtonByte::LStickRight, U"LStickRight"},
+		{ButtonByte::RStickClick, U"RStickClick"},
+		{ButtonByte::RStickUp, U"RStickUp"},
+		{ButtonByte::RStickDown, U"RStickDown"},
+		{ButtonByte::RStickLeft, U"RStickLeft"},
+		{ButtonByte::RStickRight, U"RStickRight"},
+		{ButtonByte::Up, U"Up"},
+		{ButtonByte::Down, U"Down"},
+		{ButtonByte::Left, U"Left"},
+		{ButtonByte::Right, U"Right"},
 		{xc3::Context::CommandByte::Title_to_FieldLoading, U"Title_to_FieldLoading"},
 		{xc3::Context::CommandByte::Field_to_Camp, U"Field_to_Camp"},
 		{xc3::Context::CommandByte::Camp_to_AccessorySelected, U"Camp_to_AccessorySelected"},
@@ -836,12 +862,11 @@ private:
 		size_t logSize = SerialBytesLog.size();
 		for (size_t i = 0; i < logSize; i++)
 		{
-			FontAsset(U"TextFont")(SerialBytesLog[logSize - i - 1]).draw(1000, 300 + i * 30);
 			uint8 commandByte = SerialBytesLog[logSize - i - 1];
 			if (commandByteToString.contains(commandByte))
 			{
 				String commandName = commandByteToString.at(commandByte);
-				FontAsset(U"TextFont")(commandName).draw(1100, 300 + i * 30);
+				FontAsset(U"TextFont")(U"{} が実行されました"_fmt(commandName)).draw(1000, 300 + i * 30);
 			}
 		}
 	}
@@ -912,7 +937,7 @@ public:
 		if (SimpleGUI::Button(U"開始前に押す", Vec2{ buttonPosX, buttonPosY +50}))
 		{
 			size_t unknownMatterCount = findMostSimilarNumber(UNKOWN_MATTER_NUMBER_TENS_PLACE_POS) * 10 + findMostSimilarNumber(UNKOWN_MATTER_NUMBER_ONES_PLACE_POS);
-			Console << U"初期ｱﾝﾉｳﾝﾏﾀｰの数は" << unknownMatterCount << U"個です";
+			Console << U"初期ｱﾝﾉｳﾝﾏﾀｰの数は{}個です"_fmt(unknownMatterCount);
 			context.initialUnkownMatterCount = unknownMatterCount;
 			context.currentUnknownMatterCount = context.initialUnkownMatterCount;
 
@@ -1016,8 +1041,8 @@ public:
 		virtualJoyCon.draw();
 
 		// 現在の状態を表示
-		FontAsset(U"TextFont")(U"現在の状態" + context.getCurrentStateName()).draw(1000, 200);
-		FontAsset(U"TextFont")(context.currentUnknownMatterCount).draw(1000, 230);
+		FontAsset(U"TextFont")(U"現在の状態 : {}"_fmt(context.getCurrentStateName())).draw(1000, 200);
+		FontAsset(U"TextFont")(U"現在ｱﾝﾉｳﾝﾏﾀｰ : {} 個"_fmt(context.currentUnknownMatterCount)).draw(1000, 230);
 		drawSerialBytesLog();
 
 
