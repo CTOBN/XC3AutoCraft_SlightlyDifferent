@@ -5,13 +5,14 @@
 
 namespace xc3
 {
-	MainMenu::MainMenu() : State(U"MainMenu", 9000) {}
+	MainMenu::MainMenu() : State(U"MainMenu", 20000) , hasTransitioned(false) {}
 
 	void MainMenu::handle(Context& context)
 	{
 		if (not hasTransitioned)
 		{
 			context.serial.writeByte(Context::CommandByte::MainMenu_to_SystemMenu);
+			transitionTime = Time::GetMillisec();
 			hasTransitioned = true;
 		}
 		if (isTimeToTransition())

@@ -10,10 +10,11 @@ namespace xc3
 	{}
 	State::~State() {};
 
+	// Method to check if it's time to transition
 	bool State::isTimeToTransition() const
 	{
-		int64 now = Time::GetMillisec();
-		int64 duration = now - transitionTime;
+		int64 now = Time::GetMillisec(); // Get the current time
+		int64 duration = now - transitionTime; // Calculate the durati
 		return duration >= transitionDuration; // Use the transition duration
 	}
 }

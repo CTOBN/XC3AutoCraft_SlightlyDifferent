@@ -32,5 +32,24 @@ namespace xc3
 		}
 		return m_state->getName();
 	}
+
+	void Context::init()
+	{
+		gotDesiredAccesory = false;
+		canMakeAccesory = false;
+		wasJudged = true;
+	}
+
+	void Context::debugPrint() const
+	{
+		Print << U"Context: {";
+		Print << U"  current state: " << getCurrentStateName();
+		Print << U"  initialUnkownMatterCount: " << initialUnkownMatterCount;
+		Print << U"  currentUnknownMatterCount: " << currentUnknownMatterCount;
+		Print << U"  gotDesiredAccesory: " << gotDesiredAccesory;
+		Print << U"  canMakeAccesory: " << canMakeAccesory;
+		Print << U"  wasJudged: " << wasJudged;
+		Print << U"}";
+	}
 }
 

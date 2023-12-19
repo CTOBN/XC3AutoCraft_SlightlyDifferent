@@ -6,6 +6,8 @@ namespace xc3
 	public:
 		Judge();
 		void handle(Context& context) override;
+	private:
+		bool hasTransitioned;
 	};
 }
 

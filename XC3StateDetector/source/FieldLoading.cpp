@@ -5,10 +5,15 @@
 
 namespace xc3
 {
-	FieldLoading::FieldLoading() : State(U"FieldLoading", 18000), hasTransitioned(false) {}
+	FieldLoading::FieldLoading() : State(U"FieldLoading", 25000), hasTransitioned(false) {}
 
 	void FieldLoading::handle(Context& context)
 	{
+		if (not hasTransitioned)
+		{
+			transitionTime = Time::GetMillisec();
+			hasTransitioned = true;
+		}
 		if (isTimeToTransition())
 		{
 			context.setState(std::make_unique<Field>());
