@@ -5,7 +5,10 @@
 # include "StatusBoost.hpp"
 # include "Context.hpp"
 # include "State.hpp"
+# include "Title.hpp"
 # include "Make.hpp"
+# include "AccessorySelection.hpp"
+# include "Judge.hpp"
 
 # include "VirtualJoyCon.hpp"
 # include "ButtonByte.hpp"
@@ -658,6 +661,21 @@ private:
 		{3, xc3::Context::CommandByte::SetAccTypeAsCrowns}
 	};
 
+	HashTable<uint8, String> commandByteToString = {
+		{xc3::Context::CommandByte::Title_to_FieldLoading, U"Title_to_FieldLoading"},
+		{xc3::Context::CommandByte::Field_to_Camp, U"Field_to_Camp"},
+		{xc3::Context::CommandByte::Camp_to_AccessorySelected, U"Camp_to_AccessorySelected"},
+		{xc3::Context::CommandByte::AccessorySelected_to_Judge, U"AccessorySelected_to_Judge"},
+		{xc3::Context::CommandByte::Judge_to_AccessorySelected, U"Judge_to_AccessorySelected"},
+		{xc3::Context::CommandByte::Judge_to_MainMenu, U"Judge_to_MainMenu"},
+		{xc3::Context::CommandByte::MainMenu_to_SystemMenu, U"MainMenu_to_SystemMenu"},
+		{xc3::Context::CommandByte::SystemMenu_to_TitleLoading, U"SystemMenu_to_TitleLoading"},
+		{xc3::Context::CommandByte::SetAccTypeAsWrist, U"SetAccTypeAsWrist"},
+		{xc3::Context::CommandByte::SetAccTypeAsFinger, U"SetAccTypeAsFinger"},
+		{xc3::Context::CommandByte::SetAccTypeAsNecklaces, U"SetAccTypeAsNecklaces"},
+		{xc3::Context::CommandByte::SetAccTypeAsCrowns, U"SetAccTypeAsCrowns"},
+	};
+
 	xc3::Context context{ getData().serial };
 
 	size_t findMostSimilarNumber(const Point pos)
@@ -807,16 +825,22 @@ private:
 		{
 			return;
 		}
-		Console << currentSerialBytes << U" を受信しました";
 		SerialBytesLog.append(currentSerialBytes);
 		currentSerialBytes.clear();
 	}
 
 	void drawSerialBytesLog() const
 	{
-		for (size_t i = 0; i < SerialBytesLog.size(); i++)
+		size_t logSize = SerialBytesLog.size();
+		for (size_t i = 0; i < logSize; i++)
 		{
-			FontAsset(U"TextFont")(SerialBytesLog[i]).draw(1000, 300 + i * 30);
+			FontAsset(U"TextFont")(SerialBytesLog[logSize - i - 1]).draw(1000, 300 + i * 30);
+			uint8 commandByte = SerialBytesLog[logSize - i - 1];
+			if (commandByteToString.contains(commandByte))
+			{
+				String commandName = commandByteToString.at(commandByte);
+				FontAsset(U"TextFont")(commandName).draw(1100, 300 + i * 30);
+			}
 		}
 	}
 
@@ -847,13 +871,14 @@ public:
 			if (not context.wasJudged)
 			{
 				recognizeAccessory();
+				context.wasJudged = true;
+
 				if (completeMission())
 				{
 					context.gotDesiredAccesory = true;
 					Console << U"目的のアクセサリが完成しました";
 					Console << Accessory::getDiscriptionDetailJP(currentAccessory.getIndex());
 				}
-				context.wasJudged = true;
 			}
 		}
 
@@ -882,19 +907,21 @@ public:
 			openSerialPort();
 		}
 
-		if (SimpleGUI::Button(U"ｱﾝﾉｳﾝﾏﾀｰの数を認識・設定", Vec2{ buttonPosX, buttonPosY +50}))
+		if (SimpleGUI::Button(U"開始前に押す", Vec2{ buttonPosX, buttonPosY +50}))
 		{
 			size_t unknownMatterCount = findMostSimilarNumber(UNKOWN_MATTER_NUMBER_TENS_PLACE_POS) * 10 + findMostSimilarNumber(UNKOWN_MATTER_NUMBER_ONES_PLACE_POS);
+			Console << U"初期ｱﾝﾉｳﾝﾏﾀｰの数は" << unknownMatterCount << U"個です";
 			context.initialUnkownMatterCount = unknownMatterCount;
+			context.currentUnknownMatterCount = context.initialUnkownMatterCount;
+
+			uint8 setAccType = accsessoryTypeIndexToCommandByte[getData().accsessoryTypeIndex];
+			getData().serial.writeByte(setAccType);
 		}
 
 		if (SimpleGUI::Button(U"自動クラフト開始", Vec2{ buttonPosX, buttonPosY + 100 }))
 		{
-			uint8 setAccType = accsessoryTypeIndexToCommandByte[getData().accsessoryTypeIndex];
-			getData().serial.writeByte(setAccType);
-			context.currentUnknownMatterCount = context.initialUnkownMatterCount;
-			context.wasJudged = false;
-			context.setState(std::make_unique<xc3::Make>());
+			context.init();
+			context.setState(std::make_unique<xc3::AccessorySelection>());
 		}
 		if (webcam && SimpleGUI::Button(U"アクセサリ認識テスト", Vec2{ buttonPosX, buttonPosY + 150 }))
 		{
@@ -910,7 +937,29 @@ public:
 			// 設定に遷移
 			changeScene(U"Setting");
 		}
-
+		if (SimpleGUI::Button(U"debug", Vec2{ buttonPosX, buttonPosY + 300 }))
+		{
+			context.debugPrint();
+		}
+		if (SimpleGUI::Button(U"タイトルから", Vec2{ buttonPosX, buttonPosY + 350 }))
+		{
+			context.initialUnkownMatterCount = 99;
+			context.currentUnknownMatterCount = context.initialUnkownMatterCount;
+			uint8 setAccType = accsessoryTypeIndexToCommandByte[getData().accsessoryTypeIndex];
+			getData().serial.writeByte(setAccType);
+			context.init();
+			context.setState(std::make_unique<xc3::Title>());
+		}
+		if (SimpleGUI::Button(U"Judge後、リセット前", Vec2{ buttonPosX, buttonPosY + 400 }))
+		{
+			context.wasJudged = true;
+			context.gotDesiredAccesory = false;
+			context.initialUnkownMatterCount = 99;
+			context.currentUnknownMatterCount = 0;
+			uint8 setAccType = accsessoryTypeIndexToCommandByte[getData().accsessoryTypeIndex];
+			getData().serial.writeByte(setAccType);
+			context.setState(std::make_unique<xc3::Judge>());
+		}
 
 		virtualJoyCon.update();
 		receiveSerialBytes();
@@ -964,10 +1013,10 @@ public:
 			}
 		}
 		virtualJoyCon.draw();
-		Print << Cursor::Pos();
 
 		// 現在の状態を表示
 		FontAsset(U"TextFont")(U"現在の状態" + context.getCurrentStateName()).draw(1000, 200);
+		FontAsset(U"TextFont")(context.currentUnknownMatterCount).draw(1000, 230);
 		drawSerialBytesLog();
 
 
