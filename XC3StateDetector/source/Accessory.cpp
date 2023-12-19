@@ -3,9 +3,9 @@
 #include "Accessory.hpp"
 
 Array<size_t> Accessory::IDList;
-Array<String> Accessory::DiscriptionENList;
-Array<String> Accessory::DiscriptionJPList;
-Array<String> Accessory::DiscriptionDetailJPList;
+Array<String> Accessory::DescriptionENList;
+Array<String> Accessory::DescriptionJPList;
+Array<String> Accessory::DescriptionDetailJPList;
 Array<String> Accessory::AlreadyList;
 Array<String> Accessory::ProbabilityWristList;
 Array<String> Accessory::ProbabilityFingerList;
@@ -81,38 +81,38 @@ size_t Accessory::getID(int index)
 	return IDList[index];
 }
 
-String Accessory::getDiscriptionEN(int index)
+String Accessory::getDescriptionEN(int index)
 {
-	return DiscriptionENList[index];
+	return DescriptionENList[index];
 }
 
-String Accessory::getDiscriptionJP(int index)
+String Accessory::getDescriptionJP(int index)
 {
-	return DiscriptionJPList[index];
+	return DescriptionJPList[index];
 }
 
-String Accessory::getDiscriptionDetailJP(int index)
+String Accessory::getDescriptionDetailJP(int index)
 {
-	return DiscriptionDetailJPList[index];
+	return DescriptionDetailJPList[index];
 }
 
-Array<String> Accessory::getDiscriptionENList()
+Array<String> Accessory::getDescriptionENList()
 {
-	return DiscriptionENList;
+	return DescriptionENList;
 }
 
-Array<String> Accessory::getDiscriptionJPList()
+Array<String> Accessory::getDescriptionJPList()
 {
-	return DiscriptionJPList;
+	return DescriptionJPList;
 }
 
-Array<String> Accessory::getDiscriptionDetailJPList()
+Array<String> Accessory::getDescriptionDetailJPList()
 {
-	return DiscriptionDetailJPList;
+	return DescriptionDetailJPList;
 }
 
 
-bool Accessory::hasConsencutiveStatus() const
+bool Accessory::hasConsecutiveStatus() const
 {
 	StatusType firstType = m_statusBoosts[0].type;
 	for (size_t i = 1; i < m_statusBoosts.size(); ++i)
@@ -130,19 +130,19 @@ void Accessory::pushBackID(const size_t& id)
 	IDList.push_back(id);
 }
 
-void Accessory::pushBackDiscriptionEN(const String& discriptionEN)
+void Accessory::pushBackDescriptionEN(const String& discriptionEN)
 {
-	DiscriptionENList.push_back(discriptionEN);
+	DescriptionENList.push_back(discriptionEN);
 }
 
-void Accessory::pushBackDiscriptionJP(const String& discriptionJP)
+void Accessory::pushBackDescriptionJP(const String& discriptionJP)
 {
-	DiscriptionJPList.push_back(discriptionJP);
+	DescriptionJPList.push_back(discriptionJP);
 }
 
-void Accessory::pushBackDiscriptionDetailJP(const String& discriptionDetailJP)
+void Accessory::pushBackDescriptionDetailJP(const String& discriptionDetailJP)
 {
-	DiscriptionDetailJPList.push_back(discriptionDetailJP);
+	DescriptionDetailJPList.push_back(discriptionDetailJP);
 }
 
 void Accessory::pushBackAlready(const String& already)

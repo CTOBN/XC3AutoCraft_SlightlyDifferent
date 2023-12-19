@@ -35,8 +35,8 @@ namespace xc3
 
 	void Context::init()
 	{
-		gotDesiredAccesory = false;
-		canMakeAccesory = false;
+		gotDesiredAccessory = false;
+		canMakeAccessory = false;
 		wasJudged = true;
 	}
 
@@ -46,8 +46,8 @@ namespace xc3
 		Print << U"  current state: " << getCurrentStateName();
 		Print << U"  initialUnkownMatterCount: " << initialUnkownMatterCount;
 		Print << U"  currentUnknownMatterCount: " << currentUnknownMatterCount;
-		Print << U"  gotDesiredAccesory: " << gotDesiredAccesory;
-		Print << U"  canMakeAccesory: " << canMakeAccesory;
+		Print << U"  gotDesiredAccessory: " << gotDesiredAccessory;
+		Print << U"  canMakeAccessory: " << canMakeAccessory;
 		Print << U"  wasJudged: " << wasJudged;
 		Print << U"}";
 	}

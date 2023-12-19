@@ -16,13 +16,13 @@ public:
 	Array<StatusBoost> getStatusBoosts() const;
 	bool hasSameStatusTypeOrMore(const Accessory& other) const;
 	static size_t getID(int index);
-	static String getDiscriptionEN(int index);
-	static String getDiscriptionJP(int index);
-	static String getDiscriptionDetailJP(int index);
-	static Array<String> getDiscriptionENList();
-	static Array<String> getDiscriptionJPList();
-	static Array<String> getDiscriptionDetailJPList();
-	bool hasConsencutiveStatus() const;
+	static String getDescriptionEN(int index);
+	static String getDescriptionJP(int index);
+	static String getDescriptionDetailJP(int index);
+	static Array<String> getDescriptionENList();
+	static Array<String> getDescriptionJPList();
+	static Array<String> getDescriptionDetailJPList();
+	bool hasConsecutiveStatus() const;
 
 	Accessory& operator=(const Accessory& other)
 	{
@@ -55,9 +55,9 @@ public:
 		return m_index == other.m_index;
 	}
 	static void pushBackID(const size_t& id);
-	static void pushBackDiscriptionEN(const String& discriptionEN);
-	static void pushBackDiscriptionJP(const String& discriptionJP);
-	static void pushBackDiscriptionDetailJP(const String& discriptionDetailJP);
+	static void pushBackDescriptionEN(const String& discriptionEN);
+	static void pushBackDescriptionJP(const String& discriptionJP);
+	static void pushBackDescriptionDetailJP(const String& discriptionDetailJP);
 	static void pushBackAlready(const String& already);
 	static void pushBackWrist(const String& wrist);
 	static void pushBackFinger(const String& finger);
@@ -73,9 +73,9 @@ private:
 	size_t m_index;
 	Array<StatusBoost> m_statusBoosts;
 	static Array<size_t> IDList;
-	static Array<String> DiscriptionENList;
-	static Array<String> DiscriptionJPList;
-	static Array<String> DiscriptionDetailJPList;
+	static Array<String> DescriptionENList;
+	static Array<String> DescriptionJPList;
+	static Array<String> DescriptionDetailJPList;
 	static Array<String> StatusTypeList_JP;
 	static Array<String> StatusTypeList_EN;
 	static Array<String> AlreadyList;

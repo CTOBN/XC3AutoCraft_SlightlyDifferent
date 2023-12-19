@@ -19,7 +19,7 @@ namespace xc3
 		}
 		if (not isTimeToTransition()) return; // 3秒経過していないなら何もしない
 
-		if (context.gotDesiredAccesory) // 目的のアクセサリを手に入れたなら
+		if (context.gotDesiredAccessory) // 目的のアクセサリを手に入れたなら
 		{
 			context.setState(std::make_unique<GotDesiredAcc>());
 		}

@@ -15,8 +15,8 @@ namespace xc3
 		Serial& serial;
 		uint8 initialUnkownMatterCount = 0;
 		uint8 currentUnknownMatterCount = 0;
-		bool gotDesiredAccesory = false;
-		bool canMakeAccesory = false;
+		bool gotDesiredAccessory = false;
+		bool canMakeAccessory = false;
 		bool wasJudged = true;
 		struct CommandByte
 		{

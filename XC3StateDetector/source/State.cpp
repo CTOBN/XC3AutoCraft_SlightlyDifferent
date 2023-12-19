@@ -14,7 +14,7 @@ namespace xc3
 	bool State::isTimeToTransition() const
 	{
 		int64 now = Time::GetMillisec(); // Get the current time
-		int64 duration = now - transitionTime; // Calculate the durati
+		int64 duration = now - transitionTime; // Calculate the duration
 		return duration >= transitionDuration; // Use the transition duration
 	}
 }

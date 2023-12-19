@@ -122,9 +122,9 @@ public:
 		for (size_t row = 1; row < csv.rows(); ++row) // 1行目はヘッダなので飛ばす
 		{
 			Accessory::pushBackID(Parse<uint16>(csv[row][0]));
-			Accessory::pushBackDiscriptionEN(csv[row][1]);
-			Accessory::pushBackDiscriptionJP(csv[row][2]);
-			Accessory::pushBackDiscriptionDetailJP(csv[row][3]);
+			Accessory::pushBackDescriptionEN(csv[row][1]);
+			Accessory::pushBackDescriptionJP(csv[row][2]);
+			Accessory::pushBackDescriptionDetailJP(csv[row][3]);
 			Accessory::pushBackAlready(csv[row][4]);
 			Accessory::pushBackWrist(csv[row][5]);
 			Accessory::pushBackFinger(csv[row][6]);
@@ -259,12 +259,12 @@ public:
 		: IScene{ init }
 
 	{
-		Array<String> DiscriptionDetailJPList = {U"未選択"};
-		DiscriptionDetailJPList.append(Accessory::getDiscriptionDetailJPList());
+		Array<String> DescriptionDetailJPList = {U"未選択"};
+		DescriptionDetailJPList.append(Accessory::getDescriptionDetailJPList());
 
 		for (int i = 0; i < TARGET_ACCSESORIES_COUNT_MAX; i++)
 		{
-			accessoryPulldowns.push_back(Pulldown{ DiscriptionDetailJPList, ACCSESSORIE_FONT, Point{MENU_X, ACCSESSORIE_TEXT_Y + 50 + (ACCESSORIES_FONT_SIZE + 15) * (i)}});
+			accessoryPulldowns.push_back(Pulldown{ DescriptionDetailJPList, ACCSESSORIE_FONT, Point{MENU_X, ACCSESSORIE_TEXT_Y + 50 + (ACCESSORIES_FONT_SIZE + 15) * (i)}});
 		}
 		
 
@@ -642,7 +642,7 @@ private:
 	const Point CAMERA_RESOLUTION = { 1920, 1080 };
 	const Point VIDEO_DISPLAY_SIZE = CAMERA_RESOLUTION / 2;
 	String currentAccAbilityJP = U"未解析";
-	String currentAccAbilityEN = U"Unredorded";
+	String currentAccAbilityEN = U"Unrecorded";
 
 	const int buttonPosX = 1700;
 	const int buttonPosY = 570;
@@ -656,7 +656,7 @@ private:
 
 	double adjust_interval = 8000;
 
-	HashTable<int8, uint8> accsessoryTypeIndexToCommandByte = {
+	HashTable<int8, uint8> accessoryTypeIndexToCommandByte = {
 		{0, xc3::Context::CommandByte::SetAccTypeAsWrist},
 		{1, xc3::Context::CommandByte::SetAccTypeAsFinger},
 		{2, xc3::Context::CommandByte::SetAccTypeAsNecklaces},
@@ -747,9 +747,9 @@ private:
 				judgedIndex = i;
 			}
 		}
-		if (0 <= judgedIndex && judgedIndex < Accessory::getDiscriptionDetailJPList().size())
+		if (0 <= judgedIndex && judgedIndex < Accessory::getDescriptionDetailJPList().size())
 		{
-			currentAccAbilityJP = Accessory::getDiscriptionDetailJP(judgedIndex);
+			currentAccAbilityJP = Accessory::getDescriptionDetailJP(judgedIndex);
 			Console << Format(judgedIndex) << currentAccAbilityJP;
 		}
 		else
@@ -788,7 +788,7 @@ private:
 	bool completeMission()
 	{
 		// 全て同じ能力上昇値のアクセサリを希望して　かつ　現在のアクセサリが同じ能力上昇値のアクセサリである
-		if (getData().desireConsencutiveStatus && currentAccessory.hasConsencutiveStatus())
+		if (getData().desireConsencutiveStatus && currentAccessory.hasConsecutiveStatus())
 		{
 			return true;
 		}
@@ -877,9 +877,9 @@ public:
 
 				if (completeMission())
 				{
-					context.gotDesiredAccesory = true;
+					context.gotDesiredAccessory = true;
 					Console << U"目的のアクセサリが完成しました";
-					Console << Accessory::getDiscriptionDetailJP(currentAccessory.getIndex());
+					Console << Accessory::getDescriptionDetailJP(currentAccessory.getIndex());
 				}
 			}
 		}
@@ -916,7 +916,7 @@ public:
 			context.initialUnkownMatterCount = unknownMatterCount;
 			context.currentUnknownMatterCount = context.initialUnkownMatterCount;
 
-			uint8 setAccType = accsessoryTypeIndexToCommandByte[getData().accsessoryTypeIndex];
+			uint8 setAccType = accessoryTypeIndexToCommandByte[getData().accsessoryTypeIndex];
 			getData().serial.writeByte(setAccType);
 		}
 
@@ -947,7 +947,7 @@ public:
 		{
 			context.initialUnkownMatterCount = 99;
 			context.currentUnknownMatterCount = context.initialUnkownMatterCount;
-			uint8 setAccType = accsessoryTypeIndexToCommandByte[getData().accsessoryTypeIndex];
+			uint8 setAccType = accessoryTypeIndexToCommandByte[getData().accsessoryTypeIndex];
 			getData().serial.writeByte(setAccType);
 			context.init();
 			context.setState(std::make_unique<xc3::Title>());
@@ -995,7 +995,7 @@ public:
 		for (int i = 0; i < getData().desiredAccessories.size(); i++)
 		{
 			Accessory &acc = getData().desiredAccessories[i];
-			FontAsset(U"TextFont")(Accessory::getDiscriptionJP(acc.getIndex())).draw(1000, 80 + i * 30);
+			FontAsset(U"TextFont")(Accessory::getDescriptionJP(acc.getIndex())).draw(1000, 80 + i * 30);
 			for (int j = 0; j < 4; j++)
 			{
 				FontAsset(U"TextFont")(StatusTypeToString[U"JP"][acc.getStatusBoosts()[j].type]).drawAt(1600 + j * 70, 90 + i * 30);
@@ -1007,7 +1007,7 @@ public:
 		for (int i = 0; i < recognizedAccessoriesSize; i++)
 		{
 			const Accessory& acc = RecognizedAccessories[recognizedAccessoriesSize - i - 1];
-			FontAsset(U"TextFont")(Accessory::getDiscriptionJP(acc.getIndex())).draw(30, 550 + i * 30);
+			FontAsset(U"TextFont")(Accessory::getDescriptionJP(acc.getIndex())).draw(30, 550 + i * 30);
 			for (int j = 0; j < 4; j++)
 			{
 				FontAsset(U"TextFont")(StatusTypeToString[U"JP"][acc.getStatusBoosts()[j].type]).drawAt(630 + j * 90, 560 + i * 30);
