@@ -644,12 +644,12 @@ private:
 	String currentAccAbilityJP = U"未解析";
 	String currentAccAbilityEN = U"Unredorded";
 
-	const int buttonPosX = 1500;
+	const int buttonPosX = 1700;
 	const int buttonPosY = 570;
 
 
-	const Vec2 JOYCON_GUI_POS_Left = { 1500, 300 };
-	const Vec2 JOYCON_GUI_POS_Right = { 1600, 300 };
+	const Vec2 JOYCON_GUI_POS_Left = { 1700, 200 };
+	const Vec2 JOYCON_GUI_POS_Right = { 1800, 200 };
 	VirtualJoyCon virtualJoyCon{ getData().serial, JOYCON_GUI_POS_Left, JOYCON_GUI_POS_Right };
 	Array<uint8> currentSerialBytes;
 	Array<uint8> SerialBytesLog;
