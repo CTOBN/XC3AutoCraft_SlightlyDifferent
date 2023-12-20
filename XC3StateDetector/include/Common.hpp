@@ -5,7 +5,7 @@
 // 共有するデータ
 struct GameData
 {
-	size_t cameraIndex = 0;
+	uint32 cameraIndex = 0;
 	String cameraName = U"未選択";
 
 	const Array<String> statusTypeFileName = { U"HP", U"Attack", U"HealingPower", U"Dexterity", U"Agility", U"BlockRate",  U"CriticalRate" };
@@ -22,7 +22,7 @@ struct GameData
 	String serialName = U"未選択";
 
 	// すべて同じ能力上昇値のアクセサリを希望するか
-	bool desireConsencutiveStatus = false;
+	bool desireConsecutiveStatus = false;
 
 	// どのアクセサリを作成するか
 	int8 accessoryTypeIndex = -1; // 0:腕輪, 1:指輪, 2:首飾, 3:冠

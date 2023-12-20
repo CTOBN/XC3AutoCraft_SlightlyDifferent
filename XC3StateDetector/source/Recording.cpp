@@ -72,7 +72,7 @@ Array<StatusBoost> Recording::findMostSimilarStatusBoost()
 size_t Recording::findMostSimilarAbility() {
 	webcam.getFrame(image);
 
-	size_t judgedIndex = -1;
+	size_t judgedIndex = 0;
 	String judgedAbilityName = U"認識不可";
 	double similarityMax = 0;
 	Image clippedImage = image.clipped(ABILITY_TEXT_AREA_POS, ABILITY_TEXI_AREA_SIZE).thresholded(128);
@@ -91,10 +91,6 @@ size_t Recording::findMostSimilarAbility() {
 	{
 		currentAccAbilityJP = Accessory::getDescriptionDetailJP(judgedIndex);
 		Console << Format(judgedIndex) << currentAccAbilityJP;
-	}
-	else
-	{
-		Console << U"アクセサリの特殊効果の認識に失敗しました";
 	}
 	return judgedIndex;
 }
@@ -129,7 +125,7 @@ bool Recording::compareAccessories()
 bool Recording::completeMission()
 {
 	// 全て同じ能力上昇値のアクセサリを希望して　かつ　現在のアクセサリが同じ能力上昇値のアクセサリである
-	if (getData().desireConsencutiveStatus && currentAccessory.hasConsecutiveStatus())
+	if (getData().desireConsecutiveStatus && currentAccessory.hasConsecutiveStatus())
 	{
 		return true;
 	}

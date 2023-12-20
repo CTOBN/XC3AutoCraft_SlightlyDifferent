@@ -13,8 +13,8 @@ namespace xc3
 		void setState(std::unique_ptr<State> newState);
 		String getCurrentStateName() const;
 		Serial& serial;
-		uint8 initialUnkownMatterCount = 0;
-		uint8 currentUnknownMatterCount = 0;
+		size_t initialUnkownMatterCount = 0;
+		size_t currentUnknownMatterCount = 0;
 		bool gotDesiredAccessory = false;
 		bool canMakeAccessory = false;
 		bool wasJudged = true;

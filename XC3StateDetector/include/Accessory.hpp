@@ -11,14 +11,14 @@ public:
 	// コピーコンストラクタ
 	Accessory(const Accessory& other);
 	size_t getIndex() const;
-	void setStatusBoost(const StatusBoost& boost, const int i);
+	void setStatusBoost(const StatusBoost& boost, const size_t i);
 	void setStatusBoosts(const Array<StatusBoost>& boosts);
 	Array<StatusBoost> getStatusBoosts() const;
 	bool hasSameStatusTypeOrMore(const Accessory& other) const;
-	static size_t getID(int index);
-	static String getDescriptionEN(int index);
-	static String getDescriptionJP(int index);
-	static String getDescriptionDetailJP(int index);
+	static size_t getID(size_t index);
+	static String getDescriptionEN(size_t index);
+	static String getDescriptionJP(size_t index);
+	static String getDescriptionDetailJP(size_t index);
 	static Array<String> getDescriptionENList();
 	static Array<String> getDescriptionJPList();
 	static Array<String> getDescriptionDetailJPList();
@@ -63,11 +63,11 @@ public:
 	static void pushBackFinger(const String& finger);
 	static void pushBackNecklaces(const String& necklaces);
 	static void pushBackCrowns(const String& crowns);
-	static String getAlready(int index);
-	static String getProbabilityWrist(int index);
-	static String getProbabilityFinger(int index);
-	static String getProbabilityNecklaces(int index);
-	static String getProbabilityCrowns(int index);
+	static String getAlready(size_t index);
+	static String getProbabilityWrist(size_t index);
+	static String getProbabilityFinger(size_t index);
+	static String getProbabilityNecklaces(size_t index);
+	static String getProbabilityCrowns(size_t index);
 
 private:
 	size_t m_index;

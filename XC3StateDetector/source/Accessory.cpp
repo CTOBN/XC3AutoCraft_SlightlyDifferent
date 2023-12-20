@@ -34,7 +34,7 @@ size_t Accessory::getIndex() const
 	return m_index;
 }
 
-void Accessory::setStatusBoost(const StatusBoost& boost, const int i)
+void Accessory::setStatusBoost(const StatusBoost& boost, const size_t i)
 {
 	m_statusBoosts[i] = boost;
 }
@@ -76,22 +76,22 @@ bool Accessory::hasSameStatusTypeOrMore(const Accessory& other) const
 	 return m_statusBoosts;
 }	
 
-size_t Accessory::getID(int index)
+size_t Accessory::getID(size_t index)
 {
 	return IDList[index];
 }
 
-String Accessory::getDescriptionEN(int index)
+String Accessory::getDescriptionEN(size_t index)
 {
 	return DescriptionENList[index];
 }
 
-String Accessory::getDescriptionJP(int index)
+String Accessory::getDescriptionJP(size_t index)
 {
 	return DescriptionJPList[index];
 }
 
-String Accessory::getDescriptionDetailJP(int index)
+String Accessory::getDescriptionDetailJP(size_t index)
 {
 	return DescriptionDetailJPList[index];
 }
@@ -170,27 +170,27 @@ void Accessory::pushBackCrowns(const String& crowns)
 	ProbabilityCrownsList.push_back(crowns);
 }
 
-String Accessory::getAlready(int index)
+String Accessory::getAlready(size_t index)
 {
 	return AlreadyList[index];
 }
 
-String Accessory::getProbabilityWrist(int index)
+String Accessory::getProbabilityWrist(size_t index)
 {
 	return ProbabilityWristList[index];
 }
 
-String Accessory::getProbabilityFinger(int index)
+String Accessory::getProbabilityFinger(size_t index)
 {
 	return ProbabilityFingerList[index];
 }
 
-String Accessory::getProbabilityNecklaces(int index)
+String Accessory::getProbabilityNecklaces(size_t index)
 {
 	return ProbabilityNecklacesList[index];
 }
 
-String Accessory::getProbabilityCrowns(int index)
+String Accessory::getProbabilityCrowns(size_t index)
 {
 	return ProbabilityCrownsList[index];
 }

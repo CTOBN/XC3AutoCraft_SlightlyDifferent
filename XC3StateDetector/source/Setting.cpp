@@ -61,7 +61,7 @@ Setting::Setting(const InitData& init)
 void Setting::assignDesiredAccessories() const
 {
 	getData().desiredAccessories.clear();
-	for (int i = 0; i < TARGET_ACCSESORIES_COUNT_MAX; i++)
+	for (size_t i = 0; i < TARGET_ACCSESORIES_COUNT_MAX; i++)
 	{
 		if (accessoryPulldowns[i].getIndex() == 0)
 		{
@@ -69,7 +69,7 @@ void Setting::assignDesiredAccessories() const
 		}
 		Accessory acc{ accessoryPulldowns[i].getIndex() - 1 };
 
-		for (int j = 0; j < 4; j++)
+		for (size_t j = 0; j < 4; j++)
 		{
 			StatusType statusType1 = static_cast<StatusType>(abilityValuesPulldowns[i * 4 + j].getIndex());
 			acc.setStatusBoost(StatusBoost{ statusType1 }, j);
@@ -107,7 +107,7 @@ void Setting::calculateSumProbability()
 		{
 			continue;
 		}
-		int index = accessoryPulldowns[i].getIndex() - 1;
+		size_t index = accessoryPulldowns[i].getIndex() - 1;
 		sumProbabilityWrists += Parse<double>(Accessory::getProbabilityWrist(index));
 		sumProbabilityFingers += Parse<double>(Accessory::getProbabilityFinger(index));
 		sumProbabilityNecklaces += Parse<double>(Accessory::getProbabilityNecklaces(index));
@@ -145,6 +145,11 @@ void Setting::setProbability()
 	{
 		if (accessoryPulldowns[i].getIndex() == 0)
 		{
+			probabilityTable.setText(i + 1, 0, U"-");
+			probabilityTable.setText(i + 1, 1, U"0.00");
+			probabilityTable.setText(i + 1, 2, U"0.00");
+			probabilityTable.setText(i + 1, 3, U"0.00");
+			probabilityTable.setText(i + 1, 4, U"0.00");
 			continue;
 		}
 		size_t index = accessoryPulldowns[i].getIndex() - 1;
@@ -169,7 +174,7 @@ void Setting::selectAccTypeButtonUpdate()
 		RectF r = probabilityTable.cellRegion(probabilityTablePos, 0, i + 1);
 		if (r.leftClicked())
 		{
-			getData().accessoryTypeIndex = i;
+			getData().accessoryTypeIndex = static_cast<int8>(i);
 		}
 	}
 }
@@ -188,7 +193,7 @@ void Setting::selectAccTypeButtonUpdate()
 
 bool Setting::canMake() const
 {
-	return getData().desireConsencutiveStatus || (sumProbabilityWrists > 0 && sumProbabilityFingers > 0 && sumProbabilityNecklaces > 0 && sumProbabilityCrowns > 0);
+	return getData().desireConsecutiveStatus || (sumProbabilityWrists > 0 && sumProbabilityFingers > 0 && sumProbabilityNecklaces > 0 && sumProbabilityCrowns > 0);
 }
 
 bool Setting::isSelectedSerialPort() const
@@ -277,7 +282,7 @@ void Setting::update()
 
 
 	cameraPulldown.update();
-	getData().cameraIndex = cameraPulldown.getIndex() - 1;
+	getData().cameraIndex = static_cast<uint32>(cameraPulldown.getIndex() - 1);
 	getData().cameraName = cameraPulldown.getItem();
 
 	serialPulldown.update();
@@ -304,7 +309,7 @@ void Setting::draw() const
 	Circle{ {Scene::Center().x, Scene::Center().y - 3200}, 3500 }.drawArc(135_deg, 90_deg, 0, 500, Palette::Springgreen);
 
 
-	SimpleGUI::CheckBox(getData().desireConsencutiveStatus, U"特殊効果にかかわらず全て同じ種類のステータス増加のアクセサリも希望する", Vec2{ MENU_X, DESIRE_CONSENCUTIVE_STATUS_Y });
+	SimpleGUI::CheckBox(getData().desireConsecutiveStatus, U"特殊効果にかかわらず全て同じ種類のステータス増加のアクセサリも希望する", Vec2{ MENU_X, DESIRE_CONSENCUTIVE_STATUS_Y });
 
 	probabilityTable.draw(probabilityTablePos);
 	drawNotion();
