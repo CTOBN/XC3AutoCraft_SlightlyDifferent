@@ -356,6 +356,8 @@ void SystemMenu_to_TitleLoading()
 	// システムメニューからタイトル画面に戻る
 	tiltLeftStick(Stick::NEUTRAL, Stick::MIN, STICK_INTERVAL); // 左スティックを上に傾ける
 	pushButton(Button::A, BUTTON_INTERVAL);
+	tiltLeftStick(Stick::NEUTRAL, Stick::MIN, STICK_INTERVAL); // 左スティックを上に傾ける
+	pushButton(Button::A, BUTTON_INTERVAL);
 }
 
 void (*xc3_macros[])() =

@@ -5,7 +5,7 @@
 
 namespace xc3
 {
-	Make::Make() : State(U"Make", 1500), hasTransitioned(false) {}
+	Make::Make() : State(U"Make", 3000), hasTransitioned(false) {}
 
 	void Make::handle(Context& context)
 	{

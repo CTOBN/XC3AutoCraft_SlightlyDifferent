@@ -16,6 +16,20 @@
 constexpr int STATUS_ICON_NUM = 7;
 constexpr Point STATUS_ICON_SIZE = { 30, 30 };
 
+Texture TransTexture(const String file_path, const Color transparent = { 0, 0, 0, 0 }) {
+	Image image_temp(file_path);
+	if (transparent.r >= 0 && transparent.g >= 0 && transparent.b >= 0 && transparent.a != 0) {
+		for (int h = 0; h < image_temp.height(); h++) {
+			for (int w = 0; w < image_temp.width(); w++) {
+				if (image_temp[h][w].r == transparent.r && image_temp[h][w].g == transparent.g && image_temp[h][w].b == transparent.b) {
+					image_temp[h][w].setA(0);
+				}
+			}
+		}
+	}
+	return Texture(image_temp);
+}
+
 /// @brief 斜めのストライプの背景を描画します。
 /// @param width ストライプの幅
 /// @param angle ストライプの角度
@@ -106,10 +120,9 @@ public:
 	const String discriptionJPTemplateFolderPath = U"images/Xenoblade3_Temp_Jp";
 	const String statusIconsFolderPath = U"images/StatusType";
 	const String UnkonwnMatterNumbersPath = U"images/UnknownMatterNumbers";
-	
+
 	Array<String> discriptionsImagesPathList;
 	Array<String> statusIconsPathList;
-	
 
 	Loading(const InitData& init)
 		: IScene{ init }
@@ -169,13 +182,15 @@ public:
 	{
 		DrawVerticalGradientBackground(ColorF{ 0.2, 0.5, 1.0 }, ColorF{ 0.5, 0.8, 1.0 });
 		Circle{ {Scene::Center().x, Scene::Center().y - 3200}, 3500 }.drawArc(135_deg, 90_deg, 0, 500, Palette::Springgreen);
-
+		diamond.draw(Scene::Center().x -33, Scene::Center().y - 315, Palette::Springgreen);
+		ring.drawFrame(0, 20, Palette::Springgreen);
 		FontAsset(U"TitleFont")(U"Now Loading").drawAt(Scene::Center());
 	}
 
 private:
-
-
+	const Polygon diamond{ Vec2{ 10, 0 }, Vec2{ 55, 0 }, Vec2{ 65, 15 },
+	Vec2{ 50, 35 }, Vec2{ 15, 35 }, Vec2{ 0, 15 } };
+	const Circle ring{ {Scene::Center().x, Scene::Center().y - 200}, 50};
 };
 
 // 設定シーン
@@ -646,8 +661,8 @@ private:
 	const int buttonPosY = 570;
 
 
-	const Vec2 JOYCON_GUI_POS_Left = { 1700, 200 };
-	const Vec2 JOYCON_GUI_POS_Right = { 1800, 200 };
+	const Vec2 JOYCON_GUI_POS_Left = { 1700, 250 };
+	const Vec2 JOYCON_GUI_POS_Right = { 1800, 250 };
 	VirtualJoyCon virtualJoyCon{ getData().serial, JOYCON_GUI_POS_Left, JOYCON_GUI_POS_Right };
 	Array<uint8> currentSerialBytes;
 	Array<uint8> SerialBytesLog;
@@ -710,12 +725,12 @@ private:
 		double similarityMax = 0;
 		webcam.getFrame(image);
 
-		Image clipedImage = image.clipped(pos, UNKOWN_MATTER_NUMBER_SIZE).thresholded(128);
+		Image clippedImage = image.clipped(pos, UNKOWN_MATTER_NUMBER_SIZE).thresholded(128);
 		for (size_t i = 0; i < getData().binarizedUnkownMatterNumbers.size(); i++)
 		{
 			Image binarizedNumber = getData().binarizedUnkownMatterNumbers[i];
 
-			double similarity = calculateSimilarity(clipedImage, binarizedNumber);
+			double similarity = calculateSimilarity(clippedImage, binarizedNumber);
 			if (similarity > similarityMax)
 			{
 				similarityMax = similarity;
@@ -735,12 +750,12 @@ private:
 		{
 			StatusType judgedStatusType = StatusType::Undefined;
 			double similarityMax = 0;
-			Image clipedImage = image.clipped(clipStatusPosList[i], STATUS_ICON_SIZE).thresholded(128);
+			Image clippedImage = image.clipped(clipStatusPosList[i], STATUS_ICON_SIZE).thresholded(128);
 			for (int8 j = 0; j < getData().icons.size(); j++)
 			{
 				Image binarizedStatusTypeImage = getData().binarizedIcons[j];
 
-				double similarity = calculateSimilarity(clipedImage, binarizedStatusTypeImage);
+				double similarity = calculateSimilarity(clippedImage, binarizedStatusTypeImage);
 				Console << Format(similarity);
 				if (similarity > similarityMax)
 				{
@@ -759,12 +774,12 @@ private:
 		size_t judgedIndex = -1;
 		String judgedAbilityName = U"認識不可";
 		double similarityMax = 0;
-		Image clipedImage = image.clipped(ABILITY_TEXT_AREA_POS, ABILITY_TEXI_AREA_SIZE).thresholded(128);
+		Image clippedImage = image.clipped(ABILITY_TEXT_AREA_POS, ABILITY_TEXI_AREA_SIZE).thresholded(128);
 		for (size_t i = 0; i < getData().binarizedAbilities.size(); i++)
 		{
 			Image binarizedAbility = getData().binarizedAbilities[i];
 
-			double similarity = calculateSimilarity(clipedImage, binarizedAbility);
+			double similarity = calculateSimilarity(clippedImage, binarizedAbility);
 			if (similarity > similarityMax)
 			{
 				similarityMax = similarity;
@@ -901,7 +916,14 @@ public:
 				if (completeMission())
 				{
 					context.gotDesiredAccessory = true;
-					Console << U"目的のアクセサリが完成しました";
+					const ToastNotificationItem toast{
+						.title = U"アクセサリが完成しました", // 通知のタイトル
+						.message = Accessory::getDescriptionDetailJP(currentAccessory.getIndex()), // 通知の本文
+						.imagePath = U"pizza.png", // 大きい画像だと使われないことがある
+						.actions = { U"通知を消す" } // アクションボタン（不要な場合は設定しない）
+					};
+					Platform::Windows::ToastNotification::Show(toast);
+					Console << U"アクセサリが完成しました";
 					Console << Accessory::getDescriptionDetailJP(currentAccessory.getIndex());
 				}
 			}
@@ -975,17 +997,6 @@ public:
 			context.init();
 			context.setState(std::make_unique<xc3::Title>());
 		}
-		if (SimpleGUI::Button(U"adjust", Vec2{ buttonPosX, buttonPosY + 400 }))
-		{
-			getData().serial.write(xc3::Context::CommandByte::adjust);
-		}
-
-		if (SimpleGUI::Slider(Format(adjust_interval), adjust_interval, 0, 20000, Vec2{ buttonPosX, buttonPosY - 100 }, 100, 200))
-		{
-			getData().serial.write(static_cast<int32>(adjust_interval));
-		}
-
-
 		virtualJoyCon.update();
 		receiveSerialBytes();
 	}
