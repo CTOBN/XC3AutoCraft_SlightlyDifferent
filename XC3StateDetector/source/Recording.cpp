@@ -262,7 +262,7 @@ void Recording::update()
 		context.initialUnkownMatterCount = unknownMatterCount;
 		context.currentUnknownMatterCount = context.initialUnkownMatterCount;
 
-		uint8 setAccType = accessoryTypeIndexToCommandByte[getData().accsessoryTypeIndex];
+		uint8 setAccType = accessoryTypeIndexToCommandByte[getData().accessoryTypeIndex];
 		getData().serial.writeByte(setAccType);
 	}
 
@@ -293,7 +293,7 @@ void Recording::update()
 	{
 		context.initialUnkownMatterCount = 99;
 		context.currentUnknownMatterCount = context.initialUnkownMatterCount;
-		uint8 setAccType = accessoryTypeIndexToCommandByte[getData().accsessoryTypeIndex];
+		uint8 setAccType = accessoryTypeIndexToCommandByte[getData().accessoryTypeIndex];
 		getData().serial.writeByte(setAccType);
 		context.init();
 		context.setState(std::make_unique<xc3::Title>());

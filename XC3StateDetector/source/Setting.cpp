@@ -169,7 +169,7 @@ void Setting::selectAccTypeButtonUpdate()
 		RectF r = probabilityTable.cellRegion(probabilityTablePos, 0, i + 1);
 		if (r.leftClicked())
 		{
-			getData().accsessoryTypeIndex = i;
+			getData().accessoryTypeIndex = i;
 		}
 	}
 }
@@ -203,7 +203,7 @@ bool Setting::isSelectedCamera() const
 
 bool Setting::canGoRecording() const
 {
-	return getData().accsessoryTypeIndex != -1 && isSelectedCamera() && isSelectedSerialPort() && canMake();
+	return getData().accessoryTypeIndex != -1 && isSelectedCamera() && isSelectedSerialPort() && canMake();
 }
 
 void Setting::serialUpdate()
@@ -237,13 +237,13 @@ void Setting::drawNotion() const
 		FontAsset(U"TextFont")(U"目的のアクセサリが出る可能性は０です").draw(probabilityTablePos.x + PROBABILITY_CELL_WIDTH, probabilityTablePos.y + 30 * 7 + 30, Palette::Red);
 	}
 
-	if (getData().accsessoryTypeIndex == -1)
+	if (getData().accessoryTypeIndex == -1)
 	{
 		FontAsset(U"TextFont")(U"作るアクセサリを選択してください↓").draw(probabilityTablePos.x + PROBABILITY_CELL_WIDTH, probabilityTablePos.y - 50, Palette::Red);
 	}
 	else
 	{
-		probabilityTable.cellRegion(probabilityTablePos, 0, getData().accsessoryTypeIndex + 1).drawFrame(4, Palette::Red);
+		probabilityTable.cellRegion(probabilityTablePos, 0, getData().accessoryTypeIndex + 1).drawFrame(4, Palette::Red);
 	}
 
 	if (getData().cameraName == U"未選択")
