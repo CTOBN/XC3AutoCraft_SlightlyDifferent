@@ -7,7 +7,7 @@
 # include "State.hpp"
 # include "Title.hpp"
 # include "Make.hpp"
-# include "AccessorySelection.hpp"
+# include "AccessorySelected.hpp"
 # include "Judge.hpp"
 
 # include "VirtualJoyCon.hpp"
@@ -968,7 +968,7 @@ public:
 		if (SimpleGUI::Button(U"自動クラフト開始", Vec2{ buttonPosX, buttonPosY + 100 }))
 		{
 			context.init();
-			context.setState(std::make_unique<xc3::AccessorySelection>());
+			context.setState(std::make_unique<xc3::AccessorySelected>());
 		}
 		if (webcam && SimpleGUI::Button(U"アクセサリ認識テスト", Vec2{ buttonPosX, buttonPosY + 150 }))
 		{

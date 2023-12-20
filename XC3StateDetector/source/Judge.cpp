@@ -1,7 +1,7 @@
 ﻿#include "State.hpp"
 #include "Context.hpp"
 #include "Judge.hpp"
-#include "AccessorySelection.hpp"
+#include "AccessorySelected.hpp"
 #include "GoingMainMenu.hpp"
 #include "GotDesiredAcc.hpp"
 
@@ -26,7 +26,7 @@ namespace xc3
 		else if (context.currentUnknownMatterCount >= 3) // アクセサリを作れる
 		{
 			context.serial.writeByte(Context::CommandByte::Judge_to_AccessorySelected);
-			context.setState(std::make_unique<AccessorySelection>());
+			context.setState(std::make_unique<AccessorySelected>());
 		}
 		else // アクセサリを作れないならメインメニューに戻る
 		{

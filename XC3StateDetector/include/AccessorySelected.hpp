@@ -2,9 +2,9 @@
 
 namespace xc3
 {
-	class AccessorySelection : public State {
+	class AccessorySelected : public State {
 	public:
-		AccessorySelection ();
+		AccessorySelected ();
 		void handle(Context& context) override;
 	private:
 		bool hasTransitioned;

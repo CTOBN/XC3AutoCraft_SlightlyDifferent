@@ -1,13 +1,13 @@
 ﻿#include "State.hpp"
-#include "AccessorySelection.hpp"
+#include "AccessorySelected.hpp"
 #include "Judge.hpp"
 #include "Context.hpp"
 
 namespace xc3
 {
-	AccessorySelection::AccessorySelection() : State(U"AccessorySelection", 4000), hasTransitioned(false) {}
+	AccessorySelected::AccessorySelected() : State(U"AccessorySelected", 4000), hasTransitioned(false) {}
 
-	void AccessorySelection::handle(Context& context)
+	void AccessorySelected::handle(Context& context)
 	{
 		if (not hasTransitioned)
 		{
