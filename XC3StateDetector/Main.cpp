@@ -610,8 +610,6 @@ public:
 			accessoryPulldowns[TARGET_ACCSESORIES_COUNT_MAX - i - 1].draw();
 		}
 
-		Print << Cursor::Pos();
-
 		if (canGoRecording() && SimpleGUI::Button(U"決定", Scene::Center()))
 		{
 			assignDesiredAccessories();
