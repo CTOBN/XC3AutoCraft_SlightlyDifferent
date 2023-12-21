@@ -12,6 +12,7 @@ namespace xc3
 		void setSerial(Serial& serial);
 		void setState(std::unique_ptr<State> newState);
 		String getCurrentStateName() const;
+		bool getCurrentStateHasTransitioned() const;
 		Serial& serial;
 		size_t initialUnkownMatterCount = 0;
 		size_t currentUnknownMatterCount = 0;

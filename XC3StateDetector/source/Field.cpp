@@ -5,7 +5,7 @@
 
 namespace xc3
 {
-	Field::Field() : State(U"Field", 6000), hasTransitioned(false) {}
+	Field::Field() : State(U"Field", 6000) {}
 
 	void Field::handle(Context& context) {
 

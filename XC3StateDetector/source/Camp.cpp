@@ -5,7 +5,7 @@
 
 namespace xc3
 {
-	Camp::Camp() : State(U"Camp", 6000), hasTransitioned(false) {}
+	Camp::Camp() : State(U"Camp", 6000) {}
 
 	void Camp::handle(Context& context)
 	{

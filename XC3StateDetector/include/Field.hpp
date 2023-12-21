@@ -6,9 +6,6 @@ namespace xc3
 	public:
 		Field();
 		void handle(Context& context) override;
-
-	private:
-		bool hasTransitioned;
 	};
 
 }

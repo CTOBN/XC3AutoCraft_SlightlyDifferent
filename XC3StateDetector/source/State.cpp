@@ -7,6 +7,7 @@ namespace xc3
 		: name(name)
 		, transitionDuration(duration)
 		, transitionTime(0)
+		, hasTransitioned(false)
 	{}
 	State::~State() {};
 

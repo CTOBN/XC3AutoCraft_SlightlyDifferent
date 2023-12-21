@@ -5,7 +5,7 @@
 
 namespace xc3
 {
-	GoingMainMenu::GoingMainMenu() : State(U"GoingMainMenu", 15000), hasTransitioned(false) {}
+	GoingMainMenu::GoingMainMenu() : State(U"GoingMainMenu", 15000) {}
 
 	void GoingMainMenu::handle(Context& context) {
 

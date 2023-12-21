@@ -7,7 +7,7 @@
 
 namespace xc3
 {
-	Judge::Judge() : State(U"Judge", 2000) , hasTransitioned(false) {}
+	Judge::Judge() : State(U"Judge", 2000) {}
 
 	void Judge::handle(Context& context)
 	{

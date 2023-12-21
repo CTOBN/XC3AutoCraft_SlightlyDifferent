@@ -109,6 +109,15 @@ void Recording::recognizeAccessory()
 	RecognizedAccessories.push_back(currentAccessory);
 }
 
+void Recording::recognizeUnknownMatterCount()
+{
+	size_t tensPlace = findMostSimilarNumber(UNKOWN_MATTER_NUMBER_TENS_PLACE_POS);
+	size_t onesPlace = findMostSimilarNumber(UNKOWN_MATTER_NUMBER_ONES_PLACE_POS);
+	size_t unknownMatterCount = tensPlace * 10 + onesPlace;
+	context.initialUnkownMatterCount = unknownMatterCount;
+	context.currentUnknownMatterCount = unknownMatterCount;
+}
+
 bool Recording::compareAccessories()
 {
 	for (int i = 0; i < getData().desiredAccessories.size(); i++)
@@ -177,7 +186,7 @@ void Recording::drawSerialBytesLog() const
 		if (commandByteToString.contains(commandByte))
 		{
 			String commandName = commandByteToString.at(commandByte);
-			FontAsset(U"TextFont")(U"{} が実行されました"_fmt(commandName)).draw(1000, 300 + i * 30);
+			FontAsset(U"TextFont")(U"{} が実行されました"_fmt(commandName)).draw(1000, 350 + i * 30);
 		}
 	}
 }
@@ -253,11 +262,7 @@ void Recording::update()
 
 	if (SimpleGUI::Button(U"開始前に押す", Vec2{ buttonPosX, buttonPosY + 50 }))
 	{
-		size_t unknownMatterCount = findMostSimilarNumber(UNKOWN_MATTER_NUMBER_TENS_PLACE_POS) * 10 + findMostSimilarNumber(UNKOWN_MATTER_NUMBER_ONES_PLACE_POS);
-		Console << U"初期ｱﾝﾉｳﾝﾏﾀｰの数は{}個です"_fmt(unknownMatterCount);
-		context.initialUnkownMatterCount = unknownMatterCount;
-		context.currentUnknownMatterCount = context.initialUnkownMatterCount;
-
+		recognizeUnknownMatterCount();
 		uint8 setAccType = accessoryTypeIndexToCommandByte[getData().accessoryTypeIndex];
 		getData().serial.writeByte(setAccType);
 	}
@@ -265,8 +270,10 @@ void Recording::update()
 	if (SimpleGUI::Button(U"自動クラフト開始", Vec2{ buttonPosX, buttonPosY + 100 }))
 	{
 		context.init();
+
 		context.setState(std::make_unique<xc3::AccessorySelected>());
 	}
+
 	if (webcam && SimpleGUI::Button(U"アクセサリ認識テスト", Vec2{ buttonPosX, buttonPosY + 150 }))
 	{
 		recognizeAccessory();
@@ -280,10 +287,6 @@ void Recording::update()
 	{
 		// 設定に遷移
 		changeScene(U"Setting");
-	}
-	if (SimpleGUI::Button(U"debug", Vec2{ buttonPosX, buttonPosY + 300 }))
-	{
-		context.debugPrint();
 	}
 	if (SimpleGUI::Button(U"タイトルから", Vec2{ buttonPosX, buttonPosY + 350 }))
 	{
@@ -349,7 +352,7 @@ void Recording::draw() const
 	virtualJoyCon.draw();
 
 	// 現在の状態を表示
-	FontAsset(U"TextFont")(U"現在の状態 : {}"_fmt(context.getCurrentStateName())).draw(1000, 200);
-	FontAsset(U"TextFont")(U"現在ｱﾝﾉｳﾝﾏﾀｰ : {} 個"_fmt(context.currentUnknownMatterCount)).draw(1000, 230);
+	FontAsset(U"TextFont")(U"現在の状態 : {}"_fmt(context.getCurrentStateName())).draw(1000, 300);
+	FontAsset(U"TextFont")(U"現在ｱﾝﾉｳﾝﾏﾀｰ : {} 個"_fmt(context.currentUnknownMatterCount)).draw(1000, 330);
 	drawSerialBytesLog();
 }

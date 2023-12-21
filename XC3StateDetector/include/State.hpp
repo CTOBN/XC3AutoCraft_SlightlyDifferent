@@ -12,6 +12,8 @@ namespace xc3
 		virtual void handle(Context& context) = 0;
 		bool isTimeToTransition() const;
 		String getName() const { return name; }
+		
+		bool hasTransitioned;
 	protected:
 		int64 transitionTime;
 		int64 transitionDuration; // Add a variable to hold the transition duration

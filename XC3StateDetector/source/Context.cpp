@@ -33,6 +33,15 @@ namespace xc3
 		return m_state->getName();
 	}
 
+	bool Context::getCurrentStateHasTransitioned() const
+	{
+		if (m_state == nullptr)
+		{
+			return false;
+		}
+		return m_state->hasTransitioned;
+	}
+
 	void Context::init()
 	{
 		gotDesiredAccessory = false;

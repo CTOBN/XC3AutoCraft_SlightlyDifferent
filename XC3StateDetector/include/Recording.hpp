@@ -110,6 +110,8 @@ private:
 
 	void recognizeAccessory();
 
+	void recognizeUnknownMatterCount();
+
 	bool compareAccessories();
 
 	bool completeMission();

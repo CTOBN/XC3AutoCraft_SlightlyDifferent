@@ -6,10 +6,6 @@ namespace xc3
 	public:
 		GoingMainMenu();
 		void handle(Context& context) override;
-
-	private:
-		bool hasTransitioned;
 	};
-
 }
 

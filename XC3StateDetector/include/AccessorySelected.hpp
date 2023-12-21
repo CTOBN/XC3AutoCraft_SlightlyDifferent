@@ -6,8 +6,6 @@ namespace xc3
 	public:
 		AccessorySelected ();
 		void handle(Context& context) override;
-	private:
-		bool hasTransitioned;
 	};
 
 }
