@@ -280,7 +280,7 @@ void Recording::update()
 	if (webcam && SimpleGUI::Button(U"PCにスクショを保存", Vec2{ buttonPosX, buttonPosY + 200 }))
 	{
 		webcam.getFrame(image);
-		image.save(U"xenoblade3_screenshot.png");
+		image.save(U"XC3AutoCraft_ScreenShot_{}.png"_fmt(DateTime::Now()));
 	}
 
 	if (SimpleGUI::Button(U"設定に戻る", Vec2{ buttonPosX, buttonPosY + 250 }))
@@ -288,15 +288,7 @@ void Recording::update()
 		// 設定に遷移
 		changeScene(U"Setting");
 	}
-	if (SimpleGUI::Button(U"タイトルから", Vec2{ buttonPosX, buttonPosY + 350 }))
-	{
-		context.initialUnkownMatterCount = 99;
-		context.currentUnknownMatterCount = context.initialUnkownMatterCount;
-		uint8 setAccType = accessoryTypeIndexToCommandByte[getData().accessoryTypeIndex];
-		getData().serial.writeByte(setAccType);
-		context.init();
-		context.setState(std::make_unique<xc3::Title>());
-	}
+
 	virtualJoyCon.update();
 	receiveSerialBytes();
 }
