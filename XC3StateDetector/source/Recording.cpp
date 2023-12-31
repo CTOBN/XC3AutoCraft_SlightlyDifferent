@@ -258,35 +258,43 @@ void Recording::drawDesiredAccessories() const
 
 void Recording::drawButtons()
 {
-	if (SimpleGUI::Button(U"シリアルポートを開く", Vec2{ buttonPos.x, buttonPos.y }))
+	if (SimpleGUI::Button(U"\U000F065C シリアルポートを開く", Vec2{ buttonPos.x, buttonPos.y }))
 	{
 		openSerialPort();
 	}
 
-	if (SimpleGUI::Button(U"開始前に押す", Vec2{ buttonPos.x, buttonPos.y + 50 }))
+	if (SimpleGUI::Button(U"\U000F0199 ｱﾝﾉｳﾝﾏﾀｰの数を認識", Vec2{ buttonPos.x, buttonPos.y + 50 }))
 	{
 		recognizeUnknownMatterCount();
 		uint8 setAccType = accessoryTypeIndexToCommandByte[getData().accessoryTypeIndex];
 		getData().serial.writeByte(setAccType);
 	}
 
-	if (SimpleGUI::Button(U"自動クラフト開始", Vec2{ buttonPos.x, buttonPos.y + 100 }))
+	if (SimpleGUI::Button(U"\U000F040A 自動クラフト開始", Vec2{ buttonPos.x, buttonPos.y + 100 }))
 	{
 		context.init();
 
 		context.setState(std::make_unique<xc3::AccessorySelected>());
 	}
 
-	if (webcam && SimpleGUI::Button(U"PCにスクショを保存", Vec2{ buttonPos.x, buttonPos.y + 200 }))
+	if (webcam && SimpleGUI::Button(U"\U000F0E51 PCにスクショを保存", Vec2{ buttonPos.x, buttonPos.y + 200 }))
 	{
 		webcam.getFrame(image);
-		image.save(U"XC3AutoCraft_ScreenShot_{}.png"_fmt(DateTime::Now()));
+		String path = U"XC3AutoCraft_{}.png"_fmt(DateTime::Now()).replace(U":", U".");
+		image.save(path);
+		Console << path;
 	}
 
-	if (SimpleGUI::Button(U"設定に戻る", Vec2{ buttonPos.x, buttonPos.y + 250 }))
+	if (SimpleGUI::Button(U"\U000F0493 設定に戻る", Vec2{ buttonPos.x, buttonPos.y + 250 }))
 	{
 		// 設定に遷移
 		changeScene(U"Setting");
+	}
+
+	if (SimpleGUI::Button(U"\U000F0544 Tweetする", Vec2{ buttonPos.x, buttonPos.y + 300 }))
+	{
+		// ツイート投稿画面を開く
+		Twitter::OpenTweetWindow(U"#XC3AutoCraft");
 	}
 }
 
