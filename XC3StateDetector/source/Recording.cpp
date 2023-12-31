@@ -252,32 +252,32 @@ void Recording::update()
 		webcam.getFrame(texture);
 	}
 
-	if (SimpleGUI::Button(U"シリアルポートを開く", Vec2{ buttonPosX, buttonPosY }))
+	if (SimpleGUI::Button(U"シリアルポートを開く", Vec2{ buttonPos.x, buttonPos.y }))
 	{
 		openSerialPort();
 	}
 
-	if (SimpleGUI::Button(U"開始前に押す", Vec2{ buttonPosX, buttonPosY + 50 }))
+	if (SimpleGUI::Button(U"開始前に押す", Vec2{ buttonPos.x, buttonPos.y + 50 }))
 	{
 		recognizeUnknownMatterCount();
 		uint8 setAccType = accessoryTypeIndexToCommandByte[getData().accessoryTypeIndex];
 		getData().serial.writeByte(setAccType);
 	}
 
-	if (SimpleGUI::Button(U"自動クラフト開始", Vec2{ buttonPosX, buttonPosY + 100 }))
+	if (SimpleGUI::Button(U"自動クラフト開始", Vec2{ buttonPos.x, buttonPos.y + 100 }))
 	{
 		context.init();
 
 		context.setState(std::make_unique<xc3::AccessorySelected>());
 	}
 
-	if (webcam && SimpleGUI::Button(U"PCにスクショを保存", Vec2{ buttonPosX, buttonPosY + 200 }))
+	if (webcam && SimpleGUI::Button(U"PCにスクショを保存", Vec2{ buttonPos.x, buttonPos.y + 200 }))
 	{
 		webcam.getFrame(image);
 		image.save(U"XC3AutoCraft_ScreenShot_{}.png"_fmt(DateTime::Now()));
 	}
 
-	if (SimpleGUI::Button(U"設定に戻る", Vec2{ buttonPosX, buttonPosY + 250 }))
+	if (SimpleGUI::Button(U"設定に戻る", Vec2{ buttonPos.x, buttonPos.y + 250 }))
 	{
 		// 設定に遷移
 		changeScene(U"Setting");
