@@ -272,7 +272,7 @@ void Recording::drawButtons()
 	if (SimpleGUI::Button(U"\U000F0199 ｱﾝﾉｳﾝﾏﾀｰの数を認識", Vec2{ buttonPos.x, buttonPos.y + 50 }))
 	{
 		recognizeUnknownMatterCount();
-		uint8 setAccType = accessoryTypeIndexToCommandByte[getData().accessoryTypeIndex];
+		uint8 setAccType = accessoryTypeIndexToCommandByte[getData().accessoryTypeIndex - 1];
 		getData().serial.writeByte(setAccType);
 	}
 
