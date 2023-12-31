@@ -44,9 +44,11 @@ private:
 
 	const Vec2 JOYCON_GUI_POS_Left = { 1700, 250 };
 	const Vec2 JOYCON_GUI_POS_Right = { 1800, 250 };
+	const Point desiredAccessoriesPos = { 1000, 550 };
+	const Point recognizedAccessoriesPos = { 30, 550 };
 	VirtualJoyCon virtualJoyCon{ getData().serial, JOYCON_GUI_POS_Left, JOYCON_GUI_POS_Right };
 	Array<uint8> currentSerialBytes;
-	Array<uint8> SerialBytesLog;
+	uint8 lastSerialByte;
 
 	double adjust_interval = 8000;
 

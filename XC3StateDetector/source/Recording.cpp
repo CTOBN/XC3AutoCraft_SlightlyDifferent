@@ -176,21 +176,16 @@ void Recording::receiveSerialBytes()
 	{
 		return;
 	}
-	SerialBytesLog.append(currentSerialBytes);
+	lastSerialByte = currentSerialBytes.front();
 	currentSerialBytes.clear();
 }
 
 void Recording::drawSerialBytesLog() const
 {
-	size_t logSize = SerialBytesLog.size();
-	for (size_t i = 0; i < logSize; i++)
+	if (commandByteToString.contains(lastSerialByte))
 	{
-		uint8 commandByte = SerialBytesLog[logSize - i - 1];
-		if (commandByteToString.contains(commandByte))
-		{
-			String commandName = commandByteToString.at(commandByte);
-			FontAsset(U"TextFont")(U"{} が実行されました"_fmt(commandName)).draw(1000, 350 + i * 30);
-		}
+		String commandName = commandByteToString.at(lastSerialByte);
+		Console << U"{} が実行されました"_fmt(commandName);
 	}
 }
 
@@ -323,10 +318,10 @@ void Recording::draw() const
 	for (int i = 0; i < getData().desiredAccessories.size(); i++)
 	{
 		Accessory& acc = getData().desiredAccessories[i];
-		FontAsset(U"TextFont")(Accessory::getDescriptionJP(acc.getIndex())).draw(1000, 80 + i * 30);
+		FontAsset(U"TextFont")(Accessory::getDescriptionJP(acc.getIndex())).draw(desiredAccessoriesPos.x, desiredAccessoriesPos.y + i * 30);
 		for (int j = 0; j < 4; j++)
 		{
-			FontAsset(U"TextFont")(StatusTypeToString[U"JP"][acc.getStatusBoosts()[j].type]).drawAt(1600 + j * 70, 90 + i * 30);
+			FontAsset(U"TextFont")(StatusTypeToString[U"JP"][acc.getStatusBoosts()[j].type]).drawAt(desiredAccessoriesPos.x + 600 + j * 70, desiredAccessoriesPos.y + 10 + i * 30);
 		}
 	}
 
@@ -335,10 +330,10 @@ void Recording::draw() const
 	for (int i = 0; i < recognizedAccessoriesSize; i++)
 	{
 		const Accessory& acc = RecognizedAccessories[recognizedAccessoriesSize - i - 1];
-		FontAsset(U"TextFont")(Accessory::getDescriptionJP(acc.getIndex())).draw(30, 550 + i * 30);
+		FontAsset(U"TextFont")(Accessory::getDescriptionJP(acc.getIndex())).draw(recognizedAccessoriesPos.x, recognizedAccessoriesPos.y + i * 30);
 		for (int j = 0; j < 4; j++)
 		{
-			FontAsset(U"TextFont")(StatusTypeToString[U"JP"][acc.getStatusBoosts()[j].type]).drawAt(630 + j * 90, 560 + i * 30);
+			FontAsset(U"TextFont")(StatusTypeToString[U"JP"][acc.getStatusBoosts()[j].type]).drawAt(recognizedAccessoriesPos.x + 600 + j * 90, recognizedAccessoriesPos.y + 10 + i * 30);
 		}
 	}
 	virtualJoyCon.draw();
