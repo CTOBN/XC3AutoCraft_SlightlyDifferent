@@ -95,18 +95,21 @@ size_t Recording::findMostSimilarAbility() {
 	return judgedIndex;
 }
 
-void Recording::recognizeAccessory()
+Accessory Recording::recognizeAccessory()
 {
 	size_t judgedAccIndex = findMostSimilarAbility();
 	Array<StatusBoost> judgedStatusBoosts = findMostSimilarStatusBoost();
+	Accessory recognizedAccessory = Accessory{ judgedAccIndex };
+	recognizedAccessory.setStatusBoosts(judgedStatusBoosts);
+	return recognizedAccessory;
+}
 
-	if (judgedAccIndex == -1)
-	{
-		return;
+void Recording::addAccessory(const Accessory& accessory)
+{
+	if (RecognizedAccessories.size() == 15) {
+		RecognizedAccessories.pop_front();
 	}
-	currentAccessory = Accessory{ judgedAccIndex };
-	currentAccessory.setStatusBoosts(judgedStatusBoosts);
-	RecognizedAccessories.push_back(currentAccessory);
+	RecognizedAccessories.push_back(accessory);
 }
 
 void Recording::recognizeUnknownMatterCount()
@@ -216,7 +219,7 @@ void Recording::update()
 	{
 		if (not context.wasJudged)
 		{
-			recognizeAccessory();
+			addAccessory(recognizeAccessory());
 			context.wasJudged = true;
 
 			if (completeMission())
@@ -274,15 +277,12 @@ void Recording::update()
 		context.setState(std::make_unique<xc3::AccessorySelected>());
 	}
 
-	if (webcam && SimpleGUI::Button(U"アクセサリ認識テスト", Vec2{ buttonPosX, buttonPosY + 150 }))
-	{
-		recognizeAccessory();
-	}
 	if (webcam && SimpleGUI::Button(U"PCにスクショを保存", Vec2{ buttonPosX, buttonPosY + 200 }))
 	{
 		webcam.getFrame(image);
 		image.save(U"xenoblade3_screenshot.png");
 	}
+
 	if (SimpleGUI::Button(U"設定に戻る", Vec2{ buttonPosX, buttonPosY + 250 }))
 	{
 		// 設定に遷移

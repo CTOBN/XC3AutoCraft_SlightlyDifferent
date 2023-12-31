@@ -108,7 +108,9 @@ private:
 
 	size_t findMostSimilarAbility();
 
-	void recognizeAccessory();
+	Accessory recognizeAccessory();
+
+	void addAccessory(const Accessory& accessory);
 
 	void recognizeUnknownMatterCount();
 
