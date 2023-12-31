@@ -223,7 +223,6 @@ void Recording::update()
 				const ToastNotificationItem toast{
 					.title = U"アクセサリが完成しました", // 通知のタイトル
 					.message = Accessory::getDescriptionDetailJP(currentAccessory.getIndex()), // 通知の本文
-					.imagePath = U"pizza.png", // 大きい画像だと使われないことがある
 					.actions = { U"通知を消す" } // アクションボタン（不要な場合は設定しない）
 				};
 				Platform::Windows::ToastNotification::Show(toast);
