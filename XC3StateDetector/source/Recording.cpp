@@ -123,16 +123,24 @@ void Recording::updateContext()
 	if (completeMission())
 	{
 		context.gotDesiredAccessory = true;
+
+		String message = Accessory::getDescriptionDetailJP(currentAccessory.getIndex());
+		message += U"\n";
+		for (int j = 0; j < 4; j++)
+		{
+			message += StatusTypeToString[U"JP"][currentAccessory.getStatusBoosts()[j].type];
+			message += U" ";
+		}
+
 		const ToastNotificationItem toast{
 			.title = U"アクセサリが完成しました", // 通知のタイトル
-			.message = Accessory::getDescriptionDetailJP(currentAccessory.getIndex()), // 通知の本文
-			.actions = { U"通知を消す" } // アクションボタン（不要な場合は設定しない）
+			.message = message, // 通知のメッセージ
+			.actions = { U"通知を消す" } // アクションボタン
 		};
 		Platform::Windows::ToastNotification::Show(toast);
 		Console << U"アクセサリが完成しました";
 		Console << Accessory::getDescriptionDetailJP(currentAccessory.getIndex());
 	}
-
 }
 
 
