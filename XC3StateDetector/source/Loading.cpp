@@ -15,10 +15,10 @@ Loading::Loading(const InitData& init)
 		Accessory::pushBackDescriptionJP(csv[row][2]);
 		Accessory::pushBackDescriptionDetailJP(csv[row][3]);
 		Accessory::pushBackAlready(csv[row][4]);
-		Accessory::pushBackWrist(csv[row][5]);
-		Accessory::pushBackFinger(csv[row][6]);
-		Accessory::pushBackNecklaces(csv[row][7]);
-		Accessory::pushBackCrowns(csv[row][8]);
+		Accessory::pushBackWrist(Parse<double>(csv[row][5]));
+		Accessory::pushBackFinger(Parse<double>(csv[row][6]));
+		Accessory::pushBackNecklaces(Parse<double>(csv[row][7]));
+		Accessory::pushBackCrowns(Parse<double>(csv[row][8]));
 	}
 
 	for (uint16 i = 3428; i <= 3913; i += 5)

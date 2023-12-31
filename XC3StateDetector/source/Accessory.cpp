@@ -7,10 +7,10 @@ Array<String> Accessory::DescriptionENList;
 Array<String> Accessory::DescriptionJPList;
 Array<String> Accessory::DescriptionDetailJPList;
 Array<String> Accessory::AlreadyList;
-Array<String> Accessory::ProbabilityWristList;
-Array<String> Accessory::ProbabilityFingerList;
-Array<String> Accessory::ProbabilityNecklacesList;
-Array<String> Accessory::ProbabilityCrownsList;
+Array<double> Accessory::ProbabilityWristList;
+Array<double> Accessory::ProbabilityFingerList;
+Array<double> Accessory::ProbabilityNecklacesList;
+Array<double> Accessory::ProbabilityCrownsList;
 
 
 
@@ -150,22 +150,22 @@ void Accessory::pushBackAlready(const String& already)
 	AlreadyList.push_back(already);
 }
 
-void Accessory::pushBackWrist(const String& wrist)
+void Accessory::pushBackWrist(const double& wrist)
 {
 	ProbabilityWristList.push_back(wrist);
 }
 
-void Accessory::pushBackFinger(const String& finger)
+void Accessory::pushBackFinger(const double& finger)
 {
 	ProbabilityFingerList.push_back(finger);
 }
 
-void Accessory::pushBackNecklaces(const String& necklaces)
+void Accessory::pushBackNecklaces(const double& necklaces)
 {
 	ProbabilityNecklacesList.push_back(necklaces);
 }
 
-void Accessory::pushBackCrowns(const String& crowns)
+void Accessory::pushBackCrowns(const double& crowns)
 {
 	ProbabilityCrownsList.push_back(crowns);
 }
@@ -175,22 +175,22 @@ String Accessory::getAlready(size_t index)
 	return AlreadyList[index];
 }
 
-String Accessory::getProbabilityWrist(size_t index)
+double Accessory::getProbabilityWrist(size_t index)
 {
 	return ProbabilityWristList[index];
 }
 
-String Accessory::getProbabilityFinger(size_t index)
+double Accessory::getProbabilityFinger(size_t index)
 {
 	return ProbabilityFingerList[index];
 }
 
-String Accessory::getProbabilityNecklaces(size_t index)
+double Accessory::getProbabilityNecklaces(size_t index)
 {
 	return ProbabilityNecklacesList[index];
 }
 
-String Accessory::getProbabilityCrowns(size_t index)
+double Accessory::getProbabilityCrowns(size_t index)
 {
 	return ProbabilityCrownsList[index];
 }

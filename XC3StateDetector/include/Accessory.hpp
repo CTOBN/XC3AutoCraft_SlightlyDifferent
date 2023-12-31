@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "AccessoryType.hpp"
 #include "StatusType.hpp"
 #include "StatusBoost.hpp" // Include StatusBoost header file
 
@@ -59,15 +60,15 @@ public:
 	static void pushBackDescriptionJP(const String& discriptionJP);
 	static void pushBackDescriptionDetailJP(const String& discriptionDetailJP);
 	static void pushBackAlready(const String& already);
-	static void pushBackWrist(const String& wrist);
-	static void pushBackFinger(const String& finger);
-	static void pushBackNecklaces(const String& necklaces);
-	static void pushBackCrowns(const String& crowns);
+	static void pushBackWrist(const double& wrist);
+	static void pushBackFinger(const double& finger);
+	static void pushBackNecklaces(const double& necklaces);
+	static void pushBackCrowns(const double& crowns);
 	static String getAlready(size_t index);
-	static String getProbabilityWrist(size_t index);
-	static String getProbabilityFinger(size_t index);
-	static String getProbabilityNecklaces(size_t index);
-	static String getProbabilityCrowns(size_t index);
+	static double getProbabilityWrist(size_t index);
+	static double getProbabilityFinger(size_t index);
+	static double getProbabilityNecklaces(size_t index);
+	static double getProbabilityCrowns(size_t index);
 
 private:
 	size_t m_index;
@@ -79,9 +80,9 @@ private:
 	static Array<String> StatusTypeList_JP;
 	static Array<String> StatusTypeList_EN;
 	static Array<String> AlreadyList;
-	static Array<String> ProbabilityWristList;
-	static Array<String> ProbabilityFingerList;
-	static Array<String> ProbabilityNecklacesList;
-	static Array<String> ProbabilityCrownsList;
+	static Array<double> ProbabilityWristList;
+	static Array<double> ProbabilityFingerList;
+	static Array<double> ProbabilityNecklacesList;
+	static Array<double> ProbabilityCrownsList;
 
 };

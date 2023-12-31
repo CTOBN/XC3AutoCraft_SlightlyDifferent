@@ -95,6 +95,8 @@ void Setting::desiredAccessories_to_pullDowns()
 	}
 }
 
+
+
 void Setting::calculateSumProbability()
 {
 	sumProbabilityWrists = 0;
@@ -108,10 +110,10 @@ void Setting::calculateSumProbability()
 			continue;
 		}
 		size_t index = accessoryPulldowns[i].getIndex() - 1;
-		sumProbabilityWrists += Parse<double>(Accessory::getProbabilityWrist(index));
-		sumProbabilityFingers += Parse<double>(Accessory::getProbabilityFinger(index));
-		sumProbabilityNecklaces += Parse<double>(Accessory::getProbabilityNecklaces(index));
-		sumProbabilityCrowns += Parse<double>(Accessory::getProbabilityCrowns(index));
+		sumProbabilityWrists += Accessory::getProbabilityWrist(index);
+		sumProbabilityFingers += Accessory::getProbabilityFinger(index);
+		sumProbabilityNecklaces += Accessory::getProbabilityNecklaces(index);
+		sumProbabilityCrowns += Accessory::getProbabilityCrowns(index);
 	}
 }
 
@@ -154,10 +156,10 @@ void Setting::setProbability()
 		}
 		size_t index = accessoryPulldowns[i].getIndex() - 1;
 		probabilityTable.setText(i + 1, 0, Accessory::getAlready(index));
-		probabilityTable.setText(i + 1, 1, Accessory::getProbabilityWrist(index));
-		probabilityTable.setText(i + 1, 2, Accessory::getProbabilityFinger(index));
-		probabilityTable.setText(i + 1, 3, Accessory::getProbabilityNecklaces(index));
-		probabilityTable.setText(i + 1, 4, Accessory::getProbabilityCrowns(index));
+		probabilityTable.setText(i + 1, 1, Format(Accessory::getProbabilityWrist(index)));
+		probabilityTable.setText(i + 1, 2, Format(Accessory::getProbabilityFinger(index)));
+		probabilityTable.setText(i + 1, 3, Format(Accessory::getProbabilityNecklaces(index)));
+		probabilityTable.setText(i + 1, 4, Format(Accessory::getProbabilityCrowns(index)));
 	}
 
 	probabilityTable.setText(6, 1, U"{:.2f}"_fmt(sumProbabilityWrists));
