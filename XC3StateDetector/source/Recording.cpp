@@ -106,16 +106,19 @@ Accessory Recording::recognizeAccessory()
 
 void Recording::updateContext()
 {
+
 	if (context.getCurrentStateName() != U"Undefined")
 	{
 		context.request();
 	}
 
-	if (context.getCurrentStateName() != U"Judge") return;
+	if (context.getCurrentStateName() != U"Judge" || context.wasJudged)
+	{
+		return;
+	}
 
-	if (context.wasJudged) return;
-
-	addAccessory(recognizeAccessory());
+	currentAccessory = recognizeAccessory();
+	addAccessory(currentAccessory);
 	context.wasJudged = true;
 
 	if (completeMission())
@@ -130,6 +133,7 @@ void Recording::updateContext()
 		Console << U"アクセサリが完成しました";
 		Console << Accessory::getDescriptionDetailJP(currentAccessory.getIndex());
 	}
+
 }
 
 
@@ -210,12 +214,14 @@ void Recording::receiveSerialBytes()
 	currentSerialBytes.clear();
 }
 
-void Recording::drawSerialBytesLog() const
+void Recording::drawSerialBytesLog()
 {
+	if (lastSerialByte == 0) return;
 	if (commandByteToString.contains(lastSerialByte))
 	{
 		String commandName = commandByteToString.at(lastSerialByte);
 		Console << U"{} が実行されました"_fmt(commandName);
+		lastSerialByte = 0;
 	}
 }
 
@@ -300,7 +306,7 @@ Recording::Recording(const InitData& init)
 
 void Recording::update()
 {
-
+	updateContext();
 
 	// macOS では、ユーザがカメラ使用の権限を許可しないと Webcam の作成に失敗する。再試行の手段を用意する
 # if SIV3D_PLATFORM(MACOS)
@@ -323,9 +329,9 @@ void Recording::update()
 	}
 
 	drawButtons();
-
 	virtualJoyCon.update();
 	receiveSerialBytes();
+	drawSerialBytesLog();
 }
 
 
@@ -362,5 +368,5 @@ void Recording::draw() const
 	// 現在の状態を表示
 	FontAsset(U"TextFont")(U"現在の状態 : {}"_fmt(context.getCurrentStateName())).draw(1000, 300);
 	FontAsset(U"TextFont")(U"現在ｱﾝﾉｳﾝﾏﾀｰ : {} 個"_fmt(context.currentUnknownMatterCount)).draw(1000, 330);
-	drawSerialBytesLog();
+
 }

@@ -127,7 +127,7 @@ private:
 
 	void receiveSerialBytes();
 
-	void drawSerialBytesLog() const;
+	void drawSerialBytesLog();
 
 	void drawRecognizedAccessories() const;
 
