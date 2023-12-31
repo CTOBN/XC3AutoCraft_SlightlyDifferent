@@ -175,6 +175,23 @@ String Accessory::getAlready(size_t index)
 	return AlreadyList[index];
 }
 
+double Accessory::getProbability(size_t index, AccessoryType type)
+{
+	switch (type)
+	{
+	case AccessoryType::Blacelet:
+		return ProbabilityWristList[index];
+	case AccessoryType::Ring:
+		return ProbabilityFingerList[index];
+	case AccessoryType::Necklace:
+		return ProbabilityNecklacesList[index];
+	case AccessoryType::Crown:
+		return ProbabilityCrownsList[index];
+	default:
+		return 0;
+	}
+}
+
 double Accessory::getProbabilityWrist(size_t index)
 {
 	return ProbabilityWristList[index];

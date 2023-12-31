@@ -65,6 +65,7 @@ public:
 	static void pushBackNecklaces(const double& necklaces);
 	static void pushBackCrowns(const double& crowns);
 	static String getAlready(size_t index);
+	static double getProbability(size_t index, AccessoryType type);
 	static double getProbabilityWrist(size_t index);
 	static double getProbabilityFinger(size_t index);
 	static double getProbabilityNecklaces(size_t index);

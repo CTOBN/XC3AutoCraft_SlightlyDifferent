@@ -23,10 +23,6 @@ public:
 
 	void desiredAccessories_to_pullDowns();
 
-	void calculateProbability();
-
-	void calculateSumProbability();
-
 	void placePulldowns();
 
 	void placeAbilityValuesPulldowns();
@@ -80,10 +76,7 @@ private:
 
 	const size_t TARGET_ACCSESORIES_COUNT_MAX = 5;
 
-	double sumProbabilityWrists = 0;
-	double sumProbabilityFingers = 0;
-	double sumProbabilityNecklaces = 0;
-	double sumProbabilityCrowns = 0;
+	Array<double> sumProbabilityList = { 0, 0, 0, 0 };
 
 	const double ACCESSORIES_CELL_WIDTH = 946;
 	const double STATUS_CELL_WIDTH = 100;
@@ -117,7 +110,7 @@ private:
 
 	Point probabilityTablePos = { MENU_X + int(ACCESSORIES_CELL_WIDTH + STATUS_CELL_WIDTH + PROBABILITY_CELL_WIDTH * 4),  ACCSESSORIE_TEXT_Y + 50 };
 
-	HashTable<std::pair<StatusType, AccessoryType>, double> statusTypeLotteryRate = {
+	HashTable<std::pair<StatusType, AccessoryType>, double> statusTypeLotteryRateTable = {
 		{{StatusType::Undefined, AccessoryType::Undefined}, 1},
 		{{StatusType::Undefined, AccessoryType::Blacelet}, 1},
 		{{StatusType::Undefined, AccessoryType::Ring}, 1},

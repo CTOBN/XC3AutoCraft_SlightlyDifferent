@@ -47,12 +47,12 @@ Setting::Setting(const InitData& init)
 	placePulldowns();
 
 	probabilityTable.push_back_row({ U"互換", U"腕輪", U"指輪", U"首飾", U"冠" }, { 0, 0, 0, 0, 0 });
-	probabilityTable.push_back_row({ U"-", U"0.00", U"0.00", U"0.00", U"0.00" }, { 0, 1, 1, 1, 1 });
-	probabilityTable.push_back_row({ U"-", U"0.00", U"0.00", U"0.00", U"0.00" }, { 0, 1, 1, 1, 1 });
-	probabilityTable.push_back_row({ U"-", U"0.00", U"0.00", U"0.00", U"0.00" }, { 0, 1, 1, 1, 1 });
-	probabilityTable.push_back_row({ U"-", U"0.00", U"0.00", U"0.00", U"0.00" }, { 0, 1, 1, 1, 1 });
-	probabilityTable.push_back_row({ U"-", U"0.00", U"0.00", U"0.00", U"0.00" }, { 0, 1, 1, 1, 1 });
-	probabilityTable.push_back_row({ U"合計", U"0.00", U"0.00", U"0.00", U"0.00" }, { 0, 1, 1, 1, 1 });
+	probabilityTable.push_back_row({ U"-", U"0", U"0", U"0", U"0" }, { 0, 1, 1, 1, 1 });
+	probabilityTable.push_back_row({ U"-", U"0", U"0", U"0", U"0" }, { 0, 1, 1, 1, 1 });
+	probabilityTable.push_back_row({ U"-", U"0", U"0", U"0", U"0" }, { 0, 1, 1, 1, 1 });
+	probabilityTable.push_back_row({ U"-", U"0", U"0", U"0", U"0" }, { 0, 1, 1, 1, 1 });
+	probabilityTable.push_back_row({ U"-", U"0", U"0", U"0", U"0" }, { 0, 1, 1, 1, 1 });
+	probabilityTable.push_back_row({ U"合計", U"0", U"0", U"0", U"0" }, { 0, 1, 1, 1, 1 });
 
 	placeAbilityValuesPulldowns();
 
@@ -96,28 +96,6 @@ void Setting::desiredAccessories_to_pullDowns()
 }
 
 
-
-void Setting::calculateSumProbability()
-{
-	sumProbabilityWrists = 0;
-	sumProbabilityFingers = 0;
-	sumProbabilityNecklaces = 0;
-	sumProbabilityCrowns = 0;
-	for (size_t i = 0; i < TARGET_ACCSESORIES_COUNT_MAX; i++)
-	{
-		if (accessoryPulldowns[i].getIndex() == 0)
-		{
-			continue;
-		}
-		size_t index = accessoryPulldowns[i].getIndex() - 1;
-		sumProbabilityWrists += Accessory::getProbabilityWrist(index);
-		sumProbabilityFingers += Accessory::getProbabilityFinger(index);
-		sumProbabilityNecklaces += Accessory::getProbabilityNecklaces(index);
-		sumProbabilityCrowns += Accessory::getProbabilityCrowns(index);
-	}
-}
-
-
 void Setting::placePulldowns()
 {
 	for (size_t i = 0; i < TARGET_ACCSESORIES_COUNT_MAX; i++)
@@ -143,29 +121,43 @@ void Setting::placeAbilityValuesPulldowns()
 
 void Setting::setProbability()
 {
+	for (size_t k = 0; k < 4; k++)
+	{
+		sumProbabilityList[k] = 0;
+		probabilityTable.setText(6, k+1, U"{:.5f}"_fmt(sumProbabilityList[k]));
+	}
+
 	for (size_t i = 0; i < TARGET_ACCSESORIES_COUNT_MAX; i++)
 	{
 		if (accessoryPulldowns[i].getIndex() == 0)
 		{
 			probabilityTable.setText(i + 1, 0, U"-");
-			probabilityTable.setText(i + 1, 1, U"0.00");
-			probabilityTable.setText(i + 1, 2, U"0.00");
-			probabilityTable.setText(i + 1, 3, U"0.00");
-			probabilityTable.setText(i + 1, 4, U"0.00");
+			probabilityTable.setText(i + 1, 1, U"0");
+			probabilityTable.setText(i + 1, 2, U"0");
+			probabilityTable.setText(i + 1, 3, U"0");
+			probabilityTable.setText(i + 1, 4, U"0");
 			continue;
 		}
 		size_t index = accessoryPulldowns[i].getIndex() - 1;
 		probabilityTable.setText(i + 1, 0, Accessory::getAlready(index));
-		probabilityTable.setText(i + 1, 1, Format(Accessory::getProbabilityWrist(index)));
-		probabilityTable.setText(i + 1, 2, Format(Accessory::getProbabilityFinger(index)));
-		probabilityTable.setText(i + 1, 3, Format(Accessory::getProbabilityNecklaces(index)));
-		probabilityTable.setText(i + 1, 4, Format(Accessory::getProbabilityCrowns(index)));
-	}
 
-	probabilityTable.setText(6, 1, U"{:.2f}"_fmt(sumProbabilityWrists));
-	probabilityTable.setText(6, 2, U"{:.2f}"_fmt(sumProbabilityFingers));
-	probabilityTable.setText(6, 3, U"{:.2f}"_fmt(sumProbabilityNecklaces));
-	probabilityTable.setText(6, 4, U"{:.2f}"_fmt(sumProbabilityCrowns));
+		// 各アクセサリの種類
+		for (size_t j = 1; j < 5; j++)
+		{
+			AccessoryType accessoryType = static_cast<AccessoryType>(j);
+			double probability = Accessory::getProbability(index, accessoryType);
+
+			// 各アクセサリのステータス
+			for (size_t k = 0; k < 4; k++)
+			{
+				StatusType statusType = static_cast<StatusType>(abilityValuesPulldowns[i * 4 + k].getIndex());
+				probability *= statusTypeLotteryRateTable[std::make_pair(statusType, accessoryType)];
+			}
+			probabilityTable.setText(i + 1, j, U"{:.5f}"_fmt(probability));
+			sumProbabilityList[j - 1] += probability;
+			probabilityTable.setText(6, j, U"{:.5f}"_fmt(sumProbabilityList[j - 1]));
+		}
+	}
 }
 
 
@@ -195,7 +187,14 @@ void Setting::selectAccTypeButtonUpdate()
 
 bool Setting::canMake() const
 {
-	return getData().desireConsecutiveStatus || (sumProbabilityWrists > 0 && sumProbabilityFingers > 0 && sumProbabilityNecklaces > 0 && sumProbabilityCrowns > 0);
+	double epsilon = 1e-9;
+	if (getData().desireConsecutiveStatus) {
+		return true;
+	}
+	else if (getData().accessoryTypeIndex != 0 && sumProbabilityList[getData().accessoryTypeIndex - 1] < epsilon)
+	{
+		return false;
+	}	
 }
 
 bool Setting::isSelectedSerialPort() const
@@ -299,8 +298,6 @@ void Setting::update()
 			abilityValuesPulldown.update();
 		}
 	}
-
-	calculateSumProbability();
 	setProbability();
 	selectAccTypeButtonUpdate();
 }
