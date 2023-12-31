@@ -57,7 +57,6 @@ Array<StatusBoost> Recording::findMostSimilarStatusBoost()
 			Image binarizedStatusTypeImage = getData().binarizedIcons[j];
 
 			double similarity = calculateSimilarity(clippedImage, binarizedStatusTypeImage);
-			Console << Format(similarity);
 			if (similarity > similarityMax)
 			{
 				similarityMax = similarity;
@@ -282,7 +281,7 @@ void Recording::drawButtons()
 		webcam.getFrame(image);
 		String path = U"XC3AutoCraft_{}.png"_fmt(DateTime::Now()).replace(U":", U".");
 		image.save(path);
-		Console << path;
+		Console << U"スクリーンショットを保存しました ファイル名 : {}"_fmt(path);
 	}
 
 	if (SimpleGUI::Button(U"\U000F0493 設定に戻る", Vec2{ buttonPos.x, buttonPos.y + 250 }))
