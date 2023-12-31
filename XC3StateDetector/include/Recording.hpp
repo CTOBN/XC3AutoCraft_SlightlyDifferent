@@ -37,13 +37,12 @@ private:
 	String currentAccAbilityJP = U"未解析";
 	String currentAccAbilityEN = U"Unrecorded";
 
-	const int buttonPosX = 1650;
-	const int buttonPosY = 570;
+	const Point buttonPos = { 1650, 250 };
 	const int STATUS_ICON_NUM = 7;
 	const Point STATUS_ICON_SIZE = { 30, 30 };
 
-	const Vec2 JOYCON_GUI_POS_Left = { 1700, 250 };
-	const Vec2 JOYCON_GUI_POS_Right = { 1800, 250 };
+	const Vec2 JOYCON_GUI_POS_Left = { 1200, 250 };
+	const Vec2 JOYCON_GUI_POS_Right = { 1300, 250 };
 	const Point desiredAccessoriesPos = { 1000, 550 };
 	const Point recognizedAccessoriesPos = { 30, 550 };
 	VirtualJoyCon virtualJoyCon{ getData().serial, JOYCON_GUI_POS_Left, JOYCON_GUI_POS_Right };
@@ -112,6 +111,10 @@ private:
 
 	Accessory recognizeAccessory();
 
+	void updateContext();
+
+	void drawButtons();
+
 	void addAccessory(const Accessory& accessory);
 
 	void recognizeUnknownMatterCount();
@@ -125,5 +128,11 @@ private:
 	void receiveSerialBytes();
 
 	void drawSerialBytesLog() const;
+
+	void drawRecognizedAccessories() const;
+
+	void drawDesiredAccessories() const;
+
+
 
 };

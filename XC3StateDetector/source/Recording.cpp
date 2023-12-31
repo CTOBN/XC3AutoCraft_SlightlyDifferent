@@ -104,6 +104,36 @@ Accessory Recording::recognizeAccessory()
 	return recognizedAccessory;
 }
 
+void Recording::updateContext()
+{
+	if (context.getCurrentStateName() != U"Undefined")
+	{
+		context.request();
+	}
+
+	if (context.getCurrentStateName() != U"Judge") return;
+
+	if (context.wasJudged) return;
+
+	addAccessory(recognizeAccessory());
+	context.wasJudged = true;
+
+	if (completeMission())
+	{
+		context.gotDesiredAccessory = true;
+		const ToastNotificationItem toast{
+			.title = U"アクセサリが完成しました", // 通知のタイトル
+			.message = Accessory::getDescriptionDetailJP(currentAccessory.getIndex()), // 通知の本文
+			.actions = { U"通知を消す" } // アクションボタン（不要な場合は設定しない）
+		};
+		Platform::Windows::ToastNotification::Show(toast);
+		Console << U"アクセサリが完成しました";
+		Console << Accessory::getDescriptionDetailJP(currentAccessory.getIndex());
+	}
+}
+
+
+
 void Recording::addAccessory(const Accessory& accessory)
 {
 	if (RecognizedAccessories.size() == 15) {
@@ -190,68 +220,38 @@ void Recording::drawSerialBytesLog() const
 }
 
 
-Recording::Recording(const InitData& init)
-	: IScene{ init }
+// 認識したアクセサリを表示
+void Recording::drawRecognizedAccessories() const
 {
-	// 非同期タスクを開始
-	const uint32 CameraIndex = getData().cameraIndex;
-
-	task = AsyncTask<Webcam>{ [CameraIndex, this]() {
-		Webcam webcam{ CameraIndex, Size{ this->CAMERA_RESOLUTION }, StartImmediately::No };
-		webcam.start();
-		return webcam;
-	} };
+	const size_t recognizedAccessoriesSize = RecognizedAccessories.size();
+	for (int i = 0; i < recognizedAccessoriesSize; i++)
+	{
+		const Accessory& acc = RecognizedAccessories[recognizedAccessoriesSize - i - 1];
+		FontAsset(U"TextFont")(Accessory::getDescriptionJP(acc.getIndex())).draw(recognizedAccessoriesPos.x, recognizedAccessoriesPos.y + i * 30);
+		for (int j = 0; j < 4; j++)
+		{
+			FontAsset(U"TextFont")(StatusTypeToString[U"JP"][acc.getStatusBoosts()[j].type]).drawAt(recognizedAccessoriesPos.x + 600 + j * 90, recognizedAccessoriesPos.y + 10 + i * 30);
+		}
+	}
 }
 
-void Recording::update()
+
+// 目的のアクセサリを表示
+void Recording::drawDesiredAccessories() const
 {
-	if (context.getCurrentStateName() != U"Undefined")
+	for (int i = 0; i < getData().desiredAccessories.size(); i++)
 	{
-		context.request();
-	}
-
-	if (context.getCurrentStateName() == U"Judge")
-	{
-		if (not context.wasJudged)
+		Accessory& acc = getData().desiredAccessories[i];
+		FontAsset(U"TextFont")(Accessory::getDescriptionJP(acc.getIndex())).draw(desiredAccessoriesPos.x, desiredAccessoriesPos.y + i * 30);
+		for (int j = 0; j < 4; j++)
 		{
-			addAccessory(recognizeAccessory());
-			context.wasJudged = true;
-
-			if (completeMission())
-			{
-				context.gotDesiredAccessory = true;
-				const ToastNotificationItem toast{
-					.title = U"アクセサリが完成しました", // 通知のタイトル
-					.message = Accessory::getDescriptionDetailJP(currentAccessory.getIndex()), // 通知の本文
-					.actions = { U"通知を消す" } // アクションボタン（不要な場合は設定しない）
-				};
-				Platform::Windows::ToastNotification::Show(toast);
-				Console << U"アクセサリが完成しました";
-				Console << Accessory::getDescriptionDetailJP(currentAccessory.getIndex());
-			}
+			FontAsset(U"TextFont")(StatusTypeToString[U"JP"][acc.getStatusBoosts()[j].type]).drawAt(desiredAccessoriesPos.x + 600 + j * 70, desiredAccessoriesPos.y + 10 + i * 30);
 		}
 	}
+}
 
-	// macOS では、ユーザがカメラ使用の権限を許可しないと Webcam の作成に失敗する。再試行の手段を用意する
-# if SIV3D_PLATFORM(MACOS)
-	if ((not webcam) && (not task.valid()))
-	{
-		if (SimpleGUI::Button(U"Retry", Vec2{ 20, 20 }))
-		{
-			task = AsyncTask{ []() { return Webcam{ 0, Size{ 1280, 720 }, StartImmediately::Yes }; } };
-		}
-	}
-# endif
-	if (task.isReady())
-	{
-		// 起動が完了した Webcam をタスクから取得
-		webcam = task.get();
-	}
-	if (webcam.hasNewFrame())
-	{
-		webcam.getFrame(texture);
-	}
-
+void Recording::drawButtons()
+{
 	if (SimpleGUI::Button(U"シリアルポートを開く", Vec2{ buttonPos.x, buttonPos.y }))
 	{
 		openSerialPort();
@@ -282,6 +282,47 @@ void Recording::update()
 		// 設定に遷移
 		changeScene(U"Setting");
 	}
+}
+
+
+Recording::Recording(const InitData& init)
+	: IScene{ init }
+{
+	// 非同期タスクを開始
+	const uint32 CameraIndex = getData().cameraIndex;
+
+	task = AsyncTask<Webcam>{ [CameraIndex, this]() {
+		Webcam webcam{ CameraIndex, Size{ this->CAMERA_RESOLUTION }, StartImmediately::No };
+		webcam.start();
+		return webcam;
+	} };
+}
+
+void Recording::update()
+{
+
+
+	// macOS では、ユーザがカメラ使用の権限を許可しないと Webcam の作成に失敗する。再試行の手段を用意する
+# if SIV3D_PLATFORM(MACOS)
+	if ((not webcam) && (not task.valid()))
+	{
+		if (SimpleGUI::Button(U"Retry", Vec2{ 20, 20 }))
+		{
+			task = AsyncTask{ []() { return Webcam{ 0, Size{ 1280, 720 }, StartImmediately::Yes }; } };
+		}
+	}
+# endif
+	if (task.isReady())
+	{
+		// 起動が完了した Webcam をタスクから取得
+		webcam = task.get();
+	}
+	if (webcam.hasNewFrame())
+	{
+		webcam.getFrame(texture);
+	}
+
+	drawButtons();
 
 	virtualJoyCon.update();
 	receiveSerialBytes();
@@ -313,28 +354,9 @@ void Recording::draw() const
 		}
 	}
 
-	// 目的のアクセサリを表示
-	for (int i = 0; i < getData().desiredAccessories.size(); i++)
-	{
-		Accessory& acc = getData().desiredAccessories[i];
-		FontAsset(U"TextFont")(Accessory::getDescriptionJP(acc.getIndex())).draw(desiredAccessoriesPos.x, desiredAccessoriesPos.y + i * 30);
-		for (int j = 0; j < 4; j++)
-		{
-			FontAsset(U"TextFont")(StatusTypeToString[U"JP"][acc.getStatusBoosts()[j].type]).drawAt(desiredAccessoriesPos.x + 600 + j * 70, desiredAccessoriesPos.y + 10 + i * 30);
-		}
-	}
+	drawRecognizedAccessories();
+	drawDesiredAccessories();
 
-	// 認識したアクセサリを表示
-	const size_t recognizedAccessoriesSize = RecognizedAccessories.size();
-	for (int i = 0; i < recognizedAccessoriesSize; i++)
-	{
-		const Accessory& acc = RecognizedAccessories[recognizedAccessoriesSize - i - 1];
-		FontAsset(U"TextFont")(Accessory::getDescriptionJP(acc.getIndex())).draw(recognizedAccessoriesPos.x, recognizedAccessoriesPos.y + i * 30);
-		for (int j = 0; j < 4; j++)
-		{
-			FontAsset(U"TextFont")(StatusTypeToString[U"JP"][acc.getStatusBoosts()[j].type]).drawAt(recognizedAccessoriesPos.x + 600 + j * 90, recognizedAccessoriesPos.y + 10 + i * 30);
-		}
-	}
 	virtualJoyCon.draw();
 
 	// 現在の状態を表示
