@@ -32,7 +32,7 @@ Setting::Setting(const InitData& init)
 	{
 		for (int x = 0; x < 4; x++)
 		{
-			abilityValuesPulldowns.push_back(Pulldown{ {U"", U"HP", U"攻撃力", U"回復力", U"器用さ", U"素早さ", U"ガード率", U"ｸﾘﾃｨｶﾙ率"}, ACCSESSORIE_FONT, Point{ABILITY_VALUE_TEXT_X + font_size * x * 6, ACCSESSORIE_TEXT_Y + font_size * (y + 1) * 2 + line_padding} });
+			statusTypePulldowns.push_back(Pulldown{ {U"", U"HP", U"攻撃力", U"回復力", U"器用さ", U"素早さ", U"ガード率", U"ｸﾘﾃｨｶﾙ率"}, ACCSESSORIE_FONT, Point{ABILITY_VALUE_TEXT_X + font_size * x * 6, ACCSESSORIE_TEXT_Y + font_size * (y + 1) * 2 + line_padding} });
 		}
 	}
 	desiredAccessories_to_pullDowns();
@@ -71,7 +71,7 @@ void Setting::assignDesiredAccessories() const
 
 		for (size_t j = 0; j < 4; j++)
 		{
-			StatusType statusType1 = static_cast<StatusType>(abilityValuesPulldowns[i * 4 + j].getIndex());
+			StatusType statusType1 = static_cast<StatusType>(statusTypePulldowns[i * 4 + j].getIndex());
 			acc.setStatusBoost(StatusBoost{ statusType1 }, j);
 		}
 	
@@ -90,7 +90,7 @@ void Setting::desiredAccessories_to_pullDowns()
 		for (size_t j = 0; j < 4; j++)
 		{
 			int index = static_cast<int>(statusBoosts[j].type);
-			abilityValuesPulldowns[i * 4 + j].setIndex(index);
+			statusTypePulldowns[i * 4 + j].setIndex(index);
 		}
 	}
 }
@@ -114,7 +114,7 @@ void Setting::placeAbilityValuesPulldowns()
 		{
 			RectF region = accPulldownTable.cellRegion(accPulldownTablePos, i + 1, j + 1);
 			Point pos = region.pos.asPoint();
-			abilityValuesPulldowns[i * 4 + j].setPos(pos);
+			statusTypePulldowns[i * 4 + j].setPos(pos);
 		}
 	}
 }
@@ -150,7 +150,7 @@ void Setting::setProbability()
 			// 各アクセサリのステータス
 			for (size_t k = 0; k < 4; k++)
 			{
-				StatusType statusType = static_cast<StatusType>(abilityValuesPulldowns[i * 4 + k].getIndex());
+				StatusType statusType = static_cast<StatusType>(statusTypePulldowns[i * 4 + k].getIndex());
 				probability *= statusTypeLotteryRateTable[std::make_pair(statusType, accessoryType)];
 			}
 			probabilityTable.setText(i + 1, j, U"{:.5f}"_fmt(probability));
@@ -290,12 +290,12 @@ void Setting::update()
 	getData().serialIndex = serialPulldown.getIndex() - 1;
 	getData().serialName = serialPulldown.getItem();
 
-	for (auto it = std::rbegin(abilityValuesPulldowns); it != std::rend(abilityValuesPulldowns); ++it) {
-		auto& abilityValuesPulldown = *it;
+	for (auto it = std::rbegin(statusTypePulldowns); it != std::rend(statusTypePulldowns); ++it) {
+		auto& statusTypePulldown = *it;
 		// 他のすべてのメニューが閉じている場合にのみ、このメニューを更新
-		if (std::all_of(abilityValuesPulldowns.begin(), abilityValuesPulldowns.end(), [&](const Pulldown& m) { return &m == &abilityValuesPulldown || !m.getIsOpen(); }))
+		if (std::all_of(statusTypePulldowns.begin(), statusTypePulldowns.end(), [&](const Pulldown& m) { return &m == &statusTypePulldown || !m.getIsOpen(); }))
 		{
-			abilityValuesPulldown.update();
+			statusTypePulldown.update();
 		}
 	}
 	setProbability();
@@ -341,7 +341,7 @@ void Setting::draw() const
 	{
 		for (int x = 0; x < 4; x++)
 		{
-			abilityValuesPulldowns[(TARGET_ACCSESORIES_COUNT_MAX - y - 1) * 4 + x].draw();
+			statusTypePulldowns[(TARGET_ACCSESORIES_COUNT_MAX - y - 1) * 4 + x].draw();
 		}
 	}
 

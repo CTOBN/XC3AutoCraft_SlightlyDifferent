@@ -10,7 +10,7 @@ public:
 	const Font font{ font_size };
 
 	Array<Pulldown> accessoryPulldowns;
-	Array<Pulldown> abilityValuesPulldowns;
+	Array<Pulldown> statusTypePulldowns;
 	Array<String> webcams = { U"未選択" };
 	Pulldown cameraPulldown;
 	Pulldown serialPulldown;
