@@ -16,10 +16,10 @@ Array<double> Accessory::ProbabilityCrownsList;
 
 Accessory::Accessory(const size_t& index)
 	: m_index(index)
-	, m_statusBoosts({ StatusBoost{StatusType::Undefined},
-					 StatusBoost{StatusType::Undefined},
-					 StatusBoost{StatusType::Undefined},
-					 StatusBoost{StatusType::Undefined} })
+	, m_statusBoosts({ StatusBoost{StatusType::Unselected},
+					 StatusBoost{StatusType::Unselected},
+					 StatusBoost{StatusType::Unselected},
+					 StatusBoost{StatusType::Unselected} })
 {
 }
 
@@ -54,7 +54,7 @@ bool Accessory::hasSameStatusTypeOrMore(const Accessory& other) const
 
 	for (size_t i = 0; i < m_statusBoosts.size(); ++i)
 	{
-		if (m_statusBoosts[i].type == StatusType::Undefined)
+		if (m_statusBoosts[i].type == StatusType::Unselected)
 		{
 			continue;
 		}

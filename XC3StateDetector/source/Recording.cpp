@@ -49,7 +49,7 @@ Array<StatusBoost> Recording::findMostSimilarStatusBoost()
 
 	for (int i = 0; i < 4; i++)
 	{
-		StatusType judgedStatusType = StatusType::Undefined;
+		StatusType judgedStatusType = StatusType::Unselected;
 		double similarityMax = 0;
 		Image clippedImage = image.clipped(clipStatusPosList[i], STATUS_ICON_SIZE).thresholded(128);
 		for (int8 j = 0; j < getData().icons.size(); j++)
@@ -83,7 +83,7 @@ size_t Recording::findMostSimilarAbility() {
 		if (similarity > similarityMax)
 		{
 			similarityMax = similarity;
-			judgedIndex = i;
+			judgedIndex = i + 1; // 0は未選択なので+１
 		}
 	}
 	if (0 <= judgedIndex && judgedIndex < Accessory::getDescriptionDetailJPList().size())

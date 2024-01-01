@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 enum class StatusType {
-	Undefined,
+	Unselected,
 	HP,
 	Attack,
 	HealingPower,

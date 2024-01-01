@@ -2,7 +2,7 @@
 
 
 HashTable<StatusType, String> StatusTypeToString_EN = {
-	{StatusType::Undefined, U"Undefined"},
+	{StatusType::Unselected, U"Unselected"},
 	{StatusType::HP, U"HP"},
 	{StatusType::Attack, U"Attack"},
 	{StatusType::HealingPower, U"HealingPower"},
@@ -13,7 +13,7 @@ HashTable<StatusType, String> StatusTypeToString_EN = {
 };
 
 HashTable<StatusType, String> StatusTypeToString_JP = {
-	{StatusType::Undefined, U"未定義"},
+	{StatusType::Unselected, U"未選択"},
 	{StatusType::HP, U"HP"},
 	{StatusType::Attack, U"攻撃力"},
 	{StatusType::HealingPower, U"回復力"},
@@ -29,7 +29,7 @@ HashTable<String, HashTable<StatusType, String>> StatusTypeToString = {
 };
 
 HashTable<String, StatusType> StringToStatusType = {
-	{U"Undefined", StatusType::Undefined},
+	{U"Undefined", StatusType::Unselected},
 	{U"HP", StatusType::HP},
 	{U"Attack", StatusType::Attack},
 	{U"HealingPower", StatusType::HealingPower},

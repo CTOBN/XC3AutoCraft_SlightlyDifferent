@@ -111,11 +111,11 @@ private:
 	Point probabilityTablePos = { MENU_X + int(ACCESSORIES_CELL_WIDTH + STATUS_CELL_WIDTH + PROBABILITY_CELL_WIDTH * 4),  ACCSESSORIE_TEXT_Y + 50 };
 
 	HashTable<std::pair<StatusType, AccessoryType>, double> statusTypeLotteryRateTable = {
-		{{StatusType::Undefined, AccessoryType::Undefined}, 1},
-		{{StatusType::Undefined, AccessoryType::Blacelet}, 1},
-		{{StatusType::Undefined, AccessoryType::Ring}, 1},
-		{{StatusType::Undefined, AccessoryType::Necklace}, 1},
-		{{StatusType::Undefined, AccessoryType::Crown}, 1},
+		{{StatusType::Unselected, AccessoryType::Undefined}, 1},
+		{{StatusType::Unselected, AccessoryType::Blacelet}, 1},
+		{{StatusType::Unselected, AccessoryType::Ring}, 1},
+		{{StatusType::Unselected, AccessoryType::Necklace}, 1},
+		{{StatusType::Unselected, AccessoryType::Crown}, 1},
 		{{StatusType::HP, AccessoryType::Undefined}, 1},
 		{{StatusType::HP, AccessoryType::Blacelet}, 0.25},
 		{{StatusType::HP, AccessoryType::Ring}, 0.125},

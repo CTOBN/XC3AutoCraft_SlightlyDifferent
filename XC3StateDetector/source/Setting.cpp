@@ -5,8 +5,7 @@ Setting::Setting(const InitData& init)
 	: IScene{ init }
 
 {
-	Array<String> DescriptionDetailJPList = { U"未選択" };
-	DescriptionDetailJPList.append(Accessory::getDescriptionDetailJPList());
+	Array<String> DescriptionDetailJPList = Accessory::getDescriptionDetailJPList();
 
 	for (int i = 0; i < TARGET_ACCSESORIES_COUNT_MAX; i++)
 	{
@@ -67,7 +66,7 @@ void Setting::assignDesiredAccessories() const
 		{
 			continue;
 		}
-		Accessory acc{ accessoryPulldowns[i].getIndex() - 1 };
+		Accessory acc{ accessoryPulldowns[i].getIndex() };
 
 		for (size_t j = 0; j < 4; j++)
 		{
@@ -84,7 +83,7 @@ void Setting::desiredAccessories_to_pullDowns()
 	for (size_t i = 0; i < getData().desiredAccessories.size(); i++)
 	{
 		Accessory& acc = getData().desiredAccessories[i];
-		accessoryPulldowns[i].setIndex(acc.getIndex() + 1);
+		accessoryPulldowns[i].setIndex(acc.getIndex());
 
 		Array<StatusBoost> statusBoosts = acc.getStatusBoosts();
 		for (size_t j = 0; j < 4; j++)
@@ -129,16 +128,7 @@ void Setting::setProbability()
 
 	for (size_t i = 0; i < TARGET_ACCSESORIES_COUNT_MAX; i++)
 	{
-		if (accessoryPulldowns[i].getIndex() == 0)
-		{
-			probabilityTable.setText(i + 1, 0, U"-");
-			probabilityTable.setText(i + 1, 1, U"0");
-			probabilityTable.setText(i + 1, 2, U"0");
-			probabilityTable.setText(i + 1, 3, U"0");
-			probabilityTable.setText(i + 1, 4, U"0");
-			continue;
-		}
-		size_t index = accessoryPulldowns[i].getIndex() - 1;
+		size_t index = accessoryPulldowns[i].getIndex();
 		probabilityTable.setText(i + 1, 0, Accessory::getAlready(index));
 
 		// 各アクセサリの種類
