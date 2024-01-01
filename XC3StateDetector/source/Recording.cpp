@@ -83,7 +83,7 @@ size_t Recording::findMostSimilarAbility() {
 		if (similarity > similarityMax)
 		{
 			similarityMax = similarity;
-			judgedIndex = i + 1; // 0は未選択なので+１
+			judgedIndex = i + 2; // 0は未選択, 1は任意のアクセサリ
 		}
 	}
 	if (0 <= judgedIndex && judgedIndex < Accessory::getDescriptionDetailJPList().size())
@@ -124,12 +124,19 @@ void Recording::recognizeUnknownMatterCount()
 	context.currentUnknownMatterCount = unknownMatterCount;
 }
 
+
+// 1.所望のアクセサリーのリストをループします。
+// 2.各所望のアクセサリーについて、そのインデックスが1（任意のアクセサリーを示す）かどうかを確認します。もしインデックスが1なら、現在のアクセサリーが同じステータスタイプを持つかどうかを確認します。もし同じステータスタイプを持つなら、trueを返します。
+// 3.もし所望のアクセサリーのインデックスが1でない場合、現在のアクセサリーのインデックスが所望のアクセサリーのインデックスと一致するかどうかを確認します。もし一致し、さらに現在のアクセサリーが同じステータスタイプを持つなら、trueを返します。
+// 4.ループが終了し、一致するアクセサリーが見つからない場合は、falseを返します。
 bool Recording::compareAccessories()
 {
-	for (int i = 0; i < getData().desiredAccessories.size(); i++)
+	for (const auto& desiredAcc : getData().desiredAccessories)
 	{
-		Accessory& desiredAcc = getData().desiredAccessories[i];
-		if (currentAccessory.getIndex() == desiredAcc.getIndex() && currentAccessory.hasSameStatusTypeOrMore(desiredAcc))
+		bool isAnyAccessory = (desiredAcc.getIndex() == 1);
+		bool isSameAccessory = (currentAccessory.getIndex() == desiredAcc.getIndex());
+
+		if (isAnyAccessory || (isSameAccessory && currentAccessory.hasSameStatusTypeOrMore(desiredAcc)))
 		{
 			return true;
 		}
@@ -145,14 +152,7 @@ bool Recording::completeMission()
 		return true;
 	}
 	// 目的のアクセサリの中に現在のアクセサリがある
-	else if (compareAccessories())
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	return compareAccessories();
 }
 
 void Recording::judgeAccessory()

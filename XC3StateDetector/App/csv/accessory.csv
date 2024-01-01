@@ -1,5 +1,6 @@
 ﻿ID,DiscriptionEN,DiscriptionJP,DiscriptionDetailJP,Already,Blacelet,Ring,Necklace,Crown
 0000,"Unselected",未選択,未選択,-,0.00,0.00,0.00,0.00
+0001,"Anything",任意,任意,-,1.00,1.00,1.00,1.00
 3428,"Boosts maximum HP by 27%.",最大HPが元の27%上がる,最大HPが元の[27/30/32/35/37]%上がる,下,4.49,0.46,1.78,1.28
 3433,"Boosts Attack by 27%.",攻撃力が元の27%上がる,攻撃力が元の[27/30/32/35/37]%上がる,上,0.54,3.85,0.85,1.28
 3438,"Boosts Healing by 27%.",回復力が元の27%上がる,回復力が元の[27/30/32/35/37]%上がる,上,0.00,0.00,7.10,1.28
