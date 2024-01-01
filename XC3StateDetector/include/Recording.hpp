@@ -37,7 +37,7 @@ private:
 	String currentAccAbilityJP = U"未解析";
 	String currentAccAbilityEN = U"Unrecorded";
 
-	const Point buttonPos = { 1650, 250 };
+	const Point buttonPos = { 1450, 100 };
 	const int STATUS_ICON_NUM = 7;
 	const Point STATUS_ICON_SIZE = { 30, 30 };
 
@@ -130,6 +130,8 @@ private:
 	void receiveSerialBytes();
 
 	void drawSerialBytesLog();
+
+	void drawRecognitionArea() const;
 
 	void drawRecognizedAccessories() const;
 

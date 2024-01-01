@@ -312,6 +312,15 @@ void Recording::drawButtons()
 	}
 }
 
+void Recording::drawRecognitionArea() const
+{
+	Rect{ ABILITY_TEXT_AREA_POS / 2, ABILITY_TEXI_AREA_SIZE / 2 }.drawFrame(1, Palette::Red);
+
+	for (int i = 0; i < 4; i++)
+	{
+		Rect{ clipStatusPosList[i] / 2, STATUS_ICON_SIZE / 2 }.drawFrame(1, Palette::Green);
+	}
+}
 
 Recording::Recording(const InitData& init)
 	: IScene{ init }
@@ -373,13 +382,6 @@ void Recording::draw() const
 	if (texture)
 	{
 		texture.resized(960, 540).draw();
-
-		Rect{ ABILITY_TEXT_AREA_POS / 2, ABILITY_TEXI_AREA_SIZE / 2 }.drawFrame(1, Palette::Red);
-
-		for (int i = 0; i < 4; i++)
-		{
-			Rect{ clipStatusPosList[i] / 2, STATUS_ICON_SIZE / 2 }.drawFrame(1, Palette::Green);
-		}
 	}
 
 	drawRecognizedAccessories();
@@ -388,7 +390,7 @@ void Recording::draw() const
 	virtualJoyCon.draw();
 
 	// 現在の状態を表示
-	FontAsset(U"TextFont")(U"現在の状態 : {}"_fmt(context.getCurrentStateName())).draw(1000, 300);
-	FontAsset(U"TextFont")(U"現在ｱﾝﾉｳﾝﾏﾀｰ : {} 個"_fmt(context.currentUnknownMatterCount)).draw(1000, 330);
+	FontAsset(U"TextFont")(U"現在の状態 : {}"_fmt(context.getCurrentStateName())).draw(1150, 450);
+	FontAsset(U"TextFont")(U"現在ｱﾝﾉｳﾝﾏﾀｰ : {} 個"_fmt(context.currentUnknownMatterCount)).draw(1150, 480);
 
 }
