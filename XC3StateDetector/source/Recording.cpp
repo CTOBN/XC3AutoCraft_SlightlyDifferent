@@ -103,44 +103,7 @@ Accessory Recording::recognizeAccessory()
 	return recognizedAccessory;
 }
 
-void Recording::updateContext()
-{
 
-	if (context.getCurrentStateName() != U"Undefined")
-	{
-		context.request();
-	}
-
-	if (context.getCurrentStateName() != U"Judge" || context.wasJudged)
-	{
-		return;
-	}
-
-	currentAccessory = recognizeAccessory();
-	addAccessory(currentAccessory);
-	context.wasJudged = true;
-
-	if (completeMission())
-	{
-		context.gotDesiredAccessory = true;
-		String toastTitle = U"アクセサリが完成しました";
-		String toastMessage = Accessory::getDescriptionDetailJP(currentAccessory.getIndex());
-		toastMessage += U"\n";
-		for (int j = 0; j < 4; j++)
-		{
-			toastMessage += StatusTypeToString[U"JP"][currentAccessory.getStatusBoosts()[j].type];
-			toastMessage += U" ";
-		}
-
-		const ToastNotificationItem toast{
-			.title = toastTitle, // 通知のタイトル
-			.message = toastMessage, // 通知のメッセージ
-			.actions = { U"通知を消す" } // アクションボタン
-		};
-		Platform::Windows::ToastNotification::Show(toast);
-		Console << toastTitle << toastMessage;
-	}
-}
 
 
 
@@ -190,6 +153,51 @@ bool Recording::completeMission()
 	{
 		return false;
 	}
+}
+
+void Recording::judgeAccessory()
+{
+	currentAccessory = recognizeAccessory();
+	addAccessory(currentAccessory);
+	context.wasJudged = true;
+
+	if (completeMission())
+	{
+		context.gotDesiredAccessory = true;
+		String toastTitle = U"アクセサリが完成しました";
+		String toastMessage = Accessory::getDescriptionDetailJP(currentAccessory.getIndex());
+		toastMessage += U"\n";
+		for (int j = 0; j < 4; j++)
+		{
+			toastMessage += StatusTypeToString[U"JP"][currentAccessory.getStatusBoosts()[j].type];
+			toastMessage += U" ";
+		}
+
+		const ToastNotificationItem toast{
+			.title = toastTitle, // 通知のタイトル
+			.message = toastMessage, // 通知のメッセージ
+			.actions = { U"通知を消す" } // アクションボタン
+		};
+		Platform::Windows::ToastNotification::Show(toast);
+		Console << toastTitle << toastMessage;
+	}
+}
+
+
+void Recording::updateContext()
+{
+
+	if (context.getCurrentStateName() != U"Undefined")
+	{
+		context.request();
+	}
+
+	if (context.getCurrentStateName() != U"Judge" || context.wasJudged)
+	{
+		return;
+	}
+
+	judgeAccessory();
 }
 
 bool Recording::openSerialPort() const

@@ -123,6 +123,8 @@ private:
 
 	bool completeMission();
 
+	void judgeAccessory();
+
 	bool openSerialPort() const;
 
 	void receiveSerialBytes();

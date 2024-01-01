@@ -49,6 +49,7 @@ namespace xc3
 		wasJudged = true;
 	}
 
+
 	void Context::debugPrint() const
 	{
 		Print << U"Context: {";

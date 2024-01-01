@@ -22,8 +22,8 @@ Setting::Setting(const InitData& init)
 
 	for (const auto& info : getData().infos)
 	{
-		Console << info.hardwareID << U" " << info.port << U" " << info.description;
-		options.push_back(info.port);
+		Console << U"{} {}"_fmt(info.hardwareID, info.description);
+		options.push_back(U"{} {}"_fmt(info.hardwareID, info.description));
 	}
 	serialPulldown = { options, SERIAL_FONT, Point{ SERIAL_TEXT_X, SERIAL_TEXT_Y + font_size * 3 + line_padding } };
 
@@ -303,7 +303,7 @@ void Setting::draw() const
 	probabilityTable.draw(probabilityTablePos);
 	drawNotion();
 
-	if (isSelectedSerialPort() && SimpleGUI::Button(U"接続テスト", Vec2{ SERIAL_TEXT_X + 200, SERIAL_TEXT_Y + font_size * 3 + line_padding }))
+	if (isSelectedSerialPort() && SimpleGUI::Button(U"接続テスト", Vec2{ SERIAL_TEXT_X + 650, SERIAL_TEXT_Y + font_size * 3 + line_padding }))
 	{
 		if (getData().serial.open(getData().infos[getData().serialIndex].port))
 		{
