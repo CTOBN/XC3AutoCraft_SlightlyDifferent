@@ -290,6 +290,12 @@ void Recording::drawButtons()
 
 		context.setState(std::make_unique<xc3::AccessorySelected>());
 	}
+	if (SimpleGUI::Button(U"\U000F04DB 自動クラフト停止", Vec2{ buttonPos.x, buttonPos.y + 150 }))
+	{
+		context.setState(std::make_unique<xc3::GotDesiredAcc>());
+		context.init();
+	}
+	
 
 	if (webcam && SimpleGUI::Button(U"\U000F0E51 PCにスクショを保存", Vec2{ buttonPos.x, buttonPos.y + 200 }))
 	{
