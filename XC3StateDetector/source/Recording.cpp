@@ -282,7 +282,7 @@ void Recording::drawDesiredAccessories() const
 
 void Recording::drawButtons()
 {
-	if (SimpleGUI::Button(U"\U000F02B4 コントローラー接続", Vec2{ buttonPos.x, buttonPos.y + 50 }))
+	if (SimpleGUI::Button(U"\U000F02B4 仮想コントローラ接続", Vec2{ buttonPos.x, buttonPos.y + 50 }))
 	{
 		openSerialPort();
 		getData().serial.writeByte(ButtonByte::A);
