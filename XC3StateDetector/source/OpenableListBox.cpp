@@ -58,7 +58,7 @@ void OpenableListBox::update() const
 		{
 			Vec2 pos = m_displayRegion.pos.movedBy(0, (SimpleGUI::GetFont().height()) * i + m_displayRegion.h);
 			const double RectWidth = (m_displayCount < listBoxState.items.size()) ? (m_displayRegion.size.x - ScrollBarWidth) : m_displayRegion.size.x;
-			if (const RectF rect{ pos, { RectWidth, m_displayRegion.size.y - FrameThickness * 3 } }; rect.leftClicked())
+			if (const RectF rect{ pos, { RectWidth, SimpleGUI::GetFont().height() } }; rect.leftClicked())
 			{
 				m_isOpen = false;
 			}
@@ -80,7 +80,7 @@ void OpenableListBox::draw() const
 		{
 			Vec2 pos = m_displayRegion.pos.movedBy(0, (SimpleGUI::GetFont().height()) * i + m_displayRegion.h);
 			const double RectWidth = (m_displayCount < listBoxState.items.size()) ? (m_displayRegion.size.x - ScrollBarWidth) : m_displayRegion.size.x;
-			if (const RectF rect{ pos, { RectWidth, m_displayRegion.size.y - FrameThickness * 3 } }; rect.mouseOver())
+			if (const RectF rect{ pos, { RectWidth, SimpleGUI::GetFont().height() } }; rect.mouseOver())
 			{
 				rect.draw(Color{ 135, 206, 235, 128 });
 			}

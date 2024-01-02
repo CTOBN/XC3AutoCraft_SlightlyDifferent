@@ -34,15 +34,15 @@ Setting::Setting(const InitData& init)
 		webcams.push_back(info.name);
 	};
 
-	cameraPulldown = { webcams, CAMERA_FONT, Point{ CAMERA_TEXT_X, CAMERA_TEXT_Y + font_size * 3 + line_padding } };
+	openableListBoxCamera.setItems(webcams);
 
 	for (const auto& info : getData().infos)
 	{
 		Console << U"{} {}"_fmt(info.hardwareID, info.description);
 		options.push_back(U"{} {}"_fmt(info.hardwareID, info.description));
 	}
-	serialPulldown = { options, SERIAL_FONT, Point{ SERIAL_TEXT_X, SERIAL_TEXT_Y + font_size * 3 + line_padding } };
 
+	openableListBoxSerial.setItems(options);
 
 	desiredAccessories_to_pullDowns();
 
@@ -204,8 +204,8 @@ void Setting::serialUpdate()
 
 void Setting::drawSerialStatus() const
 {
-	FontAsset(U"TextFont")(serialSelectionStatus).draw(SERIAL_TEXT_X, SERIAL_TEXT_Y + 40, serialSelectionStatusColor);
-	FontAsset(U"TextFont")(serialConnectionStatus).draw(SERIAL_TEXT_X + 200, SERIAL_TEXT_Y + 40, serialConnectionStatusColor);
+	FontAsset(U"TextFont")(serialSelectionStatus).draw(SerialTextPos.movedBy(0, 40), serialSelectionStatusColor);
+	FontAsset(U"TextFont")(serialConnectionStatus).draw(SerialTextPos.movedBy(200, 40), serialConnectionStatusColor);
 }
 
 
@@ -227,7 +227,7 @@ void Setting::drawNotion() const
 
 	if (getData().cameraName == U"未選択")
 	{
-		FontAsset(U"TextFont")(U"カメラを選択してください").draw(CAMERA_TEXT_X, CAMERA_TEXT_Y + 40, Palette::Red);
+		FontAsset(U"TextFont")(U"カメラを選択してください").draw(CameraTextPos.movedBy(0, 40), Palette::Red);
 	}
 }
 
@@ -242,13 +242,13 @@ void Setting::update()
 	serialUpdate();
 	drawNotion();
 
-	cameraPulldown.update();
-	getData().cameraIndex = static_cast<uint32>(cameraPulldown.getIndex() - 1);
-	getData().cameraName = cameraPulldown.getItem();
+	
 
-	serialPulldown.update();
-	getData().serialIndex = serialPulldown.getIndex() - 1;
-	getData().serialName = serialPulldown.getItem();
+	getData().cameraIndex = static_cast<uint32>(openableListBoxCamera.getSelectedIndex() - 1);
+	getData().cameraName = openableListBoxCamera.getSelectedItem();
+
+	getData().serialIndex = openableListBoxSerial.getSelectedIndex() - 1;
+	getData().serialName = openableListBoxSerial.getSelectedItem();
 
 	setProbability();
 	selectAccTypeButtonUpdate();
@@ -265,7 +265,7 @@ void Setting::draw() const
 	probabilityTable.draw(probabilityTablePos);
 	drawNotion();
 
-	if (isSelectedSerialPort() && SimpleGUI::Button(U"接続テスト", Vec2{ SERIAL_TEXT_X + 650, SERIAL_TEXT_Y + font_size * 3 + line_padding }))
+	if (isSelectedSerialPort() && SimpleGUI::Button(U"接続テスト", SerialTextPos.movedBy(350, 0)))
 	{
 		if (getData().serial.open(getData().infos[getData().serialIndex].port))
 		{
@@ -279,12 +279,15 @@ void Setting::draw() const
 		}
 	}
 
-	FontAsset(U"SubtitleFont")(U"シリアルポート").draw(SERIAL_TEXT_X, SERIAL_TEXT_Y);
+	FontAsset(U"SubtitleFont")(U"シリアルポート").draw(SerialTextPos);
 	drawSerialStatus();
-	serialPulldown.draw();
 
-	FontAsset(U"SubtitleFont")(U"カメラ").draw(CAMERA_TEXT_X, CAMERA_TEXT_Y);
-	cameraPulldown.draw();
+	FontAsset(U"SubtitleFont")(U"カメラ").draw(CameraTextPos);
+	openableListBoxCamera.update();
+	openableListBoxCamera.draw();
+
+	openableListBoxSerial.update();
+	openableListBoxSerial.draw();
 
 	accPulldownTable.draw(accPulldownTablePos);
 

@@ -13,8 +13,6 @@ public:
 	//Array<Pulldown> accessoryPulldowns;
 	//Array<Pulldown> statusTypePulldowns;
 	Array<String> webcams = { U"未選択" };
-	Pulldown cameraPulldown;
-	Pulldown serialPulldown;
 
 	
 	// const Array<SerialPortInfo> infos = System::EnumerateSerialPorts();
@@ -53,10 +51,7 @@ public:
 private:
 	const int DESIRE_CONSENCUTIVE_STATUS_Y = 10;
 	const double ACCSESSORIE_TEXT_Y = 60;
-	const int CAMERA_TEXT_X = 20;
-	const int CAMERA_TEXT_Y = 340;
-	const int SERIAL_TEXT_X = 240;
-	const int SERIAL_TEXT_Y = 340;
+
 	const int CONFIRM_BUTTON_Y = 480;
 	const double MENU_X = 10;
 	const int font_size = 15;
@@ -64,6 +59,8 @@ private:
 	const int CAMERA_FONT_SIZE = 18;
 	const int line_padding = 20;
 
+	const Vec2 CameraTextPos = { MENU_X, 340 };
+	const Vec2 SerialTextPos = { MENU_X, 540 };
 
 	const Font ACCSESSORIE_FONT{ ACCESSORIES_FONT_SIZE };
 	const Font CAMERA_FONT{ CAMERA_FONT_SIZE };
@@ -112,6 +109,8 @@ private:
 
 	Array<OpenableListBox> openableListBoxesAccessory;
 	Array<OpenableListBox> openableListBoxesStatusType;
+	OpenableListBox	openableListBoxCamera{ CAMERA_FONT, CameraTextPos.movedBy(0, 80), 300, 30, 3};
+	OpenableListBox openableListBoxSerial{ SERIAL_FONT, SerialTextPos.movedBy(0, 80), 700, 30, 3 };
 
 	HashTable<std::pair<StatusType, AccessoryType>, double> statusTypeLotteryRateTable = {
 		{{StatusType::Unselected, AccessoryType::Undefined}, 1},
