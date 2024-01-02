@@ -38,7 +38,7 @@ Setting::Setting(const InitData& init)
 
 	for (const auto& info : getData().infos)
 	{
-		Console << U"{} {}"_fmt(info.hardwareID, info.description);
+		// Console << U"{} {}"_fmt(info.hardwareID, info.description);
 		options.push_back(U"{} {}"_fmt(info.hardwareID, info.description));
 	}
 

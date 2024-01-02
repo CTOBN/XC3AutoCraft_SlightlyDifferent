@@ -3,6 +3,8 @@
 # include "Setting.hpp"
 # include "Recording.hpp"
 
+
+
 void Main()
 {
 	Window::SetTitle(U"XC3StateDetector");

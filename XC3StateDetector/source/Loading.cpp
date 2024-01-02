@@ -26,7 +26,7 @@ Loading::Loading(const InitData& init)
 		String path = discriptionJPTemplateFolderPath + U"/" + Format(i) + U".jpg";
 		discriptionsImagesPathList.push_back(path);
 		getData().binarizedAbilities.push_back(Image{ path }.thresholded(128));
-		Console << path << U" を読み込みました";
+		// Console << path << U" を読み込みました";
 	}
 
 	for (String statusIconFileName : getData().statusTypeFileName)
@@ -36,17 +36,17 @@ Loading::Loading(const InitData& init)
 		Image icon = Image{ path };
 		getData().icons.push_back(icon);
 		getData().binarizedIcons.push_back(icon.thresholded(128));
-		Console << path << U" を読み込みました";
+		// Console << path << U" を読み込みました";
 	}
 
 	for (int i = 0; i < 10; i++)
 	{
 		String path = UnkonwnMatterNumbersPath + U"/" + Format(i) + U".jpg";
 		getData().binarizedUnkownMatterNumbers.push_back(Image{ path }.thresholded(128));
-		Console << path << U" を読み込みました";
+		// Console << path << U" を読み込みました";
 	}
 	getData().binarizedUnkownMatterNumbers.push_back(Image{ U"images/UnknownMatterNumbers/null.jpg" }.thresholded(128));
-	Console << U"images/UnknownMatterNumbers/null.jpg" << U" を読み込みました";
+	// Console << U"images/UnknownMatterNumbers/null.jpg" << U" を読み込みました";
 }
 
 void Loading::update()
