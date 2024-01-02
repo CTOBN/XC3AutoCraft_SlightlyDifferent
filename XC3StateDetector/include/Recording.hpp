@@ -52,7 +52,7 @@ private:
 
 	double adjust_interval = 8000;
 
-	HashTable<int8, uint8> accessoryTypeIndexToCommandByte = {
+	HashTable<uint8, uint8> accessoryTypeIndexToCommandByte = {
 		{0, xc3::Context::CommandByte::SetAccTypeAsWrist},
 		{1, xc3::Context::CommandByte::SetAccTypeAsFinger},
 		{2, xc3::Context::CommandByte::SetAccTypeAsNecklaces},

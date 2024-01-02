@@ -25,7 +25,7 @@ struct GameData
 	bool desireConsecutiveStatus = false;
 
 	// どのアクセサリを作成するか
-	int8 accessoryTypeIndex = 0; // 1:腕輪, 2:指輪, 3:首飾, 4:冠
+	size_t accessoryTypeIndex = 0; // 1:腕輪, 2:指輪, 3:首飾, 4:冠
 
 	// 開始時のアンノウンマターの数
 	int initialUnknownMatterCount = 99;
