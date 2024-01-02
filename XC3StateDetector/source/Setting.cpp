@@ -10,10 +10,14 @@ Setting::Setting(const InitData& init)
 	for (int i = 0; i < TARGET_ACCSESORIES_COUNT_MAX; i++)
 	{
 		accessoryPulldowns.push_back(Pulldown{ DescriptionDetailJPList, ACCSESSORIE_FONT, Point{MENU_X, ACCSESSORIE_TEXT_Y + 50 + (ACCESSORIES_FONT_SIZE + 15) * (i)} });
+		openableListBoxesAccessory.push_back(OpenableListBox{ ACCSESSORIE_FONT, accPulldownTablePos.movedBy(0, 31 * (i+1)), ACCESSORIES_CELL_WIDTH, 20, 5 });
 	}
 	for (const String item : DescriptionDetailJPList)
 	{
-		openableListBoxAccessory.emplace_back(item);
+		for (auto& openableListBoxAccessory : openableListBoxesAccessory)
+		{
+			openableListBoxAccessory.emplace_back(item);
+		}
 	}
 
 	for (const auto& info : System::EnumerateWebcams())
@@ -65,18 +69,18 @@ void Setting::assignDesiredAccessories() const
 	getData().desiredAccessories.clear();
 	for (size_t i = 0; i < TARGET_ACCSESORIES_COUNT_MAX; i++)
 	{
-		if (accessoryPulldowns[i].getIndex() == 0)
+		if (openableListBoxesAccessory[i].getSelectedIndex() == 0)
 		{
 			continue;
 		}
-		Accessory acc{ accessoryPulldowns[i].getIndex() };
+		Accessory acc{ openableListBoxesAccessory[i].getSelectedIndex() };
 
 		for (size_t j = 0; j < 4; j++)
 		{
-			StatusType statusType1 = static_cast<StatusType>(statusTypePulldowns[i * 4 + j].getIndex());
-			acc.setStatusBoost(StatusBoost{ statusType1 }, j);
+			StatusType statusType = static_cast<StatusType>(statusTypePulldowns[i * 4 + j].getIndex());
+			acc.setStatusBoost(StatusBoost{ statusType }, j);
 		}
-	
+
 		getData().desiredAccessories.push_back(acc);
 	}
 }
@@ -86,7 +90,7 @@ void Setting::desiredAccessories_to_pullDowns()
 	for (size_t i = 0; i < getData().desiredAccessories.size(); i++)
 	{
 		Accessory& acc = getData().desiredAccessories[i];
-		accessoryPulldowns[i].setIndex(acc.getIndex());
+		openableListBoxesAccessory[i].listBoxState.selectedItemIndex = acc.getIndex();
 
 		Array<StatusBoost> statusBoosts = acc.getStatusBoosts();
 		for (size_t j = 0; j < 4; j++)
@@ -131,7 +135,7 @@ void Setting::setProbability()
 
 	for (size_t i = 0; i < TARGET_ACCSESORIES_COUNT_MAX; i++)
 	{
-		size_t index = accessoryPulldowns[i].getIndex();
+		size_t index = openableListBoxesAccessory[i].getSelectedIndex();
 		probabilityTable.setText(i + 1, 0, Accessory::getAlready(index));
 
 		// 各アクセサリの種類
@@ -264,16 +268,16 @@ void Setting::update()
 	drawNotion();
 
 
-	// プルダウンメニューを更新
-	// 逆順に更新することで、選択時のクリックによって別のメニューが開いてしまうのを防ぐ
-	for (auto it = std::rbegin(accessoryPulldowns); it != std::rend(accessoryPulldowns); ++it) {
-		auto& accessoriesPulldown = *it;
-		// 他のすべてのメニューが閉じている場合にのみ、このメニューを更新
-		if (std::all_of(accessoryPulldowns.begin(), accessoryPulldowns.end(), [&](const Pulldown& m) { return &m == &accessoriesPulldown || !m.getIsOpen(); }))
-		{
-			accessoriesPulldown.update();
-		}
-	}
+	//// プルダウンメニューを更新
+	//// 逆順に更新することで、選択時のクリックによって別のメニューが開いてしまうのを防ぐ
+	//for (auto it = std::rbegin(accessoryPulldowns); it != std::rend(accessoryPulldowns); ++it) {
+	//	auto& accessoriesPulldown = *it;
+	//	// 他のすべてのメニューが閉じている場合にのみ、このメニューを更新
+	//	if (std::all_of(accessoryPulldowns.begin(), accessoryPulldowns.end(), [&](const Pulldown& m) { return &m == &accessoriesPulldown || !m.getIsOpen(); }))
+	//	{
+	//		accessoriesPulldown.update();
+	//	}
+	//}
 
 	cameraPulldown.update();
 	getData().cameraIndex = static_cast<uint32>(cameraPulldown.getIndex() - 1);
@@ -340,14 +344,19 @@ void Setting::draw() const
 
 	FontAsset(U"SubtitleFont")(U"希望のアクセサリ").draw(20, ACCSESSORIE_TEXT_Y);
 
-	// 逆順に描画することで、展開されたメニューが手前に来るようにする
-	for (int i = 0; i < TARGET_ACCSESORIES_COUNT_MAX; i++)
-	{
-		accessoryPulldowns[TARGET_ACCSESORIES_COUNT_MAX - i - 1].draw();
+
+	for (auto it = std::rbegin(openableListBoxesAccessory); it != std::rend(openableListBoxesAccessory); ++it) {
+		auto& openableListBoxAccessory = *it;
+		// 他のすべてのメニューが閉じている場合にのみ、このメニューを更新
+		if (std::all_of(openableListBoxesAccessory.begin(), openableListBoxesAccessory.end(), [&](const OpenableListBox& m) { return &m == &openableListBoxAccessory || !m.getIsOpen(); }))
+		{
+			openableListBoxAccessory.update();
+		}
+		openableListBoxAccessory.draw();
 	}
 
-	openableListBoxAccessory.update();
-	openableListBoxAccessory.draw();
+
+
 
 	if (canGoRecording() && SimpleGUI::Button(U"決定", Scene::Center()))
 	{

@@ -15,9 +15,9 @@ void OpenableListBox::emplace_back(String item)
 }
 
 
-Optional<unsigned long long> OpenableListBox::getSelectedIndex() const
+size_t OpenableListBox::getSelectedIndex() const
 {
-	return listBoxState.selectedItemIndex;
+	return *listBoxState.selectedItemIndex;
 }
 
 String OpenableListBox::getSelectedItem() const
@@ -30,6 +30,11 @@ String OpenableListBox::getSelectedItem() const
 	{
 		return String();
 	}
+}
+
+bool OpenableListBox::getIsOpen() const
+{
+	return m_isOpen;
 }
 
 void OpenableListBox::update() const

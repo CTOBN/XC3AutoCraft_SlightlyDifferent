@@ -102,7 +102,7 @@ private:
 		}
 	};
 
-	Point accPulldownTablePos = { MENU_X, ACCSESSORIE_TEXT_Y + 50 };
+	Vec2 accPulldownTablePos = { MENU_X, ACCSESSORIE_TEXT_Y + 50 };
 
 	SimpleTable probabilityTable{ {PROBABILITY_CELL_WIDTH, PROBABILITY_CELL_WIDTH, PROBABILITY_CELL_WIDTH, PROBABILITY_CELL_WIDTH, PROBABILITY_CELL_WIDTH}, {
 		.cellHeight = 30,
@@ -113,7 +113,7 @@ private:
 
 	Point probabilityTablePos = { MENU_X + int(ACCESSORIES_CELL_WIDTH + STATUS_CELL_WIDTH + PROBABILITY_CELL_WIDTH * 4),  ACCSESSORIE_TEXT_Y + 50 };
 
-	OpenableListBox openableListBoxAccessory{ ACCSESSORIE_FONT, Point{MENU_X, 500}, 800, 18, 5 };
+	Array<OpenableListBox> openableListBoxesAccessory;
 
 	HashTable<std::pair<StatusType, AccessoryType>, double> statusTypeLotteryRateTable = {
 		{{StatusType::Unselected, AccessoryType::Undefined}, 1},
