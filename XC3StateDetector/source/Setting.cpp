@@ -127,6 +127,7 @@ void Setting::setProbability()
 			}
 			probabilityTable.setText(i + 1, j, U"{:.5f}"_fmt(probability));
 			sumProbabilityList[j - 1] += probability;
+			sumProbabilityList[j - 1] = Min(sumProbabilityList[j - 1], 100.0);
 			probabilityTable.setText(6, j, U"{:.5f}"_fmt(sumProbabilityList[j - 1]));
 		}
 	}
