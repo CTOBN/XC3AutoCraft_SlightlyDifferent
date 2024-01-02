@@ -7,7 +7,9 @@ void Main()
 {
 	Window::SetTitle(U"XC3StateDetector");
 	Window::SetStyle(WindowStyle::Sizable);
+	Scene::Resize(1920, 1009);
 	Window::Maximize();
+	Scene::SetResizeMode(ResizeMode::Keep);
 	FontAsset::Register(U"TitleFont", 60, Typeface::Heavy);
 	FontAsset::Register(U"SubtitleFont", 30, Typeface::Heavy);
 	FontAsset::Register(U"TextFont", 15, Typeface::Bold);
