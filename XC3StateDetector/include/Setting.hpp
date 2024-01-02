@@ -10,8 +10,8 @@ class Setting : public App::Scene
 public:
 	const Font font{ font_size };
 
-	Array<Pulldown> accessoryPulldowns;
-	Array<Pulldown> statusTypePulldowns;
+	//Array<Pulldown> accessoryPulldowns;
+	//Array<Pulldown> statusTypePulldowns;
 	Array<String> webcams = { U"未選択" };
 	Pulldown cameraPulldown;
 	Pulldown serialPulldown;
@@ -25,10 +25,6 @@ public:
 	void assignDesiredAccessories() const;
 
 	void desiredAccessories_to_pullDowns();
-
-	void placePulldowns();
-
-	void placeAbilityValuesPulldowns();
 
 	void setProbability();
 
@@ -114,6 +110,7 @@ private:
 	Point probabilityTablePos = { MENU_X + int(ACCESSORIES_CELL_WIDTH + STATUS_CELL_WIDTH + PROBABILITY_CELL_WIDTH * 4),  ACCSESSORIE_TEXT_Y + 50 };
 
 	Array<OpenableListBox> openableListBoxesAccessory;
+	Array<OpenableListBox> openableListBoxesStatusType;
 
 	HashTable<std::pair<StatusType, AccessoryType>, double> statusTypeLotteryRateTable = {
 		{{StatusType::Unselected, AccessoryType::Undefined}, 1},

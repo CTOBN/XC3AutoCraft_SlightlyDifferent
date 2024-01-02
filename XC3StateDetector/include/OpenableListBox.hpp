@@ -10,6 +10,7 @@ public:
 	OpenableListBox(const Font font, const Vec2& pos, const double width, const double height, const size_t displayCount);
 	mutable ListBoxState listBoxState;
 	void emplace_back(String item);
+	void setItems(const Array<String>& items);
 	size_t getSelectedIndex() const;
 	String getSelectedItem() const;
 	bool getIsOpen() const;

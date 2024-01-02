@@ -9,15 +9,24 @@ Setting::Setting(const InitData& init)
 
 	for (int i = 0; i < TARGET_ACCSESORIES_COUNT_MAX; i++)
 	{
-		accessoryPulldowns.push_back(Pulldown{ DescriptionDetailJPList, ACCSESSORIE_FONT, Point{MENU_X, ACCSESSORIE_TEXT_Y + 50 + (ACCESSORIES_FONT_SIZE + 15) * (i)} });
 		openableListBoxesAccessory.push_back(OpenableListBox{ ACCSESSORIE_FONT, accPulldownTablePos.movedBy(0, 31 * (i+1)), ACCESSORIES_CELL_WIDTH, 20, 5 });
 	}
-	for (const String item : DescriptionDetailJPList)
+
+	for (auto& openableListBoxAccessory : openableListBoxesAccessory)
 	{
-		for (auto& openableListBoxAccessory : openableListBoxesAccessory)
+		openableListBoxAccessory.setItems(DescriptionDetailJPList);
+	}
+
+	for (int y = 0; y < TARGET_ACCSESORIES_COUNT_MAX; y++)
+	{
+		for (int x = 0; x < 4; x++)
 		{
-			openableListBoxAccessory.emplace_back(item);
+			openableListBoxesStatusType.push_back(OpenableListBox{ ACCSESSORIE_FONT, accPulldownTablePos.movedBy(x * STATUS_CELL_WIDTH + ACCESSORIES_CELL_WIDTH, (y+1) * 31), STATUS_CELL_WIDTH, 20, 5});
 		}
+	}
+	for (auto& openableListBoxStatusType : openableListBoxesStatusType)
+	{
+		openableListBoxStatusType.setItems({ U"", U"HP", U"攻撃力", U"回復力", U"器用さ", U"素早さ", U"ガード率", U"ｸﾘﾃｨｶﾙ率" });
 	}
 
 	for (const auto& info : System::EnumerateWebcams())
@@ -34,13 +43,7 @@ Setting::Setting(const InitData& init)
 	}
 	serialPulldown = { options, SERIAL_FONT, Point{ SERIAL_TEXT_X, SERIAL_TEXT_Y + font_size * 3 + line_padding } };
 
-	for (int y = 0; y < TARGET_ACCSESORIES_COUNT_MAX; y++)
-	{
-		for (int x = 0; x < 4; x++)
-		{
-			statusTypePulldowns.push_back(Pulldown{ {U"", U"HP", U"攻撃力", U"回復力", U"器用さ", U"素早さ", U"ガード率", U"ｸﾘﾃｨｶﾙ率"}, ACCSESSORIE_FONT, Point{ABILITY_VALUE_TEXT_X + font_size * x * 6, ACCSESSORIE_TEXT_Y + font_size * (y + 1) * 2 + line_padding} });
-		}
-	}
+
 	desiredAccessories_to_pullDowns();
 
 	accPulldownTable.push_back_row({ U"特殊効果", U"ｽﾃｰﾀｽ１", U"ｽﾃｰﾀｽ2", U"ｽﾃｰﾀｽ3", U"ｽﾃｰﾀｽ4" });
@@ -50,8 +53,6 @@ Setting::Setting(const InitData& init)
 	accPulldownTable.push_back_row({ U"", U"", U"", U"", U"" }, { 0, 0, 0, 0, 0 });
 	accPulldownTable.push_back_row({ U"", U"", U"", U"", U"" }, { 0, 0, 0, 0, 0 });
 
-	placePulldowns();
-
 	probabilityTable.push_back_row({ U"互換", U"腕輪", U"指輪", U"首飾", U"冠" }, { 0, 0, 0, 0, 0 });
 	probabilityTable.push_back_row({ U"-", U"0", U"0", U"0", U"0" }, { 0, 1, 1, 1, 1 });
 	probabilityTable.push_back_row({ U"-", U"0", U"0", U"0", U"0" }, { 0, 1, 1, 1, 1 });
@@ -59,8 +60,6 @@ Setting::Setting(const InitData& init)
 	probabilityTable.push_back_row({ U"-", U"0", U"0", U"0", U"0" }, { 0, 1, 1, 1, 1 });
 	probabilityTable.push_back_row({ U"-", U"0", U"0", U"0", U"0" }, { 0, 1, 1, 1, 1 });
 	probabilityTable.push_back_row({ U"合計", U"0", U"0", U"0", U"0" }, { 0, 1, 1, 1, 1 });
-
-	placeAbilityValuesPulldowns();
 
 }
 
@@ -77,7 +76,7 @@ void Setting::assignDesiredAccessories() const
 
 		for (size_t j = 0; j < 4; j++)
 		{
-			StatusType statusType = static_cast<StatusType>(statusTypePulldowns[i * 4 + j].getIndex());
+			StatusType statusType = static_cast<StatusType>(openableListBoxesStatusType[i * 4 + j].getSelectedIndex());
 			acc.setStatusBoost(StatusBoost{ statusType }, j);
 		}
 
@@ -96,31 +95,7 @@ void Setting::desiredAccessories_to_pullDowns()
 		for (size_t j = 0; j < 4; j++)
 		{
 			int index = static_cast<int>(statusBoosts[j].type);
-			statusTypePulldowns[i * 4 + j].setIndex(index);
-		}
-	}
-}
-
-
-void Setting::placePulldowns()
-{
-	for (size_t i = 0; i < TARGET_ACCSESORIES_COUNT_MAX; i++)
-	{
-		RectF region = accPulldownTable.cellRegion(accPulldownTablePos, i + 1, 0);
-		Point pos = region.pos.asPoint();
-		accessoryPulldowns[i].setPos(pos);
-	}
-}
-
-void Setting::placeAbilityValuesPulldowns()
-{
-	for (size_t i = 0; i < TARGET_ACCSESORIES_COUNT_MAX; i++)
-	{
-		for (size_t j = 0; j < 4; j++)
-		{
-			RectF region = accPulldownTable.cellRegion(accPulldownTablePos, i + 1, j + 1);
-			Point pos = region.pos.asPoint();
-			statusTypePulldowns[i * 4 + j].setPos(pos);
+			openableListBoxesStatusType[i * 4 + j].listBoxState.selectedItemIndex = index;
 		}
 	}
 }
@@ -147,7 +122,7 @@ void Setting::setProbability()
 			// 各アクセサリのステータス
 			for (size_t k = 0; k < 4; k++)
 			{
-				StatusType statusType = static_cast<StatusType>(statusTypePulldowns[i * 4 + k].getIndex());
+				StatusType statusType = static_cast<StatusType>(openableListBoxesStatusType[i * 4 + k].getSelectedIndex());
 				probability *= statusTypeLotteryRateTable[std::make_pair(statusType, accessoryType)];
 			}
 			probabilityTable.setText(i + 1, j, U"{:.5f}"_fmt(probability));
@@ -267,18 +242,6 @@ void Setting::update()
 	serialUpdate();
 	drawNotion();
 
-
-	//// プルダウンメニューを更新
-	//// 逆順に更新することで、選択時のクリックによって別のメニューが開いてしまうのを防ぐ
-	//for (auto it = std::rbegin(accessoryPulldowns); it != std::rend(accessoryPulldowns); ++it) {
-	//	auto& accessoriesPulldown = *it;
-	//	// 他のすべてのメニューが閉じている場合にのみ、このメニューを更新
-	//	if (std::all_of(accessoryPulldowns.begin(), accessoryPulldowns.end(), [&](const Pulldown& m) { return &m == &accessoriesPulldown || !m.getIsOpen(); }))
-	//	{
-	//		accessoriesPulldown.update();
-	//	}
-	//}
-
 	cameraPulldown.update();
 	getData().cameraIndex = static_cast<uint32>(cameraPulldown.getIndex() - 1);
 	getData().cameraName = cameraPulldown.getItem();
@@ -287,14 +250,6 @@ void Setting::update()
 	getData().serialIndex = serialPulldown.getIndex() - 1;
 	getData().serialName = serialPulldown.getItem();
 
-	for (auto it = std::rbegin(statusTypePulldowns); it != std::rend(statusTypePulldowns); ++it) {
-		auto& statusTypePulldown = *it;
-		// 他のすべてのメニューが閉じている場合にのみ、このメニューを更新
-		if (std::all_of(statusTypePulldowns.begin(), statusTypePulldowns.end(), [&](const Pulldown& m) { return &m == &statusTypePulldown || !m.getIsOpen(); }))
-		{
-			statusTypePulldown.update();
-		}
-	}
 	setProbability();
 	selectAccTypeButtonUpdate();
 }
@@ -333,13 +288,15 @@ void Setting::draw() const
 
 	accPulldownTable.draw(accPulldownTablePos);
 
-	// 逆順に描画することで、展開されたメニューが手前に来るようにする
-	for (int y = 0; y < TARGET_ACCSESORIES_COUNT_MAX; y++)
-	{
-		for (int x = 0; x < 4; x++)
+
+	for (auto it = std::rbegin(openableListBoxesStatusType); it != std::rend(openableListBoxesStatusType); ++it) {
+		auto& openableListBoxStatusType = *it;
+		// 他のすべてのメニューが閉じている場合にのみ、このメニューを更新
+		if (std::all_of(openableListBoxesStatusType.begin(), openableListBoxesStatusType.end(), [&](const OpenableListBox& m) { return &m == &openableListBoxStatusType || !m.getIsOpen(); }))
 		{
-			statusTypePulldowns[(TARGET_ACCSESORIES_COUNT_MAX - y - 1) * 4 + x].draw();
+			openableListBoxStatusType.update();
 		}
+		openableListBoxStatusType.draw();
 	}
 
 	FontAsset(U"SubtitleFont")(U"希望のアクセサリ").draw(20, ACCSESSORIE_TEXT_Y);

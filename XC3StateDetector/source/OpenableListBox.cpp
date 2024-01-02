@@ -14,6 +14,10 @@ void OpenableListBox::emplace_back(String item)
 	listBoxState.items.emplace_back(item);
 }
 
+void OpenableListBox::setItems(const Array<String>& items)
+{
+	listBoxState.items = items;
+}
 
 size_t OpenableListBox::getSelectedIndex() const
 {
