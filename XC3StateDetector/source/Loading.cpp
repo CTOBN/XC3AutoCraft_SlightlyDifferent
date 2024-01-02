@@ -23,8 +23,8 @@ Loading::Loading(const InitData& init)
 
 	for (uint16 i = 3428; i <= 3913; i += 5)
 	{
-		String path = discriptionJPTemplateFolderPath + U"/" + Format(i) + U".jpg";
-		discriptionsImagesPathList.push_back(path);
+		String path = descriptionJPTemplateFolderPath + U"/" + Format(i) + U".jpg";
+		descriptionsImagesPathList.push_back(path);
 		getData().binarizedAbilities.push_back(Image{ path }.thresholded(128));
 		// Console << path << U" を読み込みました";
 	}
@@ -41,7 +41,7 @@ Loading::Loading(const InitData& init)
 
 	for (int i = 0; i < 10; i++)
 	{
-		String path = UnkonwnMatterNumbersPath + U"/" + Format(i) + U".jpg";
+		String path = UnknownMatterNumbersPath + U"/" + Format(i) + U".jpg";
 		getData().binarizedUnkownMatterNumbers.push_back(Image{ path }.thresholded(128));
 		// Console << path << U" を読み込みました";
 	}
