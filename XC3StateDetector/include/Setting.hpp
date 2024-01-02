@@ -1,6 +1,7 @@
 ﻿# pragma once
 # include "Common.hpp"
 # include "Pulldown.hpp"
+# include "OpenableListBox.hpp"
 
 // 設定シーン
 class Setting : public App::Scene
@@ -14,6 +15,8 @@ public:
 	Array<String> webcams = { U"未選択" };
 	Pulldown cameraPulldown;
 	Pulldown serialPulldown;
+
+	
 	// const Array<SerialPortInfo> infos = System::EnumerateSerialPorts();
 	Array<String> options = { U"未選択" };
 
@@ -109,6 +112,8 @@ private:
 	};
 
 	Point probabilityTablePos = { MENU_X + int(ACCESSORIES_CELL_WIDTH + STATUS_CELL_WIDTH + PROBABILITY_CELL_WIDTH * 4),  ACCSESSORIE_TEXT_Y + 50 };
+
+	OpenableListBox openableListBoxAccessory{ ACCSESSORIE_FONT, Point{MENU_X, 500}, 800, 18, 5 };
 
 	HashTable<std::pair<StatusType, AccessoryType>, double> statusTypeLotteryRateTable = {
 		{{StatusType::Unselected, AccessoryType::Undefined}, 1},
