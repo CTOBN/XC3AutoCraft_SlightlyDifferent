@@ -89,7 +89,7 @@ size_t Recording::findMostSimilarAbility() {
 	if (0 <= judgedIndex && judgedIndex < Accessory::getDescriptionDetailJPList().size())
 	{
 		currentAccAbilityJP = Accessory::getDescriptionDetailJP(judgedIndex);
-		Console << Format(judgedIndex) << currentAccAbilityJP;
+		// Console << Format(judgedIndex) << currentAccAbilityJP;
 	}
 	return judgedIndex;
 }
@@ -120,7 +120,7 @@ void Recording::recognizeUnknownMatterCount()
 	size_t tensPlace = findMostSimilarNumber(UNKOWN_MATTER_NUMBER_TENS_PLACE_POS);
 	size_t onesPlace = findMostSimilarNumber(UNKOWN_MATTER_NUMBER_ONES_PLACE_POS);
 	size_t unknownMatterCount = tensPlace * 10 + onesPlace;
-	context.initialUnkownMatterCount = unknownMatterCount;
+	// context.initialUnkownMatterCount = unknownMatterCount;
 	context.currentUnknownMatterCount = unknownMatterCount;
 }
 
@@ -155,8 +155,23 @@ bool Recording::completeMission()
 	return compareAccessories();
 }
 
+void Recording::countUnknownMatter()
+{
+	if (context.getCurrentStateName() != U"RecognizeItemCount")
+	{
+		return;
+	}
+	recognizeUnknownMatterCount();
+	context.isUnkownMatterCountUpdated = true;
+}
+
 void Recording::judgeAccessory()
 {
+	if (context.getCurrentStateName() != U"Judge" || context.wasJudged)
+	{
+		return;
+	}
+
 	currentAccessory = recognizeAccessory();
 	addAccessory(currentAccessory);
 	context.wasJudged = true;
@@ -179,7 +194,7 @@ void Recording::judgeAccessory()
 			.actions = { U"通知を消す" } // アクションボタン
 		};
 		Platform::Windows::ToastNotification::Show(toast);
-		Console << toastTitle << toastMessage;
+		// Console << toastTitle << toastMessage;
 	}
 }
 
@@ -191,12 +206,7 @@ void Recording::updateContext()
 	{
 		context.request();
 	}
-
-	if (context.getCurrentStateName() != U"Judge" || context.wasJudged)
-	{
-		return;
-	}
-
+	countUnknownMatter();
 	judgeAccessory();
 }
 
@@ -204,12 +214,12 @@ bool Recording::openSerialPort() const
 {
 	if (getData().serial.open(getData().infos[getData().serialIndex].port))
 	{
-		Console << U"シリアルポートを開きました";
+		// Console << U"シリアルポートを開きました";
 		return true;
 	}
 	else
 	{
-		Console << U"シリアルポートを開けませんでした";
+		// Console << U"シリアルポートを開けませんでした";
 		return false;
 	}
 }
@@ -234,7 +244,7 @@ void Recording::drawSerialBytesLog()
 	if (commandByteToString.contains(lastSerialByte))
 	{
 		String commandName = commandByteToString.at(lastSerialByte);
-		Console << U"{} が実行されました"_fmt(commandName);
+		// Console << U"{} が実行されました"_fmt(commandName);
 		lastSerialByte = 0;
 	}
 }
@@ -280,15 +290,15 @@ void Recording::drawButtons()
 	if (SimpleGUI::Button(U"\U000F0199 ｱﾝﾉｳﾝﾏﾀｰの数を認識", Vec2{ buttonPos.x, buttonPos.y + 50 }))
 	{
 		recognizeUnknownMatterCount();
-		uint8 setAccType = accessoryTypeIndexToCommandByte[getData().accessoryTypeIndex - 1];
-		getData().serial.writeByte(setAccType);
+		
 	}
 
 	if (SimpleGUI::Button(U"\U000F040A 自動クラフト開始", Vec2{ buttonPos.x, buttonPos.y + 100 }))
 	{
 		context.init();
-
-		context.setState(std::make_unique<xc3::AccessorySelected>());
+		uint8 setAccType = accessoryTypeIndexToCommandByte[getData().accessoryTypeIndex - 1];
+		getData().serial.writeByte(setAccType);
+		context.setState(std::make_unique<xc3::Camp>());
 	}
 	if (SimpleGUI::Button(U"\U000F04DB 自動クラフト停止", Vec2{ buttonPos.x, buttonPos.y + 150 }))
 	{
@@ -302,7 +312,7 @@ void Recording::drawButtons()
 		webcam.getFrame(image);
 		String path = U"XC3AutoCraft_{}.png"_fmt(DateTime::Now()).replace(U":", U".");
 		image.save(path);
-		Console << U"スクリーンショットを保存しました ファイル名 : {}"_fmt(path);
+		// Console << U"スクリーンショットを保存しました ファイル名 : {}"_fmt(path);
 	}
 
 	if (SimpleGUI::Button(U"\U000F0493 設定に戻る", Vec2{ buttonPos.x, buttonPos.y + 250 }))

@@ -17,7 +17,6 @@ namespace xc3
 		}
 		if (isTimeToTransition())
 		{
-			context.currentUnknownMatterCount = context.initialUnkownMatterCount;
 			context.setState(std::make_unique<TitleLoading>());
 		}
 	}

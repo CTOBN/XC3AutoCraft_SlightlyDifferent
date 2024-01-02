@@ -47,6 +47,7 @@ namespace xc3
 		gotDesiredAccessory = false;
 		canMakeAccessory = false;
 		wasJudged = true;
+		isUnkownMatterCountUpdated = true;
 	}
 
 

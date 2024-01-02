@@ -4,6 +4,7 @@
 # include "ButtonByte.hpp"
 # include "Context.hpp"
 # include "State.hpp"
+# include "Camp.hpp"
 # include "AccessorySelected.hpp"
 # include "GotDesiredAcc.hpp"
 # include "Title.hpp"
@@ -123,6 +124,8 @@ private:
 	bool compareAccessories();
 
 	bool completeMission();
+
+	void countUnknownMatter();
 
 	void judgeAccessory();
 
