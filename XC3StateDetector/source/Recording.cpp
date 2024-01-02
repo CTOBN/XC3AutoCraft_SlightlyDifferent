@@ -282,15 +282,12 @@ void Recording::drawDesiredAccessories() const
 
 void Recording::drawButtons()
 {
-	if (SimpleGUI::Button(U"\U000F065C シリアルポートを開く", Vec2{ buttonPos.x, buttonPos.y }))
+	if (SimpleGUI::Button(U"\U000F02B4 コントローラー接続", Vec2{ buttonPos.x, buttonPos.y + 50 }))
 	{
 		openSerialPort();
-	}
-
-	if (SimpleGUI::Button(U"\U000F0199 ｱﾝﾉｳﾝﾏﾀｰの数を認識", Vec2{ buttonPos.x, buttonPos.y + 50 }))
-	{
-		recognizeUnknownMatterCount();
-		
+		getData().serial.writeByte(ButtonByte::A);
+		getData().serial.writeByte(ButtonByte::A);
+		getData().serial.writeByte(ButtonByte::A);
 	}
 
 	if (SimpleGUI::Button(U"\U000F040A 自動クラフト開始", Vec2{ buttonPos.x, buttonPos.y + 100 }))
