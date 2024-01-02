@@ -52,13 +52,13 @@ public:
 
 private:
 	const int DESIRE_CONSENCUTIVE_STATUS_Y = 10;
-	const int ACCSESSORIE_TEXT_Y = 60;
+	const double ACCSESSORIE_TEXT_Y = 60;
 	const int CAMERA_TEXT_X = 20;
 	const int CAMERA_TEXT_Y = 340;
 	const int SERIAL_TEXT_X = 240;
 	const int SERIAL_TEXT_Y = 340;
 	const int CONFIRM_BUTTON_Y = 480;
-	const int MENU_X = 20;
+	const double MENU_X = 10;
 	const int font_size = 15;
 	const int ACCESSORIES_FONT_SIZE = 18;
 	const int CAMERA_FONT_SIZE = 18;
@@ -77,9 +77,10 @@ private:
 
 	Array<double> sumProbabilityList = { 0, 0, 0, 0 };
 
-	const double ACCESSORIES_CELL_WIDTH = 946;
-	const double STATUS_CELL_WIDTH = 100;
-	const double PROBABILITY_CELL_WIDTH = 80;
+	const double ACCESSORIES_CELL_WIDTH = 800;
+	const double STATUS_CELL_WIDTH = 115;
+	const double AlreadyCellWidth = 80;
+	const double PROBABILITY_CELL_WIDTH = 130;
 
 	const Font tableFont{ FontMethod::MSDF, 36 };
 
@@ -100,14 +101,14 @@ private:
 
 	Vec2 accPulldownTablePos = { MENU_X, ACCSESSORIE_TEXT_Y + 50 };
 
-	SimpleTable probabilityTable{ {PROBABILITY_CELL_WIDTH, PROBABILITY_CELL_WIDTH, PROBABILITY_CELL_WIDTH, PROBABILITY_CELL_WIDTH, PROBABILITY_CELL_WIDTH}, {
+	SimpleTable probabilityTable{ {AlreadyCellWidth, PROBABILITY_CELL_WIDTH, PROBABILITY_CELL_WIDTH, PROBABILITY_CELL_WIDTH, PROBABILITY_CELL_WIDTH}, {
 		.cellHeight = 30,
 		.variableWidth = true,
 		.font = tableFont,
 		}
 	};
 
-	Point probabilityTablePos = { MENU_X + int(ACCESSORIES_CELL_WIDTH + STATUS_CELL_WIDTH + PROBABILITY_CELL_WIDTH * 4),  ACCSESSORIE_TEXT_Y + 50 };
+	Vec2 probabilityTablePos = { MENU_X + ACCESSORIES_CELL_WIDTH + STATUS_CELL_WIDTH * 4 + 5, ACCSESSORIE_TEXT_Y + 50};
 
 	Array<OpenableListBox> openableListBoxesAccessory;
 	Array<OpenableListBox> openableListBoxesStatusType;

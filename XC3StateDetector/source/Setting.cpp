@@ -5,7 +5,7 @@ Setting::Setting(const InitData& init)
 	: IScene{ init }
 
 {
-	Array<String> DescriptionDetailJPList = Accessory::getDescriptionDetailJPList();
+	Array<String> DescriptionDetailJPList = Accessory::getDescriptionJPList();
 
 	for (int i = 0; i < TARGET_ACCSESORIES_COUNT_MAX; i++)
 	{
@@ -21,7 +21,7 @@ Setting::Setting(const InitData& init)
 	{
 		for (int x = 0; x < 4; x++)
 		{
-			openableListBoxesStatusType.push_back(OpenableListBox{ ACCSESSORIE_FONT, accPulldownTablePos.movedBy(x * STATUS_CELL_WIDTH + ACCESSORIES_CELL_WIDTH, (y+1) * 31), STATUS_CELL_WIDTH, 20, 5});
+			openableListBoxesStatusType.push_back(OpenableListBox{ ACCSESSORIE_FONT, accPulldownTablePos.movedBy(x * STATUS_CELL_WIDTH + ACCESSORIES_CELL_WIDTH, (y+1) * 31), STATUS_CELL_WIDTH, 20, 8});
 		}
 	}
 	for (auto& openableListBoxStatusType : openableListBoxesStatusType)
