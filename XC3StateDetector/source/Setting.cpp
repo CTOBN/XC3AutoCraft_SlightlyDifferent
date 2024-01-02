@@ -9,7 +9,7 @@ Setting::Setting(const InitData& init)
 
 	for (int i = 0; i < TARGET_ACCSESORIES_COUNT_MAX; i++)
 	{
-		openableListBoxesAccessory.push_back(OpenableListBox{ ACCSESSORIE_FONT, accPulldownTablePos.movedBy(0, 31 * (i+1)), ACCESSORIES_CELL_WIDTH, 20, 5 });
+		openableListBoxesAccessory.push_back(OpenableListBox{ ACCSESSORIE_FONT, accPulldownTablePos.movedBy(0, 31 * (i+1)), ACCESSORIES_CELL_WIDTH + 1, 30, 5 });
 	}
 
 	for (auto& openableListBoxAccessory : openableListBoxesAccessory)
@@ -21,12 +21,12 @@ Setting::Setting(const InitData& init)
 	{
 		for (int x = 0; x < 4; x++)
 		{
-			openableListBoxesStatusType.push_back(OpenableListBox{ ACCSESSORIE_FONT, accPulldownTablePos.movedBy(x * STATUS_CELL_WIDTH + ACCESSORIES_CELL_WIDTH, (y+1) * 31), STATUS_CELL_WIDTH, 20, 8});
+			openableListBoxesStatusType.push_back(OpenableListBox{ ACCSESSORIE_FONT, accPulldownTablePos.movedBy(x * (STATUS_CELL_WIDTH + 1) + ACCESSORIES_CELL_WIDTH, (y+1) * 31), STATUS_CELL_WIDTH + 2, 20, 8});
 		}
 	}
 	for (auto& openableListBoxStatusType : openableListBoxesStatusType)
 	{
-		openableListBoxStatusType.setItems({ U"", U"HP", U"攻撃力", U"回復力", U"器用さ", U"素早さ", U"ガード率", U"ｸﾘﾃｨｶﾙ率" });
+		openableListBoxStatusType.setItems({ U"任意", U"HP", U"攻撃力", U"回復力", U"器用さ", U"素早さ", U"ガード率", U"ｸﾘﾃｨｶﾙ率" });
 	}
 
 	for (const auto& info : System::EnumerateWebcams())
@@ -46,12 +46,12 @@ Setting::Setting(const InitData& init)
 
 	desiredAccessories_to_pullDowns();
 
-	accPulldownTable.push_back_row({ U"特殊効果", U"ｽﾃｰﾀｽ１", U"ｽﾃｰﾀｽ2", U"ｽﾃｰﾀｽ3", U"ｽﾃｰﾀｽ4" });
-	accPulldownTable.push_back_row({ U"", U"", U"", U"", U"" }, { 0, 0, 0, 0, 0 });
-	accPulldownTable.push_back_row({ U"", U"", U"", U"", U"" }, { 0, 0, 0, 0, 0 });
-	accPulldownTable.push_back_row({ U"", U"", U"", U"", U"" }, { 0, 0, 0, 0, 0 });
-	accPulldownTable.push_back_row({ U"", U"", U"", U"", U"" }, { 0, 0, 0, 0, 0 });
-	accPulldownTable.push_back_row({ U"", U"", U"", U"", U"" }, { 0, 0, 0, 0, 0 });
+	accPulldownTable.push_back_row({ U"特殊効果", U"ｽﾃｰﾀｽ１", U"ｽﾃｰﾀｽ2", U"ｽﾃｰﾀｽ3", U"ｽﾃｰﾀｽ4" }, { -1, 0, 0, 0, 0 });
+	//accPulldownTable.push_back_row({ U"", U"", U"", U"", U"" }, { 0, 0, 0, 0, 0 });
+	//accPulldownTable.push_back_row({ U"", U"", U"", U"", U"" }, { 0, 0, 0, 0, 0 });
+	//accPulldownTable.push_back_row({ U"", U"", U"", U"", U"" }, { 0, 0, 0, 0, 0 });
+	//accPulldownTable.push_back_row({ U"", U"", U"", U"", U"" }, { 0, 0, 0, 0, 0 });
+	//accPulldownTable.push_back_row({ U"", U"", U"", U"", U"" }, { 0, 0, 0, 0, 0 });
 
 	probabilityTable.push_back_row({ U"互換", U"腕輪", U"指輪", U"首飾", U"冠" }, { 0, 0, 0, 0, 0 });
 	probabilityTable.push_back_row({ U"-", U"0", U"0", U"0", U"0" }, { 0, 1, 1, 1, 1 });
@@ -222,7 +222,7 @@ void Setting::drawNotion() const
 	}
 	else
 	{
-		probabilityTable.cellRegion(probabilityTablePos, 0, getData().accessoryTypeIndex).drawFrame(4, Palette::Red);
+		probabilityTable.cellRegion(probabilityTablePos, 0, getData().accessoryTypeIndex).drawFrame(4, 0, Palette::Red);
 	}
 
 	if (getData().cameraName == U"未選択")

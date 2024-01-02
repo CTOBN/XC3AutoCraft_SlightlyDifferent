@@ -79,7 +79,7 @@ void OpenableListBox::draw() const
 		for (size_t i = 0; i < m_displayCount; ++i)
 		{
 			Vec2 pos = m_displayRegion.pos.movedBy(0, (SimpleGUI::GetFont().height()) * i + m_displayRegion.h + FrameThickness);
-
+		
 			if (const RectF rect{ pos, { m_displayRegion.size.x - ScrollBarWidth, m_displayRegion.size.y } }; rect.mouseOver())
 			{
 				rect.draw(Color{ 135, 206, 235, 128 });

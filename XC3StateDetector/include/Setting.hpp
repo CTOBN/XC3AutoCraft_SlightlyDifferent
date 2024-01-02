@@ -60,7 +60,7 @@ private:
 	const int CONFIRM_BUTTON_Y = 480;
 	const double MENU_X = 10;
 	const int font_size = 15;
-	const int ACCESSORIES_FONT_SIZE = 18;
+	const int ACCESSORIES_FONT_SIZE = 20;
 	const int CAMERA_FONT_SIZE = 18;
 	const int line_padding = 20;
 
