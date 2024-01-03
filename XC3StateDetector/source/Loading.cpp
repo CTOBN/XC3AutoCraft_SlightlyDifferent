@@ -11,9 +11,9 @@ Loading::Loading(const InitData& init)
 	for (size_t row = 1; row < csv.rows(); ++row) // 1行目はヘッダなので飛ばす
 	{
 		Accessory::pushBackID(Parse<uint16>(csv[row][0]));
-		Accessory::pushBackDescriptionEN(csv[row][1]);
-		Accessory::pushBackDescriptionJP(csv[row][2]);
-		Accessory::pushBackDescriptionDetailJP(csv[row][3]);
+		Accessory::pushBackDescriptionEnglish(csv[row][1]);
+		Accessory::pushBackDescriptionJapanese(csv[row][2]);
+		Accessory::pushBackDescriptionDetailJapanese(csv[row][3]);
 		Accessory::pushBackAlready(csv[row][4]);
 		Accessory::pushBackBracelet(Parse<double>(csv[row][5]));
 		Accessory::pushBackRing(Parse<double>(csv[row][6]));
@@ -23,7 +23,7 @@ Loading::Loading(const InitData& init)
 
 	for (uint16 i = 3428; i <= 3913; i += 5)
 	{
-		String path = descriptionJPTemplateFolderPath + U"/" + Format(i) + U".jpg";
+		String path = descriptionJapaneseTemplateFolderPath + U"/" + Format(i) + U".jpg";
 		descriptionsImagesPathList.push_back(path);
 		getData().binarizedAbilities.push_back(Image{ path }.thresholded(128));
 		// Console << path << U" を読み込みました";

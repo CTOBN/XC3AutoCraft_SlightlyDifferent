@@ -102,10 +102,10 @@ size_t Recording::findMostSimilarAbility() {
 			judgedIndex = i + 2; // 0は未選択, 1は任意のアクセサリ
 		}
 	}
-	if (0 <= judgedIndex && judgedIndex < Accessory::getDescriptionDetailJPList().size())
+	if (0 <= judgedIndex && judgedIndex < Accessory::getDescriptionDetailJapaneseList().size())
 	{
-		currentAccAbilityJP = Accessory::getDescriptionDetailJP(judgedIndex);
-		// Console << Format(judgedIndex) << currentAccAbilityJP;
+		currentAccAbilityJapanese = Accessory::getDescriptionDetailJapanese(judgedIndex);
+		// Console << Format(judgedIndex) << currentAccAbilityJapanese;
 	}
 	return judgedIndex;
 }
@@ -257,11 +257,11 @@ void Recording::judgeAccessory()
 	{
 		context.gotDesiredAccessory = true;
 		String toastTitle = U"アクセサリが完成しました";
-		String toastMessage = Accessory::getDescriptionDetailJP(currentAccessory.getIndex());
+		String toastMessage = Accessory::getDescriptionDetailJapanese(currentAccessory.getIndex());
 		toastMessage += U"\n";
 		for (int j = 0; j < 4; j++)
 		{
-			toastMessage += StatusTypeToString[U"JP"][currentAccessory.getStatusBoosts()[j].type];
+			toastMessage += StatusTypeToString[U"Japanese"][currentAccessory.getStatusBoosts()[j].type];
 			toastMessage += U" ";
 		}
 
@@ -335,10 +335,10 @@ void Recording::drawRecognizedAccessories() const
 	for (int i = 0; i < recognizedAccessoriesSize; i++)
 	{
 		const Accessory& acc = RecognizedAccessories[recognizedAccessoriesSize - i - 1];
-		FontAsset(U"TextFont")(Accessory::getDescriptionJP(acc.getIndex())).draw(recognizedAccessoriesPos.x, recognizedAccessoriesPos.y + i * 30);
+		FontAsset(U"TextFont")(Accessory::getDescriptionJapanese(acc.getIndex())).draw(recognizedAccessoriesPos.x, recognizedAccessoriesPos.y + i * 30);
 		for (int j = 0; j < 4; j++)
 		{
-			FontAsset(U"TextFont")(StatusTypeToString[U"JP"][acc.getStatusBoosts()[j].type]).drawAt(recognizedAccessoriesPos.x + 600 + j * 90, recognizedAccessoriesPos.y + 10 + i * 30);
+			FontAsset(U"TextFont")(StatusTypeToString[U"Japanese"][acc.getStatusBoosts()[j].type]).drawAt(recognizedAccessoriesPos.x + 600 + j * 90, recognizedAccessoriesPos.y + 10 + i * 30);
 		}
 	}
 }
@@ -350,10 +350,10 @@ void Recording::drawDesiredAccessories() const
 	for (int i = 0; i < getData().desiredAccessories.size(); i++)
 	{
 		Accessory& acc = getData().desiredAccessories[i];
-		FontAsset(U"TextFont")(Accessory::getDescriptionJP(acc.getIndex())).draw(desiredAccessoriesPos.x, desiredAccessoriesPos.y + i * 30);
+		FontAsset(U"TextFont")(Accessory::getDescriptionJapanese(acc.getIndex())).draw(desiredAccessoriesPos.x, desiredAccessoriesPos.y + i * 30);
 		for (int j = 0; j < 4; j++)
 		{
-			FontAsset(U"TextFont")(StatusTypeToString[U"JP"][acc.getStatusBoosts()[j].type]).drawAt(desiredAccessoriesPos.x + 600 + j * 70, desiredAccessoriesPos.y + 10 + i * 30);
+			FontAsset(U"TextFont")(StatusTypeToString[U"Japanese"][acc.getStatusBoosts()[j].type]).drawAt(desiredAccessoriesPos.x + 600 + j * 70, desiredAccessoriesPos.y + 10 + i * 30);
 		}
 	}
 }

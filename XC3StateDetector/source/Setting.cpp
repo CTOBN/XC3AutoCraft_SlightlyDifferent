@@ -5,7 +5,7 @@ Setting::Setting(const InitData& init)
 	: IScene{ init }
 
 {
-	Array<String> DescriptionDetailJPList = Accessory::getDescriptionJPList();
+	Array<String> DescriptionDetailJapaneseList = Accessory::getDescriptionJapaneseList();
 
 	for (int i = 0; i < TARGET_ACCSESORIES_COUNT_MAX; i++)
 	{
@@ -14,7 +14,7 @@ Setting::Setting(const InitData& init)
 
 	for (auto& openableListBoxAccessory : openableListBoxesAccessory)
 	{
-		openableListBoxAccessory.setItems(DescriptionDetailJPList);
+		openableListBoxAccessory.setItems(DescriptionDetailJapaneseList);
 	}
 
 	for (int y = 0; y < TARGET_ACCSESORIES_COUNT_MAX; y++)

@@ -42,8 +42,8 @@ private:
 	Image image;
 	const Point CAMERA_RESOLUTION = { 1920, 1080 };
 	const Point VIDEO_DISPLAY_SIZE = CAMERA_RESOLUTION / 2;
-	String currentAccAbilityJP = U"未解析";
-	String currentAccAbilityEN = U"Unrecorded";
+	String currentAccAbilityJapanese = U"未解析";
+	String currentAccAbilityEnglish = U"Unrecorded";
 
 	const Point buttonPos = { 1450, 100 };
 	const int STATUS_ICON_NUM = 7;

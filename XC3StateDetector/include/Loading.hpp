@@ -12,7 +12,7 @@ public:
 
 private:
 	const CSV csv{ U"csv/accessory.csv" };
-	const String descriptionJPTemplateFolderPath = U"images/Xenoblade3_Temp_Jp";
+	const String descriptionJapaneseTemplateFolderPath = U"images/Xenoblade3_Temp_Jp";
 	const String statusIconsFolderPath = U"images/StatusType";
 	const String UnknownMatterNumbersPath = U"images/UnknownMatterNumbers";
 	const String GameScenesFolderPath = U"images/GameScenes";

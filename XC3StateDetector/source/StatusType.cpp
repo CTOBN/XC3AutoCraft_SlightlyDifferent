@@ -24,8 +24,8 @@ HashTable<StatusType, String> StatusTypeToString_JP = {
 };
 
 HashTable<String, HashTable<StatusType, String>> StatusTypeToString = {
-	{U"EN", StatusTypeToString_EN},
-	{U"JP", StatusTypeToString_JP}
+	{U"English", StatusTypeToString_EN},
+	{U"Japanese", StatusTypeToString_JP}
 };
 
 HashTable<String, StatusType> StringToStatusType = {

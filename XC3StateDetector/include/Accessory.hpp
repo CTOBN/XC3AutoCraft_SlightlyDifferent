@@ -17,12 +17,12 @@ public:
 	Array<StatusBoost> getStatusBoosts() const;
 	bool hasSameStatusTypeOrMore(const Accessory& other) const;
 	static size_t getID(size_t index);
-	static String getDescriptionEN(size_t index);
-	static String getDescriptionJP(size_t index);
-	static String getDescriptionDetailJP(size_t index);
-	static Array<String> getDescriptionENList();
-	static Array<String> getDescriptionJPList();
-	static Array<String> getDescriptionDetailJPList();
+	static String getDescriptionEnglish(size_t index);
+	static String getDescriptionJapanese(size_t index);
+	static String getDescriptionDetailJapanese(size_t index);
+	static Array<String> getDescriptionEnglishList();
+	static Array<String> getDescriptionJapaneseList();
+	static Array<String> getDescriptionDetailJapaneseList();
 	bool hasConsecutiveStatus() const;
 
 	Accessory& operator=(const Accessory& other)
@@ -56,9 +56,9 @@ public:
 		return m_index == other.m_index;
 	}
 	static void pushBackID(const size_t& id);
-	static void pushBackDescriptionEN(const String& discriptionEN);
-	static void pushBackDescriptionJP(const String& discriptionJP);
-	static void pushBackDescriptionDetailJP(const String& discriptionDetailJP);
+	static void pushBackDescriptionEnglish(const String& descriptionEnglish);
+	static void pushBackDescriptionJapanese(const String& descriptionJapanese);
+	static void pushBackDescriptionDetailJapanese(const String& descriptionDetailJapanese);
 	static void pushBackAlready(const String& already);
 	static void pushBackBracelet(const double& probabilitybracelet);
 	static void pushBackRing(const double& probabilityRing);
@@ -75,11 +75,11 @@ private:
 	size_t m_index;
 	Array<StatusBoost> m_statusBoosts;
 	static Array<size_t> IDList;
-	static Array<String> DescriptionENList;
-	static Array<String> DescriptionJPList;
-	static Array<String> DescriptionDetailJPList;
-	static Array<String> StatusTypeList_JP;
-	static Array<String> StatusTypeList_EN;
+	static Array<String> DescriptionEnglishList;
+	static Array<String> DescriptionJapaneseList;
+	static Array<String> DescriptionDetailJapaneseList;
+	static Array<String> StatusTypeListJapanese;
+	static Array<String> StatusTypeListEnglish;
 	static Array<String> AlreadyList;
 	static Array<double> ProbabilityBraceletList;
 	static Array<double> ProbabilityRingList;

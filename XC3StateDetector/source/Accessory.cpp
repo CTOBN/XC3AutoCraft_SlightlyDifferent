@@ -3,9 +3,9 @@
 #include "Accessory.hpp"
 
 Array<size_t> Accessory::IDList;
-Array<String> Accessory::DescriptionENList;
-Array<String> Accessory::DescriptionJPList;
-Array<String> Accessory::DescriptionDetailJPList;
+Array<String> Accessory::DescriptionEnglishList;
+Array<String> Accessory::DescriptionJapaneseList;
+Array<String> Accessory::DescriptionDetailJapaneseList;
 Array<String> Accessory::AlreadyList;
 Array<double> Accessory::ProbabilityBraceletList;
 Array<double> Accessory::ProbabilityRingList;
@@ -81,34 +81,34 @@ size_t Accessory::getID(size_t index)
 	return IDList[index];
 }
 
-String Accessory::getDescriptionEN(size_t index)
+String Accessory::getDescriptionEnglish(size_t index)
 {
-	return DescriptionENList[index];
+	return DescriptionEnglishList[index];
 }
 
-String Accessory::getDescriptionJP(size_t index)
+String Accessory::getDescriptionJapanese(size_t index)
 {
-	return DescriptionJPList[index];
+	return DescriptionJapaneseList[index];
 }
 
-String Accessory::getDescriptionDetailJP(size_t index)
+String Accessory::getDescriptionDetailJapanese(size_t index)
 {
-	return DescriptionDetailJPList[index];
+	return DescriptionDetailJapaneseList[index];
 }
 
-Array<String> Accessory::getDescriptionENList()
+Array<String> Accessory::getDescriptionEnglishList()
 {
-	return DescriptionENList;
+	return DescriptionEnglishList;
 }
 
-Array<String> Accessory::getDescriptionJPList()
+Array<String> Accessory::getDescriptionJapaneseList()
 {
-	return DescriptionJPList;
+	return DescriptionJapaneseList;
 }
 
-Array<String> Accessory::getDescriptionDetailJPList()
+Array<String> Accessory::getDescriptionDetailJapaneseList()
 {
-	return DescriptionDetailJPList;
+	return DescriptionDetailJapaneseList;
 }
 
 
@@ -130,19 +130,19 @@ void Accessory::pushBackID(const size_t& id)
 	IDList.push_back(id);
 }
 
-void Accessory::pushBackDescriptionEN(const String& discriptionEN)
+void Accessory::pushBackDescriptionEnglish(const String& descriptionEnglish)
 {
-	DescriptionENList.push_back(discriptionEN);
+	DescriptionEnglishList.push_back(descriptionEnglish);
 }
 
-void Accessory::pushBackDescriptionJP(const String& discriptionJP)
+void Accessory::pushBackDescriptionJapanese(const String& descriptionJapanese)
 {
-	DescriptionJPList.push_back(discriptionJP);
+	DescriptionJapaneseList.push_back(descriptionJapanese);
 }
 
-void Accessory::pushBackDescriptionDetailJP(const String& discriptionDetailJP)
+void Accessory::pushBackDescriptionDetailJapanese(const String& descriptionDetailJapanese)
 {
-	DescriptionDetailJPList.push_back(discriptionDetailJP);
+	DescriptionDetailJapaneseList.push_back(descriptionDetailJapanese);
 }
 
 void Accessory::pushBackAlready(const String& already)
