@@ -2,6 +2,7 @@
 #include "Context.hpp"
 #include "RecognizeItemCount.hpp"
 #include "AccessoryTypeSelecting.hpp"
+#include "Pause.hpp"
 
 namespace xc3
 {
@@ -19,7 +20,15 @@ namespace xc3
 
 		if (context.isUnkownMatterCountUpdated) // アンノウンマターの数が更新されたなら
 		{
-			context.setState(std::make_unique<AccessoryTypeSelecting>());
+			if (context.currentUnknownMatterCount >= 3) // アクセサリを作れる
+			{
+				context.setState(std::make_unique<AccessoryTypeSelecting>());
+			}
+			else // アクセサリを作れないなら一時中断
+			{
+				context.message = U"アンノウンマターの数が不足しています";
+				context.setState(std::make_unique<Pause>());
+			}
 		}
 	}
 }

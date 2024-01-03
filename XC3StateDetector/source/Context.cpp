@@ -18,10 +18,12 @@ namespace xc3
 		{U"GoingMainMenu", U"メインメニューを開いています"},
 		{U"MainMenu", U"メインメニューです"},
 		{U"SystemMenu", U"システムメニューです"},
+		{U"Pause", U"クラフト中断中です"},
 	};
 
 	Context::Context(Serial& serial)
 		: serial(serial)
+		, message(U"")
 	{
 	}
 

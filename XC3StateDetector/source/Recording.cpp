@@ -401,7 +401,7 @@ void Recording::drawButtons()
 		}
 		else
 		{
-			Console << U"ゲームシーンが認識できませんでした";
+			context.message = U"ゲームシーンが認識できませんでした";
 		}
 	}
 
@@ -501,7 +501,10 @@ void Recording::draw() const
 	virtualJoyCon.draw();
 
 	// 現在の状態を表示
-	FontAsset(U"TextFont")(U"現在の状態 : {}"_fmt(context.getCurrentStateDescription())).draw(1150, 450);
+	FontAsset(U"TextFont")(U"現在の状態   : {}"_fmt(context.getCurrentStateDescription())).draw(1150, 450);
 	FontAsset(U"TextFont")(U"現在ｱﾝﾉｳﾝﾏﾀｰ : {} 個"_fmt(context.currentUnknownMatterCount)).draw(1150, 480);
-
+	if (context.message != U"")
+	{
+		FontAsset(U"TextFont")(context.message).draw(1150, 510, Palette::Red);
+	}
 }
