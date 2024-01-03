@@ -78,7 +78,7 @@ void VirtualJoyCon::sendButtonSerial()
 		if ((m_joyConGUI.*(funcs[i]))())
 		{
 			m_serial.writeByte(m_buttons[i]);
-			Console << m_buttons[i] << U" を送りました";
+			// Console << m_buttons[i] << U" を送りました";
 		}
 	}
 }

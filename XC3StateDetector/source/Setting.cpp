@@ -48,11 +48,6 @@ Setting::Setting(const InitData& init)
 	desiredAccessories_to_pullDowns();
 
 	accPulldownTable.push_back_row({ U"特殊効果", U"ｽﾃｰﾀｽ１", U"ｽﾃｰﾀｽ2", U"ｽﾃｰﾀｽ3", U"ｽﾃｰﾀｽ4" }, { -1, 0, 0, 0, 0 });
-	//accPulldownTable.push_back_row({ U"", U"", U"", U"", U"" }, { 0, 0, 0, 0, 0 });
-	//accPulldownTable.push_back_row({ U"", U"", U"", U"", U"" }, { 0, 0, 0, 0, 0 });
-	//accPulldownTable.push_back_row({ U"", U"", U"", U"", U"" }, { 0, 0, 0, 0, 0 });
-	//accPulldownTable.push_back_row({ U"", U"", U"", U"", U"" }, { 0, 0, 0, 0, 0 });
-	//accPulldownTable.push_back_row({ U"", U"", U"", U"", U"" }, { 0, 0, 0, 0, 0 });
 
 	probabilityTable.push_back_row({ U"互換", U"腕輪", U"指輪", U"首飾", U"冠" }, { 0, 0, 0, 0, 0 });
 	probabilityTable.push_back_row({ U"-", U"0", U"0", U"0", U"0" }, { 0, 1, 1, 1, 1 });
@@ -210,7 +205,6 @@ void Setting::drawSerialStatus() const
 	FontAsset(U"TextFont")(serialConnectionStatus).draw(SerialTextPos.movedBy(200, 40), serialConnectionStatusColor);
 }
 
-
 void Setting::drawNotion() const
 {
 	if (not canMake())
@@ -233,18 +227,14 @@ void Setting::drawNotion() const
 	}
 }
 
-
 void Setting::update()
 {
 	if (goRecording)
 	{
 		changeScene(U"Recording");
 	}
-	// DrawVerticalGradientBackground(ColorF{ 0.2, 0.5, 1.0 }, ColorF{ 0.5, 0.8, 1.0 });
 	serialUpdate();
 	drawNotion();
-
-	
 
 	getData().cameraIndex = static_cast<uint32>(openableListBoxCamera.getSelectedIndex() - 1);
 	getData().cameraName = openableListBoxCamera.getSelectedItem();
@@ -293,7 +283,6 @@ void Setting::draw() const
 
 	accPulldownTable.draw(accPulldownTablePos);
 
-
 	for (auto it = std::rbegin(openableListBoxesStatusType); it != std::rend(openableListBoxesStatusType); ++it) {
 		auto& openableListBoxStatusType = *it;
 		// 他のすべてのメニューが閉じている場合にのみ、このメニューを更新
@@ -306,7 +295,6 @@ void Setting::draw() const
 
 	FontAsset(U"SubtitleFont")(U"希望のアクセサリ").draw(20, ACCSESSORIE_TEXT_Y);
 
-
 	for (auto it = std::rbegin(openableListBoxesAccessory); it != std::rend(openableListBoxesAccessory); ++it) {
 		auto& openableListBoxAccessory = *it;
 		// 他のすべてのメニューが閉じている場合にのみ、このメニューを更新
@@ -316,9 +304,6 @@ void Setting::draw() const
 		}
 		openableListBoxAccessory.draw();
 	}
-
-
-
 
 	if (canGoRecording() && SimpleGUI::Button(U"決定", Scene::Center()))
 	{

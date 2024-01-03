@@ -81,17 +81,5 @@ namespace xc3
 		isJudged = true;
 		isUnkownMatterCountUpdated = true;
 	}
-
-
-	void Context::debugPrint() const
-	{
-		Print << U"Context: {";
-		Print << U"  current state: " << getCurrentStateName();
-		Print << U"  currentUnknownMatterCount: " << currentUnknownMatterCount;
-		Print << U"  gotDesiredAccessory: " << gotDesiredAccessory;
-		Print << U"  canMakeAccessory: " << canMakeAccessory;
-		Print << U"  wasJudged: " << isJudged;
-		Print << U"}";
-	}
 }
 
