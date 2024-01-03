@@ -23,6 +23,7 @@ namespace xc3
 		bool canMakeAccessory = false;
 		bool isJudged = true;
 		bool isUnkownMatterCountUpdated = true;
+		bool isAccessoryTypeSelected = true;
 		struct CommandByte
 		{
 			static const uint8 Title_to_FieldLoading = 200;

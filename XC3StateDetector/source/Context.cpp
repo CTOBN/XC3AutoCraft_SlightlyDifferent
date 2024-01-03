@@ -11,7 +11,8 @@ namespace xc3
 		{U"Field", U"フィールドです"},
 		{U"Camp", U"休憩ポイントです"},
 		{U"RecognizeItemCount", U"アンノウンマターの数を認識しています"},
-		{U"AccessorySelected", U"アクセサリ選択画面です"},
+		{U"AccessoryTypeSelecting", U"アクセサリの種類を選択しています"},
+		{U"AccessoryTypeSelected", U"アクセサリ選択画面です"},
 		{U"Judge", U"アクセサリを判断しています"},
 		{U"GotDesiredAcc", U"目的のアクセサリを手に入れました"},
 		{U"GoingMainMenu", U"メインメニューを開いています"},
@@ -80,6 +81,7 @@ namespace xc3
 		canMakeAccessory = false;
 		isJudged = true;
 		isUnkownMatterCountUpdated = true;
+		isAccessoryTypeSelected = true;
 	}
 }
 
