@@ -5,7 +5,7 @@
 
 namespace xc3
 {
-	FieldLoading::FieldLoading() : State(U"FieldLoading", 25000) {}
+	FieldLoading::FieldLoading() : State(U"FieldLoading", 22000) {}
 
 	void FieldLoading::handle(Context& context)
 	{
