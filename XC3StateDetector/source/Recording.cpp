@@ -293,7 +293,7 @@ void Recording::drawButtons()
 	if (SimpleGUI::Button(U"\U000F040A 自動クラフト開始", Vec2{ buttonPos.x, buttonPos.y + 100 }))
 	{
 		context.init();
-		uint8 setAccType = accessoryTypeIndexToCommandByte[getData().accessoryTypeIndex - 1];
+		uint8 setAccType = accessoryTypeIndexToCommandByte[static_cast<uint8>(getData().selectedAccessoryType) - 1];
 		getData().serial.writeByte(setAccType);
 		context.setState(std::make_unique<xc3::Camp>());
 	}
