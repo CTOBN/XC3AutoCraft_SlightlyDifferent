@@ -180,7 +180,6 @@ void Recording::recognizeUnknownMatterCount()
 	size_t tensPlace = findMostSimilarNumber(UNKOWN_MATTER_NUMBER_TENS_PLACE_POS);
 	size_t onesPlace = findMostSimilarNumber(UNKOWN_MATTER_NUMBER_ONES_PLACE_POS);
 	size_t unknownMatterCount = tensPlace * 10 + onesPlace;
-	// context.initialUnkownMatterCount = unknownMatterCount;
 	context.currentUnknownMatterCount = unknownMatterCount;
 }
 
@@ -383,8 +382,6 @@ void Recording::drawButtons()
 	if (SimpleGUI::Button(U"\U000F040A 自動クラフト開始", Vec2{ buttonPos.x, buttonPos.y + 100 }))
 	{
 		context.init();
-		// uint8 setAccType = accessoryTypeIndexToCommandByte[static_cast<uint8>(getData().selectedAccessoryType) - 1];
-		// getData().serial.writeByte(setAccType);
 		String gameSceneName = findMostSimilarGameScene();
 		if (gameSceneName == U"Title")
 		{
