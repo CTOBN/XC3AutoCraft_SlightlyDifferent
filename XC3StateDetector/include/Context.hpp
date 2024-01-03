@@ -40,7 +40,6 @@ namespace xc3
 			static const uint8 SetAccessoryTypeAsCrown = 211;
 		};
 		void init();
-		void debugPrint() const;
 	private:
 		std::unique_ptr<State> m_state; // The current state.
 	};
