@@ -299,8 +299,9 @@ void Recording::drawButtons()
 	}
 	if (SimpleGUI::Button(U"\U000F04DB 自動クラフト停止", Vec2{ buttonPos.x, buttonPos.y + 150 }))
 	{
-		context.setState(std::make_unique<xc3::GotDesiredAcc>());
-		context.init();
+		// シリアルポートを閉じる
+		// getData().serial.close();
+		context.deleteState();
 	}
 	
 
@@ -403,7 +404,7 @@ void Recording::draw() const
 	virtualJoyCon.draw();
 
 	// 現在の状態を表示
-	FontAsset(U"TextFont")(U"現在の状態 : {}"_fmt(context.getCurrentStateName())).draw(1150, 450);
+	FontAsset(U"TextFont")(U"現在の状態 : {}"_fmt(context.getCurrentStateDescription())).draw(1150, 450);
 	FontAsset(U"TextFont")(U"現在ｱﾝﾉｳﾝﾏﾀｰ : {} 個"_fmt(context.currentUnknownMatterCount)).draw(1150, 480);
 
 }

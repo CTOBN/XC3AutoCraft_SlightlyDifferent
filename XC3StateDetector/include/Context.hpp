@@ -2,6 +2,8 @@
 
 namespace xc3
 {
+	extern const HashTable<String, String> StateNameToDescription;
+
 	// Forward declaration of XC3State
 	class State;
 
@@ -11,7 +13,9 @@ namespace xc3
 		void request();
 		void setSerial(Serial& serial);
 		void setState(std::unique_ptr<State> newState);
+		void deleteState();
 		String getCurrentStateName() const;
+		String getCurrentStateDescription() const;
 		bool getCurrentStateHasTransitioned() const;
 		Serial& serial;
 		size_t currentUnknownMatterCount = 0;
