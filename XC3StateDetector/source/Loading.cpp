@@ -45,8 +45,15 @@ Loading::Loading(const InitData& init)
 		getData().binarizedUnkownMatterNumbers.push_back(Image{ path }.thresholded(128));
 		// Console << path << U" を読み込みました";
 	}
-	getData().binarizedUnkownMatterNumbers.push_back(Image{ U"images/UnknownMatterNumbers/null.jpg" }.thresholded(128));
+	getData().binarizedUnkownMatterNumbers.push_back(Image{ U"images/UnknownMatterNumbers/null.jpg" }.thresholded(216));
 	// Console << U"images/UnknownMatterNumbers/null.jpg" << U" を読み込みました";
+
+	for (const auto& GameSceneName : getData().GameSceneNames)
+	{
+		String path = GameScenesFolderPath + U"/" + GameSceneName + U".jpg";
+		getData().binarizedGameScenes.push_back(Image{ path }.thresholded(216));
+		// Console << path << U" を読み込みました";
+	}
 }
 
 void Loading::update()

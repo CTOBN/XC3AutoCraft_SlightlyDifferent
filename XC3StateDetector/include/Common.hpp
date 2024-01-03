@@ -16,7 +16,8 @@ struct GameData
 	Array<Image> icons;
 	Array<Image> binarizedIcons;
 	Array<Image> binarizedUnkownMatterNumbers;
-
+	Array<Image> binarizedGameScenes;
+	Array<String> GameSceneNames = { U"Undefined", U"Title", U"Field", U"Camp", U"AccessorySelected" };
 	Serial serial;
 	size_t serialIndex = 0;
 	String serialName = U"未選択";

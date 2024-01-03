@@ -15,6 +15,7 @@ private:
 	const String descriptionJPTemplateFolderPath = U"images/Xenoblade3_Temp_Jp";
 	const String statusIconsFolderPath = U"images/StatusType";
 	const String UnknownMatterNumbersPath = U"images/UnknownMatterNumbers";
+	const String GameScenesFolderPath = U"images/GameScenes";
 	Array<String> descriptionsImagesPathList;
 	Array<String> statusIconsPathList;
 	const Polygon diamond{ Vec2{ 10, 0 }, Vec2{ 55, 0 }, Vec2{ 65, 15 },

@@ -1,5 +1,21 @@
 ﻿#include "Recording.hpp"
 
+
+Recording::Recording(const InitData& init)
+	: IScene{ init }
+{
+	// 非同期タスクを開始
+	const uint32 CameraIndex = getData().cameraIndex;
+
+	task = AsyncTask<Webcam>{ [CameraIndex, this]() {
+		Webcam webcam{ CameraIndex, Size{ this->CAMERA_RESOLUTION }, StartImmediately::No };
+		webcam.start();
+		return webcam;
+	} };
+
+}
+
+
 double Recording::calculateSimilarity(const Image& img1, const Image& img2) {
 	// 画像のサイズが一致しない場合はエラーを返す
 	if (img1.size() != img2.size()) {
@@ -92,6 +108,30 @@ size_t Recording::findMostSimilarAbility() {
 		// Console << Format(judgedIndex) << currentAccAbilityJP;
 	}
 	return judgedIndex;
+}
+
+String Recording::findMostSimilarGameScene()
+{
+	webcam.getFrame(image);
+	Point clipPos = { 1665, 1030 };
+	Point clipSize = { 233, 30 };
+	uint8 threshold = 216;
+	String judgedGameSceneName = U"";
+	double similarityMax = 0;
+	Image clippedImage = image.clipped(clipPos, clipSize).thresholded(threshold);
+	for (size_t i = 0; i < getData().binarizedGameScenes.size(); i++)
+	{
+		Image binarizedGameScene = getData().binarizedGameScenes[i];
+
+		double similarity = calculateSimilarity(clippedImage, binarizedGameScene);
+		Console << U"{} : {}"_fmt(getData().GameSceneNames[i], similarity);
+		if (similarity > similarityMax)
+		{
+			similarityMax = similarity;
+			judgedGameSceneName = getData().GameSceneNames[i];
+		}
+	}
+	return judgedGameSceneName;
 }
 
 Accessory Recording::recognizeAccessory()
@@ -282,6 +322,12 @@ void Recording::drawDesiredAccessories() const
 
 void Recording::drawButtons()
 {
+	if (webcam && SimpleGUI::Button(U"ゲームシーンを認識", buttonPos))
+	{
+		String gameSceneName = findMostSimilarGameScene();
+		Console << U"ゲームシーン : {}"_fmt(gameSceneName);
+	}
+
 	if (SimpleGUI::Button(U"\U000F02B4 仮想コントローラ接続", Vec2{ buttonPos.x, buttonPos.y + 50 }))
 	{
 		openSerialPort();
@@ -336,18 +382,7 @@ void Recording::drawRecognitionArea() const
 	}
 }
 
-Recording::Recording(const InitData& init)
-	: IScene{ init }
-{
-	// 非同期タスクを開始
-	const uint32 CameraIndex = getData().cameraIndex;
 
-	task = AsyncTask<Webcam>{ [CameraIndex, this]() {
-		Webcam webcam{ CameraIndex, Size{ this->CAMERA_RESOLUTION }, StartImmediately::No };
-		webcam.start();
-		return webcam;
-	} };
-}
 
 void Recording::update()
 {

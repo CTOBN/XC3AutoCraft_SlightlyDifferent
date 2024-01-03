@@ -8,6 +8,7 @@
 # include "AccessorySelected.hpp"
 # include "GotDesiredAcc.hpp"
 # include "Title.hpp"
+# include "OpenableListBox.hpp"
 
 
 
@@ -52,6 +53,7 @@ private:
 	uint8 lastSerialByte;
 
 	double adjust_interval = 8000;
+
 
 	HashTable<uint8, uint8> accessoryTypeIndexToCommandByte = {
 		{0, xc3::Context::CommandByte::SetAccessoryTypeAsBracelet},
@@ -110,6 +112,8 @@ private:
 	Array<StatusBoost> findMostSimilarStatusBoost();
 
 	size_t findMostSimilarAbility();
+
+	String findMostSimilarGameScene();
 
 	Accessory recognizeAccessory();
 
