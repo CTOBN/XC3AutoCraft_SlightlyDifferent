@@ -55,7 +55,6 @@ namespace xc3
 	{
 		Print << U"Context: {";
 		Print << U"  current state: " << getCurrentStateName();
-		Print << U"  initialUnkownMatterCount: " << initialUnkownMatterCount;
 		Print << U"  currentUnknownMatterCount: " << currentUnknownMatterCount;
 		Print << U"  gotDesiredAccessory: " << gotDesiredAccessory;
 		Print << U"  canMakeAccessory: " << canMakeAccessory;
