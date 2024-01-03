@@ -7,10 +7,10 @@ Array<String> Accessory::DescriptionENList;
 Array<String> Accessory::DescriptionJPList;
 Array<String> Accessory::DescriptionDetailJPList;
 Array<String> Accessory::AlreadyList;
-Array<double> Accessory::ProbabilityWristList;
-Array<double> Accessory::ProbabilityFingerList;
-Array<double> Accessory::ProbabilityNecklacesList;
-Array<double> Accessory::ProbabilityCrownsList;
+Array<double> Accessory::ProbabilityBraceletList;
+Array<double> Accessory::ProbabilityRingList;
+Array<double> Accessory::ProbabilityNecklaceList;
+Array<double> Accessory::ProbabilityCrownList;
 
 
 
@@ -150,24 +150,24 @@ void Accessory::pushBackAlready(const String& already)
 	AlreadyList.push_back(already);
 }
 
-void Accessory::pushBackWrist(const double& wrist)
+void Accessory::pushBackBracelet(const double& probabilityBracelet)
 {
-	ProbabilityWristList.push_back(wrist);
+	ProbabilityBraceletList.push_back(probabilityBracelet);
 }
 
-void Accessory::pushBackFinger(const double& finger)
+void Accessory::pushBackRing(const double& probabilityRing)
 {
-	ProbabilityFingerList.push_back(finger);
+	ProbabilityRingList.push_back(probabilityRing);
 }
 
-void Accessory::pushBackNecklaces(const double& necklaces)
+void Accessory::pushBackNecklace(const double& probabilityNecklace)
 {
-	ProbabilityNecklacesList.push_back(necklaces);
+	ProbabilityNecklaceList.push_back(probabilityNecklace);
 }
 
-void Accessory::pushBackCrowns(const double& crowns)
+void Accessory::pushBackCrown(const double& probabilityCrown)
 {
-	ProbabilityCrownsList.push_back(crowns);
+	ProbabilityCrownList.push_back(probabilityCrown);
 }
 
 String Accessory::getAlready(size_t index)
@@ -179,35 +179,35 @@ double Accessory::getProbability(size_t index, AccessoryType type)
 {
 	switch (type)
 	{
-	case AccessoryType::Blacelet:
-		return ProbabilityWristList[index];
+	case AccessoryType::Bracelet:
+		return ProbabilityBraceletList[index];
 	case AccessoryType::Ring:
-		return ProbabilityFingerList[index];
+		return ProbabilityRingList[index];
 	case AccessoryType::Necklace:
-		return ProbabilityNecklacesList[index];
+		return ProbabilityNecklaceList[index];
 	case AccessoryType::Crown:
-		return ProbabilityCrownsList[index];
+		return ProbabilityCrownList[index];
 	default:
 		return 0;
 	}
 }
 
-double Accessory::getProbabilityWrist(size_t index)
+double Accessory::getProbabilityBracelet(size_t index)
 {
-	return ProbabilityWristList[index];
+	return ProbabilityBraceletList[index];
 }
 
-double Accessory::getProbabilityFinger(size_t index)
+double Accessory::getProbabilityRing(size_t index)
 {
-	return ProbabilityFingerList[index];
+	return ProbabilityRingList[index];
 }
 
-double Accessory::getProbabilityNecklaces(size_t index)
+double Accessory::getProbabilityNecklace(size_t index)
 {
-	return ProbabilityNecklacesList[index];
+	return ProbabilityNecklaceList[index];
 }
 
-double Accessory::getProbabilityCrowns(size_t index)
+double Accessory::getProbabilityCrown(size_t index)
 {
-	return ProbabilityCrownsList[index];
+	return ProbabilityCrownList[index];
 }

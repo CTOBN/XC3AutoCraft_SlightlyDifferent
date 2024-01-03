@@ -2,7 +2,7 @@
 
 enum class AccessoryType {
 	Undefined,
-	Blacelet,
+	Bracelet,
 	Ring,
 	Necklace,
 	Crown

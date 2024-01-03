@@ -60,16 +60,16 @@ public:
 	static void pushBackDescriptionJP(const String& discriptionJP);
 	static void pushBackDescriptionDetailJP(const String& discriptionDetailJP);
 	static void pushBackAlready(const String& already);
-	static void pushBackWrist(const double& wrist);
-	static void pushBackFinger(const double& finger);
-	static void pushBackNecklaces(const double& necklaces);
-	static void pushBackCrowns(const double& crowns);
+	static void pushBackBracelet(const double& probabilitybracelet);
+	static void pushBackRing(const double& probabilityRing);
+	static void pushBackNecklace(const double& probabilityNecklace);
+	static void pushBackCrown(const double& probabilityCrown);
 	static String getAlready(size_t index);
 	static double getProbability(size_t index, AccessoryType type);
-	static double getProbabilityWrist(size_t index);
-	static double getProbabilityFinger(size_t index);
-	static double getProbabilityNecklaces(size_t index);
-	static double getProbabilityCrowns(size_t index);
+	static double getProbabilityBracelet(size_t index);
+	static double getProbabilityRing(size_t index);
+	static double getProbabilityNecklace(size_t index);
+	static double getProbabilityCrown(size_t index);
 
 private:
 	size_t m_index;
@@ -81,9 +81,9 @@ private:
 	static Array<String> StatusTypeList_JP;
 	static Array<String> StatusTypeList_EN;
 	static Array<String> AlreadyList;
-	static Array<double> ProbabilityWristList;
-	static Array<double> ProbabilityFingerList;
-	static Array<double> ProbabilityNecklacesList;
-	static Array<double> ProbabilityCrownsList;
+	static Array<double> ProbabilityBraceletList;
+	static Array<double> ProbabilityRingList;
+	static Array<double> ProbabilityNecklaceList;
+	static Array<double> ProbabilityCrownList;
 
 };
