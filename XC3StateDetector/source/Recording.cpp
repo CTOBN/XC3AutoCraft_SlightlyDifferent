@@ -124,7 +124,7 @@ String Recording::findMostSimilarGameScene()
 		Image binarizedGameScene = getData().binarizedGameScenes[i];
 
 		double similarity = calculateSimilarity(clippedImage, binarizedGameScene);
-		Console << U"{} : {}"_fmt(getData().GameSceneNames[i], similarity);
+		// Console << U"{} : {}"_fmt(getData().GameSceneNames[i], similarity);
 		if (similarity > similarityMax)
 		{
 			similarityMax = similarity;
@@ -233,7 +233,7 @@ void Recording::selectAccessoryType()
 	AccessoryType currentSelectingAccessoryType = recognizeSelectingAccessoryType();
 	AccessoryType desiredAccessoryType = getData().selectedAccessoryType;
 	int8 DownCount = (static_cast<int8>(desiredAccessoryType) - static_cast<int8>(currentSelectingAccessoryType) + 4) % 4;
-	Console << U"DownCount " << DownCount;
+	// Console << U"DownCount " << DownCount;
 	for (int i = 0; i < DownCount; i++)
 	{
 		getData().serial.writeByte(ButtonByte::LStickDown);
