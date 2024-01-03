@@ -40,21 +40,6 @@ namespace siv3dswitch
 		static const uint8_t Left = 25;
 		static const uint8_t Right = 26;
 	};
-
-	struct CommandByte
-	{
-		static const uint8_t Title_to_FieldLoading = 201;
-		static const uint8_t FieldLoading_to_Field = 202;
-		static const uint8_t Field_to_Camp = 203;
-		static const uint8_t TitleLoading_to_Title = 200;
-		static const uint8_t Camp_to_AccessoryCraft	= 204;
-		static const uint8_t AccessoryCraft_to_AccTypeSelected = 205;
-		static const uint8_t AccTypeSelected_to_Make = 206;
-		static const uint8_t Make_to_Judge = 207;
-		static const uint8_t Judge_to_MainMenu	= 208;
-		static const uint8_t MainMenu_to_SystemMenu = 209;
-		static const uint8_t SystemMenu_to_TitleLoading = 210;
-	};
 }
 
 uint8_t siv3dswitch_buttons[BUTTONS_COUNT] = 
@@ -263,7 +248,7 @@ void Field_to_Camp()
 	pushButton(Button::A, BUTTON_INTERVAL);
 }
 	
-void Camp_to_AccessorySelected()
+void Camp_to_AccessoryMenu()
 {
 	// 休憩ポイントメニューからアクセサリクラフトを選択
 	tiltLeftStick(Stick::MIN, Stick::NEUTRAL, STICK_INTERVAL); // 左スティックを左に傾ける
@@ -344,18 +329,16 @@ void (*xc3_macros[])() =
 {
 	Title_to_FieldLoading,
 	Field_to_Camp,
-	Camp_to_AccessorySelected,
+	Camp_to_AccessoryMenu,
 	AccessorySelected_to_Judge,
 	Judge_to_AccessorySelected,
 	GoingMainMenu_to_MainMenu,
 	MainMenu_to_SystemMenu,
 	SystemMenu_to_TitleLoading,
-
 	SetAccessoryTypeAsBracelet,
 	SetAccessoryTypeAsRing,
 	SetAccessoryTypeAsNacklace,
 	SetAccessoryTypeAsCrown,
-	adjust,
 };
 
 void setup()

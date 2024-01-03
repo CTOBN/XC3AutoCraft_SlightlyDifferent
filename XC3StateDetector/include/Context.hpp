@@ -28,7 +28,7 @@ namespace xc3
 		{
 			static const uint8 Title_to_FieldLoading = 200;
 			static const uint8 Field_to_Camp = 201;
-			static const uint8 Camp_to_AccessorySelected = 202;
+			static const uint8 Camp_to_AccessoryMenu = 202;
 			static const uint8 AccessorySelected_to_Judge = 203;
 			static const uint8 Judge_to_AccessorySelected = 204;
 			static const uint8 GoingMainMenu_to_MainMenu = 205;
@@ -38,8 +38,6 @@ namespace xc3
 			static const uint8 SetAccessoryTypeAsRing = 209;
 			static const uint8 SetAccessoryTypeAsNecklace = 210;
 			static const uint8 SetAccessoryTypeAsCrown = 211;
-			static const uint8 adjust = 212;
-
 		};
 		void init();
 		void debugPrint() const;
