@@ -1,6 +1,6 @@
 ﻿#include "State.hpp"
 #include "AccessoryTypeSelecting.hpp"
-#include "AccessorySelected.hpp"
+#include "AccessoryTypeSelected.hpp"
 #include "Context.hpp"
 
 namespace xc3
@@ -17,7 +17,7 @@ namespace xc3
 		}
 		if (isTimeToTransition())
 		{
-			context.setState(std::make_unique<AccessorySelected>());
+			context.setState(std::make_unique<AccessoryTypeSelected>());
 		}
 	}
 }

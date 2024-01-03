@@ -271,26 +271,6 @@ void Camp_to_AccessorySelected()
 	tiltLeftStick(Stick::MIN, Stick::NEUTRAL, STICK_INTERVAL); // 左スティックを左に傾ける
 	pushButton(Button::A, BUTTON_INTERVAL);
 	delay(3000);
-
-	// アクセサリの種類を選択
-	if (selectedAccType == AccType::Bracelet)
-	{
-		// 何もしない
-	}
-	else if (selectedAccType == AccType::Ring)
-	{
-		tiltLeftStick(Stick::NEUTRAL, Stick::MAX, STICK_INTERVAL); // 左スティックを下に傾ける
-
-	}
-	else if (selectedAccType == AccType::Nacklace)
-	{
-		tiltLeftStick(Stick::NEUTRAL, Stick::MAX, STICK_INTERVAL); // 左スティックを下に傾ける
-		tiltLeftStick(Stick::NEUTRAL, Stick::MAX, STICK_INTERVAL); // 左スティックを下に傾ける
-	}
-	else if (selectedAccType == AccType::Crown)
-	{
-		tiltLeftStick(Stick::NEUTRAL, Stick::MIN, STICK_INTERVAL); // 左スティックを上に傾ける
-	}
 }
 
 void SetAccessoryTypeAsBracelet()

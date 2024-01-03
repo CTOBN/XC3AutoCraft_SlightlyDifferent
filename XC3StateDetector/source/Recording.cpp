@@ -225,6 +225,23 @@ void Recording::countUnknownMatter()
 	context.isUnkownMatterCountUpdated = true;
 }
 
+void Recording::selectAccessoryType()
+{
+	if (context.getCurrentStateName() != U"AccessoryTypeSelecting" || context.isAccessoryTypeSelected)
+	{
+		return;
+	}
+	AccessoryType currentSelectingAccessoryType = recognizeSelectingAccessoryType();
+	AccessoryType desiredAccessoryType = getData().selectedAccessoryType;
+	int8 DownCount = (static_cast<int8>(desiredAccessoryType) - static_cast<int8>(currentSelectingAccessoryType) + 4) % 4;
+	Console << U"DownCount " << DownCount;
+	for (int i = 0; i < DownCount; i++)
+	{
+		getData().serial.writeByte(ButtonByte::LStickDown);
+	}
+	context.isAccessoryTypeSelected = true;
+}
+
 void Recording::judgeAccessory()
 {
 	if (context.getCurrentStateName() != U"Judge" || context.isJudged)
@@ -267,6 +284,7 @@ void Recording::updateContext()
 		context.request();
 	}
 	countUnknownMatter();
+	selectAccessoryType();
 	judgeAccessory();
 }
 
@@ -365,10 +383,31 @@ void Recording::drawButtons()
 	if (SimpleGUI::Button(U"\U000F040A 自動クラフト開始", Vec2{ buttonPos.x, buttonPos.y + 100 }))
 	{
 		context.init();
-		uint8 setAccType = accessoryTypeIndexToCommandByte[static_cast<uint8>(getData().selectedAccessoryType) - 1];
-		getData().serial.writeByte(setAccType);
-		context.setState(std::make_unique<xc3::Camp>());
+		// uint8 setAccType = accessoryTypeIndexToCommandByte[static_cast<uint8>(getData().selectedAccessoryType) - 1];
+		// getData().serial.writeByte(setAccType);
+		String gameSceneName = findMostSimilarGameScene();
+		if (gameSceneName == U"Title")
+		{
+			context.setState(std::make_unique<xc3::Title>());
+		}
+		else if (gameSceneName == U"Field")
+		{
+			context.setState(std::make_unique<xc3::Field>());
+		}
+		else if (gameSceneName == U"Camp")
+		{
+			context.setState(std::make_unique<xc3::Camp>());
+		}
+		else if (gameSceneName == U"AccessoryMenu")
+		{
+			context.setState(std::make_unique<xc3::RecognizeItemCount>());
+		}
+		else
+		{
+			Console << U"ゲームシーンが認識できませんでした";
+		}
 	}
+
 	if (SimpleGUI::Button(U"\U000F04DB 自動クラフト停止", Vec2{ buttonPos.x, buttonPos.y + 150 }))
 	{
 		// シリアルポートを閉じる

@@ -4,10 +4,15 @@
 # include "ButtonByte.hpp"
 # include "Context.hpp"
 # include "State.hpp"
-# include "Camp.hpp"
-# include "AccessorySelected.hpp"
-# include "GotDesiredAcc.hpp"
+
 # include "Title.hpp"
+# include "Field.hpp"
+# include "Camp.hpp"
+# include "RecognizeItemCount.hpp"
+
+# include "AccessoryTypeSelected.hpp"
+# include "GotDesiredAcc.hpp"
+
 # include "OpenableListBox.hpp"
 
 
@@ -132,6 +137,8 @@ private:
 	bool completeMission();
 
 	void countUnknownMatter();
+
+	void selectAccessoryType();
 
 	void judgeAccessory();
 

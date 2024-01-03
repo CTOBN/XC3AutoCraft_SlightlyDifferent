@@ -1,7 +1,7 @@
 ﻿#include "State.hpp"
 #include "Context.hpp"
 #include "RecognizeItemCount.hpp"
-#include "AccessorySelected.hpp"
+#include "AccessoryTypeSelecting.hpp"
 
 namespace xc3
 {
@@ -19,7 +19,7 @@ namespace xc3
 
 		if (context.isUnkownMatterCountUpdated) // アンノウンマターの数が更新されたなら
 		{
-			context.setState(std::make_unique<AccessorySelected>());
+			context.setState(std::make_unique<AccessoryTypeSelecting>());
 		}
 	}
 }
