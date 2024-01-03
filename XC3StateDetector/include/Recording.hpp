@@ -96,7 +96,7 @@ private:
 		{ButtonByte::Right, U"Right"},
 		{xc3::Context::CommandByte::Title_to_FieldLoading, U"Title_to_FieldLoading"},
 		{xc3::Context::CommandByte::Field_to_Camp, U"Field_to_Camp"},
-		{xc3::Context::CommandByte::Camp_to_AccessorySelected, U"Camp_to_AccessorySelected"},
+		{xc3::Context::CommandByte::Camp_to_AccessoryMenu, U"Camp_to_AccessoryMenu"},
 		{xc3::Context::CommandByte::AccessorySelected_to_Judge, U"AccessorySelected_to_Judge"},
 		{xc3::Context::CommandByte::Judge_to_AccessorySelected, U"Judge_to_AccessorySelected"},
 		{xc3::Context::CommandByte::GoingMainMenu_to_MainMenu, U"GoingMainMenu_to_MainMenu"},

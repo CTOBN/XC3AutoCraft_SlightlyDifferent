@@ -11,7 +11,7 @@ namespace xc3
 	{
 		if (not hasTransitioned)
 		{
-			context.serial.writeByte(Context::CommandByte::Camp_to_AccessorySelected);
+			context.serial.writeByte(Context::CommandByte::Camp_to_AccessoryMenu);
 			transitionTime = Time::GetMillisec();
 			hasTransitioned = true;
 		}
