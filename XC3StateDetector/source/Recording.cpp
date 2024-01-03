@@ -134,6 +134,26 @@ String Recording::findMostSimilarGameScene()
 	return judgedGameSceneName;
 }
 
+AccessoryType Recording::recognizeSelectingAccessoryType()
+{
+	webcam.getFrame(image);
+	Array<Point> clipPosList = { { 237, 415 }, {237, 495 }, { 237, 575 }, {237, 655} };
+	Point clipSize = { 1, 1 };
+	uint8 threshold = 150;
+	AccessoryType judgedAccessoryType = AccessoryType::Undefined;
+	double similarityMax = 0;
+	for (size_t i = 0; i < 4; i++)
+	{
+		Image clippedImage = image.clipped(clipPosList[i], clipSize).thresholded(threshold);
+		//　切り抜かれた画像の0, 0の位置の色が白なら、そのアクセサリが選択されている
+		if (clippedImage[0][0] == Color(255, 255, 255))
+		{
+			judgedAccessoryType = static_cast<AccessoryType>(i + 1);
+		}
+	}
+	return judgedAccessoryType;
+}
+
 Accessory Recording::recognizeAccessory()
 {
 	size_t judgedAccIndex = findMostSimilarAbility();
@@ -322,6 +342,12 @@ void Recording::drawDesiredAccessories() const
 
 void Recording::drawButtons()
 {
+	if (webcam && SimpleGUI::Button(U"アクセサリーの種類を認識", buttonPos.movedBy(0, -50)))
+	{
+		AccessoryType accessoryType = recognizeSelectingAccessoryType();
+		Console << U"アクセサリーの種類 : {}"_fmt(AccessoryTypeToName[U"Japanese"][accessoryType]);
+	}
+
 	if (webcam && SimpleGUI::Button(U"ゲームシーンを認識", buttonPos))
 	{
 		String gameSceneName = findMostSimilarGameScene();

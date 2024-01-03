@@ -115,6 +115,8 @@ private:
 
 	String findMostSimilarGameScene();
 
+	AccessoryType recognizeSelectingAccessoryType();
+
 	Accessory recognizeAccessory();
 
 	void updateContext();
