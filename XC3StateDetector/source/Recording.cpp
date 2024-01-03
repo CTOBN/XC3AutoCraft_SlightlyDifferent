@@ -411,7 +411,7 @@ void Recording::drawButtons()
 	if (SimpleGUI::Button(U"\U000F04DB 自動クラフト停止", Vec2{ buttonPos.x, buttonPos.y + 150 }))
 	{
 		// シリアルポートを閉じる
-		// getData().serial.close();
+		getData().serial.close();
 		context.deleteState();
 	}
 	
