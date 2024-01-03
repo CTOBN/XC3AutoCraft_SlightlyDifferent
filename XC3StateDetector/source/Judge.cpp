@@ -15,7 +15,7 @@ namespace xc3
 		{
 			transitionTime = Time::GetMillisec();
 			hasTransitioned = true;
-			context.wasJudged = false;
+			context.isJudged = false;
 		}
 		if (not isTimeToTransition()) return; // 3秒経過していないなら何もしない
 

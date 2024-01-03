@@ -167,14 +167,14 @@ void Recording::countUnknownMatter()
 
 void Recording::judgeAccessory()
 {
-	if (context.getCurrentStateName() != U"Judge" || context.wasJudged)
+	if (context.getCurrentStateName() != U"Judge" || context.isJudged)
 	{
 		return;
 	}
 
 	currentAccessory = recognizeAccessory();
 	addAccessory(currentAccessory);
-	context.wasJudged = true;
+	context.isJudged = true;
 
 	if (completeMission())
 	{

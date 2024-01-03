@@ -46,7 +46,7 @@ namespace xc3
 	{
 		gotDesiredAccessory = false;
 		canMakeAccessory = false;
-		wasJudged = true;
+		isJudged = true;
 		isUnkownMatterCountUpdated = true;
 	}
 
@@ -58,7 +58,7 @@ namespace xc3
 		Print << U"  currentUnknownMatterCount: " << currentUnknownMatterCount;
 		Print << U"  gotDesiredAccessory: " << gotDesiredAccessory;
 		Print << U"  canMakeAccessory: " << canMakeAccessory;
-		Print << U"  wasJudged: " << wasJudged;
+		Print << U"  wasJudged: " << isJudged;
 		Print << U"}";
 	}
 }

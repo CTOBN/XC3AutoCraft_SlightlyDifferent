@@ -17,7 +17,7 @@ namespace xc3
 		size_t currentUnknownMatterCount = 0;
 		bool gotDesiredAccessory = false;
 		bool canMakeAccessory = false;
-		bool wasJudged = true;
+		bool isJudged = true;
 		bool isUnkownMatterCountUpdated = true;
 		struct CommandByte
 		{
