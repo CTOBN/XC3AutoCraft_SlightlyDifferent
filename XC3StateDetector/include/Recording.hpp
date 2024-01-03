@@ -54,10 +54,10 @@ private:
 	double adjust_interval = 8000;
 
 	HashTable<uint8, uint8> accessoryTypeIndexToCommandByte = {
-		{0, xc3::Context::CommandByte::SetAccTypeAsWrist},
-		{1, xc3::Context::CommandByte::SetAccTypeAsFinger},
-		{2, xc3::Context::CommandByte::SetAccTypeAsNecklaces},
-		{3, xc3::Context::CommandByte::SetAccTypeAsCrowns}
+		{0, xc3::Context::CommandByte::SetAccessoryTypeAsBracelet},
+		{1, xc3::Context::CommandByte::SetAccessoryTypeAsRing},
+		{2, xc3::Context::CommandByte::SetAccessoryTypeAsNecklace},
+		{3, xc3::Context::CommandByte::SetAccessoryTypeAsCrown}
 	};
 
 	HashTable<uint8, String> commandByteToString = {
@@ -95,10 +95,10 @@ private:
 		{xc3::Context::CommandByte::GoingMainMenu_to_MainMenu, U"GoingMainMenu_to_MainMenu"},
 		{xc3::Context::CommandByte::MainMenu_to_SystemMenu, U"MainMenu_to_SystemMenu"},
 		{xc3::Context::CommandByte::SystemMenu_to_TitleLoading, U"SystemMenu_to_TitleLoading"},
-		{xc3::Context::CommandByte::SetAccTypeAsWrist, U"SetAccTypeAsWrist"},
-		{xc3::Context::CommandByte::SetAccTypeAsFinger, U"SetAccTypeAsFinger"},
-		{xc3::Context::CommandByte::SetAccTypeAsNecklaces, U"SetAccTypeAsNecklaces"},
-		{xc3::Context::CommandByte::SetAccTypeAsCrowns, U"SetAccTypeAsCrowns"},
+		{xc3::Context::CommandByte::SetAccessoryTypeAsBracelet, U"SetAccessoryTypeAsBracelet"},
+		{xc3::Context::CommandByte::SetAccessoryTypeAsRing, U"SetAccessoryTypeAsRing"},
+		{xc3::Context::CommandByte::SetAccessoryTypeAsNecklace, U"SetAccessoryTypeAsNecklace"},
+		{xc3::Context::CommandByte::SetAccessoryTypeAsCrown, U"SetAccessoryTypeAsCrown"},
 	};
 
 	xc3::Context context{ getData().serial };

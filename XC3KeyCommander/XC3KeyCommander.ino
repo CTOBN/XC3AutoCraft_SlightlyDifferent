@@ -4,8 +4,8 @@ const int BUTTON_INTERVAL = 1000;
 const int STICK_INTERVAL = 200;
 const int HAT_INTERVAL = 1000;
 constexpr int BUTTONS_COUNT = 26;
-enum AccType { Wrist, Finger, Necklaces, Crowns };
-enum AccType selectedAccType = AccType::Wrist;
+enum AccType { Bracelet, Ring, Nacklace, Crown };
+enum AccType selectedAccType = AccType::Bracelet;
 
 int32_t ajust_time = 2000;
 
@@ -273,44 +273,44 @@ void Camp_to_AccessorySelected()
 	delay(3000);
 
 	// アクセサリの種類を選択
-	if (selectedAccType == AccType::Wrist)
+	if (selectedAccType == AccType::Bracelet)
 	{
 		// 何もしない
 	}
-	else if (selectedAccType == AccType::Finger)
+	else if (selectedAccType == AccType::Ring)
 	{
 		tiltLeftStick(Stick::NEUTRAL, Stick::MAX, STICK_INTERVAL); // 左スティックを下に傾ける
 
 	}
-	else if (selectedAccType == AccType::Necklaces)
+	else if (selectedAccType == AccType::Nacklace)
 	{
 		tiltLeftStick(Stick::NEUTRAL, Stick::MAX, STICK_INTERVAL); // 左スティックを下に傾ける
 		tiltLeftStick(Stick::NEUTRAL, Stick::MAX, STICK_INTERVAL); // 左スティックを下に傾ける
 	}
-	else if (selectedAccType == AccType::Crowns)
+	else if (selectedAccType == AccType::Crown)
 	{
 		tiltLeftStick(Stick::NEUTRAL, Stick::MIN, STICK_INTERVAL); // 左スティックを上に傾ける
 	}
 }
 
-void SetAccTypeAsWrist()
+void SetAccessoryTypeAsBracelet()
 {
-	selectedAccType = AccType::Wrist;
+	selectedAccType = AccType::Bracelet;
 }
 
-void SetAccTypeAsFinger()
+void SetAccessoryTypeAsRing()
 {
-	selectedAccType = AccType::Finger;
+	selectedAccType = AccType::Ring;
 }
 
-void SetAccTypeAsNecklaces()
+void SetAccessoryTypeAsNacklace()
 {
-	selectedAccType = AccType::Necklaces;
+	selectedAccType = AccType::Nacklace;
 }
 
-void SetAccTypeAsCrowns()
+void SetAccessoryTypeAsCrown()
 {
-	selectedAccType = AccType::Crowns;
+	selectedAccType = AccType::Crown;
 }
 
 void AccessorySelected_to_Judge()
@@ -371,10 +371,10 @@ void (*xc3_macros[])() =
 	MainMenu_to_SystemMenu,
 	SystemMenu_to_TitleLoading,
 
-	SetAccTypeAsWrist,
-	SetAccTypeAsFinger,
-	SetAccTypeAsNecklaces,
-	SetAccTypeAsCrowns,
+	SetAccessoryTypeAsBracelet,
+	SetAccessoryTypeAsRing,
+	SetAccessoryTypeAsNacklace,
+	SetAccessoryTypeAsCrown,
 	adjust,
 };
 

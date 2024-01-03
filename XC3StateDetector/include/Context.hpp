@@ -33,10 +33,10 @@ namespace xc3
 			static const uint8 GoingMainMenu_to_MainMenu = 205;
 			static const uint8 MainMenu_to_SystemMenu = 206;
 			static const uint8 SystemMenu_to_TitleLoading = 207;
-			static const uint8 SetAccTypeAsWrist = 208;
-			static const uint8 SetAccTypeAsFinger = 209;
-			static const uint8 SetAccTypeAsNecklaces = 210;
-			static const uint8 SetAccTypeAsCrowns = 211;
+			static const uint8 SetAccessoryTypeAsBracelet = 208;
+			static const uint8 SetAccessoryTypeAsRing = 209;
+			static const uint8 SetAccessoryTypeAsNecklace = 210;
+			static const uint8 SetAccessoryTypeAsCrown = 211;
 			static const uint8 adjust = 212;
 
 		};
