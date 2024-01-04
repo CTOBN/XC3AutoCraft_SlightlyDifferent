@@ -359,18 +359,6 @@ void Recording::drawDesiredAccessories() const
 
 void Recording::drawButtons()
 {
-	if (webcam && SimpleGUI::Button(U"アクセサリーの種類を認識", buttonPos.movedBy(0, -50)))
-	{
-		AccessoryType accessoryType = recognizeSelectingAccessoryType();
-		Console << U"アクセサリーの種類 : {}"_fmt(AccessoryTypeToName[U"Japanese"][accessoryType]);
-	}
-
-	if (webcam && SimpleGUI::Button(U"ゲームシーンを認識", buttonPos))
-	{
-		String gameSceneName = findMostSimilarGameScene();
-		Console << U"ゲームシーン : {}"_fmt(gameSceneName);
-	}
-
 	if (SimpleGUI::Button(U"\U000F02B4 仮想コントローラ接続", Vec2{ buttonPos.x, buttonPos.y + 50 }))
 	{
 		openSerialPort();
