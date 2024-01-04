@@ -55,18 +55,18 @@ public:
 	void saveDesiredAccessories();
 
 private:
-	const int DESIRE_CONSENCUTIVE_STATUS_Y = 330;
+	const int DESIRE_CONSENCUTIVE_STATUS_Y = 530;
 	const double ACCSESSORIE_TEXT_Y = 50;
 
-	const int CONFIRM_BUTTON_Y = 480;
 	const double MENU_X = 10;
 	const int font_size = 15;
 	const int ACCESSORIES_FONT_SIZE = 20;
 	const int CAMERA_FONT_SIZE = 18;
 	const int line_padding = 20;
 
-	const Vec2 CameraTextPos = { MENU_X, 390 };
-	const Vec2 SerialTextPos = { MENU_X, 600 };
+	const Vec2 CameraTextPos = { MENU_X, 600 };
+	const Vec2 SerialTextPos = { MENU_X, 750 };
+	const Vec2 GoRecordingButtonPos = { 1200, 850 };
 
 	const Font ACCSESSORIE_FONT{ ACCESSORIES_FONT_SIZE };
 	const Font CAMERA_FONT{ CAMERA_FONT_SIZE };
@@ -76,7 +76,7 @@ private:
 	const int INFO_TEXT_X = 1200;
 	const int INFO_TEXT_WIDTH = 80;
 
-	const size_t TARGET_ACCSESORIES_COUNT_MAX = 5;
+	const size_t TARGET_ACCSESORIES_COUNT_MAX = 10;
 
 	Array<double> sumProbabilityList = { 0, 0, 0, 0 };
 
@@ -171,4 +171,9 @@ private:
 
 	Optional<FilePath> desiredAccessoryOpenPath;
 	Optional<FilePath> desiredAccessorySavePath;
+	
+	RoundRect GoRecordingButtonRect{ GoRecordingButtonPos, 300, 100, 10 };
+	Font GoRecordingButtonFont{ 60 };
+	const RenderTexture shadowTexture{ Scene::Size(), ColorF{ 1.0, 0.0 } };
+	const RenderTexture internalTexture{ shadowTexture.size() };
 };

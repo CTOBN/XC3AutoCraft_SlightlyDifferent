@@ -247,12 +247,12 @@ void Setting::drawNotion() const
 {
 	if (not canMake())
 	{
-		FontAsset(U"TextFont")(U"目的のアクセサリが出る可能性は０です").draw(probabilityTablePos.x + PROBABILITY_CELL_WIDTH, probabilityTablePos.y + 30 * 7 + 30, Palette::Red);
+		FontAsset(U"TextFont")(U"目的のアクセサリが出る可能性は０です").draw(probabilityTablePos.movedBy(70, -50), Palette::Red);
 	}
 
 	if (getData().selectedAccessoryType == AccessoryType::Undefined)
 	{
-		FontAsset(U"TextFont")(U"作るアクセサリを選択してください↓").draw(probabilityTablePos.movedBy(170, -50), Palette::Red);
+		FontAsset(U"TextFont")(U"作るアクセサリを選択してください↓").draw(probabilityTablePos.movedBy(70, -50), Palette::Red);
 	}
 	else
 	{
@@ -303,7 +303,7 @@ void Setting::update()
 		changeScene(U"Recording");
 	}
 	serialUpdate();
-	drawNotion();
+	
 
 	getData().cameraIndex = static_cast<uint32>(openableListBoxCamera.getSelectedIndex() - 1);
 	getData().cameraName = openableListBoxCamera.getSelectedItem();
@@ -340,12 +340,25 @@ void Setting::update()
 			LicenseManager::ShowInBrowser();
 		}
 	}
+
+	if (canGoRecording())
+	{
+		if (GoRecordingButtonRect.mouseOver())
+		{
+			Cursor::RequestStyle(CursorStyle::Hand);
+		}
+		if (GoRecordingButtonRect.leftClicked())
+		{
+			assignDesiredAccessories();
+			goRecording = true;
+		}
+	}
 }
 
 void Setting::draw() const
 {
 	DrawVerticalGradientBackground(ColorF{ 0.2, 0.5, 1.0 }, ColorF{ 0.5, 0.8, 1.0 });
-	Circle{ {Scene::Center().x, Scene::Center().y - 3200}, 3500 }.drawArc(135_deg, 90_deg, 0, 500, Palette::Springgreen);
+	// Circle{ {Scene::Center().x, Scene::Center().y - 3200}, 3500 }.drawArc(135_deg, 90_deg, 0, 500, Palette::Springgreen);
 	
 
 	SimpleGUI::CheckBox(getData().desireConsecutiveStatus, U"(オプション)特殊効果にかかわらず全て同じ種類のステータス増加のアクセサリを希望する", Vec2{ MENU_X, DESIRE_CONSENCUTIVE_STATUS_Y });
@@ -401,13 +414,26 @@ void Setting::draw() const
 		openableListBoxAccessory.draw();
 	}
 
-	if (canGoRecording() && SimpleGUI::Button(U"決定", Scene::Center()))
-	{
-		assignDesiredAccessories();
-		goRecording = true;
-	}
+
 	drawMouseOver();
 
+	if (canGoRecording())
+	{
+		const double angle = (Scene::Time() * 10_deg);
+
+		// 影を作る図形を shadowTexture に描く
+		{
+			GoRecordingButtonRect.draw(ColorF{ 0.5, 0.5, 0.5, 0.5 });
+		}
+		{
+			Shader::GaussianBlur(shadowTexture, internalTexture, shadowTexture);
+			Shader::GaussianBlur(shadowTexture, internalTexture, shadowTexture);
+		}
+		shadowTexture.draw(ColorF{ 0.0, 0.5 });
+
+		GoRecordingButtonRect.draw(Palette::Springgreen);
+		GoRecordingButtonFont(U"次へ >>>").drawAt(GoRecordingButtonRect.center(), Palette::Black);
+	}
 
 	menuBar.draw();
 }
