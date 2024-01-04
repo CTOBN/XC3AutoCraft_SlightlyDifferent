@@ -7,8 +7,7 @@ struct GameData
 {
 	uint32 cameraIndex = 0;
 	String cameraName = U"未選択";
-	Array<Accessory> desiredAccessories = { };
-
+	Array<Accessory> desiredAccessories;
 	Array<Image> binarizedAbilities;
 	Array<Image> icons;
 	Array<Image> binarizedIcons;
