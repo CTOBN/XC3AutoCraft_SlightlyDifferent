@@ -5,8 +5,6 @@ Setting::Setting(const InitData& init)
 	: IScene{ init }
 
 {
-	Array<String> DescriptionDetailJapaneseList = Accessory::getDescriptionJapaneseList();
-
 	for (int i = 0; i < TARGET_ACCSESORIES_COUNT_MAX; i++)
 	{
 		openableListBoxesAccessory.push_back(OpenableListBox{ ACCSESSORIE_FONT, accPulldownTablePos.movedBy(0, 31 * (i+1)), ACCESSORIES_CELL_WIDTH + 1, 30, 5 });
@@ -14,7 +12,7 @@ Setting::Setting(const InitData& init)
 
 	for (auto& openableListBoxAccessory : openableListBoxesAccessory)
 	{
-		openableListBoxAccessory.setItems(DescriptionDetailJapaneseList);
+		openableListBoxAccessory.setItems(Accessory::getSpecialEffectJapaneseList());
 	}
 
 	for (int y = 0; y < TARGET_ACCSESORIES_COUNT_MAX; y++)
@@ -88,16 +86,16 @@ void Setting::csvFileToDesiredAccessories(FilePathView path)
 	for (size_t i = 0; i < TARGET_ACCSESORIES_COUNT_MAX; i++)
 	{
 		size_t index = 0;
-		for (size_t j = 0; j < Accessory::getDescriptionEnglishList().size(); j++)
+		for (size_t j = 0; j < Accessory::getSpecialEffectEnglishList().size(); j++)
 		{
-			if (Accessory::getDescriptionEnglishList()[j] == csv.get<String>(i, 0))
+			if (Accessory::getSpecialEffectEnglishList()[j] == csv.get<String>(i, 0))
 			{
 				index = j;
 				break;
 			}
 		}
 		// csvファイルのアクセサリの名前が不正な場合
-		if (index == Accessory::getDescriptionEnglishList().size())
+		if (index == Accessory::getSpecialEffectEnglishList().size())
 		{
 			continue;
 		}
@@ -285,7 +283,7 @@ void Setting::saveDesiredAccessories()
 
 		for (const auto& acc : getData().desiredAccessories)
 		{
-			csv.write(acc.getDescriptionEnglish(acc.getIndex()));
+			csv.write(acc.getSpecialEffectEnglish(acc.getIndex()));
 			for (size_t i = 0; i < 4; i++)
 			{
 				csv.write(StatusTypeToString_EN[acc.getStatusBoosts()[i].type]);

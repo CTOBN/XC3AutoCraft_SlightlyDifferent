@@ -102,7 +102,7 @@ size_t Recording::findMostSimilarAbility() {
 			judgedIndex = i + 2; // 0は未選択, 1は任意のアクセサリ
 		}
 	}
-	if (0 <= judgedIndex && judgedIndex < Accessory::getDescriptionDetailJapaneseList().size())
+	if (0 <= judgedIndex && judgedIndex < Accessory::getSpecialEffectDetailJapaneseList().size())
 	{
 		currentAccAbilityJapanese = Accessory::getSpecialEffectDetailJapanese(judgedIndex);
 		// Console << Format(judgedIndex) << currentAccAbilityJapanese;
