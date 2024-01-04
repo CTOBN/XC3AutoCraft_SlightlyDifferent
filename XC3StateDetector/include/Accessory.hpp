@@ -58,7 +58,7 @@ public:
 	static void pushBackID(const size_t& id);
 	static void pushBackSpecialEffectEnglish(const String& specialEffectEnglish);
 	static void pushBackSpecialEffectJapanese(const String& specialEffectJapanese);
-	static void pushBackSpecialEffectJapanese(const String& specialEffectDetailJapanese);
+	static void pushBackSpecialEffectDetailJapanese(const String& specialEffectDetailJapanese);
 	static void pushBackAlready(const String& already);
 	static void pushBackBracelet(const double& probabilitybracelet);
 	static void pushBackRing(const double& probabilityRing);

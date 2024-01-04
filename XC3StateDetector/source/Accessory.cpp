@@ -140,7 +140,7 @@ void Accessory::pushBackSpecialEffectJapanese(const String& specialEffectJapanes
 	DescriptionJapaneseList.push_back(specialEffectJapanese);
 }
 
-void Accessory::pushBackSpecialEffectJapanese(const String& specialEffectDetailJapanese)
+void Accessory::pushBackSpecialEffectDetailJapanese(const String& specialEffectDetailJapanese)
 {
 	DescriptionDetailJapaneseList.push_back(specialEffectDetailJapanese);
 }

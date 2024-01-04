@@ -11,9 +11,9 @@ Loading::Loading(const InitData& init)
 	for (size_t row = 1; row < csv.rows(); ++row) // 1行目はヘッダなので飛ばす
 	{
 		Accessory::pushBackID(Parse<uint16>(csv[row][0]));
-		Accessory::pushBackDescriptionEnglish(csv[row][1]);
-		Accessory::pushBackDescriptionJapanese(csv[row][2]);
-		Accessory::pushBackDescriptionDetailJapanese(csv[row][3]);
+		Accessory::pushBackSpecialEffectEnglish(csv[row][1]);
+		Accessory::pushBackSpecialEffectJapanese(csv[row][2]);
+		Accessory::pushBackSpecialEffectJapanese(csv[row][3]);
 		Accessory::pushBackAlready(csv[row][4]);
 		Accessory::pushBackBracelet(Parse<double>(csv[row][5]));
 		Accessory::pushBackRing(Parse<double>(csv[row][6]));
