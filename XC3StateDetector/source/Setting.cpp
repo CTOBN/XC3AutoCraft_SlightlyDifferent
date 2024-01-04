@@ -245,7 +245,7 @@ void Setting::drawNotion() const
 {
 	if (not canMake())
 	{
-		FontAsset(U"TextFont")(U"目的のアクセサリが出る可能性は０です").draw(TextStyle::Outline(outlineScale, outlineColor), probabilityTablePos.movedBy(70, -50), Palette::Red);
+		FontAsset(U"TextFont")(U"目的のアクセサリが出る可能性は０%です").draw(TextStyle::Outline(outlineScale, outlineColor), probabilityTablePos.movedBy(70, -50), Palette::Red);
 	}
 
 	if (getData().selectedAccessoryType == AccessoryType::Undefined)
