@@ -461,6 +461,21 @@ void Recording::update()
 	virtualJoyCon.update();
 	receiveSerialBytes();
 	drawSerialBytesLog();
+
+	if (const auto& item = menuBar.update())
+	{
+		// 「終了」が押されたら
+		if (item == MenuBarItemIndex{ 0, 1 })
+		{
+			System::Exit();
+		}
+
+		// 「ライセンス」が押されたら
+		if (item == MenuBarItemIndex{ 2, 2 })
+		{
+			LicenseManager::ShowInBrowser();
+		}
+	}
 }
 
 
@@ -479,7 +494,7 @@ void Recording::draw() const
 	}
 	if (texture)
 	{
-		texture.resized(960, 540).draw();
+		texture.resized(960, 540).draw({ 0, SimpleMenuBar::MenuBarHeight });
 	}
 
 	drawRecognizedAccessories();
@@ -494,4 +509,6 @@ void Recording::draw() const
 	{
 		FontAsset(U"TextFont")(context.message).draw(1150, 510, Palette::Red);
 	}
+
+	menuBar.draw();
 }

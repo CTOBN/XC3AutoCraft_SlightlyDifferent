@@ -51,8 +51,8 @@ private:
 
 	const Vec2 JOYCON_GUI_POS_Left = { 1200, 250 };
 	const Vec2 JOYCON_GUI_POS_Right = { 1300, 250 };
-	const Point desiredAccessoriesPos = { 1000, 550 };
-	const Point recognizedAccessoriesPos = { 30, 550 };
+	const Point desiredAccessoriesPos = { 1000, 580 };
+	const Point recognizedAccessoriesPos = { 30, 580 };
 	VirtualJoyCon virtualJoyCon{ getData().serial, JOYCON_GUI_POS_Left, JOYCON_GUI_POS_Right };
 	Array<uint8> currentSerialBytes;
 	uint8 lastSerialByte;
@@ -109,6 +109,14 @@ private:
 	};
 
 	xc3::Context context{ getData().serial };
+
+	const Array<std::pair<String, Array<String>>> menus
+	{
+		{ U"ファイル", { U"終了" }},
+		{ U"設定", { U"環境設定"}},
+		{ U"ヘルプ", { U"\U000F0625 Webマニュアル", U"\U000F14F7 リリースノート", U"\U000F0FC3 ライセンス" } },
+	};
+	SimpleMenuBar menuBar{ menus };
 
 	double calculateSimilarity(const Image& img1, const Image& img2);
 
