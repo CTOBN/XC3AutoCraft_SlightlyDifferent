@@ -24,9 +24,10 @@ Setting::Setting(const InitData& init)
 			openableListBoxesStatusType.push_back(OpenableListBox{ ACCSESSORIE_FONT, accPulldownTablePos.movedBy(x * (STATUS_CELL_WIDTH + 1) + ACCESSORIES_CELL_WIDTH, (y+1) * 31), STATUS_CELL_WIDTH + 2, 20, 8});
 		}
 	}
+
 	for (auto& openableListBoxStatusType : openableListBoxesStatusType)
 	{
-		openableListBoxStatusType.setItems({ U"任意", U"HP", U"攻撃力", U"回復力", U"器用さ", U"素早さ", U"ガード率", U"ｸﾘﾃｨｶﾙ率" });
+		openableListBoxStatusType.setItems(StatusTypeStringList[U"Japanese"]);
 	}
 
 	for (const auto& info : System::EnumerateWebcams())

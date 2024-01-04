@@ -8,9 +8,13 @@ enum class StatusType {
 	Dexterity,
 	Agility,
 	BlockRate,
-	CriticalRate
+	CriticalRate,
+	Count,
 };
 
+extern Array<String> StatusTypeStringListEnglish;
+extern Array<String> StatusTypeStringListJapanese;
+extern HashTable<String, Array<String>> StatusTypeStringList;
 extern HashTable<StatusType, String> StatusTypeToString_EN;
 extern HashTable<StatusType, String> StatusTypeToString_JP;
 extern HashTable<String, HashTable<StatusType, String>> StatusTypeToString;

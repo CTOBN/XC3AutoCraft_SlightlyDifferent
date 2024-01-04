@@ -1,5 +1,31 @@
 ﻿#include "StatusType.hpp"
 
+Array<String> StatusTypeStringListEnglish = {
+	U"Anything",
+	U"HP",
+	U"Attack",
+	U"HealingPower",
+	U"Dexterity",
+	U"Agility",
+	U"BlockRate",
+	U"CriticalRate"
+};
+
+Array<String> StatusTypeStringListJapanese = {
+	U"任意",
+	U"HP",
+	U"攻撃力",
+	U"回復力",
+	U"器用さ",
+	U"素早さ",
+	U"ガード率",
+	U"ｸﾘﾃｨｶﾙ率"
+};
+
+HashTable<String, Array<String>> StatusTypeStringList = {
+	{U"English",  StatusTypeStringListEnglish},
+	{U"Japanese", StatusTypeStringListJapanese}
+};
 
 HashTable<StatusType, String> StatusTypeToString_EN = {
 	{StatusType::Anything, U"Anything"},

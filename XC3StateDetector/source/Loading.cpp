@@ -29,7 +29,7 @@ Loading::Loading(const InitData& init)
 		// Console << path << U" を読み込みました";
 	}
 
-	for (String statusIconFileName : getData().statusTypeFileName)
+	for (String statusIconFileName : StatusTypeStringListEnglish)
 	{
 		String path = statusIconsFolderPath + U"/" + statusIconFileName + U".jpg";
 		statusIconsPathList.push_back(path);

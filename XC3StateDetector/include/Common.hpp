@@ -7,9 +7,6 @@ struct GameData
 {
 	uint32 cameraIndex = 0;
 	String cameraName = U"未選択";
-
-	const Array<String> statusTypeFileName = { U"HP", U"Attack", U"HealingPower", U"Dexterity", U"Agility", U"BlockRate",  U"CriticalRate" };
-	const Array<String> statusTypeFileNameJP = { U"HP", U"攻撃力", U"回復力", U"器用さ", U"素早さ", U"ガード率", U"ｸﾘﾃｨｶﾙ率" };
 	Array<Accessory> desiredAccessories = { };
 
 	Array<Image> binarizedAbilities;
