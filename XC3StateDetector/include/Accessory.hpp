@@ -17,12 +17,12 @@ public:
 	Array<StatusBoost> getStatusBoosts() const;
 	bool hasSameStatusTypeOrMore(const Accessory& other) const;
 	static size_t getID(size_t index);
-	static String getDescriptionEnglish(size_t index);
-	static String getDescriptionJapanese(size_t index);
-	static String getDescriptionDetailJapanese(size_t index);
-	static Array<String> getDescriptionEnglishList();
-	static Array<String> getDescriptionJapaneseList();
-	static Array<String> getDescriptionDetailJapaneseList();
+	static String getSpecialEffectEnglish(size_t index);
+	static String getSpecialEffectJapanese(size_t index);
+	static String getSpecialEffectDetailJapanese(size_t index);
+	static Array<String> getSpecialEffectEnglishList();
+	static Array<String> getSpecialEffectJapaneseList();
+	static Array<String> getSpecialEffectDetailJapaneseList();
 	bool hasConsecutiveStatus() const;
 
 	Accessory& operator=(const Accessory& other)
@@ -56,9 +56,9 @@ public:
 		return m_index == other.m_index;
 	}
 	static void pushBackID(const size_t& id);
-	static void pushBackDescriptionEnglish(const String& descriptionEnglish);
-	static void pushBackDescriptionJapanese(const String& descriptionJapanese);
-	static void pushBackDescriptionDetailJapanese(const String& descriptionDetailJapanese);
+	static void pushBackSpecialEffectEnglish(const String& specialEffectEnglish);
+	static void pushBackSpecialEffectJapanese(const String& descriptionJapanese);
+	static void pushBackSpecialEffectJapanese(const String& descriptionDetailJapanese);
 	static void pushBackAlready(const String& already);
 	static void pushBackBracelet(const double& probabilitybracelet);
 	static void pushBackRing(const double& probabilityRing);

@@ -81,32 +81,32 @@ size_t Accessory::getID(size_t index)
 	return IDList[index];
 }
 
-String Accessory::getDescriptionEnglish(size_t index)
+String Accessory::getSpecialEffectEnglish(size_t index)
 {
 	return DescriptionEnglishList[index];
 }
 
-String Accessory::getDescriptionJapanese(size_t index)
+String Accessory::getSpecialEffectJapanese(size_t index)
 {
 	return DescriptionJapaneseList[index];
 }
 
-String Accessory::getDescriptionDetailJapanese(size_t index)
+String Accessory::getSpecialEffectDetailJapanese(size_t index)
 {
 	return DescriptionDetailJapaneseList[index];
 }
 
-Array<String> Accessory::getDescriptionEnglishList()
+Array<String> Accessory::getSpecialEffectEnglishList()
 {
 	return DescriptionEnglishList;
 }
 
-Array<String> Accessory::getDescriptionJapaneseList()
+Array<String> Accessory::getSpecialEffectJapaneseList()
 {
 	return DescriptionJapaneseList;
 }
 
-Array<String> Accessory::getDescriptionDetailJapaneseList()
+Array<String> Accessory::getSpecialEffectDetailJapaneseList()
 {
 	return DescriptionDetailJapaneseList;
 }
@@ -130,19 +130,19 @@ void Accessory::pushBackID(const size_t& id)
 	IDList.push_back(id);
 }
 
-void Accessory::pushBackDescriptionEnglish(const String& descriptionEnglish)
+void Accessory::pushBackSpecialEffectEnglish(const String& specialEffectEnglish)
 {
-	DescriptionEnglishList.push_back(descriptionEnglish);
+	DescriptionEnglishList.push_back(specialEffectEnglish);
 }
 
-void Accessory::pushBackDescriptionJapanese(const String& descriptionJapanese)
+void Accessory::pushBackSpecialEffectJapanese(const String& specialEffectJapanese)
 {
-	DescriptionJapaneseList.push_back(descriptionJapanese);
+	DescriptionJapaneseList.push_back(specialEffectJapanese);
 }
 
-void Accessory::pushBackDescriptionDetailJapanese(const String& descriptionDetailJapanese)
+void Accessory::pushBackSpecialEffectJapanese(const String& specialEffectDetailJapanese)
 {
-	DescriptionDetailJapaneseList.push_back(descriptionDetailJapanese);
+	DescriptionDetailJapaneseList.push_back(specialEffectDetailJapanese);
 }
 
 void Accessory::pushBackAlready(const String& already)

@@ -104,7 +104,7 @@ size_t Recording::findMostSimilarAbility() {
 	}
 	if (0 <= judgedIndex && judgedIndex < Accessory::getDescriptionDetailJapaneseList().size())
 	{
-		currentAccAbilityJapanese = Accessory::getDescriptionDetailJapanese(judgedIndex);
+		currentAccAbilityJapanese = Accessory::getSpecialEffectDetailJapanese(judgedIndex);
 		// Console << Format(judgedIndex) << currentAccAbilityJapanese;
 	}
 	return judgedIndex;
@@ -256,7 +256,7 @@ void Recording::judgeAccessory()
 	{
 		context.gotDesiredAccessory = true;
 		String toastTitle = U"アクセサリが完成しました";
-		String toastMessage = Accessory::getDescriptionDetailJapanese(currentAccessory.getIndex());
+		String toastMessage = Accessory::getSpecialEffectDetailJapanese(currentAccessory.getIndex());
 		toastMessage += U"\n";
 		for (int j = 0; j < 4; j++)
 		{
@@ -334,7 +334,7 @@ void Recording::drawRecognizedAccessories() const
 	for (int i = 0; i < recognizedAccessoriesSize; i++)
 	{
 		const Accessory& acc = RecognizedAccessories[recognizedAccessoriesSize - i - 1];
-		FontAsset(U"AccessoryFont")(Accessory::getDescriptionJapanese(acc.getIndex())).draw(recognizedAccessoriesPos.x, recognizedAccessoriesPos.y + i * 30);
+		FontAsset(U"AccessoryFont")(Accessory::getSpecialEffectJapanese(acc.getIndex())).draw(recognizedAccessoriesPos.x, recognizedAccessoriesPos.y + i * 30);
 		for (int j = 0; j < 4; j++)
 		{
 			FontAsset(U"AccessoryFont")(StatusTypeToString[U"Japanese"][acc.getStatusBoosts()[j].type]).drawAt(recognizedAccessoriesPos.x + 600 + j * 90, recognizedAccessoriesPos.y + 10 + i * 30);
@@ -349,7 +349,7 @@ void Recording::drawDesiredAccessories() const
 	for (int i = 0; i < getData().desiredAccessories.size(); i++)
 	{
 		Accessory& acc = getData().desiredAccessories[i];
-		FontAsset(U"AccessoryFont")(Accessory::getDescriptionJapanese(acc.getIndex())).draw(desiredAccessoriesPos.x, desiredAccessoriesPos.y + i * 30);
+		FontAsset(U"AccessoryFont")(Accessory::getSpecialEffectJapanese(acc.getIndex())).draw(desiredAccessoriesPos.x, desiredAccessoriesPos.y + i * 30);
 		for (int j = 0; j < 4; j++)
 		{
 			FontAsset(U"AccessoryFont")(StatusTypeToString[U"Japanese"][acc.getStatusBoosts()[j].type]).drawAt(desiredAccessoriesPos.x + 600 + j * 70, desiredAccessoriesPos.y + 10 + i * 30);
