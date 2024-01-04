@@ -45,7 +45,7 @@ private:
 	String currentAccAbilityJapanese = U"未解析";
 	String currentAccAbilityEnglish = U"Unrecorded";
 
-	const Point buttonPos = { 1450, 100 };
+	const Point buttonPos = { 1450, 50 };
 	const int STATUS_ICON_NUM = 7;
 	const Point STATUS_ICON_SIZE = { 30, 30 };
 
