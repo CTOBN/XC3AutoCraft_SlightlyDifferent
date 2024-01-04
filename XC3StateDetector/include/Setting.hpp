@@ -48,7 +48,7 @@ public:
 
 	void draw() const override;
 
-	void csvFileToDesiredAccessories();
+	void csvFileToDesiredAccessories(FilePathView path);
 
 	void openDesiredAccessories();
 

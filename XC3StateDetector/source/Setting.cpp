@@ -81,10 +81,10 @@ void Setting::assignDesiredAccessories() const
 	}
 }
 
-void Setting::csvFileToDesiredAccessories()
+void Setting::csvFileToDesiredAccessories(FilePathView path)
 {
 	getData().desiredAccessories.clear();
-	const CSV csv(desiredAccessoryOpenPath.value());
+	const CSV csv(path);
 	for (size_t i = 0; i < TARGET_ACCSESORIES_COUNT_MAX; i++)
 	{
 		size_t index = 0;
@@ -270,7 +270,7 @@ void Setting::openDesiredAccessories()
 	desiredAccessoryOpenPath = Dialog::OpenFile({ FileFilter::CSV() });
 	if (desiredAccessoryOpenPath)
 	{
-		csvFileToDesiredAccessories();
+		csvFileToDesiredAccessories(desiredAccessoryOpenPath.value());
 		desiredAccessories_to_pullDowns();
 	}
 }
@@ -338,6 +338,16 @@ void Setting::update()
 		if (item == MenuBarItemIndex{ 2, 2 })
 		{
 			LicenseManager::ShowInBrowser();
+		}
+	}
+
+	// ファイルがドロップされたら
+	if (DragDrop::HasNewFilePaths())
+	{
+		for (const auto& dropped : DragDrop::GetDroppedFilePaths())
+		{
+			csvFileToDesiredAccessories(dropped.path);
+			desiredAccessories_to_pullDowns();
 		}
 	}
 
