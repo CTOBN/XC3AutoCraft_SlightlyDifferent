@@ -81,6 +81,43 @@ void Setting::assignDesiredAccessories() const
 	}
 }
 
+void Setting::csvFileToDesiredAccessories()
+{
+	getData().desiredAccessories.clear();
+	const CSV csv(desiredAccessoryOpenPath.value());
+	for (size_t i = 0; i < TARGET_ACCSESORIES_COUNT_MAX; i++)
+	{
+		size_t index = 0;
+		for (size_t j = 0; j < Accessory::getDescriptionEnglishList().size(); j++)
+		{
+			if (Accessory::getDescriptionEnglishList()[j] == csv.get<String>(i, 0))
+			{
+				index = j;
+				break;
+			}
+		}
+		// csvファイルのアクセサリの名前が不正な場合
+		if (index == Accessory::getDescriptionEnglishList().size())
+		{
+			continue;
+		}
+
+		Accessory acc{ index };
+		for (size_t j = 0; j < 4; j++)
+		{
+			String statusTypeString = csv.get<String>(i, j + 1);
+			// csvファイルのステータスの名前が不正な場合、任意として扱う
+			StatusType statusType = StatusType::Unselected;
+			if (StringToStatusType.contains(statusTypeString))
+			{
+				statusType = StringToStatusType[statusTypeString];
+			}
+			acc.setStatusBoost(StatusBoost{ statusType }, j);
+		}
+		getData().desiredAccessories.push_back(acc);
+	}
+}
+
 void Setting::desiredAccessories_to_pullDowns()
 {
 	for (size_t i = 0; i < getData().desiredAccessories.size(); i++)
@@ -228,6 +265,37 @@ void Setting::drawNotion() const
 	}
 }
 
+void Setting::openDesiredAccessories()
+{
+	desiredAccessoryOpenPath = Dialog::OpenFile({ FileFilter::CSV() });
+	if (desiredAccessoryOpenPath)
+	{
+		csvFileToDesiredAccessories();
+		desiredAccessories_to_pullDowns();
+	}
+}
+
+void Setting::saveDesiredAccessories()
+{
+	desiredAccessorySavePath = Dialog::SaveFile({ FileFilter::CSV() });
+	if (desiredAccessorySavePath)
+	{
+		assignDesiredAccessories();
+		CSV csv;
+
+		for (const auto& acc : getData().desiredAccessories)
+		{
+			csv.write(acc.getDescriptionEnglish(acc.getIndex()));
+			for (size_t i = 0; i < 4; i++)
+			{
+				csv.write(StatusTypeToString_EN[acc.getStatusBoosts()[i].type]);
+			}
+			csv.newLine();
+		}
+		csv.save(desiredAccessorySavePath.value());
+	}
+}
+
 void Setting::update()
 {
 	if (goRecording)
@@ -248,6 +316,18 @@ void Setting::update()
 
 	if (const auto& item = menuBar.update())
 	{
+		// 「開く」が押されたら
+		if (item == MenuBarItemIndex{ 0, 0 })
+		{
+			openDesiredAccessories();
+		}
+
+		// 「名前を付けて保存」が押されたら
+		if (item == MenuBarItemIndex{ 0, 1 })
+		{
+			saveDesiredAccessories();
+		}
+
 		// 「終了」が押されたら
 		if (item == MenuBarItemIndex{ 0, 2 })
 		{

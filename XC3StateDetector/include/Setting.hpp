@@ -48,9 +48,15 @@ public:
 
 	void draw() const override;
 
+	void csvFileToDesiredAccessories();
+
+	void openDesiredAccessories();
+
+	void saveDesiredAccessories();
+
 private:
-	const int DESIRE_CONSENCUTIVE_STATUS_Y = 10;
-	const double ACCSESSORIE_TEXT_Y = 60;
+	const int DESIRE_CONSENCUTIVE_STATUS_Y = 330;
+	const double ACCSESSORIE_TEXT_Y = 50;
 
 	const int CONFIRM_BUTTON_Y = 480;
 	const double MENU_X = 10;
@@ -59,8 +65,8 @@ private:
 	const int CAMERA_FONT_SIZE = 18;
 	const int line_padding = 20;
 
-	const Vec2 CameraTextPos = { MENU_X, 340 };
-	const Vec2 SerialTextPos = { MENU_X, 540 };
+	const Vec2 CameraTextPos = { MENU_X, 390 };
+	const Vec2 SerialTextPos = { MENU_X, 600 };
 
 	const Font ACCSESSORIE_FONT{ ACCESSORIES_FONT_SIZE };
 	const Font CAMERA_FONT{ CAMERA_FONT_SIZE };
@@ -159,7 +165,10 @@ private:
 	{
 		{ U"ファイル", { U"開く", U"名前を付けて保存", U"終了" }},
 		{ U"設定", { U"環境設定"}},
-		{ U"ヘルプ", { U"\U000F0625 Webマニュアル", U"\U000F02FD バージョン情報", U"\U000F0FC3 ライセンス" } },
+		{ U"ヘルプ", { U"\U000F0625 Webマニュアル", U"\U000F14F7 リリースノート", U"\U000F0FC3 ライセンス" } },
 	};
 	SimpleMenuBar menuBar{ menus };
+
+	Optional<FilePath> desiredAccessoryOpenPath;
+	Optional<FilePath> desiredAccessorySavePath;
 };
