@@ -119,11 +119,11 @@ private:
 	OpenableListBox openableListBoxSerial{ SERIAL_FONT, SerialTextPos.movedBy(0, 80), 700, 30, 3 };
 
 	HashTable<std::pair<StatusType, AccessoryType>, double> statusTypeLotteryRateTable = {
-		{{StatusType::Unselected, AccessoryType::Undefined}, 1},
-		{{StatusType::Unselected, AccessoryType::Bracelet}, 1},
-		{{StatusType::Unselected, AccessoryType::Ring}, 1},
-		{{StatusType::Unselected, AccessoryType::Necklace}, 1},
-		{{StatusType::Unselected, AccessoryType::Crown}, 1},
+		{{StatusType::Anything, AccessoryType::Undefined}, 1},
+		{{StatusType::Anything, AccessoryType::Bracelet}, 1},
+		{{StatusType::Anything, AccessoryType::Ring}, 1},
+		{{StatusType::Anything, AccessoryType::Necklace}, 1},
+		{{StatusType::Anything, AccessoryType::Crown}, 1},
 		{{StatusType::HP, AccessoryType::Undefined}, 1},
 		{{StatusType::HP, AccessoryType::Bracelet}, 0.25},
 		{{StatusType::HP, AccessoryType::Ring}, 0.125},

@@ -65,7 +65,7 @@ Array<StatusBoost> Recording::findMostSimilarStatusBoost()
 
 	for (int i = 0; i < 4; i++)
 	{
-		StatusType judgedStatusType = StatusType::Unselected;
+		StatusType judgedStatusType = StatusType::Anything;
 		double similarityMax = 0;
 		Image clippedImage = image.clipped(clipStatusPosList[i], STATUS_ICON_SIZE).thresholded(128);
 		for (int8 j = 0; j < getData().icons.size(); j++)

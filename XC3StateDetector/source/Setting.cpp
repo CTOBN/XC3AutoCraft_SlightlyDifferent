@@ -107,7 +107,7 @@ void Setting::csvFileToDesiredAccessories()
 		{
 			String statusTypeString = csv.get<String>(i, j + 1);
 			// csvファイルのステータスの名前が不正な場合、任意として扱う
-			StatusType statusType = StatusType::Unselected;
+			StatusType statusType = StatusType::Anything;
 			if (StringToStatusType.contains(statusTypeString))
 			{
 				statusType = StringToStatusType[statusTypeString];
