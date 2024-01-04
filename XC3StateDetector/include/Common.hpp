@@ -25,15 +25,6 @@ struct GameData
 	// どのアクセサリを作成するか
 	AccessoryType selectedAccessoryType = AccessoryType::Undefined; // 1:腕輪, 2:指輪, 3:首飾, 4:冠
 
-	// 開始時のアンノウンマターの数
-	uint32 initialUnknownMatterCount = 99;
-
-	// 開始時の所持金
-	uint32 initialGold = 9999999;
-
-	// 作成するアクセサリの最大数
-	uint32 maxAccessoryCreation = Min(initialUnknownMatterCount / 3, initialGold / 10000);
-
 	const Array<SerialPortInfo> infos = System::EnumerateSerialPorts();
 };
 
