@@ -476,7 +476,7 @@ void Recording::update()
 			System::LaunchBrowser(getData().WebManualURL);
 		}
 
-		// 「ライセンス」が押されたら
+		// 「ライセンス情報」が押されたら
 		if (item == MenuBarItemIndex{ 2, 2 })
 		{
 			LicenseManager::ShowInBrowser();
