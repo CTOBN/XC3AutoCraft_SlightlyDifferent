@@ -376,7 +376,7 @@ void Setting::draw() const
 	probabilityTable.draw(probabilityTablePos);
 	drawNotion();
 
-	if (isSelectedSerialPort() && SimpleGUI::Button(U"シリアル接続テスト", SerialTextPos.movedBy(230, 30)))
+	if (isSelectedSerialPort() && SimpleGUI::Button(U"シリアル接続テスト", SerialTextPos.movedBy(280, 35)))
 	{
 		if (getData().serial.open(getData().infos[getData().serialIndex].port))
 		{
