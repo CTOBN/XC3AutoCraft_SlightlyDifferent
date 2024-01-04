@@ -154,4 +154,12 @@ private:
 		{{StatusType::CriticalRate, AccessoryType::Necklace}, 0.125},
 		{{StatusType::CriticalRate, AccessoryType::Crown}, 0.1429},
 	};
+
+	const Array<std::pair<String, Array<String>>> menus
+	{
+		{ U"ファイル", { U"開く", U"名前を付けて保存", U"終了" }},
+		{ U"設定", { U"環境設定"}},
+		{ U"ヘルプ", { U"\U000F0625 Webマニュアル", U"\U000F02FD バージョン情報", U"\U000F0FC3 ライセンス" } },
+	};
+	SimpleMenuBar menuBar{ menus };
 };

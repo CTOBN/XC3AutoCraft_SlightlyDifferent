@@ -56,8 +56,9 @@ Setting::Setting(const InitData& init)
 	probabilityTable.push_back_row({ U"-", U"0", U"0", U"0", U"0" }, { 0, 1, 1, 1, 1 });
 	probabilityTable.push_back_row({ U"-", U"0", U"0", U"0", U"0" }, { 0, 1, 1, 1, 1 });
 	probabilityTable.push_back_row({ U"合計", U"0", U"0", U"0", U"0" }, { 0, 1, 1, 1, 1 });
-
 }
+
+
 
 void Setting::assignDesiredAccessories() const
 {
@@ -244,6 +245,21 @@ void Setting::update()
 
 	setProbability();
 	selectAccTypeButtonUpdate();
+
+	if (const auto& item = menuBar.update())
+	{
+		// 「終了」が押されたら
+		if (item == MenuBarItemIndex{ 0, 2 })
+		{
+			System::Exit();
+		}
+
+		// 「ライセンス」が押されたら
+		if (item == MenuBarItemIndex{ 2, 2 })
+		{
+			LicenseManager::ShowInBrowser();
+		}
+	}
 }
 
 void Setting::draw() const
@@ -311,6 +327,9 @@ void Setting::draw() const
 		goRecording = true;
 	}
 	drawMouseOver();
+
+
+	menuBar.draw();
 }
 
 
