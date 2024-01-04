@@ -470,6 +470,12 @@ void Recording::update()
 			System::Exit();
 		}
 
+		// Webマニュアルが押されたら
+		if (item == MenuBarItemIndex{ 2, 0 })
+		{
+			System::LaunchBrowser(getData().WebManualURL);
+		}
+
 		// 「ライセンス」が押されたら
 		if (item == MenuBarItemIndex{ 2, 2 })
 		{
@@ -494,7 +500,7 @@ void Recording::draw() const
 	}
 	if (texture)
 	{
-		texture.resized(960, 540).draw({ 0, SimpleMenuBar::MenuBarHeight });
+		texture.resized(960, 540).draw(Point{ 0, SimpleMenuBar::MenuBarHeight});
 	}
 
 	drawRecognizedAccessories();

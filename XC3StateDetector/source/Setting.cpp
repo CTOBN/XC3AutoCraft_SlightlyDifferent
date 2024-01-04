@@ -334,6 +334,12 @@ void Setting::update()
 			System::Exit();
 		}
 
+		// Webマニュアルが押されたら
+		if (item == MenuBarItemIndex{ 2, 0 })
+		{
+			System::LaunchBrowser(getData().WebManualURL);
+		}
+
 		// 「ライセンス」が押されたら
 		if (item == MenuBarItemIndex{ 2, 2 })
 		{

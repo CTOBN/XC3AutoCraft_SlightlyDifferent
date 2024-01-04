@@ -25,6 +25,8 @@ struct GameData
 	AccessoryType selectedAccessoryType = AccessoryType::Undefined; // 1:腕輪, 2:指輪, 3:首飾, 4:冠
 
 	const Array<SerialPortInfo> infos = System::EnumerateSerialPorts();
+
+	String WebManualURL = U"https://github.com/eightgamedev/XC3AutoCraft";
 };
 
 // 共有するデータの型を指定
