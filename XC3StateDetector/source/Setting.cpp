@@ -225,7 +225,7 @@ void Setting::serialUpdate()
 {
 	if (isSelectedSerialPort())
 	{
-		serialSelectionStatus = U"接続テストが可能です(任意)";
+		serialSelectionStatus = U"接続テストが可能です(任意)→";
 		serialSelectionStatusColor = Palette::Green;
 	}
 	else
@@ -253,7 +253,7 @@ void Setting::drawNotion() const
 
 	if (getData().selectedAccessoryType == AccessoryType::Undefined)
 	{
-		FontAsset(U"TextFont")(U"作るアクセサリを選択してください↓").draw(probabilityTablePos.x + PROBABILITY_CELL_WIDTH, probabilityTablePos.y - 50, Palette::Red);
+		FontAsset(U"TextFont")(U"作るアクセサリを選択してください↓").draw(probabilityTablePos.movedBy(170, -50), Palette::Red);
 	}
 	else
 	{
@@ -349,12 +349,12 @@ void Setting::draw() const
 	Circle{ {Scene::Center().x, Scene::Center().y - 3200}, 3500 }.drawArc(135_deg, 90_deg, 0, 500, Palette::Springgreen);
 	
 
-	SimpleGUI::CheckBox(getData().desireConsecutiveStatus, U"特殊効果にかかわらず全て同じ種類のステータス増加のアクセサリも希望する", Vec2{ MENU_X, DESIRE_CONSENCUTIVE_STATUS_Y });
+	SimpleGUI::CheckBox(getData().desireConsecutiveStatus, U"(オプション)特殊効果にかかわらず全て同じ種類のステータス増加のアクセサリを希望する", Vec2{ MENU_X, DESIRE_CONSENCUTIVE_STATUS_Y });
 
 	probabilityTable.draw(probabilityTablePos);
 	drawNotion();
 
-	if (isSelectedSerialPort() && SimpleGUI::Button(U"接続テスト", SerialTextPos.movedBy(350, 0)))
+	if (isSelectedSerialPort() && SimpleGUI::Button(U"シリアル接続テスト", SerialTextPos.movedBy(230, 30)))
 	{
 		if (getData().serial.open(getData().infos[getData().serialIndex].port))
 		{
