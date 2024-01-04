@@ -3,9 +3,9 @@
 #include "Accessory.hpp"
 
 Array<size_t> Accessory::IDList;
-Array<String> Accessory::DescriptionEnglishList;
-Array<String> Accessory::DescriptionJapaneseList;
-Array<String> Accessory::DescriptionDetailJapaneseList;
+Array<String> Accessory::SpecialEffectEnglishList;
+Array<String> Accessory::SpecialEffectJapaneseList;
+Array<String> Accessory::SpecialEffectDetailJapaneseList;
 Array<String> Accessory::AlreadyList;
 Array<double> Accessory::ProbabilityBraceletList;
 Array<double> Accessory::ProbabilityRingList;
@@ -83,32 +83,32 @@ size_t Accessory::getID(size_t index)
 
 String Accessory::getSpecialEffectEnglish(size_t index)
 {
-	return DescriptionEnglishList[index];
+	return SpecialEffectEnglishList[index];
 }
 
 String Accessory::getSpecialEffectJapanese(size_t index)
 {
-	return DescriptionJapaneseList[index];
+	return SpecialEffectJapaneseList[index];
 }
 
 String Accessory::getSpecialEffectDetailJapanese(size_t index)
 {
-	return DescriptionDetailJapaneseList[index];
+	return SpecialEffectDetailJapaneseList[index];
 }
 
 Array<String> Accessory::getSpecialEffectEnglishList()
 {
-	return DescriptionEnglishList;
+	return SpecialEffectEnglishList;
 }
 
 Array<String> Accessory::getSpecialEffectJapaneseList()
 {
-	return DescriptionJapaneseList;
+	return SpecialEffectJapaneseList;
 }
 
 Array<String> Accessory::getSpecialEffectDetailJapaneseList()
 {
-	return DescriptionDetailJapaneseList;
+	return SpecialEffectDetailJapaneseList;
 }
 
 
@@ -132,17 +132,17 @@ void Accessory::pushBackID(const size_t& id)
 
 void Accessory::pushBackSpecialEffectEnglish(const String& specialEffectEnglish)
 {
-	DescriptionEnglishList.push_back(specialEffectEnglish);
+	SpecialEffectEnglishList.push_back(specialEffectEnglish);
 }
 
 void Accessory::pushBackSpecialEffectJapanese(const String& specialEffectJapanese)
 {
-	DescriptionJapaneseList.push_back(specialEffectJapanese);
+	SpecialEffectJapaneseList.push_back(specialEffectJapanese);
 }
 
 void Accessory::pushBackSpecialEffectDetailJapanese(const String& specialEffectDetailJapanese)
 {
-	DescriptionDetailJapaneseList.push_back(specialEffectDetailJapanese);
+	SpecialEffectDetailJapaneseList.push_back(specialEffectDetailJapanese);
 }
 
 void Accessory::pushBackAlready(const String& already)

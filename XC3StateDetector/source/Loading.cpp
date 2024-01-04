@@ -13,7 +13,7 @@ Loading::Loading(const InitData& init)
 		Accessory::pushBackID(Parse<uint16>(csv[row][0]));
 		Accessory::pushBackSpecialEffectEnglish(csv[row][1]);
 		Accessory::pushBackSpecialEffectJapanese(csv[row][2]);
-		Accessory::pushBackSpecialEffectJapanese(csv[row][3]);
+		Accessory::pushBackSpecialEffectDetailJapanese(csv[row][3]);
 		Accessory::pushBackAlready(csv[row][4]);
 		Accessory::pushBackBracelet(Parse<double>(csv[row][5]));
 		Accessory::pushBackRing(Parse<double>(csv[row][6]));

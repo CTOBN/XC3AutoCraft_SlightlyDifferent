@@ -75,9 +75,9 @@ private:
 	size_t m_index;
 	Array<StatusBoost> m_statusBoosts;
 	static Array<size_t> IDList;
-	static Array<String> DescriptionEnglishList;
-	static Array<String> DescriptionJapaneseList;
-	static Array<String> DescriptionDetailJapaneseList;
+	static Array<String> SpecialEffectEnglishList;
+	static Array<String> SpecialEffectJapaneseList;
+	static Array<String> SpecialEffectDetailJapaneseList;
 	static Array<String> StatusTypeListJapanese;
 	static Array<String> StatusTypeListEnglish;
 	static Array<String> AlreadyList;
