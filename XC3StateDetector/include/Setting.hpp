@@ -90,6 +90,9 @@ private:
 	String serialSelectionStatus = U"シリアルポートを選択してください";
 	ColorF serialSelectionStatusColor = Palette::Red;
 
+	const double outlineScale = 0.5;
+	const ColorF outlineColor = Palette::White;
+
 	mutable String serialConnectionStatus = U"";
 	mutable ColorF serialConnectionStatusColor = Palette::Red;
 	mutable bool goRecording = false;

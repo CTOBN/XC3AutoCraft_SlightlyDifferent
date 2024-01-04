@@ -14,7 +14,7 @@ void Main()
 	Scene::SetResizeMode(ResizeMode::Keep);
 	FontAsset::Register(U"TitleFont", 60, Typeface::Heavy);
 	FontAsset::Register(U"SubtitleFont", 30, Typeface::Heavy);
-	FontAsset::Register(U"TextFont", 20, Typeface::Bold);
+	FontAsset::Register(U"TextFont", 20, Typeface::Mplus_Medium);
 	FontAsset::Register(U"AccessoryFont", 18, Typeface::Bold);
 
 	// シーンマネージャーを作成
