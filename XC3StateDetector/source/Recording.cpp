@@ -334,10 +334,10 @@ void Recording::drawRecognizedAccessories() const
 	for (int i = 0; i < recognizedAccessoriesSize; i++)
 	{
 		const Accessory& acc = RecognizedAccessories[recognizedAccessoriesSize - i - 1];
-		FontAsset(U"TextFont")(Accessory::getDescriptionJapanese(acc.getIndex())).draw(recognizedAccessoriesPos.x, recognizedAccessoriesPos.y + i * 30);
+		FontAsset(U"AccessoryFont")(Accessory::getDescriptionJapanese(acc.getIndex())).draw(recognizedAccessoriesPos.x, recognizedAccessoriesPos.y + i * 30);
 		for (int j = 0; j < 4; j++)
 		{
-			FontAsset(U"TextFont")(StatusTypeToString[U"Japanese"][acc.getStatusBoosts()[j].type]).drawAt(recognizedAccessoriesPos.x + 600 + j * 90, recognizedAccessoriesPos.y + 10 + i * 30);
+			FontAsset(U"AccessoryFont")(StatusTypeToString[U"Japanese"][acc.getStatusBoosts()[j].type]).drawAt(recognizedAccessoriesPos.x + 600 + j * 90, recognizedAccessoriesPos.y + 10 + i * 30);
 		}
 	}
 }
@@ -349,10 +349,10 @@ void Recording::drawDesiredAccessories() const
 	for (int i = 0; i < getData().desiredAccessories.size(); i++)
 	{
 		Accessory& acc = getData().desiredAccessories[i];
-		FontAsset(U"TextFont")(Accessory::getDescriptionJapanese(acc.getIndex())).draw(desiredAccessoriesPos.x, desiredAccessoriesPos.y + i * 30);
+		FontAsset(U"AccessoryFont")(Accessory::getDescriptionJapanese(acc.getIndex())).draw(desiredAccessoriesPos.x, desiredAccessoriesPos.y + i * 30);
 		for (int j = 0; j < 4; j++)
 		{
-			FontAsset(U"TextFont")(StatusTypeToString[U"Japanese"][acc.getStatusBoosts()[j].type]).drawAt(desiredAccessoriesPos.x + 600 + j * 70, desiredAccessoriesPos.y + 10 + i * 30);
+			FontAsset(U"AccessoryFont")(StatusTypeToString[U"Japanese"][acc.getStatusBoosts()[j].type]).drawAt(desiredAccessoriesPos.x + 600 + j * 70, desiredAccessoriesPos.y + 10 + i * 30);
 		}
 	}
 }
@@ -400,8 +400,13 @@ void Recording::drawButtons()
 		context.deleteState();
 	}
 	
+	if (SimpleGUI::Button(U"\U000F0493 設定に戻る", Vec2{ buttonPos.x, buttonPos.y + 200 }))
+	{
+		// 設定に遷移
+		changeScene(U"Setting");
+	}
 
-	if (webcam && SimpleGUI::Button(U"\U000F0E51 PCにスクショを保存", Vec2{ buttonPos.x, buttonPos.y + 150 }))
+	if (webcam && SimpleGUI::Button(U"\U000F0E51 PCにスクショを保存", Vec2{ buttonPos.x, buttonPos.y + 250 }))
 	{
 		webcam.getFrame(image);
 		String path = U"XC3AutoCraft_{}.png"_fmt(DateTime::Now()).replace(U":", U".");
@@ -409,13 +414,7 @@ void Recording::drawButtons()
 		// Console << U"スクリーンショットを保存しました ファイル名 : {}"_fmt(path);
 	}
 
-	if (SimpleGUI::Button(U"\U000F0493 設定に戻る", Vec2{ buttonPos.x, buttonPos.y + 200 }))
-	{
-		// 設定に遷移
-		changeScene(U"Setting");
-	}
-
-	if (SimpleGUI::Button(U"\U000F0544 Tweetする", Vec2{ buttonPos.x, buttonPos.y + 250 }))
+	if (SimpleGUI::Button(U"\U000F0544 Tweetする", Vec2{ buttonPos.x, buttonPos.y + 300 }))
 	{
 		// ツイート投稿画面を開く
 		Twitter::OpenTweetWindow(U"#XC3AutoCraft");
