@@ -457,7 +457,7 @@ void Setting::draw() const
 
 	menuBar.draw();
 
-	if (DentButton(U"次へ",
+	if (DentButton( canGoRecording() ? U"次へ" : U"次へ進めません",
 					Circle{ GoRecordingButtonPos, 100 },
 					GoRecordingButtonFont,
 					canGoRecording(),
