@@ -353,7 +353,7 @@ void Recording::drawDesiredAccessories() const
 		FontAsset(U"AccessoryFont")(Accessory::getSpecialEffectJapanese(acc.getIndex())).draw(desiredAccessoriesPos.x, desiredAccessoriesPos.y + i * 30);
 		for (int j = 0; j < 4; j++)
 		{
-			FontAsset(U"AccessoryFont")(StatusTypeToString[U"Japanese"][acc.getStatusBoosts()[j].type]).drawAt(desiredAccessoriesPos.x + 600 + j * 70, desiredAccessoriesPos.y + 10 + i * 30);
+			FontAsset(U"AccessoryFont")(StatusTypeToString[U"Japanese"][acc.getStatusBoosts()[j].type]).drawAt(desiredAccessoriesPos.x + 600 + j * 90, desiredAccessoriesPos.y + 10 + i * 30);
 		}
 	}
 }
