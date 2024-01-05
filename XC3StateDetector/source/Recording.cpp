@@ -417,6 +417,11 @@ void Recording::drawButtons()
 			// Console << U"スクリーンショットを保存しました ファイル名 : {}"_fmt(path);
 		}
 	}
+	// スクリーンショットの保存先を開く
+	if (SimpleGUI::Button(U"保存先", Vec2{ buttonPos.movedBy(250, 250) }))
+	{
+		System::LaunchFile(screenShotFolderPath);
+	}
 
 	if (SimpleGUI::Button(U"\U000F0544 Tweetする", Vec2{ buttonPos.movedBy(0, 300) }))
 	{
