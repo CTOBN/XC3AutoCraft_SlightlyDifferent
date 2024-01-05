@@ -399,8 +399,6 @@ void Setting::update()
 void Setting::draw() const
 {
 	DrawVerticalGradientBackground(ColorF{ 0.2, 0.5, 1.0 }, ColorF{ 0.5, 0.8, 1.0 });
-	// Circle{ {Scene::Center().x, Scene::Center().y - 3200}, 3500 }.drawArc(135_deg, 90_deg, 0, 500, Palette::Springgreen);
-	
 
 	SimpleGUI::CheckBox(getData().desireConsecutiveStatus, U"(オプション)特殊効果にかかわらず全て同じ種類のステータス増加のアクセサリを希望する", Vec2{ MENU_X, DESIRE_CONSENCUTIVE_STATUS_Y });
 
