@@ -66,7 +66,7 @@ private:
 
 	const Vec2 CameraTextPos = { MENU_X, 600 };
 	const Vec2 SerialTextPos = { MENU_X, 750 };
-	const Vec2 GoRecordingButtonPos = { 1500, 850 };
+	const Vec2 GoRecordingButtonPos = { 1650, 850 };
 
 	const Font ACCSESSORIE_FONT{ ACCESSORIES_FONT_SIZE };
 	const Font CAMERA_FONT{ CAMERA_FONT_SIZE };
@@ -175,8 +175,5 @@ private:
 	Optional<FilePath> desiredAccessoryOpenPath;
 	Optional<FilePath> desiredAccessorySavePath;
 	
-	RoundRect GoRecordingButtonRect{ GoRecordingButtonPos, 300, 100, 10 };
-	Font GoRecordingButtonFont{ 60 };
-	const RenderTexture shadowTexture{ Scene::Size(), ColorF{ 1.0, 0.0 } };
-	const RenderTexture internalTexture{ shadowTexture.size() };
+	Font GoRecordingButtonFont{ 50 };
 };

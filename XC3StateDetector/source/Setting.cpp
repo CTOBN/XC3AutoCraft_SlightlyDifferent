@@ -1,5 +1,34 @@
 ﻿# include "Setting.hpp"
 
+static bool DentButton(const String& str, const Circle& circle, const Font font, bool flag = true, const ColorF& buttonColor = Scene::GetBackground(), const ColorF& fontColor = Palette::White) {
+
+	Circle button = circle;
+
+	if (flag) {
+
+		if (button.mouseOver())Cursor::RequestStyle(CursorStyle::Hand);
+
+		if (button.leftPressed()) {
+			button.drawShadow({ 0,0 }, 2, 1, ColorF(0.3, 0.5));
+			button.drawShadow({ 2,2 }, 2, 1, ColorF(1, 0.5));
+			button.moveBy(1, 1);
+		}
+		else {
+			button.drawShadow({ -4,-4 }, 8, 1, ColorF(1, 0.5));
+			button.drawShadow({ 4,4 }, 8, 1, ColorF(0, 0.3));
+		}
+	}
+	else {
+		button.drawFrame();
+	}
+
+	button.draw(buttonColor);
+
+	font(str).drawAt(button.center, fontColor);
+
+	return flag && button.leftClicked();
+}
+
 
 Setting::Setting(const InitData& init)
 	: IScene{ init }
@@ -354,19 +383,6 @@ void Setting::update()
 			desiredAccessories_to_pullDowns();
 		}
 	}
-
-	if (canGoRecording())
-	{
-		if (GoRecordingButtonRect.mouseOver())
-		{
-			Cursor::RequestStyle(CursorStyle::Hand);
-		}
-		if (GoRecordingButtonRect.leftClicked())
-		{
-			assignDesiredAccessories();
-			goRecording = true;
-		}
-	}
 }
 
 void Setting::draw() const
@@ -428,28 +444,20 @@ void Setting::draw() const
 		openableListBoxAccessory.draw();
 	}
 
-
 	drawMouseOver();
 
-	if (canGoRecording())
-	{
-		const double angle = (Scene::Time() * 10_deg);
-
-		// 影を作る図形を shadowTexture に描く
-		{
-			GoRecordingButtonRect.draw(ColorF{ 0.5, 0.5, 0.5, 0.5 });
-		}
-		{
-			Shader::GaussianBlur(shadowTexture, internalTexture, shadowTexture);
-			Shader::GaussianBlur(shadowTexture, internalTexture, shadowTexture);
-		}
-		shadowTexture.draw(ColorF{ 0.0, 0.5 });
-
-		GoRecordingButtonRect.draw(Palette::Springgreen);
-		GoRecordingButtonFont(U"次へ >>>").drawAt(GoRecordingButtonRect.center(), Palette::Black);
-	}
-
 	menuBar.draw();
+
+	if (DentButton(U"次へ",
+					Circle{ GoRecordingButtonPos, 100 },
+					GoRecordingButtonFont,
+					canGoRecording(),
+					canGoRecording() ? Color{ 144, 238, 144, 255 }   : Color{ 144, 238, 144, 100 },
+					canGoRecording() ? Palette::White : Color{ 127, 127, 127, 255 }))
+	{
+		assignDesiredAccessories();
+		goRecording = true;
+	}
 }
 
 
