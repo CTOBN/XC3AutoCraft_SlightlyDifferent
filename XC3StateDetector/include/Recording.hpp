@@ -59,7 +59,7 @@ private:
 
 	double adjust_interval = 8000;
 
-	
+	mutable double campThreshold = 242;
 
 	HashTable<uint8, uint8> accessoryTypeIndexToCommandByte = {
 		{0, xc3::Context::CommandByte::SetAccessoryTypeAsBracelet},
@@ -130,6 +130,10 @@ private:
 	String findMostSimilarGameScene();
 
 	AccessoryType recognizeSelectingAccessoryType();
+
+	int8 recognizeSelectingCampMenu();
+
+	int8 recognizeSelectingCampMenuRepeat();
 
 	Accessory recognizeAccessory();
 

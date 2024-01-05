@@ -155,6 +155,46 @@ AccessoryType Recording::recognizeSelectingAccessoryType()
 	return judgedAccessoryType;
 }
 
+int8 Recording::recognizeSelectingCampMenu()
+{
+	webcam.getFrame(image);
+	Array<Point> clipPosList = { { 535, 780 }, { 669, 796 }, { 820, 787 }, { 959, 807}, { 1098, 807 }, { 1211, 792 }, { 1372, 797 } };
+	Point clipSize = { 1, 1 };
+	uint8 threshold = 242;
+	int8 judgedCampMenu = -1;
+	double similarityMax = 0;
+	for (size_t i = 0; i < 7; i++)
+	{
+		Image clippedImage = image.clipped(clipPosList[i], clipSize).thresholded(threshold);
+		//　切り抜かれた画像の0, 0の位置の色が白なら、そのメニューが選択されている
+		if (clippedImage[0][0] == Color(255, 255, 255))
+		{
+			judgedCampMenu = i;
+		}
+	}
+	return judgedCampMenu;
+}
+
+// メニュー項目が点滅しているので1秒間、recognizeSelectingCampMenuを繰り返し呼び出して、最大値を返す
+int8 Recording::recognizeSelectingCampMenuRepeat()
+{
+	std::vector<int8> menuSelections;
+	int8 repeatTimes = 2;
+
+	for (int i = 0; i < repeatTimes; ++i) {
+		int8 selectedMenu = recognizeSelectingCampMenu();
+		menuSelections.push_back(selectedMenu);
+		// Assuming 1 second delay between each capture
+		std::this_thread::sleep_for(std::chrono::seconds(1));
+	}
+
+	// Find the maximum selected menu
+	int8 maxMenu = *std::max_element(menuSelections.begin(), menuSelections.end());
+
+	// Return or use the maximum selected menu
+	return maxMenu;
+}
+
 Accessory Recording::recognizeAccessory()
 {
 	size_t judgedAccIndex = findMostSimilarAbility();
@@ -430,6 +470,11 @@ void Recording::drawButtons()
 		// ツイート投稿画面を開く
 		Twitter::OpenTweetWindow(U"#XC3AutoCraft");
 	}
+	if (SimpleGUI::Button(U"\U000F0544 認識", Vec2{ buttonPos.movedBy(0, 350) }))
+	{
+		Console << recognizeSelectingCampMenuRepeat();
+	}
+	// SimpleGUI::Slider(U"{}"_fmt(campThreshold), campThreshold, 0, 255, Vec2{ buttonPos.movedBy(0, 400) }, 60, 150);
 }
 
 void Recording::drawRecognitionArea() const
