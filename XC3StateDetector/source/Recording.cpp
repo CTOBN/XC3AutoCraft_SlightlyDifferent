@@ -335,10 +335,10 @@ void Recording::drawRecognizedAccessories() const
 	for (int i = 0; i < recognizedAccessoriesSize; i++)
 	{
 		const Accessory& acc = RecognizedAccessories[recognizedAccessoriesSize - i - 1];
-		FontAsset(U"AccessoryFont")(Accessory::getSpecialEffectJapanese(acc.getIndex())).draw(recognizedAccessoriesPos.x, recognizedAccessoriesPos.y + i * 30);
+		FontAsset(U"AccessoryFont")(Accessory::getSpecialEffectJapanese(acc.getIndex())).draw(recognizedAccessoriesPos.movedBy(0, i * 30));
 		for (int j = 0; j < 4; j++)
 		{
-			FontAsset(U"AccessoryFont")(StatusTypeToString[U"Japanese"][acc.getStatusBoosts()[j].type]).drawAt(recognizedAccessoriesPos.x + 600 + j * 90, recognizedAccessoriesPos.y + 10 + i * 30);
+			FontAsset(U"AccessoryFont")(StatusTypeToString[U"Japanese"][acc.getStatusBoosts()[j].type]).drawAt(recognizedAccessoriesPos.movedBy(600 + j * 90, 10 + i * 30));
 		}
 	}
 }
@@ -350,10 +350,10 @@ void Recording::drawDesiredAccessories() const
 	for (int i = 0; i < getData().desiredAccessories.size(); i++)
 	{
 		Accessory& acc = getData().desiredAccessories[i];
-		FontAsset(U"AccessoryFont")(Accessory::getSpecialEffectJapanese(acc.getIndex())).draw(desiredAccessoriesPos.x, desiredAccessoriesPos.y + i * 30);
+		FontAsset(U"AccessoryFont")(Accessory::getSpecialEffectJapanese(acc.getIndex())).draw(desiredAccessoriesPos.movedBy(0, i * 30));
 		for (int j = 0; j < 4; j++)
 		{
-			FontAsset(U"AccessoryFont")(StatusTypeToString[U"Japanese"][acc.getStatusBoosts()[j].type]).drawAt(desiredAccessoriesPos.x + 600 + j * 90, desiredAccessoriesPos.y + 10 + i * 30);
+			FontAsset(U"AccessoryFont")(StatusTypeToString[U"Japanese"][acc.getStatusBoosts()[j].type]).drawAt(desiredAccessoriesPos.movedBy(600 + j * 90, 10 + i * 30));
 		}
 	}
 }
@@ -368,7 +368,7 @@ void Recording::drawButtons()
 		getData().serial.writeByte(ButtonByte::A);
 	}
 
-	if (SimpleGUI::Button(U"\U000F040A 自動クラフト開始", Vec2{ buttonPos.x, buttonPos.y + 50 }))
+	if (SimpleGUI::Button(U"\U000F040A 自動クラフト開始", Vec2{ buttonPos.movedBy(0, 50) }))
 	{
 		context.init();
 		String gameSceneName = findMostSimilarGameScene();
@@ -394,20 +394,20 @@ void Recording::drawButtons()
 		}
 	}
 
-	if (SimpleGUI::Button(U"\U000F04DB 自動クラフト停止", Vec2{ buttonPos.x, buttonPos.y + 100 }))
+	if (SimpleGUI::Button(U"\U000F04DB 自動クラフト停止", Vec2{ buttonPos.movedBy(0, 100) }))
 	{
 		// シリアルポートを閉じる
 		getData().serial.close();
 		context.deleteState();
 	}
 	
-	if (SimpleGUI::Button(U"\U000F0493 設定に戻る", Vec2{ buttonPos.x, buttonPos.y + 200 }))
+	if (SimpleGUI::Button(U"\U000F0493 設定に戻る", Vec2{ buttonPos.movedBy(0, 200) }))
 	{
 		// 設定に遷移
 		changeScene(U"Setting");
 	}
 
-	if (webcam && SimpleGUI::Button(U"\U000F0E51 PCにスクショを保存", Vec2{ buttonPos.x, buttonPos.y + 250 }))
+	if (webcam && SimpleGUI::Button(U"\U000F0E51 PCにスクショを保存", Vec2{ buttonPos.movedBy(0, 250) }))
 	{
 		webcam.getFrame(image);
 		String path = U"XC3AutoCraft_{}.png"_fmt(DateTime::Now()).replace(U":", U".");
@@ -415,7 +415,7 @@ void Recording::drawButtons()
 		// Console << U"スクリーンショットを保存しました ファイル名 : {}"_fmt(path);
 	}
 
-	if (SimpleGUI::Button(U"\U000F0544 Tweetする", Vec2{ buttonPos.x, buttonPos.y + 300 }))
+	if (SimpleGUI::Button(U"\U000F0544 Tweetする", Vec2{ buttonPos.movedBy(0, 300) }))
 	{
 		// ツイート投稿画面を開く
 		Twitter::OpenTweetWindow(U"#XC3AutoCraft");
