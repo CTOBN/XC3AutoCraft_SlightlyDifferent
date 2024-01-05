@@ -410,9 +410,10 @@ void Recording::drawButtons()
 	if (webcam && SimpleGUI::Button(U"\U000F0E51 PCにスクショを保存", Vec2{ buttonPos.movedBy(0, 250) }))
 	{
 		webcam.getFrame(image);
-		if (FileSystem::CreateDirectories(screenShotFolderPath))
+		if (FileSystem::Exists(getData().screenShotFolderPath))
 		{
-			String path = U"{}/XC3AutoCraft_{}.png"_fmt(screenShotFolderPath, DateTime::Now()).replace(U":", U".");
+			String now = U"{}"_fmt(DateTime::Now()).replace(U":", U".");
+			String path = U"{}XC3AutoCraft_{}.png"_fmt(getData().screenShotFolderPath, now);
 			image.save(path);
 			// Console << U"スクリーンショットを保存しました ファイル名 : {}"_fmt(path);
 		}
@@ -420,7 +421,8 @@ void Recording::drawButtons()
 	// スクリーンショットの保存先を開く
 	if (SimpleGUI::Button(U"保存先", Vec2{ buttonPos.movedBy(250, 250) }))
 	{
-		System::LaunchFile(screenShotFolderPath);
+		System::LaunchFile(getData().screenShotFolderPath);
+		// Console << getData().screenShotFolderPath;
 	}
 
 	if (SimpleGUI::Button(U"\U000F0544 Tweetする", Vec2{ buttonPos.movedBy(0, 300) }))
@@ -473,7 +475,7 @@ void Recording::update()
 
 	if (const auto& item = menuBar.update())
 	{
-		if (item->menuIndex == 1)
+		if (item == MenuBarItemIndex{ 1, 0 })
 		{
 			// チェック状態を反転する
 			menuBar.setItemChecked(*item, (not menuBar.getItemChecked(*item)));
@@ -487,6 +489,13 @@ void Recording::update()
 
 		//「トースト通知を有効にする」の状態を取得
 		getData().enableToastNotification = menuBar.getItemChecked(MenuBarItemIndex{ 1, 0 });
+
+		// 「スクリーンショットの保存先を変更」が押されたら
+		if (item == MenuBarItemIndex{ 1, 1 })
+		{
+			const auto result = Dialog::SelectFolder();
+			if (result) getData().screenShotFolderPath = result.value();
+		}
 
 		// Webマニュアルが押されたら
 		if (item == MenuBarItemIndex{ 2, 0 })

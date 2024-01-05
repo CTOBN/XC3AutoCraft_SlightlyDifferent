@@ -345,7 +345,7 @@ void Setting::update()
 
 	if (const auto& item = menuBar.update())
 	{
-		if (item->menuIndex == 1)
+		if (item == MenuBarItemIndex{ 1, 0 })
 		{
 			// チェック状態を反転する
 			menuBar.setItemChecked(*item, (not menuBar.getItemChecked(*item)));
@@ -365,6 +365,13 @@ void Setting::update()
 
 		// 「トースト通知を有効にする」の状態を取得
 		getData().enableToastNotification = menuBar.getItemChecked(MenuBarItemIndex{ 1, 0 });
+
+		// 「スクリーンショットの保存先を変更」が押されたら
+		if (item == MenuBarItemIndex{ 1, 1 })
+		{
+			const auto result = Dialog::SelectFolder();
+			if (result) getData().screenShotFolderPath = result.value();
+		}
 
 		// 「終了」が押されたら
 		if (item == MenuBarItemIndex{ 0, 2 })

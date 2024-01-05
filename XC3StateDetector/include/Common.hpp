@@ -29,6 +29,7 @@ struct GameData
 	String WebManualURL = U"https://github.com/eightgamedev/XC3AutoCraft";
 
 	bool enableToastNotification = true;
+	String screenShotFolderPath = U"ScreenShots";
 };
 
 // 共有するデータの型を指定

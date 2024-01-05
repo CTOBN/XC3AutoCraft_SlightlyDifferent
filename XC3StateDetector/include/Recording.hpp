@@ -59,7 +59,7 @@ private:
 
 	double adjust_interval = 8000;
 
-	String screenShotFolderPath = U"ScreenShots";
+	
 
 	HashTable<uint8, uint8> accessoryTypeIndexToCommandByte = {
 		{0, xc3::Context::CommandByte::SetAccessoryTypeAsBracelet},
@@ -114,7 +114,7 @@ private:
 	const Array<std::pair<String, Array<String>>> menus
 	{
 		{ U"ファイル", { U"終了" }},
-		{ U"設定", { U"完成時にトースト通知する"}},
+		{ U"設定", { U"完成時にトースト通知する", U"スクリーンショットの保存先を変更"}},
 		{ U"ヘルプ", { U"\U000F0625 Webマニュアル", U"\U000F0FC3 ライセンス情報" } },
 	};
 	SimpleMenuBar menuBar{ menus };
