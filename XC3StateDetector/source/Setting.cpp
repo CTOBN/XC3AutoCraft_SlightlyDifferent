@@ -290,7 +290,7 @@ void Setting::drawNotion() const
 
 	if (getData().cameraName == U"未選択")
 	{
-		FontAsset(U"TextFont")(U"カメラを選択してください").draw(TextStyle::Outline(outlineScale, outlineColor), CameraTextPos.movedBy(0, 40), Palette::Red);
+		FontAsset(U"TextFont")(U"HDMIキャプチャーを選択してください").draw(TextStyle::Outline(outlineScale, outlineColor), CameraTextPos.movedBy(0, 40), Palette::Red);
 	}
 }
 
@@ -424,7 +424,7 @@ void Setting::draw() const
 	FontAsset(U"SubtitleFont")(U"シリアルポート").draw(SerialTextPos);
 	drawSerialStatus();
 
-	FontAsset(U"SubtitleFont")(U"カメラ").draw(CameraTextPos);
+	FontAsset(U"SubtitleFont")(U"HDMIキャプチャー").draw(CameraTextPos);
 	openableListBoxCamera.update();
 	openableListBoxCamera.draw();
 
