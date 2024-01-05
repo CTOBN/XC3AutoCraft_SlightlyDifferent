@@ -457,8 +457,35 @@ void Setting::draw() const
 
 	menuBar.draw();
 
+	if (GoRecordingRect.mouseOver())
+	{
+		// 目的のアクセサリが出る可能性が０%の場合
+		if (not canMake())
+		{
+			Line{ GoRecordingRect.topCenter(), openableListBoxesAccessory.back().getDisplayRegion().br() }.drawArrow(10, SizeF{20, 20}, Palette::Orange);
+			Line{ GoRecordingRect.topCenter(), Vec2{ MENU_X, DESIRE_CONSENCUTIVE_STATUS_Y }.movedBy(20, 20)}.drawArrow(10, SizeF{20, 20}, Palette::Orange);
+		}
+
+		// 作るアクセサリが選択されていない場合
+		if (getData().selectedAccessoryType == AccessoryType::Undefined)
+		{
+			Line{ GoRecordingRect.topCenter(), probabilityTable.cellRegion(probabilityTablePos, 0, 2).br() }.drawArrow(10, SizeF{ 20, 20 }, Palette::Orange);
+		}
+
+		// カメラが選択されていない場合
+		if (not isSelectedCamera())
+		{
+			Line{ GoRecordingRect.leftCenter(), openableListBoxCamera.getDisplayRegion().rightCenter()}.drawArrow(10, SizeF{20, 20}, Palette::Orange);
+		}
+
+		// シリアルポートが選択されていない場合
+		if (not isSelectedSerialPort())
+		{
+			Line{ GoRecordingRect.leftCenter(), openableListBoxSerial.getDisplayRegion().rightCenter() }.drawArrow(10, SizeF{20, 20}, Palette::Orange);
+		}
+	}
 	if (DentButton( canGoRecording() ? U"次へ" : U"次へ進めません",
-					RoundRect{ GoRecordingButtonPos, 400, 100, 20},
+					GoRecordingRect,
 					GoRecordingButtonFont,
 					canGoRecording(),
 					canGoRecording() ? Color{ 144, 238, 144, 255 }   : Color{ 144, 238, 144, 100 },

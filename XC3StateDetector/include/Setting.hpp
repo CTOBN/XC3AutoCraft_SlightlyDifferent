@@ -176,4 +176,5 @@ private:
 	Optional<FilePath> desiredAccessorySavePath;
 	
 	Font GoRecordingButtonFont{ 50 };
+	RoundRect GoRecordingRect{ GoRecordingButtonPos, 400, 100, 20 };
 };
