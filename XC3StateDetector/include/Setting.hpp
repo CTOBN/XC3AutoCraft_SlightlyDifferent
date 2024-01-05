@@ -9,13 +9,7 @@ class Setting : public App::Scene
 
 public:
 	const Font font{ font_size };
-
-	//Array<Pulldown> accessoryPulldowns;
-	//Array<Pulldown> statusTypePulldowns;
 	Array<String> webcams = { U"未選択" };
-
-	
-	// const Array<SerialPortInfo> infos = System::EnumerateSerialPorts();
 	Array<String> options = { U"未選択" };
 
 	Setting(const InitData& init);

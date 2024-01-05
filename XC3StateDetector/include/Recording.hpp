@@ -33,7 +33,7 @@ private:
 	const Point UNKOWN_MATTER_NUMBER_TENS_PLACE_POS{ 1646, 522 };
 	const Point UNKOWN_MATTER_NUMBER_SIZE{ 18, 23 };
 	const Point UNKOWN_MATTER_NUMBER_ONES_PLACE_POS = { UNKOWN_MATTER_NUMBER_TENS_PLACE_POS.x + UNKOWN_MATTER_NUMBER_SIZE.x, UNKOWN_MATTER_NUMBER_TENS_PLACE_POS.y };
-	Accessory currentAccessory{ 0 }; // todo アクセサリの特殊効果もOptionalにする?
+	Accessory currentAccessory{ 0 };
 	Array<Accessory> RecognizedAccessories;
 
 	AsyncTask<Webcam> task;
@@ -161,7 +161,4 @@ private:
 	void drawRecognizedAccessories() const;
 
 	void drawDesiredAccessories() const;
-
-
-
 };
