@@ -410,9 +410,12 @@ void Recording::drawButtons()
 	if (webcam && SimpleGUI::Button(U"\U000F0E51 PCにスクショを保存", Vec2{ buttonPos.movedBy(0, 250) }))
 	{
 		webcam.getFrame(image);
-		String path = U"XC3AutoCraft_{}.png"_fmt(DateTime::Now()).replace(U":", U".");
-		image.save(path);
-		// Console << U"スクリーンショットを保存しました ファイル名 : {}"_fmt(path);
+		if (FileSystem::CreateDirectories(screenShotFolderPath))
+		{
+			String path = U"{}/XC3AutoCraft_{}.png"_fmt(screenShotFolderPath, DateTime::Now()).replace(U":", U".");
+			image.save(path);
+			// Console << U"スクリーンショットを保存しました ファイル名 : {}"_fmt(path);
+		}
 	}
 
 	if (SimpleGUI::Button(U"\U000F0544 Tweetする", Vec2{ buttonPos.movedBy(0, 300) }))

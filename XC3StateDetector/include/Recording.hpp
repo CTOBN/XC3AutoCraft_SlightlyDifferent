@@ -59,6 +59,7 @@ private:
 
 	double adjust_interval = 8000;
 
+	String screenShotFolderPath = U"ScreenShots";
 
 	HashTable<uint8, uint8> accessoryTypeIndexToCommandByte = {
 		{0, xc3::Context::CommandByte::SetAccessoryTypeAsBracelet},
