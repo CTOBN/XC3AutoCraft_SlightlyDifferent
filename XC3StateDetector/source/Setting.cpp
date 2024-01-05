@@ -1,8 +1,8 @@
 ﻿# include "Setting.hpp"
 
-static bool DentButton(const String& str, const Circle& circle, const Font font, bool flag = true, const ColorF& buttonColor = Scene::GetBackground(), const ColorF& fontColor = Palette::White) {
+static bool DentButton(const String& str, const RoundRect& roundRect, const Font font, bool flag = true, const ColorF& buttonColor = Scene::GetBackground(), const ColorF& fontColor = Palette::White) {
 
-	Circle button = circle;
+	RoundRect button = roundRect;
 
 	if (flag) {
 
@@ -24,7 +24,7 @@ static bool DentButton(const String& str, const Circle& circle, const Font font,
 
 	button.draw(buttonColor);
 
-	font(str).drawAt(button.center, fontColor);
+	font(str).drawAt(button.center(), fontColor);
 
 	return flag && button.leftClicked();
 }
@@ -458,7 +458,7 @@ void Setting::draw() const
 	menuBar.draw();
 
 	if (DentButton( canGoRecording() ? U"次へ" : U"次へ進めません",
-					Circle{ GoRecordingButtonPos, 100 },
+					RoundRect{ GoRecordingButtonPos, 400, 100, 20},
 					GoRecordingButtonFont,
 					canGoRecording(),
 					canGoRecording() ? Color{ 144, 238, 144, 255 }   : Color{ 144, 238, 144, 100 },

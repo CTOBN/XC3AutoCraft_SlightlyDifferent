@@ -66,7 +66,7 @@ private:
 
 	const Vec2 CameraTextPos = { MENU_X, 600 };
 	const Vec2 SerialTextPos = { MENU_X, 750 };
-	const Vec2 GoRecordingButtonPos = { 1650, 850 };
+	const Vec2 GoRecordingButtonPos = { 1400, 850 };
 
 	const Font ACCSESSORIE_FONT{ ACCESSORIES_FONT_SIZE };
 	const Font CAMERA_FONT{ CAMERA_FONT_SIZE };
