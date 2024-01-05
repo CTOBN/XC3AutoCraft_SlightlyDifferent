@@ -27,6 +27,8 @@ struct GameData
 	const Array<SerialPortInfo> infos = System::EnumerateSerialPorts();
 
 	String WebManualURL = U"https://github.com/eightgamedev/XC3AutoCraft";
+
+	bool enableToastNotification = true;
 };
 
 // 共有するデータの型を指定

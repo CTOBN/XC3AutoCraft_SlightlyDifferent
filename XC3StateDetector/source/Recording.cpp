@@ -13,6 +13,7 @@ Recording::Recording(const InitData& init)
 		return webcam;
 	} };
 
+	menuBar.setItemChecked(MenuBarItemIndex{ 1, 0 }, getData().enableToastNotification);
 }
 
 
@@ -464,11 +465,20 @@ void Recording::update()
 
 	if (const auto& item = menuBar.update())
 	{
+		if (item->menuIndex == 1)
+		{
+			// チェック状態を反転する
+			menuBar.setItemChecked(*item, (not menuBar.getItemChecked(*item)));
+		}
+
 		// 「終了」が押されたら
 		if (item == MenuBarItemIndex{ 0, 1 })
 		{
 			System::Exit();
 		}
+
+		//「トースト通知を有効にする」の状態を取得
+		getData().enableToastNotification = menuBar.getItemChecked(MenuBarItemIndex{ 1, 0 });
 
 		// Webマニュアルが押されたら
 		if (item == MenuBarItemIndex{ 2, 0 })

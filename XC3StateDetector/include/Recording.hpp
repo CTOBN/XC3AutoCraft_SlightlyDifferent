@@ -113,7 +113,7 @@ private:
 	const Array<std::pair<String, Array<String>>> menus
 	{
 		{ U"ファイル", { U"終了" }},
-		{ U"設定", { U"環境設定"}},
+		{ U"設定", { U"完成時にトースト通知する"}},
 		{ U"ヘルプ", { U"\U000F0625 Webマニュアル", U"\U000F14F7 リリースノート", U"\U000F0FC3 ライセンス情報" } },
 	};
 	SimpleMenuBar menuBar{ menus };

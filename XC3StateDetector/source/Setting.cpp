@@ -83,6 +83,8 @@ Setting::Setting(const InitData& init)
 		probabilityTable.push_back_row({ U"-", U"0", U"0", U"0", U"0" }, { 0, 1, 1, 1, 1 });
 	}
 	probabilityTable.push_back_row({ U"合計", U"0", U"0", U"0", U"0" }, { 0, 1, 1, 1, 1 });
+
+	menuBar.setItemChecked(MenuBarItemIndex{ 1, 0 }, getData().enableToastNotification);
 }
 
 
@@ -343,6 +345,12 @@ void Setting::update()
 
 	if (const auto& item = menuBar.update())
 	{
+		if (item->menuIndex == 1)
+		{
+			// チェック状態を反転する
+			menuBar.setItemChecked(*item, (not menuBar.getItemChecked(*item)));
+		}
+
 		// 「開く」が押されたら
 		if (item == MenuBarItemIndex{ 0, 0 })
 		{
@@ -354,6 +362,9 @@ void Setting::update()
 		{
 			saveDesiredAccessories();
 		}
+
+		// 「トースト通知を有効にする」の状態を取得
+		getData().enableToastNotification = menuBar.getItemChecked(MenuBarItemIndex{ 1, 0 });
 
 		// 「終了」が押されたら
 		if (item == MenuBarItemIndex{ 0, 2 })
