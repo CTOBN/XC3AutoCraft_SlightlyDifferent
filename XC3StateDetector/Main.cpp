@@ -7,7 +7,9 @@
 
 void Main()
 {
-	Window::SetTitle(U"XC3StateDetector");
+	const String applicationName = U"XC3StateDetector";
+	const String version = U"v1.0.0";
+	Window::SetTitle(U"{} {}"_fmt(applicationName, version));
 	Window::SetStyle(WindowStyle::Sizable);
 	Scene::Resize(1920, 1009);
 	Window::Maximize();
