@@ -87,3 +87,8 @@ void OpenableListBox::draw() const
 		}
 	}
 }
+
+RectF OpenableListBox::getDisplayRegion() const
+{
+	return m_displayRegion;
+}

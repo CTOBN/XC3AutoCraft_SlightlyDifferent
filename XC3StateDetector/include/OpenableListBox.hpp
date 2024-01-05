@@ -16,6 +16,7 @@ public:
 	bool getIsOpen() const;
 	void update() const;
 	void draw() const;
+	RectF getDisplayRegion() const;
 private:
 	Font m_font;
 	RectF m_displayRegion;
