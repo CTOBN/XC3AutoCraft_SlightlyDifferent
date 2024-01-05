@@ -175,23 +175,27 @@ int8 Recording::recognizeSelectingCampMenu()
 	return judgedCampMenu;
 }
 
-// メニュー項目が点滅しているので1秒間、recognizeSelectingCampMenuを繰り返し呼び出して、最大値を返す
+// メニュー項目が点滅しているので2秒間計10回、recognizeSelectingCampMenuを繰り返し呼び出して、最大値を返す
 int8 Recording::recognizeSelectingCampMenuRepeat()
 {
-	std::vector<int8> menuSelections;
-	int8 repeatTimes = 2;
+	Array<int8> menuSelections;
+	int8 repeatTimes = 10;
 
 	for (int i = 0; i < repeatTimes; ++i) {
 		int8 selectedMenu = recognizeSelectingCampMenu();
 		menuSelections.push_back(selectedMenu);
 		// Assuming 1 second delay between each capture
-		std::this_thread::sleep_for(std::chrono::seconds(1));
+		std::this_thread::sleep_for(std::chrono::milliseconds(200));
 	}
 
 	// Find the maximum selected menu
-	int8 maxMenu = *std::max_element(menuSelections.begin(), menuSelections.end());
+	int8 maxMenu = -1;
+	for (int i = 0; i < menuSelections.size(); ++i) {
+		if (menuSelections[i] > maxMenu) {
+			maxMenu = menuSelections[i];
+		}
+	}
 
-	// Return or use the maximum selected menu
 	return maxMenu;
 }
 
