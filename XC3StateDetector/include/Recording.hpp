@@ -1,7 +1,7 @@
 ﻿# pragma once
 # include "Common.hpp"
 # include "VirtualJoyCon.hpp"
-# include "ButtonByte.hpp"
+# include "SerialInstruction.hpp"
 # include "Context.hpp"
 # include "State.hpp"
 
@@ -64,10 +64,10 @@ private:
 	mutable double campThreshold = 242;
 
 	HashTable<uint8, uint8> accessoryTypeIndexToCommandByte = {
-		{0, xc3::Context::CommandByte::SetAccessoryTypeAsBracelet},
-		{1, xc3::Context::CommandByte::SetAccessoryTypeAsRing},
-		{2, xc3::Context::CommandByte::SetAccessoryTypeAsNecklace},
-		{3, xc3::Context::CommandByte::SetAccessoryTypeAsCrown}
+		{0, CommandByte::SetAccessoryTypeAsBracelet},
+		{1, CommandByte::SetAccessoryTypeAsRing},
+		{2, CommandByte::SetAccessoryTypeAsNecklace},
+		{3, CommandByte::SetAccessoryTypeAsCrown}
 	};
 
 	HashTable<uint8, String> commandByteToString = {
@@ -97,18 +97,18 @@ private:
 		{ButtonByte::Down, U"Down"},
 		{ButtonByte::Left, U"Left"},
 		{ButtonByte::Right, U"Right"},
-		{xc3::Context::CommandByte::Title_to_FieldLoading, U"Title_to_FieldLoading"},
-		{xc3::Context::CommandByte::Field_to_Camp, U"Field_to_Camp"},
-		{xc3::Context::CommandByte::Camp_to_AccessoryMenu, U"Camp_to_AccessoryMenu"},
-		{xc3::Context::CommandByte::AccessorySelected_to_Judge, U"AccessorySelected_to_Judge"},
-		{xc3::Context::CommandByte::Judge_to_AccessorySelected, U"Judge_to_AccessorySelected"},
-		{xc3::Context::CommandByte::GoingMainMenu_to_MainMenu, U"GoingMainMenu_to_MainMenu"},
-		{xc3::Context::CommandByte::MainMenu_to_SystemMenu, U"MainMenu_to_SystemMenu"},
-		{xc3::Context::CommandByte::SystemMenu_to_TitleLoading, U"SystemMenu_to_TitleLoading"},
-		{xc3::Context::CommandByte::SetAccessoryTypeAsBracelet, U"SetAccessoryTypeAsBracelet"},
-		{xc3::Context::CommandByte::SetAccessoryTypeAsRing, U"SetAccessoryTypeAsRing"},
-		{xc3::Context::CommandByte::SetAccessoryTypeAsNecklace, U"SetAccessoryTypeAsNecklace"},
-		{xc3::Context::CommandByte::SetAccessoryTypeAsCrown, U"SetAccessoryTypeAsCrown"},
+		{CommandByte::Title_to_FieldLoading, U"Title_to_FieldLoading"},
+		{CommandByte::Field_to_Camp, U"Field_to_Camp"},
+		{CommandByte::Camp_to_AccessoryMenu, U"Camp_to_AccessoryMenu"},
+		{CommandByte::AccessorySelected_to_Judge, U"AccessorySelected_to_Judge"},
+		{CommandByte::Judge_to_AccessorySelected, U"Judge_to_AccessorySelected"},
+		{CommandByte::GoingMainMenu_to_MainMenu, U"GoingMainMenu_to_MainMenu"},
+		{CommandByte::MainMenu_to_SystemMenu, U"MainMenu_to_SystemMenu"},
+		{CommandByte::SystemMenu_to_TitleLoading, U"SystemMenu_to_TitleLoading"},
+		{CommandByte::SetAccessoryTypeAsBracelet, U"SetAccessoryTypeAsBracelet"},
+		{CommandByte::SetAccessoryTypeAsRing, U"SetAccessoryTypeAsRing"},
+		{CommandByte::SetAccessoryTypeAsNecklace, U"SetAccessoryTypeAsNecklace"},
+		{CommandByte::SetAccessoryTypeAsCrown, U"SetAccessoryTypeAsCrown"},
 	};
 
 	xc3::Context context{ getData().serial };

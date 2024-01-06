@@ -1,5 +1,6 @@
 ﻿#include "State.hpp"
 #include "Context.hpp"
+#include "SerialInstruction.hpp"
 #include "GoingMainMenu.hpp"
 #include "MainMenu.hpp"
 
@@ -11,7 +12,7 @@ namespace xc3
 
 		if (not hasTransitioned)
 		{
-			context.serial.writeByte(Context::CommandByte::GoingMainMenu_to_MainMenu);
+			context.serial.writeByte(CommandByte::GoingMainMenu_to_MainMenu);
 			transitionTime = Time::GetMillisec();
 			hasTransitioned = true;
 		}

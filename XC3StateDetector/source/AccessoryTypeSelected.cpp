@@ -1,7 +1,8 @@
 ﻿#include "State.hpp"
+#include "Context.hpp"
+#include "SerialInstruction.hpp"
 #include "AccessoryTypeSelected.hpp"
 #include "Judge.hpp"
-#include "Context.hpp"
 
 namespace xc3
 {
@@ -11,7 +12,7 @@ namespace xc3
 	{
 		if (not hasTransitioned)
 		{
-			context.serial.writeByte(Context::CommandByte::AccessorySelected_to_Judge);
+			context.serial.writeByte(CommandByte::AccessorySelected_to_Judge);
 			transitionTime = Time::GetMillisec();
 			hasTransitioned = true;
 		}

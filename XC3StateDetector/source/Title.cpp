@@ -1,5 +1,6 @@
 ﻿#include "State.hpp"
 #include "Context.hpp"
+#include "SerialInstruction.hpp"
 #include "Title.hpp"
 #include "FieldLoading.hpp"
 
@@ -11,7 +12,7 @@ namespace xc3
 	{
 		if (not hasTransitioned)
 		{
-			context.serial.writeByte(Context::CommandByte::Title_to_FieldLoading);
+			context.serial.writeByte(CommandByte::Title_to_FieldLoading);
 			transitionTime = Time::GetMillisec();
 			hasTransitioned = true;
 		}

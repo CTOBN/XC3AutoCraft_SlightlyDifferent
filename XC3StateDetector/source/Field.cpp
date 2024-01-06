@@ -1,5 +1,6 @@
 ﻿#include "State.hpp"
 #include "Context.hpp"
+#include "SerialInstruction.hpp"
 #include "Field.hpp"
 #include "Camp.hpp"
 
@@ -11,7 +12,7 @@ namespace xc3
 
 		if (not hasTransitioned)
 		{
-			context.serial.writeByte(Context::CommandByte::Field_to_Camp);
+			context.serial.writeByte(CommandByte::Field_to_Camp);
 			transitionTime = Time::GetMillisec();
 			hasTransitioned = true;
 		}
