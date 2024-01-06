@@ -12,7 +12,7 @@ namespace xc3
 
 		if (not hasTransitioned)
 		{
-			context.serial.writeByte(CommandByte::Field_to_Camp);
+			context.serial.writeByte(GameManipulationByte::Field_to_Camp);
 			transitionTime = Time::GetMillisec();
 			hasTransitioned = true;
 		}

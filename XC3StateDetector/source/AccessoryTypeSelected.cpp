@@ -12,7 +12,7 @@ namespace xc3
 	{
 		if (not hasTransitioned)
 		{
-			context.serial.writeByte(CommandByte::AccessorySelected_to_Judge);
+			context.serial.writeByte(GameManipulationByte::AccessorySelected_to_Judge);
 			transitionTime = Time::GetMillisec();
 			hasTransitioned = true;
 		}

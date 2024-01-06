@@ -12,7 +12,7 @@ namespace xc3
 	{
 		if (not hasTransitioned)
 		{
-			context.serial.writeByte(CommandByte::MainMenu_to_SystemMenu);
+			context.serial.writeByte(GameManipulationByte::MainMenu_to_SystemMenu);
 			transitionTime = Time::GetMillisec();
 			hasTransitioned = true;
 		}
