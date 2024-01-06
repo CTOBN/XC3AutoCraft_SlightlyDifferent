@@ -30,7 +30,7 @@ struct ButtonByte
 	static const uint8 Right = 26;
 };
 
-struct CommandByte
+struct GameManipulationByte
 {
 	static const uint8 Title_to_FieldLoading = 200;
 	static const uint8 Field_to_Camp = 201;
