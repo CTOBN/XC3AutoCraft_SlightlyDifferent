@@ -9,6 +9,14 @@ enum AccType selectedAccType = AccType::Bracelet;
 
 int32_t ajust_time = 2000;
 
+struct Command {
+	uint8_t buttonByte;
+	uint8_t repeatTimes;
+};
+
+const String START_MARKER = "<START>";
+const String END_MARKER = "<END>";
+
 namespace siv3dswitch
 {
 	struct ButtonByte
@@ -341,6 +349,40 @@ void (*xc3_macros[])() =
 	SetAccessoryTypeAsCrown,
 };
 
+void handleCommand(const Command& command) {
+	// コマンドに応じた処理
+	switch (command.instruction)
+	{
+		case Instruction::MoveForward:
+			// 前進の処理
+			break;
+		case Instruction::MoveBackward:
+			// 後退の処理
+			break;
+		case Instruction::TurnRight:
+			// 右回転の処理
+			break;
+		case Instruction::TurnLeft:
+			// 左回転の処理
+			break;
+	}
+}
+
+void processData(const String& data) {
+	// データの分割
+	int commaIndex = data.indexOf(',');
+	String instructionString = data.substring(0, commaIndex);
+	String repeatTimesString = data.substring(commaIndex + 1);
+
+	// コマンドの作成
+	Command command;
+	command.instruction = instructionString.toInt();
+	command.repeatTimes = repeatTimesString.toInt();
+
+	// コマンドの処理
+	handleCommand(command);
+}
+
 void setup()
 {
 	// 9600bps でシリアルポートを開く
@@ -353,11 +395,6 @@ void loop()
 {
 	// 250 ミリ秒止める
 	delay(250);
-
-	if (Serial1.available() >= 4) // 4バイト以上読み取り可能なら
-	{
-		ajust_time = Serial1.parseInt(); // 4バイトを整数として読み取る
-	}
 
 	// シリアル通信で受信したデータを読み込む
 	const uint8_t val = Serial1.read();
