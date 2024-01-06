@@ -20,7 +20,7 @@ Recording::Recording(const InitData& init)
 double Recording::calculateSimilarity(const Image& img1, const Image& img2) {
 	// 画像のサイズが一致しない場合はエラーを返す
 	if (img1.size() != img2.size()) {
-		throw Error(U"Images must be the same size");
+		throw Error(U"Images must be the same size {} and {}"_fmt(img1.size(), img2.size()));
 	}
 
 	// 類似度を計算
@@ -106,7 +106,7 @@ size_t Recording::findMostSimilarAbility() {
 	if (0 <= judgedIndex && judgedIndex < Accessory::getSpecialEffectDetailJapaneseList().size())
 	{
 		currentAccAbilityJapanese = Accessory::getSpecialEffectDetailJapanese(judgedIndex);
-		// Console << Format(judgedIndex) << currentAccAbilityJapanese;
+		Console << Format(judgedIndex) << currentAccAbilityJapanese;
 	}
 	return judgedIndex;
 }
@@ -259,9 +259,44 @@ bool Recording::completeMission()
 	return compareAccessories();
 }
 
+// Campメニューからアクセサリクラフトを選択する
+void Recording::selectAccessoryCraft()
+{
+	if (context.getCurrentStateName() != U"Camp" || context.isAccessoryCraftSelected)
+	{
+		return;
+	}
+	int8 currentSelectingCampMenu = recognizeSelectingCampMenuRepeat();
+	int8 RightCount = (4 - currentSelectingCampMenu + 7) % 7;
+	int8 LeftCount = (currentSelectingCampMenu - 4 + 7) % 7;
+	if (0 <= currentSelectingCampMenu && currentSelectingCampMenu < 7) Console << CampMenuNames[currentSelectingCampMenu];
+	else
+	{
+		Console << U"認識できませんでした";
+		return;
+	}
+	Console << U"R L = {} vs {}"_fmt(RightCount, LeftCount);
+	if (RightCount < LeftCount)
+	{
+		for (int8 i = 0; i < RightCount; i++)
+		{
+			Console << getData().serial.writeByte(ButtonByte::Right);
+		}
+	}
+	else
+	{
+		for (int8 i = 0; i < LeftCount; i++)
+		{
+			Console << getData().serial.writeByte(ButtonByte::Left);
+		}
+	}
+	getData().serial.writeByte(ButtonByte::A);
+	context.isAccessoryCraftSelected = true;
+}
+
 void Recording::countUnknownMatter()
 {
-	if (context.getCurrentStateName() != U"RecognizeItemCount")
+	if (context.getCurrentStateName() != U"RecognizeItemCount" || context.isUnkownMatterCountUpdated)
 	{
 		return;
 	}
@@ -281,7 +316,7 @@ void Recording::selectAccessoryType()
 	// Console << U"DownCount " << DownCount;
 	for (int i = 0; i < DownCount; i++)
 	{
-		getData().serial.writeByte(ButtonByte::LStickDown);
+		Console << getData().serial.writeByte(ButtonByte::LStickDown);
 	}
 	context.isAccessoryTypeSelected = true;
 }
@@ -327,6 +362,7 @@ void Recording::updateContext()
 	{
 		context.request();
 	}
+	selectAccessoryCraft();
 	countUnknownMatter();
 	selectAccessoryType();
 	judgeAccessory();
@@ -366,7 +402,7 @@ void Recording::drawSerialBytesLog()
 	if (commandByteToString.contains(lastSerialByte))
 	{
 		String commandName = commandByteToString.at(lastSerialByte);
-		// Console << U"{} が実行されました"_fmt(commandName);
+		Console << U"{} が実行されました"_fmt(commandName);
 		lastSerialByte = 0;
 	}
 }
@@ -407,6 +443,10 @@ void Recording::drawButtons()
 	if (SimpleGUI::Button(U"\U000F02B4 仮想コントローラ接続", Vec2{ buttonPos.x, buttonPos.y }))
 	{
 		openSerialPort();
+	}
+
+	if (SimpleGUI::Button(U"3回Aを押す", Vec2{ buttonPos.movedBy(270, 0) }))
+	{
 		getData().serial.writeByte(ButtonByte::A);
 		getData().serial.writeByte(ButtonByte::A);
 		getData().serial.writeByte(ButtonByte::A);
@@ -440,8 +480,6 @@ void Recording::drawButtons()
 
 	if (SimpleGUI::Button(U"\U000F04DB 自動クラフト停止", Vec2{ buttonPos.movedBy(0, 100) }))
 	{
-		// シリアルポートを閉じる
-		getData().serial.close();
 		context.deleteState();
 	}
 	
@@ -478,7 +516,31 @@ void Recording::drawButtons()
 	{
 		Console << recognizeSelectingCampMenuRepeat();
 	}
-	// SimpleGUI::Slider(U"{}"_fmt(campThreshold), campThreshold, 0, 255, Vec2{ buttonPos.movedBy(0, 400) }, 60, 150);
+
+
+	if (SimpleGUI::Button(U"アクセサリークラフトにカーソルを合わせる", Vec2{ buttonPos.movedBy(0, 500) }))
+	{
+		int8 currentSelectingCampMenu = recognizeSelectingCampMenuRepeat();
+		int8 RightCount = (4 - currentSelectingCampMenu + 7) % 7;
+		int8 LeftCount = (currentSelectingCampMenu - 4 + 7) % 7;
+		if (0 <= currentSelectingCampMenu && currentSelectingCampMenu < 7) Console << CampMenuNames[currentSelectingCampMenu];
+		else Console << U"認識できませんでした";
+		Console << U"R L = {} vs {}"_fmt(RightCount, LeftCount);
+		if (RightCount < LeftCount)
+		{
+			for (int8 i = 0; i < RightCount; i++)
+			{
+				Console << getData().serial.writeByte(ButtonByte::Right);
+			}
+		}
+		else
+		{
+			for (int8 i = 0; i < LeftCount; i++)
+			{
+				Console << getData().serial.writeByte(ButtonByte::Left);
+			}
+		}
+	}
 }
 
 void Recording::drawRecognitionArea() const

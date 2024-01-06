@@ -84,6 +84,7 @@ namespace xc3
 		isJudged = true;
 		isUnkownMatterCountUpdated = true;
 		isAccessoryTypeSelected = true;
+		isAccessoryCraftSelected = true;
 	}
 }
 

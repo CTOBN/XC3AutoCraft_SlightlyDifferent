@@ -27,6 +27,8 @@ public:
 
 	void draw() const override;
 private:
+	Array<String> CampMenuNames = { U"相談", U"レベルアップ", U"ジェムクラフト", U"料理", U"アクセサリークラフト", U"セーブ", U"クリーニング" };
+
 	const Point ABILITY_TEXT_AREA_POS{ 679, 516 };
 	const Array<Point> clipStatusPosList{ {698, 659}, {841, 659}, {985, 659}, {1128, 659} };
 	const Point ABILITY_TEXI_AREA_SIZE{ 550, 76 };
@@ -142,6 +144,8 @@ private:
 	void drawButtons();
 
 	void addAccessory(const Accessory& accessory);
+
+	void selectAccessoryCraft();
 
 	void recognizeUnknownMatterCount();
 
