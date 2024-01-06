@@ -63,13 +63,6 @@ private:
 
 	mutable double campThreshold = 242;
 
-	HashTable<uint8, uint8> accessoryTypeIndexToCommandByte = {
-		{0, CommandByte::SetAccessoryTypeAsBracelet},
-		{1, CommandByte::SetAccessoryTypeAsRing},
-		{2, CommandByte::SetAccessoryTypeAsNecklace},
-		{3, CommandByte::SetAccessoryTypeAsCrown}
-	};
-
 	HashTable<uint8, String> commandByteToString = {
 		{ButtonByte::A, U"A"},
 		{ButtonByte::B, U"B"},
@@ -105,10 +98,6 @@ private:
 		{CommandByte::GoingMainMenu_to_MainMenu, U"GoingMainMenu_to_MainMenu"},
 		{CommandByte::MainMenu_to_SystemMenu, U"MainMenu_to_SystemMenu"},
 		{CommandByte::SystemMenu_to_TitleLoading, U"SystemMenu_to_TitleLoading"},
-		{CommandByte::SetAccessoryTypeAsBracelet, U"SetAccessoryTypeAsBracelet"},
-		{CommandByte::SetAccessoryTypeAsRing, U"SetAccessoryTypeAsRing"},
-		{CommandByte::SetAccessoryTypeAsNecklace, U"SetAccessoryTypeAsNecklace"},
-		{CommandByte::SetAccessoryTypeAsCrown, U"SetAccessoryTypeAsCrown"},
 	};
 
 	xc3::Context context{ getData().serial };
