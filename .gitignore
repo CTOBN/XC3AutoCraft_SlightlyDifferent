@@ -413,3 +413,6 @@ gmon.out
 **/App/example
 **/App/engine
 **/App/dll
+
+# Intermediate folder
+Intermediate/
