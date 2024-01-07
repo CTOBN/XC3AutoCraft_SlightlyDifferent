@@ -392,6 +392,7 @@ void Recording::receiveSerialBytes()
 	{
 		return;
 	}
+	Console << U"受信 : {}"_fmt(currentSerialBytes);
 	lastSerialByte = currentSerialBytes.front();
 	currentSerialBytes.clear();
 }

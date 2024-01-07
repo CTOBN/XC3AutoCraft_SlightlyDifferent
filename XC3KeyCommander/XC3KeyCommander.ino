@@ -4,18 +4,11 @@ const int BUTTON_INTERVAL = 1000;
 const int STICK_INTERVAL = 200;
 const int HAT_INTERVAL = 1000;
 constexpr int BUTTONS_COUNT = 26;
-enum AccType { Bracelet, Ring, Nacklace, Crown };
-enum AccType selectedAccType = AccType::Bracelet;
-
-int32_t ajust_time = 2000;
 
 struct Command {
 	uint8_t buttonByte;
 	uint8_t repeatTimes;
 };
-
-const String START_MARKER = "<START>";
-const String END_MARKER = "<END>";
 
 namespace siv3dswitch
 {
@@ -50,7 +43,7 @@ namespace siv3dswitch
 	};
 }
 
-uint8_t siv3dswitch_buttons[BUTTONS_COUNT] = 
+uint8_t siv3dswitch_buttons[BUTTONS_COUNT] =
 {
 	siv3dswitch::ButtonByte::A,
 	siv3dswitch::ButtonByte::B,
@@ -214,7 +207,7 @@ void func_Button_Right()
 }
 
 
-void (*button_funcs[BUTTONS_COUNT])() = 
+void (*button_funcs[BUTTONS_COUNT])() =
 {
 	func_Button_A,
 	func_Button_B,
@@ -255,7 +248,7 @@ void Field_to_Camp()
 	// ネウロ湖のキャンプ前で[A調べる]
 	pushButton(Button::A, BUTTON_INTERVAL);
 }
-	
+
 void Camp_to_AccessoryMenu()
 {
 	// 休憩ポイントメニューからアクセサリクラフトを選択
@@ -264,26 +257,6 @@ void Camp_to_AccessoryMenu()
 	tiltLeftStick(Stick::MIN, Stick::NEUTRAL, STICK_INTERVAL); // 左スティックを左に傾ける
 	pushButton(Button::A, BUTTON_INTERVAL);
 	delay(3000);
-}
-
-void SetAccessoryTypeAsBracelet()
-{
-	selectedAccType = AccType::Bracelet;
-}
-
-void SetAccessoryTypeAsRing()
-{
-	selectedAccType = AccType::Ring;
-}
-
-void SetAccessoryTypeAsNacklace()
-{
-	selectedAccType = AccType::Nacklace;
-}
-
-void SetAccessoryTypeAsCrown()
-{
-	selectedAccType = AccType::Crown;
 }
 
 void AccessorySelected_to_Judge()
@@ -305,15 +278,6 @@ void GoingMainMenu_to_MainMenu()
 	delay(8000);
 	pushButton(Button::B, 500);
 	pushButton(Button::X, 100, 20); //2秒間Xを連打
-}
-
-void adjust()
-{
-	pushButton(Button::A, BUTTON_INTERVAL); // アクセサリの作成結果を確認
-	pushButton(Button::B, BUTTON_INTERVAL);
-	delay(ajust_time);
-	pushButton(Button::B, 500);
-	pushButton(Button::X, 100, 40); //4秒間Xを連打
 }
 
 void MainMenu_to_SystemMenu()
@@ -343,44 +307,21 @@ void (*xc3_macros[])() =
 	GoingMainMenu_to_MainMenu,
 	MainMenu_to_SystemMenu,
 	SystemMenu_to_TitleLoading,
-	SetAccessoryTypeAsBracelet,
-	SetAccessoryTypeAsRing,
-	SetAccessoryTypeAsNacklace,
-	SetAccessoryTypeAsCrown,
 };
 
 void handleCommand(const Command& command) {
 	// コマンドに応じた処理
-	switch (command.instruction)
+	for (size_t i = 0; i < BUTTONS_COUNT; i++)
 	{
-		case Instruction::MoveForward:
-			// 前進の処理
-			break;
-		case Instruction::MoveBackward:
-			// 後退の処理
-			break;
-		case Instruction::TurnRight:
-			// 右回転の処理
-			break;
-		case Instruction::TurnLeft:
-			// 左回転の処理
-			break;
+		if (command.buttonByte == siv3dswitch_buttons[i])
+		{
+			for (size_t j = 0; j < command.repeatTimes; j++)
+			{
+				button_funcs[i]();
+				Serial1.write(i);
+			}
+		}
 	}
-}
-
-void processData(const String& data) {
-	// データの分割
-	int commaIndex = data.indexOf(',');
-	String instructionString = data.substring(0, commaIndex);
-	String repeatTimesString = data.substring(commaIndex + 1);
-
-	// コマンドの作成
-	Command command;
-	command.instruction = instructionString.toInt();
-	command.repeatTimes = repeatTimesString.toInt();
-
-	// コマンドの処理
-	handleCommand(command);
 }
 
 void setup()
@@ -390,6 +331,8 @@ void setup()
 	pushButton(Button::A, BUTTON_INTERVAL);
 }
 
+String receivedData;
+char endMarker = 'D';
 
 void loop()
 {
@@ -398,7 +341,7 @@ void loop()
 
 	// シリアル通信で受信したデータを読み込む
 	const uint8_t val = Serial1.read();
-	
+
 	for (size_t i = 0; i < BUTTONS_COUNT; i++)
 	{
 		if (val == siv3dswitch_buttons[i])

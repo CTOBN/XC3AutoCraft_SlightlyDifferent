@@ -41,3 +41,10 @@ struct GameManipulationByte
 	static const uint8 MainMenu_to_SystemMenu = 206;
 	static const uint8 SystemMenu_to_TitleLoading = 207;
 };
+
+struct Command {
+	uint8 buttonByte;
+	uint8 repeatTimes;
+};
+
+void sendPacket(const Command& command, Serial& serial);
