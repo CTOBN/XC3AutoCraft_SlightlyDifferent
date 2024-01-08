@@ -11,7 +11,7 @@ public:
 	void draw() const override;
 
 private:
-	const CSV csv{ U"csv/accessory.csv" };
+	const CSV csv{ Resource(U"csv/accessory.csv") };
 	const String descriptionJapaneseTemplateFolderPath = U"images/Xenoblade3_Temp_Jp";
 	const String statusIconsFolderPath = U"images/StatusType";
 	const String UnknownMatterNumbersPath = U"images/UnknownMatterNumbers";
