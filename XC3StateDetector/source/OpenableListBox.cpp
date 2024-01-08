@@ -1,5 +1,7 @@
 ﻿# include "OpenableListBox.hpp"
 
+OpenableListBox* OpenableListBox::currentOpeningListBox = nullptr;
+
 OpenableListBox::OpenableListBox(const Font font, const Vec2& pos, const double width, const double height, const size_t displayCount)
 	: m_isOpen(false)
 	, m_font(font)
@@ -41,25 +43,27 @@ bool OpenableListBox::getIsOpen() const
 	return m_isOpen;
 }
 
-void OpenableListBox::update() const
+void OpenableListBox::update()
 {
 	if (m_displayRegion.leftClicked())
 	{
 		m_isOpen = !m_isOpen;
+		if (currentOpeningListBox != nullptr && currentOpeningListBox != this)
+		{
+			currentOpeningListBox->m_isOpen = false;
+		}
+		currentOpeningListBox = this;
 	}
 
 	if (m_isOpen)
 	{
-		if (SimpleGUI::ListBox(listBoxState, { m_displayRegion.pos.movedBy(0, m_displayRegion.h) }, m_displayRegion.w, (SimpleGUI::GetFont().height() + FrameThickness) * m_displayCount))
-		{
-			m_isOpen = false;
-		}
 		for (size_t i = 0; i < m_displayCount; ++i)
 		{
 			Vec2 pos = m_displayRegion.pos.movedBy(0, (SimpleGUI::GetFont().height()) * i + m_displayRegion.h);
 			const double RectWidth = (m_displayCount < listBoxState.items.size()) ? (m_displayRegion.size.x - ScrollBarWidth) : m_displayRegion.size.x;
 			if (const RectF rect{ pos, { RectWidth, SimpleGUI::GetFont().height() } }; rect.leftClicked())
 			{
+				listBoxState.selectedItemIndex = i;
 				m_isOpen = false;
 			}
 		}
@@ -76,6 +80,10 @@ void OpenableListBox::draw() const
 
 	if (m_isOpen)
 	{
+		if (SimpleGUI::ListBox(listBoxState, { m_displayRegion.pos.movedBy(0, m_displayRegion.h) }, m_displayRegion.w, (SimpleGUI::GetFont().height() + FrameThickness) * m_displayCount))
+		{
+			m_isOpen = false;
+		}
 		for (size_t i = 0; i < m_displayCount; ++i)
 		{
 			Vec2 pos = m_displayRegion.pos.movedBy(0, (SimpleGUI::GetFont().height()) * i + m_displayRegion.h);

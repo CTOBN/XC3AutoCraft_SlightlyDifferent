@@ -14,10 +14,11 @@ public:
 	size_t getSelectedIndex() const;
 	String getSelectedItem() const;
 	bool getIsOpen() const;
-	void update() const;
+	void update();
 	void draw() const;
 	RectF getDisplayRegion() const;
 private:
+	static OpenableListBox* currentOpeningListBox;
 	Font m_font;
 	RectF m_displayRegion;
 	mutable bool m_isOpen;

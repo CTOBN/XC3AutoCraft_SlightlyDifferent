@@ -401,6 +401,19 @@ void Setting::update()
 			desiredAccessories_to_pullDowns();
 		}
 	}
+
+	for (auto& openableListBoxAccessory : openableListBoxesAccessory)
+	{
+		openableListBoxAccessory.update();
+	}
+
+	for (auto& openableListBoxStatusType : openableListBoxesStatusType)
+	{
+		openableListBoxStatusType.update();
+	}
+
+	openableListBoxCamera.update();
+	openableListBoxSerial.update();
 }
 
 void Setting::draw() const
@@ -430,35 +443,27 @@ void Setting::draw() const
 	drawSerialStatus();
 
 	FontAsset(U"SubtitleFont")(U"HDMIキャプチャー").draw(CameraTextPos);
-	openableListBoxCamera.update();
-	openableListBoxCamera.draw();
 
-	openableListBoxSerial.update();
+	// 候補が下に展開されるので逆順に描画
+	for (auto it = std::rbegin(openableListBoxesAccessory); it != std::rend(openableListBoxesAccessory); ++it)
+	{
+		auto& openableListBoxAccessory = *it;
+		openableListBoxAccessory.draw();
+	}
+
+	// 候補が下に展開されるので逆順に描画
+	for (auto it = std::rbegin(openableListBoxesStatusType); it != std::rend(openableListBoxesStatusType); ++it)
+	{
+		auto& openableListBoxStatusType = *it;
+		openableListBoxStatusType.draw();
+	}
+
+	openableListBoxCamera.draw();
 	openableListBoxSerial.draw();
 
 	accPulldownTable.draw(accPulldownTablePos);
 
-	for (auto it = std::rbegin(openableListBoxesStatusType); it != std::rend(openableListBoxesStatusType); ++it) {
-		auto& openableListBoxStatusType = *it;
-		// 他のすべてのメニューが閉じている場合にのみ、このメニューを更新
-		if (std::all_of(openableListBoxesStatusType.begin(), openableListBoxesStatusType.end(), [&](const OpenableListBox& m) { return &m == &openableListBoxStatusType || !m.getIsOpen(); }))
-		{
-			openableListBoxStatusType.update();
-		}
-		openableListBoxStatusType.draw();
-	}
-
 	FontAsset(U"SubtitleFont")(U"希望のアクセサリ").draw(20, ACCSESSORIE_TEXT_Y);
-
-	for (auto it = std::rbegin(openableListBoxesAccessory); it != std::rend(openableListBoxesAccessory); ++it) {
-		auto& openableListBoxAccessory = *it;
-		// 他のすべてのメニューが閉じている場合にのみ、このメニューを更新
-		if (std::all_of(openableListBoxesAccessory.begin(), openableListBoxesAccessory.end(), [&](const OpenableListBox& m) { return &m == &openableListBoxAccessory || !m.getIsOpen(); }))
-		{
-			openableListBoxAccessory.update();
-		}
-		openableListBoxAccessory.draw();
-	}
 
 	drawMouseOver();
 
