@@ -280,14 +280,14 @@ void Recording::selectAccessoryCraft()
 	{
 		for (int8 i = 0; i < RightCount; i++)
 		{
-			// Console << getData().serial.writeByte(ButtonByte::Right);
+			getData().serial.writeByte(ButtonByte::Right);
 		}
 	}
 	else
 	{
 		for (int8 i = 0; i < LeftCount; i++)
 		{
-			// Console << getData().serial.writeByte(ButtonByte::Left);
+			getData().serial.writeByte(ButtonByte::Left);
 		}
 	}
 	getData().serial.writeByte(ButtonByte::A);
@@ -316,7 +316,7 @@ void Recording::selectAccessoryType()
 	// Console << U"DownCount " << DownCount;
 	for (int i = 0; i < DownCount; i++)
 	{
-		// Console << getData().serial.writeByte(ButtonByte::LStickDown);
+		getData().serial.writeByte(ButtonByte::LStickDown);
 	}
 	context.isAccessoryTypeSelected = true;
 }

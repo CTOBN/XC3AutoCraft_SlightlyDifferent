@@ -138,7 +138,6 @@
     <ClCompile Include="source\Pulldown.cpp" />
     <ClCompile Include="source\RecognizeItemCount.cpp" />
     <ClCompile Include="source\Recording.cpp" />
-    <ClCompile Include="source\SerialInstruction.cpp" />
     <ClCompile Include="source\Setting.cpp" />
     <ClCompile Include="source\State.cpp" />
     <ClCompile Include="source\StatusBoost.cpp" />

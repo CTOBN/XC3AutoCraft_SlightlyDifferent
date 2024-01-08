@@ -228,9 +228,6 @@
     <ClCompile Include="source\Pause.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\SerialInstruction.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="App\icon.ico">
