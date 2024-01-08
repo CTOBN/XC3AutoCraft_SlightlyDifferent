@@ -402,13 +402,17 @@ void Setting::update()
 		}
 	}
 
-	for (auto& openableListBoxAccessory : openableListBoxesAccessory)
+	// 下のリストボックスから更新することで選択時のクリックで別のリストボックスが開かないようにする
+	for (auto it = std::rbegin(openableListBoxesAccessory); it != std::rend(openableListBoxesAccessory); ++it)
 	{
+		auto& openableListBoxAccessory = *it;
 		openableListBoxAccessory.update();
 	}
 
-	for (auto& openableListBoxStatusType : openableListBoxesStatusType)
+	// 下のリストボックスから更新することで選択時のクリックで別のリストボックスが開かないようにする
+	for (auto it = std::rbegin(openableListBoxesStatusType); it != std::rend(openableListBoxesStatusType); ++it)
 	{
+		auto& openableListBoxStatusType = *it;
 		openableListBoxStatusType.update();
 	}
 

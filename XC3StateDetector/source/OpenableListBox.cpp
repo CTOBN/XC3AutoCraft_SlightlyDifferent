@@ -45,27 +45,35 @@ bool OpenableListBox::getIsOpen() const
 
 void OpenableListBox::update()
 {
+	// クリックしたとき
 	if (m_displayRegion.leftClicked())
 	{
-		m_isOpen = !m_isOpen;
+		// もしほかのリストボックスが開いていたら更新しない
 		if (currentOpeningListBox != nullptr && currentOpeningListBox != this)
 		{
-			currentOpeningListBox->m_isOpen = false;
+			return;
 		}
-		currentOpeningListBox = this;
+		m_isOpen = !m_isOpen;
+		if (m_isOpen)
+		{
+			currentOpeningListBox = this;
+		}
+		else
+		{
+			currentOpeningListBox = nullptr;
+		}
 	}
 
-	if (m_isOpen)
+	if (not m_isOpen) return;
+
+	currentOpeningListBox = this;
+	const double RectWidth = (m_displayCount < listBoxState.items.size()) ? (m_displayRegion.size.x - ScrollBarWidth) : m_displayRegion.size.x;
+	for (size_t i = 0; i < m_displayCount; ++i)
 	{
-		for (size_t i = 0; i < m_displayCount; ++i)
+		Vec2 pos = m_displayRegion.pos.movedBy(0, (SimpleGUI::GetFont().height()) * i + m_displayRegion.h);
+		if (const RectF rect{ pos, { RectWidth, SimpleGUI::GetFont().height() } }; rect.leftClicked())
 		{
-			Vec2 pos = m_displayRegion.pos.movedBy(0, (SimpleGUI::GetFont().height()) * i + m_displayRegion.h);
-			const double RectWidth = (m_displayCount < listBoxState.items.size()) ? (m_displayRegion.size.x - ScrollBarWidth) : m_displayRegion.size.x;
-			if (const RectF rect{ pos, { RectWidth, SimpleGUI::GetFont().height() } }; rect.leftClicked())
-			{
-				listBoxState.selectedItemIndex = i;
-				m_isOpen = false;
-			}
+			currentOpeningListBox = nullptr;
 		}
 	}
 }
@@ -78,19 +86,20 @@ void OpenableListBox::draw() const
 
 	Triangle{ m_displayRegion.rightCenter().movedBy(-20, 0), (m_displayRegion.h / 3.0), 180_deg }.draw(Palette::Black);
 
-	if (m_isOpen)
+	if (not m_isOpen) return;
+
+	SimpleGUI::ListBox(listBoxState, { m_displayRegion.pos.movedBy(0, m_displayRegion.h) }, m_displayRegion.w, (SimpleGUI::GetFont().height() + FrameThickness) * m_displayCount);
+
+	const double RectWidth = (m_displayCount < listBoxState.items.size()) ? (m_displayRegion.size.x - ScrollBarWidth) : m_displayRegion.size.x;
+	for (size_t i = 0; i < m_displayCount; ++i)
 	{
-		if (SimpleGUI::ListBox(listBoxState, { m_displayRegion.pos.movedBy(0, m_displayRegion.h) }, m_displayRegion.w, (SimpleGUI::GetFont().height() + FrameThickness) * m_displayCount))
+		Vec2 pos = m_displayRegion.pos.movedBy(0, (SimpleGUI::GetFont().height()) * i + m_displayRegion.h);
+		if (const RectF rect{ pos, { RectWidth, SimpleGUI::GetFont().height() } }; rect.mouseOver())
 		{
-			m_isOpen = false;
-		}
-		for (size_t i = 0; i < m_displayCount; ++i)
-		{
-			Vec2 pos = m_displayRegion.pos.movedBy(0, (SimpleGUI::GetFont().height()) * i + m_displayRegion.h);
-			const double RectWidth = (m_displayCount < listBoxState.items.size()) ? (m_displayRegion.size.x - ScrollBarWidth) : m_displayRegion.size.x;
-			if (const RectF rect{ pos, { RectWidth, SimpleGUI::GetFont().height() } }; rect.mouseOver())
+			rect.draw(Color{ 135, 206, 235, 128 });
+			if (rect.leftClicked())
 			{
-				rect.draw(Color{ 135, 206, 235, 128 });
+				m_isOpen = false;
 			}
 		}
 	}
