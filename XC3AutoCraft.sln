@@ -7,10 +7,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XC3StateDetector", "XC3Stat
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ソリューション項目", "ソリューション項目", "{76BF7807-E464-4080-A5CE-05C0DCE8E476}"
 	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XC3KeyCommander", "XC3KeyCommander\XC3KeyCommander.vcxproj", "{A2E2443E-792B-4B1C-A0C1-6FF564A283E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,26 +41,6 @@ Global
 		{66EF2F98-2916-40F5-A14E-C8F5918221F2}.Release|x64.Build.0 = Release|x64
 		{66EF2F98-2916-40F5-A14E-C8F5918221F2}.Release|x86.ActiveCfg = Release|x64
 		{66EF2F98-2916-40F5-A14E-C8F5918221F2}.Release|x86.Build.0 = Release|x64
-		{A2E2443E-792B-4B1C-A0C1-6FF564A283E0}.Debug|ARM.ActiveCfg = Debug|ARM
-		{A2E2443E-792B-4B1C-A0C1-6FF564A283E0}.Debug|ARM.Build.0 = Debug|ARM
-		{A2E2443E-792B-4B1C-A0C1-6FF564A283E0}.Debug|ARM.Deploy.0 = Debug|ARM
-		{A2E2443E-792B-4B1C-A0C1-6FF564A283E0}.Debug|ARM64.ActiveCfg = Debug|ARM64
-		{A2E2443E-792B-4B1C-A0C1-6FF564A283E0}.Debug|ARM64.Build.0 = Debug|ARM64
-		{A2E2443E-792B-4B1C-A0C1-6FF564A283E0}.Debug|ARM64.Deploy.0 = Debug|ARM64
-		{A2E2443E-792B-4B1C-A0C1-6FF564A283E0}.Debug|x64.ActiveCfg = Debug|x64
-		{A2E2443E-792B-4B1C-A0C1-6FF564A283E0}.Debug|x86.ActiveCfg = Debug|x86
-		{A2E2443E-792B-4B1C-A0C1-6FF564A283E0}.Debug|x86.Build.0 = Debug|x86
-		{A2E2443E-792B-4B1C-A0C1-6FF564A283E0}.Debug|x86.Deploy.0 = Debug|x86
-		{A2E2443E-792B-4B1C-A0C1-6FF564A283E0}.Release|ARM.ActiveCfg = Release|ARM
-		{A2E2443E-792B-4B1C-A0C1-6FF564A283E0}.Release|ARM.Build.0 = Release|ARM
-		{A2E2443E-792B-4B1C-A0C1-6FF564A283E0}.Release|ARM.Deploy.0 = Release|ARM
-		{A2E2443E-792B-4B1C-A0C1-6FF564A283E0}.Release|ARM64.ActiveCfg = Release|ARM64
-		{A2E2443E-792B-4B1C-A0C1-6FF564A283E0}.Release|ARM64.Build.0 = Release|ARM64
-		{A2E2443E-792B-4B1C-A0C1-6FF564A283E0}.Release|ARM64.Deploy.0 = Release|ARM64
-		{A2E2443E-792B-4B1C-A0C1-6FF564A283E0}.Release|x64.ActiveCfg = Release|x64
-		{A2E2443E-792B-4B1C-A0C1-6FF564A283E0}.Release|x86.ActiveCfg = Release|x86
-		{A2E2443E-792B-4B1C-A0C1-6FF564A283E0}.Release|x86.Build.0 = Release|x86
-		{A2E2443E-792B-4B1C-A0C1-6FF564A283E0}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
