@@ -231,9 +231,6 @@
     <ClCompile Include="source\SerialInstruction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\SimplePacket.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="App\icon.ico">
@@ -953,9 +950,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\SerialInstruction.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\SimplePacket.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

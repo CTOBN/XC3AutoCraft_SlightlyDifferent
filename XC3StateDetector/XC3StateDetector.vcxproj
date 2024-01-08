@@ -140,7 +140,6 @@
     <ClCompile Include="source\Recording.cpp" />
     <ClCompile Include="source\SerialInstruction.cpp" />
     <ClCompile Include="source\Setting.cpp" />
-    <ClCompile Include="source\SimplePacket.cpp" />
     <ClCompile Include="source\State.cpp" />
     <ClCompile Include="source\StatusBoost.cpp" />
     <ClCompile Include="source\StatusType.cpp" />
@@ -371,7 +370,6 @@
     <ClInclude Include="include\Recording.hpp" />
     <ClInclude Include="include\SerialInstruction.hpp" />
     <ClInclude Include="include\Setting.hpp" />
-    <ClInclude Include="include\SimplePacket.hpp" />
     <ClInclude Include="include\State.hpp" />
     <ClInclude Include="include\StatusBoost.hpp" />
     <ClInclude Include="include\StatusType.hpp" />
