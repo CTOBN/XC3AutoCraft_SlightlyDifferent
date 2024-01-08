@@ -5,11 +5,6 @@ const int STICK_INTERVAL = 200;
 const int HAT_INTERVAL = 1000;
 constexpr int BUTTONS_COUNT = 26;
 
-struct Command {
-	uint8_t buttonByte;
-	uint8_t repeatTimes;
-};
-
 namespace siv3dswitch
 {
 	struct ButtonByte
@@ -308,21 +303,6 @@ void (*xc3_macros[])() =
 	MainMenu_to_SystemMenu,
 	SystemMenu_to_TitleLoading,
 };
-
-void handleCommand(const Command& command) {
-	// コマンドに応じた処理
-	for (size_t i = 0; i < BUTTONS_COUNT; i++)
-	{
-		if (command.buttonByte == siv3dswitch_buttons[i])
-		{
-			for (size_t j = 0; j < command.repeatTimes; j++)
-			{
-				button_funcs[i]();
-				Serial1.write(i);
-			}
-		}
-	}
-}
 
 void setup()
 {
