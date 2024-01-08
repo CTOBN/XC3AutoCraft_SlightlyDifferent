@@ -269,7 +269,7 @@ void Setting::serialUpdate()
 void Setting::drawSerialStatus() const
 {
 	FontAsset(U"TextFont")(serialSelectionStatus).draw(TextStyle::Outline(outlineScale, outlineColor), SerialTextPos.movedBy(0, 40), serialSelectionStatusColor);
-	FontAsset(U"TextFont")(serialConnectionStatus).draw(TextStyle::Outline(outlineScale, outlineColor), SerialTextPos.movedBy(200, 40), serialConnectionStatusColor);
+	FontAsset(U"TextFont")(serialConnectionStatus).draw(TextStyle::Outline(outlineScale, outlineColor), SerialTextPos.movedBy(510, 40), serialConnectionStatusColor);
 }
 
 void Setting::drawNotion() const
