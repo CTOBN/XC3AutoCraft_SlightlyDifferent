@@ -37,7 +37,7 @@ Loading::Loading(const InitData& init)
 		Image icon = Image{ Resource(path) };
 		getData().icons.push_back(icon);
 		getData().binarizedIcons.push_back(icon.thresholded(128));
-		Console << path << U" を読み込みました";
+		// Console << path << U" を読み込みました";
 	}
 
 	for (int i = 0; i < 10; i++)

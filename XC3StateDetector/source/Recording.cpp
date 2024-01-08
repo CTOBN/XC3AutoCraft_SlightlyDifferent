@@ -106,7 +106,7 @@ size_t Recording::findMostSimilarAbility() {
 	if (0 <= judgedIndex && judgedIndex < Accessory::getSpecialEffectDetailJapaneseList().size())
 	{
 		currentAccAbilityJapanese = Accessory::getSpecialEffectDetailJapanese(judgedIndex);
-		Console << Format(judgedIndex) << currentAccAbilityJapanese;
+		// Console << Format(judgedIndex) << currentAccAbilityJapanese;
 	}
 	return judgedIndex;
 }
@@ -272,22 +272,22 @@ void Recording::selectAccessoryCraft()
 	if (0 <= currentSelectingCampMenu && currentSelectingCampMenu < 7) Console << CampMenuNames[currentSelectingCampMenu];
 	else
 	{
-		Console << U"認識できませんでした";
+		// Console << U"認識できませんでした";
 		return;
 	}
-	Console << U"R L = {} vs {}"_fmt(RightCount, LeftCount);
+	// Console << U"R L = {} vs {}"_fmt(RightCount, LeftCount);
 	if (RightCount < LeftCount)
 	{
 		for (int8 i = 0; i < RightCount; i++)
 		{
-			Console << getData().serial.writeByte(ButtonByte::Right);
+			// Console << getData().serial.writeByte(ButtonByte::Right);
 		}
 	}
 	else
 	{
 		for (int8 i = 0; i < LeftCount; i++)
 		{
-			Console << getData().serial.writeByte(ButtonByte::Left);
+			// Console << getData().serial.writeByte(ButtonByte::Left);
 		}
 	}
 	getData().serial.writeByte(ButtonByte::A);
@@ -316,7 +316,7 @@ void Recording::selectAccessoryType()
 	// Console << U"DownCount " << DownCount;
 	for (int i = 0; i < DownCount; i++)
 	{
-		Console << getData().serial.writeByte(ButtonByte::LStickDown);
+		// Console << getData().serial.writeByte(ButtonByte::LStickDown);
 	}
 	context.isAccessoryTypeSelected = true;
 }
@@ -392,7 +392,7 @@ void Recording::receiveSerialBytes()
 	{
 		return;
 	}
-	Console << U"受信 : {}"_fmt(currentSerialBytes);
+	// Console << U"受信 : {}"_fmt(currentSerialBytes);
 	lastSerialByte = currentSerialBytes.front();
 	currentSerialBytes.clear();
 }
@@ -403,7 +403,7 @@ void Recording::drawSerialBytesLog()
 	if (commandByteToString.contains(lastSerialByte))
 	{
 		String commandName = commandByteToString.at(lastSerialByte);
-		Console << U"{} が実行されました"_fmt(commandName);
+		// Console << U"{} が実行されました"_fmt(commandName);
 		lastSerialByte = 0;
 	}
 }
@@ -512,35 +512,6 @@ void Recording::drawButtons()
 	{
 		// ツイート投稿画面を開く
 		Twitter::OpenTweetWindow(U"#XC3AutoCraft");
-	}
-	if (SimpleGUI::Button(U"\U000F0544 認識", Vec2{ buttonPos.movedBy(0, 350) }))
-	{
-		Console << recognizeSelectingCampMenuRepeat();
-	}
-
-
-	if (SimpleGUI::Button(U"アクセサリークラフトにカーソルを合わせる", Vec2{ buttonPos.movedBy(0, 500) }))
-	{
-		int8 currentSelectingCampMenu = recognizeSelectingCampMenuRepeat();
-		int8 RightCount = (4 - currentSelectingCampMenu + 7) % 7;
-		int8 LeftCount = (currentSelectingCampMenu - 4 + 7) % 7;
-		if (0 <= currentSelectingCampMenu && currentSelectingCampMenu < 7) Console << CampMenuNames[currentSelectingCampMenu];
-		else Console << U"認識できませんでした";
-		Console << U"R L = {} vs {}"_fmt(RightCount, LeftCount);
-		if (RightCount < LeftCount)
-		{
-			for (int8 i = 0; i < RightCount; i++)
-			{
-				Console << getData().serial.writeByte(ButtonByte::Right);
-			}
-		}
-		else
-		{
-			for (int8 i = 0; i < LeftCount; i++)
-			{
-				Console << getData().serial.writeByte(ButtonByte::Left);
-			}
-		}
 	}
 }
 
