@@ -34,7 +34,7 @@ Loading::Loading(const InitData& init)
 		if (statusIconFileName == U"Anything") continue;
 		String path = statusIconsFolderPath + U"/" + statusIconFileName + U".jpg";
 		statusIconsPathList.push_back(path);
-		Image icon = Image{ path };
+		Image icon = Image{ Resource(path) };
 		getData().icons.push_back(icon);
 		getData().binarizedIcons.push_back(icon.thresholded(128));
 		Console << path << U" を読み込みました";
@@ -43,16 +43,16 @@ Loading::Loading(const InitData& init)
 	for (int i = 0; i < 10; i++)
 	{
 		String path = UnknownMatterNumbersPath + U"/" + Format(i) + U".jpg";
-		getData().binarizedUnkownMatterNumbers.push_back(Image{ path }.thresholded(128));
+		getData().binarizedUnkownMatterNumbers.push_back(Image{ Resource(path) }.thresholded(128));
 		// Console << path << U" を読み込みました";
 	}
-	getData().binarizedUnkownMatterNumbers.push_back(Image{ U"images/UnknownMatterNumbers/null.jpg" }.thresholded(216));
+	getData().binarizedUnkownMatterNumbers.push_back(Image{ Resource(U"images/UnknownMatterNumbers/null.jpg") }.thresholded(216));
 	// Console << U"images/UnknownMatterNumbers/null.jpg" << U" を読み込みました";
 
 	for (const auto& GameSceneName : getData().GameSceneNames)
 	{
 		String path = GameScenesFolderPath + U"/" + GameSceneName + U".jpg";
-		getData().binarizedGameScenes.push_back(Image{ path }.thresholded(216));
+		getData().binarizedGameScenes.push_back(Image{ Resource(path) }.thresholded(216));
 		// Console << path << U" を読み込みました";
 	}
 }
