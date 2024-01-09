@@ -3,6 +3,15 @@
 Loading::Loading(const InitData& init)
 		: IScene{ init }
 {
+	if (not getData().ini)
+	{
+		throw Error { U"Failed to load `config.ini`" };
+	}
+	getData().ScreenshotFolderPath = Parse<String>(getData().ini[U"Screenshot.FolderPath"]);
+	getData().ScreenshotDateFormat = Parse<String>(getData().ini[U"Screenshot.DateFormat"]);
+	getData().ScreenshotFileFormat = Parse<String>(getData().ini[U"Screenshot.FileFormat"]);
+	getData().enableToastNotification = Parse<bool>(getData().ini[U"Notification.enableToastNotification"]);
+
 	if (not csv) // もし読み込みに失敗したら
 	{
 		throw Error{ U"Failed to load `accessories.csv`" };

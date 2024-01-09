@@ -493,10 +493,11 @@ void Recording::drawButtons()
 	if (webcam && SimpleGUI::Button(U"\U000F0E51 PCにスクショを保存", Vec2{ buttonPos.movedBy(0, 250) }))
 	{
 		webcam.getFrame(image);
-		if (FileSystem::Exists(getData().screenShotFolderPath))
+		if (FileSystem::Exists(getData().ScreenshotFolderPath))
 		{
-			String now = U"{}"_fmt(DateTime::Now()).replace(U":", U".");
-			String path = U"{}XC3AutoCraft_{}.png"_fmt(getData().screenShotFolderPath, now);
+			// String now = U"{}"_fmt(DateTime::Now()).replace(U":", U".");
+			String now = FormatDateTime(DateTime::Now(), getData().ScreenshotDateFormat);
+			String path = U"{}XC3AutoCraft_{}.{}"_fmt(getData().ScreenshotFolderPath, now, getData().ScreenshotFileFormat);
 			image.save(path);
 			// Console << U"スクリーンショットを保存しました ファイル名 : {}"_fmt(path);
 		}
@@ -504,8 +505,8 @@ void Recording::drawButtons()
 	// スクリーンショットの保存先を開く
 	if (SimpleGUI::Button(U"保存先", Vec2{ buttonPos.movedBy(250, 250) }))
 	{
-		System::LaunchFile(getData().screenShotFolderPath);
-		// Console << getData().screenShotFolderPath;
+		System::LaunchFile(getData().ScreenshotFolderPath);
+		// Console << getData().ScreenshotFolderPath;
 	}
 
 	if (SimpleGUI::Button(U"\U000F0544 Tweetする", Vec2{ buttonPos.movedBy(0, 300) }))
@@ -577,7 +578,12 @@ void Recording::update()
 		if (item == MenuBarItemIndex{ 1, 1 })
 		{
 			const auto result = Dialog::SelectFolder();
-			if (result) getData().screenShotFolderPath = result.value();
+			if (result)
+			{
+				getData().ScreenshotFolderPath = result.value();
+				getData().ini[U"Screenshot.FolderPath"] = getData().ScreenshotFolderPath;
+				getData().ini.save(U"config.ini");
+			}
 		}
 
 		// Webマニュアルが押されたら

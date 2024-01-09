@@ -370,7 +370,12 @@ void Setting::update()
 		if (item == MenuBarItemIndex{ 1, 1 })
 		{
 			const auto result = Dialog::SelectFolder();
-			if (result) getData().screenShotFolderPath = result.value();
+			if (result)
+			{
+				getData().ScreenshotFolderPath = result.value();
+				getData().ini[U"Screenshot.FolderPath"] = getData().ScreenshotFolderPath;
+				getData().ini.save(U"config.ini");
+			}
 		}
 
 		// 「終了」が押されたら
