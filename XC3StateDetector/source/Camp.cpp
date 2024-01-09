@@ -24,7 +24,7 @@ namespace xc3
 			}
 			else
 			{
-				context.message = U"休憩ポイントのカーソル取得に失敗しました";
+				context.message = U"Failed to get cursor for break point";
 				context.setState(std::make_unique<Pause>());
 			}
 		}

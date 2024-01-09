@@ -26,6 +26,10 @@ Loading::Loading(const InitData& init)
 		const String language = TranslationCSV[0][column];
 		for (size_t row = 1; row < TranslationCSV.rows(); ++row) // 1行目はヘッダなので飛ばす
 		{
+			if (column >= TranslationCSV[row].size())
+			{
+				throw Error{ U"column out of range in `translation.csv` row, column = {}, {}"_fmt(row, column)};
+			}
 			const String key = TranslationCSV[row][0];
 			const String value = TranslationCSV[row][column];
 			getData().Translate[language][key] = value;

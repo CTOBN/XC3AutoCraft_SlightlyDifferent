@@ -332,12 +332,12 @@ void Recording::judgeAccessory()
 	if (completeMission())
 	{
 		context.gotDesiredAccessory = true;
-		String toastTitle = U"アクセサリが完成しました";
-		String toastMessage = Accessory::getSpecialEffectDetailJapanese(currentAccessory.getIndex());
+		String toastTitle = Translate[AppLanguage][U"You got desired Accessory"];
+		String toastMessage = Accessory::getSpecialEffectList(AppLanguage)[currentAccessory.getIndex()];
 		toastMessage += U"\n";
 		for (int j = 0; j < 4; j++)
 		{
-			toastMessage += StatusTypeToString[getData().AppLanguage][currentAccessory.getStatusBoosts()[j].type];
+			toastMessage += StatusTypeToString[AppLanguage][currentAccessory.getStatusBoosts()[j].type];
 			toastMessage += U" ";
 		}
 
@@ -438,19 +438,19 @@ void Recording::drawDesiredAccessories() const
 
 void Recording::drawButtons()
 {
-	if (SimpleGUI::Button(U"\U000F02B4 仮想コントローラ接続", Vec2{ buttonPos.x, buttonPos.y }))
+	if (SimpleGUI::Button(U"\U000F02B4 {}"_fmt(Translate[AppLanguage][U"Connect Virtual JoyCon"]), Vec2{ buttonPos.x, buttonPos.y }))
 	{
 		openSerialPort();
 	}
 
-	if (SimpleGUI::Button(U"3回Aを押す", Vec2{ buttonPos.movedBy(270, 0) }))
+	if (SimpleGUI::Button(Translate[AppLanguage][U"3 times A Button"], Vec2{buttonPos.movedBy(300, 0)}))
 	{
 		getData().serial.writeByte(ButtonByte::A);
 		getData().serial.writeByte(ButtonByte::A);
 		getData().serial.writeByte(ButtonByte::A);
 	}
 
-	if (SimpleGUI::Button(U"\U000F040A 自動クラフト開始", Vec2{ buttonPos.movedBy(0, 50) }))
+	if (SimpleGUI::Button(U"\U000F040A {}"_fmt(Translate[AppLanguage][U"Start Auto Craft"]), Vec2{ buttonPos.movedBy(0, 50) }))
 	{
 		context.init();
 		String gameSceneName = findMostSimilarGameScene();
@@ -472,22 +472,22 @@ void Recording::drawButtons()
 		}
 		else
 		{
-			context.message = U"ゲームシーンが認識できませんでした";
+			context.message = U"Game scene could not be recognized";
 		}
 	}
 
-	if (SimpleGUI::Button(U"\U000F04DB 自動クラフト停止", Vec2{ buttonPos.movedBy(0, 100) }))
+	if (SimpleGUI::Button(U"\U000F04DB {}"_fmt(Translate[AppLanguage][U"Stop Auto Craft"]), Vec2{ buttonPos.movedBy(0, 100) }))
 	{
 		context.deleteState();
 	}
 	
-	if (SimpleGUI::Button(U"\U000F0493 設定に戻る", Vec2{ buttonPos.movedBy(0, 200) }))
+	if (SimpleGUI::Button(U"\U000F0493 {}"_fmt(Translate[AppLanguage][U"Go to Setting"]), Vec2{ buttonPos.movedBy(0, 200) }))
 	{
 		// 設定に遷移
 		changeScene(U"Setting");
 	}
 
-	if (webcam && SimpleGUI::Button(U"\U000F0E51 PCにスクショを保存", Vec2{ buttonPos.movedBy(0, 250) }))
+	if (webcam && SimpleGUI::Button(U"\U000F0E51 {}"_fmt(Translate[AppLanguage][U"Take Screenshot"]), Vec2{ buttonPos.movedBy(0, 250) }))
 	{
 		webcam.getFrame(image);
 		if (FileSystem::Exists(getData().ScreenshotFolderPath))
@@ -500,13 +500,13 @@ void Recording::drawButtons()
 		}
 	}
 	// スクリーンショットの保存先を開く
-	if (SimpleGUI::Button(U"保存先", Vec2{ buttonPos.movedBy(250, 250) }))
+	if (SimpleGUI::Button(Translate[AppLanguage][U"Folder"], Vec2{ buttonPos.movedBy(250, 250) }))
 	{
 		System::LaunchFile(getData().ScreenshotFolderPath);
 		// Console << getData().ScreenshotFolderPath;
 	}
 
-	if (SimpleGUI::Button(U"\U000F0544 Tweetする", Vec2{ buttonPos.movedBy(0, 300) }))
+	if (SimpleGUI::Button(U"\U000F0544 {}"_fmt(Translate[AppLanguage][U"Tweet"]), Vec2{buttonPos.movedBy(0, 300)}))
 	{
 		// ツイート投稿画面を開く
 		Twitter::OpenTweetWindow(U"#XC3AutoCraft");
@@ -622,13 +622,9 @@ void Recording::draw() const
 	virtualJoyCon.draw();
 
 	// 現在の状態を表示
-	// FontAsset(U"TextFont")(U"{} : {}"_fmt(getData().Translate[AppLanguage][U"Current State"], context.getCurrentStateDescription())).draw(1150, 450);
-	FontAsset(U"TextFont")(U"{} : {}"_fmt(getData().Translate[AppLanguage][U"Current State"], getData().Translate[AppLanguage][context.getCurrentStateName()])).draw(1150, 450);
-	FontAsset(U"TextFont")(U"{} : {}"_fmt(getData().Translate[AppLanguage][U"UnknownMatter"], context.currentUnknownMatterCount)).draw(1150, 480);
-	if (context.message != U"")
-	{
-		FontAsset(U"TextFont")(context.message).draw(1150, 510, Palette::Red);
-	}
+	FontAsset(U"TextFont")(U"{} : {}"_fmt(getData().Translate[AppLanguage][U"Current State"], getData().Translate[AppLanguage][context.getCurrentStateName()])).draw(StateInformationPos);
+	FontAsset(U"TextFont")(U"{} : {}"_fmt(getData().Translate[AppLanguage][U"UnknownMatter"], context.currentUnknownMatterCount)).draw(StateInformationPos.movedBy(0, 30));
+	// FontAsset(U"TextFont")(getData().Translate[AppLanguage][context.message]).draw(1150, 510, Palette::Red);
 
 	menuBar.draw();
 }

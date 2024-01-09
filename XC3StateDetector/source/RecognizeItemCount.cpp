@@ -26,7 +26,7 @@ namespace xc3
 			}
 			else // アクセサリを作れないなら一時中断
 			{
-				context.message = U"アンノウンマターの数が不足しています";
+				context.message = U"Lack of UnknownMatter";
 				context.setState(std::make_unique<Pause>());
 			}
 		}

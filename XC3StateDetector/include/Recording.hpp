@@ -38,6 +38,7 @@ private:
 	const Point UNKOWN_MATTER_NUMBER_TENS_PLACE_POS{ 1646, 522 };
 	const Point UNKOWN_MATTER_NUMBER_SIZE{ 18, 23 };
 	const Point UNKOWN_MATTER_NUMBER_ONES_PLACE_POS = { UNKOWN_MATTER_NUMBER_TENS_PLACE_POS.x + UNKOWN_MATTER_NUMBER_SIZE.x, UNKOWN_MATTER_NUMBER_TENS_PLACE_POS.y };
+	const Point StateInformationPos = { 1050, 450 };
 	Accessory currentAccessory{ 0 };
 	Array<Accessory> RecognizedAccessories;
 
@@ -49,12 +50,12 @@ private:
 	const Point VIDEO_DISPLAY_SIZE = CAMERA_RESOLUTION / 2;
 	String currentSpecialEffect;
 
-	const Point buttonPos = { 1450, 50 };
+	const Point buttonPos = { 1400, 70 };
 	const int STATUS_ICON_NUM = 7;
 	const Point STATUS_ICON_SIZE = { 30, 30 };
 
-	const Vec2 JOYCON_GUI_POS_Left = { 1200, 250 };
-	const Vec2 JOYCON_GUI_POS_Right = { 1300, 250 };
+	const Vec2 JOYCON_GUI_POS_Left = { 1100, 250 };
+	const Vec2 JOYCON_GUI_POS_Right = { 1200, 250 };
 	const Point desiredAccessoriesPos = { 1000, 580 };
 	const Point recognizedAccessoriesPos = { 30, 580 };
 	VirtualJoyCon virtualJoyCon{ getData().serial, JOYCON_GUI_POS_Left, JOYCON_GUI_POS_Right };
