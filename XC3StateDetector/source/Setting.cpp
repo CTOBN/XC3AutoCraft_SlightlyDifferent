@@ -285,7 +285,7 @@ void Setting::serialUpdate()
 void Setting::drawSerialStatus() const
 {
 	FontAsset(U"TextFont")(serialSelectionStatus).draw(TextStyle::Outline(outlineScale, outlineColor), SerialTextPos.movedBy(0, 40), serialSelectionStatusColor);
-	FontAsset(U"TextFont")(serialConnectionStatus).draw(TextStyle::Outline(outlineScale, outlineColor), SerialTextPos.movedBy(510, 40), serialConnectionStatusColor);
+	FontAsset(U"TextFont")(serialConnectionStatus).draw(TextStyle::Outline(outlineScale, outlineColor), SerialTextPos.movedBy(720, 40), serialConnectionStatusColor);
 }
 
 void Setting::drawNotion() const
@@ -455,9 +455,9 @@ void Setting::draw() const
 	probabilityTable.draw(probabilityTablePos);
 	drawNotion();
 
-	if (isSelectedSerialPort() && SimpleGUI::Button(Translate[AppLanguage][U"Serial connection test"], SerialTextPos.movedBy(280, 35)))
+	if (isSelectedSerialPort() && SimpleGUI::Button(Translate[AppLanguage][U"Serial connection test"], SerialTextPos.movedBy(720, 80)))
 	{
-		if (getData().serial.open(getData().infos[getData().serialIndex].port))
+		if (getData().serial.open(getData().infos[getData().serialIndex - 1].port))
 		{
 			serialConnectionStatus = Translate[AppLanguage][U"Serial Port connection succeeded"];
 			serialConnectionStatusColor = Palette::Green;
@@ -526,7 +526,7 @@ void Setting::draw() const
 			Line{ GoRecordingRect.leftCenter(), openableListBoxSerial.getDisplayRegion().rightCenter() }.drawArrow(10, SizeF{20, 20}, Palette::Orange);
 		}
 	}
-	if (DentButton( canGoRecording() ? U"次へ" : U"次へ進めません",
+	if (DentButton( canGoRecording() ? Translate[AppLanguage][U"Next"] : Translate[AppLanguage][U"Unable to proceed"],
 					GoRecordingRect,
 					GoRecordingButtonFont,
 					canGoRecording(),

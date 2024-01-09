@@ -267,8 +267,7 @@ void Recording::selectAccessoryCraft()
 	int8 currentSelectingCampMenu = recognizeSelectingCampMenuRepeat();
 	int8 RightCount = (4 - currentSelectingCampMenu + 7) % 7;
 	int8 LeftCount = (currentSelectingCampMenu - 4 + 7) % 7;
-	if (0 <= currentSelectingCampMenu && currentSelectingCampMenu < 7) Console << CampMenuNames[currentSelectingCampMenu];
-	else
+	if (not (0 <= currentSelectingCampMenu && currentSelectingCampMenu < 7))
 	{
 		// Console << U"認識できませんでした";
 		return;
@@ -609,7 +608,7 @@ void Recording::draw() const
 		Rect{ {0, 0}, VIDEO_DISPLAY_SIZE }.draw(Palette::Black);
 		Circle{ {VIDEO_DISPLAY_SIZE.x / 2, VIDEO_DISPLAY_SIZE.y / 2}, 100 }
 		.drawArc(Scene::Time() * 180_deg, 300_deg, 5, 5, Palette::White);
-		FontAsset(U"TextFont")(U"カメラ起動中").drawAt({ VIDEO_DISPLAY_SIZE.x / 2, VIDEO_DISPLAY_SIZE.y / 2 - 20 }, Palette::White);
+		FontAsset(U"TextFont")(getData().Translate[AppLanguage][U"HDMI Capture is preparing"]).drawAt({ VIDEO_DISPLAY_SIZE.x / 2, VIDEO_DISPLAY_SIZE.y / 2 - 20 }, Palette::White);
 		FontAsset(U"TextFont")(getData().cameraName).drawAt({ VIDEO_DISPLAY_SIZE.x / 2, VIDEO_DISPLAY_SIZE.y / 2 + 20 }, Palette::White);
 	}
 	if (texture)
@@ -623,8 +622,9 @@ void Recording::draw() const
 	virtualJoyCon.draw();
 
 	// 現在の状態を表示
-	FontAsset(U"TextFont")(U"現在の状態   : {}"_fmt(context.getCurrentStateDescription())).draw(1150, 450);
-	FontAsset(U"TextFont")(U"現在ｱﾝﾉｳﾝﾏﾀｰ : {} 個"_fmt(context.currentUnknownMatterCount)).draw(1150, 480);
+	// FontAsset(U"TextFont")(U"{} : {}"_fmt(getData().Translate[AppLanguage][U"Current State"], context.getCurrentStateDescription())).draw(1150, 450);
+	FontAsset(U"TextFont")(U"{} : {}"_fmt(getData().Translate[AppLanguage][U"Current State"], getData().Translate[AppLanguage][context.getCurrentStateName()])).draw(1150, 450);
+	FontAsset(U"TextFont")(U"{} : {}"_fmt(getData().Translate[AppLanguage][U"UnknownMatter"], context.currentUnknownMatterCount)).draw(1150, 480);
 	if (context.message != U"")
 	{
 		FontAsset(U"TextFont")(context.message).draw(1150, 510, Palette::Red);

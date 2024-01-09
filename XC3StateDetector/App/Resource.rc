@@ -120,6 +120,7 @@ Resource(engine/soundfont/GMGSx.sf2.zstdcmp)
 //////////////////////////////////////////////////////
 
 Resource(csv/accessory.csv)
+Resource(csv/translation.csv)
 
 Resource(images/Xenoblade3_Temp_Jp/3428.jpg)
 Resource(images/Xenoblade3_Temp_Jp/3433.jpg)

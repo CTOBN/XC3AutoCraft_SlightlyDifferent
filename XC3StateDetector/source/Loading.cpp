@@ -13,9 +13,29 @@ Loading::Loading(const InitData& init)
 	getData().ScreenshotFileFormat = Parse<String>(getData().ini[U"Screenshot.FileFormat"]);
 	getData().enableToastNotification = Parse<bool>(getData().ini[U"Notification.enableToastNotification"]);
 
-	if (not csv) // もし読み込みに失敗したら
+
+	if (not TranslationCSV) // もし読み込みに失敗したら
 	{
-		throw Error{ U"Failed to load `accessories.csv`" };
+		throw Error{ U"Failed to load `translate.csv`" };
+	}
+
+	const size_t languageCount = TranslationCSV.columns(0) - 1;
+
+	for (size_t column = 1; column <= languageCount; ++column)
+	{
+		const String language = TranslationCSV[0][column];
+		for (size_t row = 1; row < TranslationCSV.rows(); ++row) // 1行目はヘッダなので飛ばす
+		{
+			const String key = TranslationCSV[row][0];
+			const String value = TranslationCSV[row][column];
+			getData().Translate[language][key] = value;
+		}
+	}
+
+
+	if (not AccessoryCSV) // もし読み込みに失敗したら
+	{
+		throw Error{ U"Failed to load `accessory.csv`" };
 	}
 
 	Array<String> SpecialEffectListEnglish;
@@ -24,18 +44,18 @@ Loading::Loading(const InitData& init)
 	Array<String> CompatibilityEnglish;
 	Array<String> CompatibilityJapanese;
 
-	for (size_t row = 1; row < csv.rows(); ++row) // 1行目はヘッダなので飛ばす
+	for (size_t row = 1; row < AccessoryCSV.rows(); ++row) // 1行目はヘッダなので飛ばす
 	{
-		Accessory::pushBackID(Parse<uint16>(csv[row][0]));
-		SpecialEffectListEnglish.push_back(csv[row][1]);
-		SpecialEffectListJapanese.push_back(csv[row][2]);
-		Accessory::pushBackSpecialEffectDetailJapanese(csv[row][3]);
-		CompatibilityEnglish.push_back(csv[row][4]);
-		CompatibilityJapanese.push_back(csv[row][5]);
-		Accessory::pushBackBracelet(Parse<double>(csv[row][6]));
-		Accessory::pushBackRing(Parse<double>(csv[row][7]));
-		Accessory::pushBackNecklace(Parse<double>(csv[row][8]));
-		Accessory::pushBackCrown(Parse<double>(csv[row][9]));
+		Accessory::pushBackID(Parse<uint16>(AccessoryCSV[row][0]));
+		SpecialEffectListEnglish.push_back(AccessoryCSV[row][1]);
+		SpecialEffectListJapanese.push_back(AccessoryCSV[row][2]);
+		Accessory::pushBackSpecialEffectDetailJapanese(AccessoryCSV[row][3]);
+		CompatibilityEnglish.push_back(AccessoryCSV[row][4]);
+		CompatibilityJapanese.push_back(AccessoryCSV[row][5]);
+		Accessory::pushBackBracelet(Parse<double>(AccessoryCSV[row][6]));
+		Accessory::pushBackRing(Parse<double>(AccessoryCSV[row][7]));
+		Accessory::pushBackNecklace(Parse<double>(AccessoryCSV[row][8]));
+		Accessory::pushBackCrown(Parse<double>(AccessoryCSV[row][9]));
 
 	}
 	Accessory::emplaceSpecialEffectList(U"en-US", SpecialEffectListEnglish);
