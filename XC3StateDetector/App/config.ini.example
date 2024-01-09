@@ -3,7 +3,7 @@ GameLocale = ja_JP
 AppLocale = ja_JP
 
 [Screenshot]
-FolderPath = C:/Users/eight/source/repos/XC3AutoCraft/XC3StateDetector/App/Screenshots/
+FolderPath = Screenshots/
 DateFormat = yyyy-MM-dd HH.mm.ss
 FileFormat = png
 
