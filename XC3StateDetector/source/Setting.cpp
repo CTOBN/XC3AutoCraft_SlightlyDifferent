@@ -369,7 +369,7 @@ void Setting::update()
 		// 「スクリーンショットの保存先を変更」が押されたら
 		if (item == MenuBarItemIndex{ 1, 1 })
 		{
-			const auto result = Dialog::SelectFolder();
+			const auto result = Dialog::SelectFolder(getData().ScreenshotFolderPath);
 			if (result)
 			{
 				getData().ScreenshotFolderPath = result.value();
