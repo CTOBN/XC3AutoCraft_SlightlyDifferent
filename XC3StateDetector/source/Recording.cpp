@@ -142,7 +142,6 @@ AccessoryType Recording::recognizeSelectingAccessoryType()
 	Point clipSize = { 1, 1 };
 	uint8 threshold = 150;
 	AccessoryType judgedAccessoryType = AccessoryType::Undefined;
-	double similarityMax = 0;
 	for (size_t i = 0; i < 4; i++)
 	{
 		Image clippedImage = image.clipped(clipPosList[i], clipSize).thresholded(threshold);
@@ -162,7 +161,6 @@ int8 Recording::recognizeSelectingCampMenu()
 	Point clipSize = { 1, 1 };
 	uint8 threshold = 242;
 	int8 judgedCampMenu = -1;
-	double similarityMax = 0;
 	for (size_t i = 0; i < 7; i++)
 	{
 		Image clippedImage = image.clipped(clipPosList[i], clipSize).thresholded(threshold);
