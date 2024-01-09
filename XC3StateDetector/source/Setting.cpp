@@ -41,7 +41,7 @@ Setting::Setting(const InitData& init)
 
 	for (auto& openableListBoxAccessory : openableListBoxesAccessory)
 	{
-		openableListBoxAccessory.setItems(Accessory::getSpecialEffectJapaneseList());
+		openableListBoxAccessory.setItems(Accessory::getSpecialEffectList(AppLanguage));
 	}
 
 	for (int y = 0; y < TARGET_ACCSESORIES_COUNT_MAX; y++)
@@ -54,7 +54,7 @@ Setting::Setting(const InitData& init)
 
 	for (auto& openableListBoxStatusType : openableListBoxesStatusType)
 	{
-		openableListBoxStatusType.setItems(StatusTypeStringList[U"Japanese"]);
+		openableListBoxStatusType.setItems(StatusTypeStringList[AppLanguage]);
 	}
 
 	for (const auto& info : System::EnumerateWebcams())
@@ -75,14 +75,28 @@ Setting::Setting(const InitData& init)
 
 	desiredAccessories_to_pullDowns();
 
-	accPulldownTable.push_back_row({ U"特殊効果", U"ｽﾃｰﾀｽ１", U"ｽﾃｰﾀｽ2", U"ｽﾃｰﾀｽ3", U"ｽﾃｰﾀｽ4" }, { -1, 0, 0, 0, 0 });
+	accPulldownTable.push_back_row(
+		{
+			Translate[AppLanguage][U"Special Effects"],
+			Translate[AppLanguage][U"Status"] + U"1",
+			Translate[AppLanguage][U"Status"] + U"2",
+			Translate[AppLanguage][U"Status"] + U"3",
+			Translate[AppLanguage][U"Status"] + U"4"
+		}, { -1, 0, 0, 0, 0 });
 
-	probabilityTable.push_back_row({ U"互換", U"腕輪", U"指輪", U"首飾", U"冠" }, { 0, 0, 0, 0, 0 });
+	probabilityTable.push_back_row(
+		{
+			Translate[AppLanguage][U"Compatibility"],
+			Translate[AppLanguage][U"Bracelet"],
+			Translate[AppLanguage][U"Ring"],
+			Translate[AppLanguage][U"Necklace"],
+			Translate[AppLanguage][U"Crown"]
+		}, { 0, 0, 0, 0, 0 });
 	for (size_t i = 0; i < TARGET_ACCSESORIES_COUNT_MAX; i++)
 	{
 		probabilityTable.push_back_row({ U"-", U"0", U"0", U"0", U"0" }, { 0, 1, 1, 1, 1 });
 	}
-	probabilityTable.push_back_row({ U"合計", U"0", U"0", U"0", U"0" }, { 0, 1, 1, 1, 1 });
+	probabilityTable.push_back_row({ Translate[AppLanguage][U"Sum"], U"0", U"0", U"0", U"0" }, { 0, 1, 1, 1, 1 });
 
 	menuBar.setItemChecked(MenuBarItemIndex{ 1, 0 }, getData().enableToastNotification);
 }
@@ -117,16 +131,17 @@ void Setting::csvFileToDesiredAccessories(FilePathView path)
 	for (size_t i = 0; i < TARGET_ACCSESORIES_COUNT_MAX; i++)
 	{
 		size_t index = 0;
-		for (size_t j = 0; j < Accessory::getSpecialEffectEnglishList().size(); j++)
+		for (size_t j = 0; j < Accessory::getSpecialEffectList(U"en-US").size(); j++)
 		{
-			if (Accessory::getSpecialEffectEnglishList()[j] == csv.get<String>(i, 0))
+			if ((Accessory::getSpecialEffectList(U"en-US")[j] == csv.get<String>(i, 0))
+			 || (Accessory::getSpecialEffectList(U"en-US")[j] == csv.get<String>(i, 0)))
 			{
 				index = j;
 				break;
 			}
 		}
 		// csvファイルのアクセサリの名前が不正な場合
-		if (index == Accessory::getSpecialEffectEnglishList().size())
+		if (index == Accessory::getSpecialEffectList(U"en-US").size())
 		{
 			continue;
 		}
@@ -137,7 +152,8 @@ void Setting::csvFileToDesiredAccessories(FilePathView path)
 			String statusTypeString = csv.get<String>(i, j + 1);
 			// csvファイルのステータスの名前が不正な場合、任意として扱う
 			StatusType statusType = StatusType::Anything;
-			if (StringToStatusType.contains(statusTypeString))
+			if (StatusTypeStringListEnglish.contains(statusTypeString)
+			||  StatusTypeStringListJapanese.contains(statusTypeString))
 			{
 				statusType = StringToStatusType[statusTypeString];
 			}
@@ -174,7 +190,7 @@ void Setting::setProbability()
 	for (size_t i = 0; i < TARGET_ACCSESORIES_COUNT_MAX; i++)
 	{
 		size_t index = openableListBoxesAccessory[i].getSelectedIndex();
-		probabilityTable.setText(i + 1, 0, Accessory::getAlready(index));
+		probabilityTable.setText(i + 1, 0, Accessory::getCompatibility(index));
 
 		// 各アクセサリの種類
 		for (size_t j = 1; j < 5; j++)
@@ -236,12 +252,12 @@ bool Setting::canMake() const
 
 bool Setting::isSelectedSerialPort() const
 {
-	return getData().serialName != U"未選択";
+	return getData().serialIndex != 0;
 }
 
 bool Setting::isSelectedCamera() const
 {
-	return getData().cameraName != U"未選択";
+	return getData().cameraIndex != 0;
 }
 
 bool Setting::canGoRecording() const
@@ -253,13 +269,13 @@ void Setting::serialUpdate()
 {
 	if (isSelectedSerialPort())
 	{
-		serialSelectionStatus = U"接続テストが可能です(任意)→";
+		serialSelectionStatus = Translate[AppLanguage][U"Connection test available(Option)→"];
 		serialSelectionStatusColor = Palette::Green;
 	}
 	else
 	{
 		getData().serial = Serial{};
-		serialSelectionStatus = U"シリアルポートを選択してください";
+		serialSelectionStatus = Translate[AppLanguage][U"Please select a serial port"];
 		serialSelectionStatusColor = Palette::Red;
 
 		serialConnectionStatus = U"";
@@ -276,21 +292,21 @@ void Setting::drawNotion() const
 {
 	if (not canMake())
 	{
-		FontAsset(U"TextFont")(U"目的のアクセサリが出る可能性は０%です").draw(TextStyle::Outline(outlineScale, outlineColor), probabilityTablePos.movedBy(70, -50), Palette::Red);
+		FontAsset(U"TextFont")(Translate[AppLanguage][U"There is a 0% chance that the desired accessory will be available"]).draw(TextStyle::Outline(outlineScale, outlineColor), probabilityTablePos.movedBy(70, -50), Palette::Red);
 	}
 
 	if (getData().selectedAccessoryType == AccessoryType::Undefined)
 	{
-		FontAsset(U"TextFont")(U"作るアクセサリを選択してください↓").draw(TextStyle::Outline(outlineScale, outlineColor), probabilityTablePos.movedBy(70, -50), Palette::Red);
+		FontAsset(U"TextFont")(Translate[AppLanguage][U"Select the type of accessory you want to make"]).draw(TextStyle::Outline(outlineScale, outlineColor), probabilityTablePos.movedBy(70, -50), Palette::Red);
 	}
 	else
 	{
 		probabilityTable.cellRegion(probabilityTablePos, 0, static_cast<size_t>(getData().selectedAccessoryType)).drawFrame(4, 0, Palette::Red);
 	}
 
-	if (getData().cameraName == U"未選択")
+	if (getData().cameraIndex == 0)
 	{
-		FontAsset(U"TextFont")(U"HDMIキャプチャーを選択してください").draw(TextStyle::Outline(outlineScale, outlineColor), CameraTextPos.movedBy(0, 40), Palette::Red);
+		FontAsset(U"TextFont")(Translate[AppLanguage][U"Please select a HDMI Capture"]).draw(TextStyle::Outline(outlineScale, outlineColor), CameraTextPos.movedBy(0, 40), Palette::Red);
 	}
 }
 
@@ -314,10 +330,10 @@ void Setting::saveDesiredAccessories()
 
 		for (const auto& acc : getData().desiredAccessories)
 		{
-			csv.write(acc.getSpecialEffectEnglish(acc.getIndex()));
+			csv.write(Accessory::getSpecialEffectList(AppLanguage)[acc.getIndex()]);
 			for (size_t i = 0; i < 4; i++)
 			{
-				csv.write(StatusTypeToString_EN[acc.getStatusBoosts()[i].type]);
+				csv.write(StatusTypeToString[AppLanguage][acc.getStatusBoosts()[i].type]);
 			}
 			csv.newLine();
 		}
@@ -334,10 +350,10 @@ void Setting::update()
 	serialUpdate();
 	
 
-	getData().cameraIndex = static_cast<uint32>(openableListBoxCamera.getSelectedIndex() - 1);
+	getData().cameraIndex = openableListBoxCamera.getSelectedIndex();
 	getData().cameraName = openableListBoxCamera.getSelectedItem();
 
-	getData().serialIndex = openableListBoxSerial.getSelectedIndex() - 1;
+	getData().serialIndex = openableListBoxSerial.getSelectedIndex();
 	getData().serialName = openableListBoxSerial.getSelectedItem();
 
 	setProbability();
@@ -429,29 +445,34 @@ void Setting::draw() const
 {
 	DrawVerticalGradientBackground(ColorF{ 0.2, 0.5, 1.0 }, ColorF{ 0.5, 0.8, 1.0 });
 
-	SimpleGUI::CheckBox(getData().desireConsecutiveStatus, U"(オプション)特殊効果にかかわらず全て同じ種類のステータス増加のアクセサリを希望する", Vec2{ MENU_X, DESIRE_CONSENCUTIVE_STATUS_Y });
+	SimpleGUI::CheckBox
+	(
+		getData().desireConsecutiveStatus,
+		Translate[AppLanguage][U"Desire all accessories to have the same type of status regardless of special effects (Option)"],
+		Vec2{ MENU_X, DESIRE_CONSENCUTIVE_STATUS_Y }
+	);
 
 	probabilityTable.draw(probabilityTablePos);
 	drawNotion();
 
-	if (isSelectedSerialPort() && SimpleGUI::Button(U"シリアル接続テスト", SerialTextPos.movedBy(280, 35)))
+	if (isSelectedSerialPort() && SimpleGUI::Button(Translate[AppLanguage][U"Serial connection test"], SerialTextPos.movedBy(280, 35)))
 	{
 		if (getData().serial.open(getData().infos[getData().serialIndex].port))
 		{
-			serialConnectionStatus = U"シリアルポートの接続に成功しました";
+			serialConnectionStatus = Translate[AppLanguage][U"Serial Port connection succeeded"];
 			serialConnectionStatusColor = Palette::Green;
 		}
 		else
 		{
-			serialConnectionStatus = U"シリアルポートの接続に失敗しました";
+			serialConnectionStatus = Translate[AppLanguage][U"Serial Port connection succeeded"],
 			serialConnectionStatusColor = Palette::Red;
 		}
 	}
 
-	FontAsset(U"SubtitleFont")(U"シリアルポート").draw(SerialTextPos);
+	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"Serial Port"]).draw(SerialTextPos);
 	drawSerialStatus();
 
-	FontAsset(U"SubtitleFont")(U"HDMIキャプチャー").draw(CameraTextPos);
+	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"HDMI Capture"]).draw(CameraTextPos);
 
 	// 候補が下に展開されるので逆順に描画
 	for (auto it = std::rbegin(openableListBoxesAccessory); it != std::rend(openableListBoxesAccessory); ++it)
@@ -472,7 +493,7 @@ void Setting::draw() const
 
 	accPulldownTable.draw(accPulldownTablePos);
 
-	FontAsset(U"SubtitleFont")(U"希望のアクセサリ").draw(20, ACCSESSORIE_TEXT_Y);
+	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"Desired accessories"]).draw(20, ACCSESSORIE_TEXT_Y);
 
 	drawMouseOver();
 

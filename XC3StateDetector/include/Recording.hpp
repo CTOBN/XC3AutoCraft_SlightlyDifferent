@@ -27,6 +27,9 @@ public:
 
 	void draw() const override;
 private:
+	HashTable<String, HashTable<String, String>>& Translate = getData().Translate;
+	String AppLanguage = getData().AppLanguage;
+
 	Array<String> CampMenuNames = { U"相談", U"レベルアップ", U"ジェムクラフト", U"料理", U"アクセサリークラフト", U"セーブ", U"クリーニング" };
 
 	const Point ABILITY_TEXT_AREA_POS{ 679, 516 };
@@ -44,8 +47,7 @@ private:
 	Image image;
 	const Point CAMERA_RESOLUTION = { 1920, 1080 };
 	const Point VIDEO_DISPLAY_SIZE = CAMERA_RESOLUTION / 2;
-	String currentAccAbilityJapanese = U"未解析";
-	String currentAccAbilityEnglish = U"Unrecorded";
+	String currentSpecialEffect;
 
 	const Point buttonPos = { 1450, 50 };
 	const int STATUS_ICON_NUM = 7;
@@ -104,9 +106,9 @@ private:
 
 	const Array<std::pair<String, Array<String>>> menus
 	{
-		{ U"ファイル", { U"終了" }},
-		{ U"設定", { U"完成時にトースト通知する", U"スクリーンショットの保存先を変更"}},
-		{ U"ヘルプ", { U"\U000F0625 Webマニュアル", U"\U000F0FC3 ライセンス情報" } },
+		{ Translate[AppLanguage][U"File"], { Translate[AppLanguage][U"Exit"] }},
+		{ Translate[AppLanguage][U"Configuration"], { Translate[AppLanguage][U"Toast notification upon completion"], Translate[AppLanguage][U"Change the save destination of the screenshot"] }},
+		{ Translate[AppLanguage][U"Help"], { U"\U000F0625 {}"_fmt(Translate[AppLanguage][U"Web Document"]), U"\U000F0FC3 {}"_fmt(Translate[AppLanguage][U"License Information"]) }},
 	};
 	SimpleMenuBar menuBar{ menus };
 

@@ -7,6 +7,7 @@ Loading::Loading(const InitData& init)
 	{
 		throw Error { U"Failed to load `config.ini`" };
 	}
+	getData().AppLanguage = Parse<String>(getData().ini[U"Language.AppLanguage"]);
 	getData().ScreenshotFolderPath = Parse<String>(getData().ini[U"Screenshot.FolderPath"]);
 	getData().ScreenshotDateFormat = Parse<String>(getData().ini[U"Screenshot.DateFormat"]);
 	getData().ScreenshotFileFormat = Parse<String>(getData().ini[U"Screenshot.FileFormat"]);
@@ -17,18 +18,26 @@ Loading::Loading(const InitData& init)
 		throw Error{ U"Failed to load `accessories.csv`" };
 	}
 
+	Array<String> SpecialEffectListEnglish;
+	Array<String> SpecialEffectListJapanese;
+	Array<String> SpecialEffectDetailListJapanese;
+
 	for (size_t row = 1; row < csv.rows(); ++row) // 1行目はヘッダなので飛ばす
 	{
 		Accessory::pushBackID(Parse<uint16>(csv[row][0]));
-		Accessory::pushBackSpecialEffectEnglish(csv[row][1]);
-		Accessory::pushBackSpecialEffectJapanese(csv[row][2]);
 		Accessory::pushBackSpecialEffectDetailJapanese(csv[row][3]);
-		Accessory::pushBackAlready(csv[row][4]);
+		Accessory::pushBackCompatibility(csv[row][4]);
 		Accessory::pushBackBracelet(Parse<double>(csv[row][5]));
 		Accessory::pushBackRing(Parse<double>(csv[row][6]));
 		Accessory::pushBackNecklace(Parse<double>(csv[row][7]));
 		Accessory::pushBackCrown(Parse<double>(csv[row][8]));
+
+		SpecialEffectListEnglish.push_back(csv[row][1]);
+		SpecialEffectListJapanese.push_back(csv[row][2]);
 	}
+	Accessory::emplaceSpecialEffectList(U"en-US", SpecialEffectListEnglish);
+	Accessory::emplaceSpecialEffectList(U"ja-JP", SpecialEffectListJapanese);
+
 
 	for (uint16 i = 3428; i <= 3913; i += 5)
 	{

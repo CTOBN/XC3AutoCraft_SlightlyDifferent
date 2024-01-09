@@ -23,8 +23,8 @@ Array<String> StatusTypeStringListJapanese = {
 };
 
 HashTable<String, Array<String>> StatusTypeStringList = {
-	{U"English",  StatusTypeStringListEnglish},
-	{U"Japanese", StatusTypeStringListJapanese}
+	{U"en-US",  StatusTypeStringListEnglish},
+	{U"ja-JP", StatusTypeStringListJapanese}
 };
 
 HashTable<StatusType, String> StatusTypeToString_EN = {
@@ -50,8 +50,8 @@ HashTable<StatusType, String> StatusTypeToString_JP = {
 };
 
 HashTable<String, HashTable<StatusType, String>> StatusTypeToString = {
-	{U"English", StatusTypeToString_EN},
-	{U"Japanese", StatusTypeToString_JP}
+	{U"en-US", StatusTypeToString_EN},
+	{U"ja-JP", StatusTypeToString_JP}
 };
 
 HashTable<String, StatusType> StringToStatusType = {
@@ -62,5 +62,13 @@ HashTable<String, StatusType> StringToStatusType = {
 	{U"Dexterity", StatusType::Dexterity},
 	{U"Agility", StatusType::Agility},
 	{U"BlockRate", StatusType::BlockRate},
-	{U"CriticalRate", StatusType::CriticalRate}
+	{U"CriticalRate", StatusType::CriticalRate},
+	{U"任意", StatusType::Anything},
+	{U"HP", StatusType::HP},
+	{U"攻撃力", StatusType::Attack},
+	{U"回復力", StatusType::HealingPower},
+	{U"器用さ", StatusType::Dexterity},
+	{U"素早さ", StatusType::Agility},
+	{U"ガード率", StatusType::BlockRate},
+	{U"ｸﾘﾃｨｶﾙ率", StatusType::CriticalRate}
 };

@@ -5,7 +5,7 @@ Recording::Recording(const InitData& init)
 	: IScene{ init }
 {
 	// 非同期タスクを開始
-	const uint32 CameraIndex = getData().cameraIndex;
+	const uint32 CameraIndex = getData().cameraIndex - 1;
 
 	task = AsyncTask<Webcam>{ [CameraIndex, this]() {
 		Webcam webcam{ CameraIndex, Size{ this->CAMERA_RESOLUTION }, StartImmediately::No };
@@ -103,10 +103,10 @@ size_t Recording::findMostSimilarAbility() {
 			judgedIndex = i + 2; // 0は未選択, 1は任意のアクセサリ
 		}
 	}
-	if (0 <= judgedIndex && judgedIndex < Accessory::getSpecialEffectDetailJapaneseList().size())
+	if (0 <= judgedIndex && judgedIndex < Accessory::getSpecialEffectList(AppLanguage).size())
 	{
-		currentAccAbilityJapanese = Accessory::getSpecialEffectDetailJapanese(judgedIndex);
-		// Console << Format(judgedIndex) << currentAccAbilityJapanese;
+		currentSpecialEffect = Accessory::getSpecialEffectList(AppLanguage)[judgedIndex];
+		// Console << Format(judgedIndex) << currentSpecialEffect;
 	}
 	return judgedIndex;
 }
@@ -338,7 +338,7 @@ void Recording::judgeAccessory()
 		toastMessage += U"\n";
 		for (int j = 0; j < 4; j++)
 		{
-			toastMessage += StatusTypeToString[U"Japanese"][currentAccessory.getStatusBoosts()[j].type];
+			toastMessage += StatusTypeToString[getData().AppLanguage][currentAccessory.getStatusBoosts()[j].type];
 			toastMessage += U" ";
 		}
 
@@ -368,7 +368,7 @@ void Recording::updateContext()
 
 bool Recording::openSerialPort() const
 {
-	if (getData().serial.open(getData().infos[getData().serialIndex].port))
+	if (getData().serial.open(getData().infos[getData().serialIndex - 1].port))
 	{
 		// Console << U"シリアルポートを開きました";
 		return true;
@@ -414,10 +414,10 @@ void Recording::drawRecognizedAccessories() const
 	for (int i = 0; i < recognizedAccessoriesSize; i++)
 	{
 		const Accessory& acc = RecognizedAccessories[recognizedAccessoriesSize - i - 1];
-		FontAsset(U"AccessoryFont")(Accessory::getSpecialEffectJapanese(acc.getIndex())).draw(recognizedAccessoriesPos.movedBy(0, i * 30));
+		FontAsset(U"AccessoryFont")(Accessory::getSpecialEffectList(AppLanguage)[acc.getIndex()]).draw(recognizedAccessoriesPos.movedBy(0, i * 30));
 		for (int j = 0; j < 4; j++)
 		{
-			FontAsset(U"AccessoryFont")(StatusTypeToString[U"Japanese"][acc.getStatusBoosts()[j].type]).drawAt(recognizedAccessoriesPos.movedBy(600 + j * 90, 10 + i * 30));
+			FontAsset(U"AccessoryFont")(StatusTypeToString[getData().AppLanguage][acc.getStatusBoosts()[j].type]).drawAt(recognizedAccessoriesPos.movedBy(600 + j * 90, 10 + i * 30));
 		}
 	}
 }
@@ -429,10 +429,10 @@ void Recording::drawDesiredAccessories() const
 	for (int i = 0; i < getData().desiredAccessories.size(); i++)
 	{
 		Accessory& acc = getData().desiredAccessories[i];
-		FontAsset(U"AccessoryFont")(Accessory::getSpecialEffectJapanese(acc.getIndex())).draw(desiredAccessoriesPos.movedBy(0, i * 30));
+		FontAsset(U"AccessoryFont")(Accessory::getSpecialEffectList(AppLanguage)[acc.getIndex()]).draw(desiredAccessoriesPos.movedBy(0, i * 30));
 		for (int j = 0; j < 4; j++)
 		{
-			FontAsset(U"AccessoryFont")(StatusTypeToString[U"Japanese"][acc.getStatusBoosts()[j].type]).drawAt(desiredAccessoriesPos.movedBy(600 + j * 90, 10 + i * 30));
+			FontAsset(U"AccessoryFont")(StatusTypeToString[getData().AppLanguage][acc.getStatusBoosts()[j].type]).drawAt(desiredAccessoriesPos.movedBy(600 + j * 90, 10 + i * 30));
 		}
 	}
 }

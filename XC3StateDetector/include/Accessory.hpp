@@ -17,11 +17,7 @@ public:
 	Array<StatusBoost> getStatusBoosts() const;
 	bool hasSameStatusTypeOrMore(const Accessory& other) const;
 	static size_t getID(size_t index);
-	static String getSpecialEffectEnglish(size_t index);
-	static String getSpecialEffectJapanese(size_t index);
 	static String getSpecialEffectDetailJapanese(size_t index);
-	static Array<String> getSpecialEffectEnglishList();
-	static Array<String> getSpecialEffectJapaneseList();
 	static Array<String> getSpecialEffectDetailJapaneseList();
 	bool hasConsecutiveStatus() const;
 
@@ -56,34 +52,34 @@ public:
 		return m_index == other.m_index;
 	}
 	static void pushBackID(const size_t& id);
-	static void pushBackSpecialEffectEnglish(const String& specialEffectEnglish);
-	static void pushBackSpecialEffectJapanese(const String& specialEffectJapanese);
 	static void pushBackSpecialEffectDetailJapanese(const String& specialEffectDetailJapanese);
-	static void pushBackAlready(const String& already);
+	static void pushBackCompatibility(const String& compatibility);
 	static void pushBackBracelet(const double& probabilitybracelet);
 	static void pushBackRing(const double& probabilityRing);
 	static void pushBackNecklace(const double& probabilityNecklace);
 	static void pushBackCrown(const double& probabilityCrown);
-	static String getAlready(size_t index);
+	static String getCompatibility(size_t index);
 	static double getProbability(size_t index, AccessoryType type);
 	static double getProbabilityBracelet(size_t index);
 	static double getProbabilityRing(size_t index);
 	static double getProbabilityNecklace(size_t index);
 	static double getProbabilityCrown(size_t index);
 
+	static void emplaceSpecialEffectList(String language, Array<String> SpecialEffectListLanguage);
+	static Array<String> getSpecialEffectList(String language);
 private:
 	size_t m_index;
 	Array<StatusBoost> m_statusBoosts;
 	static Array<size_t> IDList;
-	static Array<String> SpecialEffectEnglishList;
-	static Array<String> SpecialEffectJapaneseList;
 	static Array<String> SpecialEffectDetailJapaneseList;
 	static Array<String> StatusTypeListJapanese;
 	static Array<String> StatusTypeListEnglish;
-	static Array<String> AlreadyList;
+	static Array<String> CompatibilityList;
 	static Array<double> ProbabilityBraceletList;
 	static Array<double> ProbabilityRingList;
 	static Array<double> ProbabilityNecklaceList;
 	static Array<double> ProbabilityCrownList;
-
+	static HashTable<String, Array<String>> SpecialEffectList;
 };
+
+

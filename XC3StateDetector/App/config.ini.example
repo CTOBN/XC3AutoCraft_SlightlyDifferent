@@ -1,6 +1,6 @@
 ﻿[Language]
-GameLocale = ja_JP
-AppLocale = ja_JP
+GameLanguage = ja-JP
+AppLanguage = ja-JP
 
 [Screenshot]
 FolderPath = Screenshots/

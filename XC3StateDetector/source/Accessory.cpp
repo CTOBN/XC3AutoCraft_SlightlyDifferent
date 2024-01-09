@@ -3,14 +3,13 @@
 #include "Accessory.hpp"
 
 Array<size_t> Accessory::IDList;
-Array<String> Accessory::SpecialEffectEnglishList;
-Array<String> Accessory::SpecialEffectJapaneseList;
 Array<String> Accessory::SpecialEffectDetailJapaneseList;
-Array<String> Accessory::AlreadyList;
+Array<String> Accessory::CompatibilityList;
 Array<double> Accessory::ProbabilityBraceletList;
 Array<double> Accessory::ProbabilityRingList;
 Array<double> Accessory::ProbabilityNecklaceList;
 Array<double> Accessory::ProbabilityCrownList;
+HashTable<String, Array<String>> Accessory::SpecialEffectList;
 
 
 
@@ -81,29 +80,9 @@ size_t Accessory::getID(size_t index)
 	return IDList[index];
 }
 
-String Accessory::getSpecialEffectEnglish(size_t index)
-{
-	return SpecialEffectEnglishList[index];
-}
-
-String Accessory::getSpecialEffectJapanese(size_t index)
-{
-	return SpecialEffectJapaneseList[index];
-}
-
 String Accessory::getSpecialEffectDetailJapanese(size_t index)
 {
 	return SpecialEffectDetailJapaneseList[index];
-}
-
-Array<String> Accessory::getSpecialEffectEnglishList()
-{
-	return SpecialEffectEnglishList;
-}
-
-Array<String> Accessory::getSpecialEffectJapaneseList()
-{
-	return SpecialEffectJapaneseList;
 }
 
 Array<String> Accessory::getSpecialEffectDetailJapaneseList()
@@ -130,24 +109,14 @@ void Accessory::pushBackID(const size_t& id)
 	IDList.push_back(id);
 }
 
-void Accessory::pushBackSpecialEffectEnglish(const String& specialEffectEnglish)
-{
-	SpecialEffectEnglishList.push_back(specialEffectEnglish);
-}
-
-void Accessory::pushBackSpecialEffectJapanese(const String& specialEffectJapanese)
-{
-	SpecialEffectJapaneseList.push_back(specialEffectJapanese);
-}
-
 void Accessory::pushBackSpecialEffectDetailJapanese(const String& specialEffectDetailJapanese)
 {
 	SpecialEffectDetailJapaneseList.push_back(specialEffectDetailJapanese);
 }
 
-void Accessory::pushBackAlready(const String& already)
+void Accessory::pushBackCompatibility(const String& compatibility)
 {
-	AlreadyList.push_back(already);
+	CompatibilityList.push_back(compatibility);
 }
 
 void Accessory::pushBackBracelet(const double& probabilityBracelet)
@@ -170,9 +139,9 @@ void Accessory::pushBackCrown(const double& probabilityCrown)
 	ProbabilityCrownList.push_back(probabilityCrown);
 }
 
-String Accessory::getAlready(size_t index)
+String Accessory::getCompatibility(size_t index)
 {
-	return AlreadyList[index];
+	return CompatibilityList[index];
 }
 
 double Accessory::getProbability(size_t index, AccessoryType type)
@@ -210,4 +179,14 @@ double Accessory::getProbabilityNecklace(size_t index)
 double Accessory::getProbabilityCrown(size_t index)
 {
 	return ProbabilityCrownList[index];
+}
+
+void Accessory::emplaceSpecialEffectList(String language, Array<String> SpecialEffectListLanguage)
+{
+	SpecialEffectList.emplace(language, SpecialEffectListLanguage);
+}
+
+Array<String> Accessory::getSpecialEffectList(String language)
+{
+	return SpecialEffectList[language];
 }

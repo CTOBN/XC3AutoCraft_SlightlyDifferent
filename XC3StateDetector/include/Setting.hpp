@@ -9,8 +9,12 @@ class Setting : public App::Scene
 
 public:
 	const Font font{ font_size };
-	Array<String> webcams = { U"未選択" };
-	Array<String> options = { U"未選択" };
+
+	HashTable<String, HashTable<String, String>>& Translate = getData().Translate;
+	String AppLanguage = getData().AppLanguage;
+
+	Array<String> webcams = { Translate[AppLanguage][U"Unselected"] };
+	Array<String> options = { Translate[AppLanguage][U"Unselected"] };
 
 	Setting(const InitData& init);
 
@@ -76,12 +80,12 @@ private:
 
 	const double ACCESSORIES_CELL_WIDTH = 800;
 	const double STATUS_CELL_WIDTH = 115;
-	const double AlreadyCellWidth = 80;
+	const double CompatibilityCellWidth = 80;
 	const double PROBABILITY_CELL_WIDTH = 130;
 
 	const Font tableFont{ FontMethod::MSDF, 36 };
 
-	String serialSelectionStatus = U"シリアルポートを選択してください";
+	String serialSelectionStatus;
 	ColorF serialSelectionStatusColor = Palette::Red;
 
 	const double outlineScale = 0.5;
@@ -101,7 +105,7 @@ private:
 
 	Vec2 accPulldownTablePos = { MENU_X, ACCSESSORIE_TEXT_Y + 50 };
 
-	SimpleTable probabilityTable{ {AlreadyCellWidth, PROBABILITY_CELL_WIDTH, PROBABILITY_CELL_WIDTH, PROBABILITY_CELL_WIDTH, PROBABILITY_CELL_WIDTH}, {
+	SimpleTable probabilityTable{ {CompatibilityCellWidth, PROBABILITY_CELL_WIDTH, PROBABILITY_CELL_WIDTH, PROBABILITY_CELL_WIDTH, PROBABILITY_CELL_WIDTH}, {
 		.cellHeight = 30,
 		.variableWidth = true,
 		.font = tableFont,
@@ -160,9 +164,9 @@ private:
 
 	const Array<std::pair<String, Array<String>>> menus
 	{
-		{ U"ファイル", { U"開く", U"名前を付けて保存", U"終了" }},
-		{ U"設定", { U"完成時にトースト通知する", U"スクリーンショットの保存先を変更" }},
-		{ U"ヘルプ", { U"\U000F0625 Webマニュアル", U"\U000F0FC3 ライセンス情報" } },
+		{ Translate[AppLanguage][U"File"], { Translate[AppLanguage][U"Open CSV File"], Translate[AppLanguage][U"Save As"], Translate[AppLanguage][U"Exit"] }},
+		{ Translate[AppLanguage][U"Configuration"], { Translate[AppLanguage][U"Toast notification upon completion"], Translate[AppLanguage][U"Change the save destination of the screenshot"] }},
+		{ Translate[AppLanguage][U"Help"], { U"\U000F0625 {}"_fmt(Translate[AppLanguage][U"Web Document"]), U"\U000F0FC3 {}"_fmt(Translate[AppLanguage][U"License Information"]) }},
 	};
 	SimpleMenuBar menuBar{ menus };
 

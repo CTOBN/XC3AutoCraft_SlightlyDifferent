@@ -17,8 +17,8 @@ HashTable<AccessoryType, String> AccessoryTypeToNameJP = {
 };
 
 HashTable<String, HashTable<AccessoryType, String>> AccessoryTypeToName = {
-	{U"English", AccessoryTypeToNameEN},
-	{U"Japanese", AccessoryTypeToNameJP}
+	{U"en-US", AccessoryTypeToNameEN},
+	{U"ja-JP", AccessoryTypeToNameJP}
 };
 
 HashTable<String, AccessoryType> NameToAccessoryType = {
