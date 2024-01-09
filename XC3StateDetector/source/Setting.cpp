@@ -349,6 +349,9 @@ void Setting::update()
 		{
 			// チェック状態を反転する
 			menuBar.setItemChecked(*item, (not menuBar.getItemChecked(*item)));
+			getData().enableToastNotification = menuBar.getItemChecked(MenuBarItemIndex{ 1, 0 });
+			getData().ini[U"Notification.enableToastNotification"] = getData().enableToastNotification;
+			getData().ini.save(U"config.ini");
 		}
 
 		// 「開く」が押されたら
@@ -362,9 +365,6 @@ void Setting::update()
 		{
 			saveDesiredAccessories();
 		}
-
-		// 「トースト通知を有効にする」の状態を取得
-		getData().enableToastNotification = menuBar.getItemChecked(MenuBarItemIndex{ 1, 0 });
 
 		// 「スクリーンショットの保存先を変更」が押されたら
 		if (item == MenuBarItemIndex{ 1, 1 })
