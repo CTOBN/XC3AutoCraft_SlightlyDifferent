@@ -53,12 +53,10 @@ public:
 	}
 	static void pushBackID(const size_t& id);
 	static void pushBackSpecialEffectDetailJapanese(const String& specialEffectDetailJapanese);
-	static void pushBackCompatibility(const String& compatibility);
 	static void pushBackBracelet(const double& probabilitybracelet);
 	static void pushBackRing(const double& probabilityRing);
 	static void pushBackNecklace(const double& probabilityNecklace);
 	static void pushBackCrown(const double& probabilityCrown);
-	static String getCompatibility(size_t index);
 	static double getProbability(size_t index, AccessoryType type);
 	static double getProbabilityBracelet(size_t index);
 	static double getProbabilityRing(size_t index);
@@ -67,6 +65,8 @@ public:
 
 	static void emplaceSpecialEffectList(String language, Array<String> SpecialEffectListLanguage);
 	static Array<String> getSpecialEffectList(String language);
+	static void emplaceCompatibilityList(String language, Array<String> CompatibilityListLanguage);
+	static Array<String> getCompatibilityList(String language);
 private:
 	size_t m_index;
 	Array<StatusBoost> m_statusBoosts;
@@ -74,12 +74,12 @@ private:
 	static Array<String> SpecialEffectDetailJapaneseList;
 	static Array<String> StatusTypeListJapanese;
 	static Array<String> StatusTypeListEnglish;
-	static Array<String> CompatibilityList;
 	static Array<double> ProbabilityBraceletList;
 	static Array<double> ProbabilityRingList;
 	static Array<double> ProbabilityNecklaceList;
 	static Array<double> ProbabilityCrownList;
 	static HashTable<String, Array<String>> SpecialEffectList;
+	static HashTable<String, Array<String>> CompatibilityList;
 };
 
 

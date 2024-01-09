@@ -190,7 +190,7 @@ void Setting::setProbability()
 	for (size_t i = 0; i < TARGET_ACCSESORIES_COUNT_MAX; i++)
 	{
 		size_t index = openableListBoxesAccessory[i].getSelectedIndex();
-		probabilityTable.setText(i + 1, 0, Accessory::getCompatibility(index));
+		probabilityTable.setText(i + 1, 0, Accessory::getCompatibilityList(AppLanguage)[index]);
 
 		// 各アクセサリの種類
 		for (size_t j = 1; j < 5; j++)

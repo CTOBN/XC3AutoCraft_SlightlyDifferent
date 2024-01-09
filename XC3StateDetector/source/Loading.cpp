@@ -21,22 +21,27 @@ Loading::Loading(const InitData& init)
 	Array<String> SpecialEffectListEnglish;
 	Array<String> SpecialEffectListJapanese;
 	Array<String> SpecialEffectDetailListJapanese;
+	Array<String> CompatibilityEnglish;
+	Array<String> CompatibilityJapanese;
 
 	for (size_t row = 1; row < csv.rows(); ++row) // 1行目はヘッダなので飛ばす
 	{
 		Accessory::pushBackID(Parse<uint16>(csv[row][0]));
-		Accessory::pushBackSpecialEffectDetailJapanese(csv[row][3]);
-		Accessory::pushBackCompatibility(csv[row][4]);
-		Accessory::pushBackBracelet(Parse<double>(csv[row][5]));
-		Accessory::pushBackRing(Parse<double>(csv[row][6]));
-		Accessory::pushBackNecklace(Parse<double>(csv[row][7]));
-		Accessory::pushBackCrown(Parse<double>(csv[row][8]));
-
 		SpecialEffectListEnglish.push_back(csv[row][1]);
 		SpecialEffectListJapanese.push_back(csv[row][2]);
+		Accessory::pushBackSpecialEffectDetailJapanese(csv[row][3]);
+		CompatibilityEnglish.push_back(csv[row][4]);
+		CompatibilityJapanese.push_back(csv[row][5]);
+		Accessory::pushBackBracelet(Parse<double>(csv[row][6]));
+		Accessory::pushBackRing(Parse<double>(csv[row][7]));
+		Accessory::pushBackNecklace(Parse<double>(csv[row][8]));
+		Accessory::pushBackCrown(Parse<double>(csv[row][9]));
+
 	}
 	Accessory::emplaceSpecialEffectList(U"en-US", SpecialEffectListEnglish);
 	Accessory::emplaceSpecialEffectList(U"ja-JP", SpecialEffectListJapanese);
+	Accessory::emplaceCompatibilityList(U"en-US", CompatibilityEnglish);
+	Accessory::emplaceCompatibilityList(U"ja-JP", CompatibilityJapanese);
 
 
 	for (uint16 i = 3428; i <= 3913; i += 5)
