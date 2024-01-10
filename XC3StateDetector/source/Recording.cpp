@@ -481,7 +481,7 @@ void Recording::drawButtons()
 		{
 			// String now = U"{}"_fmt(DateTime::Now()).replace(U":", U".");
 			String now = FormatDateTime(DateTime::Now(), getData().ScreenshotDateFormat);
-			String path = U"{}XC3AutoCraft_{}.{}"_fmt(getData().ScreenshotFolderPath, now, getData().ScreenshotFileFormat);
+			String path = U"{}{}{}{}"_fmt(getData().ScreenshotFolderPath, getData().ScreenshotFileName, now, getData().ScreenshotFileFormat);
 			image.save(path);
 			// Console << U"スクリーンショットを保存しました ファイル名 : {}"_fmt(path);
 		}

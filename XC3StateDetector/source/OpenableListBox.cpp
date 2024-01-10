@@ -21,6 +21,23 @@ void OpenableListBox::setItems(const Array<String>& items)
 	listBoxState.items = items;
 }
 
+void OpenableListBox::setIndex(const size_t index)
+{
+	listBoxState.selectedItemIndex = index;
+}
+
+void OpenableListBox::setIndexFromItem(const String& item)
+{
+	for (size_t i = 0; i < listBoxState.items.size(); ++i)
+	{
+		if (listBoxState.items[i] == item)
+		{
+			listBoxState.selectedItemIndex = i;
+			return;
+		}
+	}
+}
+
 size_t OpenableListBox::getSelectedIndex() const
 {
 	return *listBoxState.selectedItemIndex;

@@ -346,7 +346,11 @@ void Setting::update()
 		changeScene(U"Recording");
 	}
 	serialUpdate();
-	
+
+	if (KeySpace.pressed())
+	{
+		changeScene(U"Config");
+	}
 
 	getData().cameraIndex = openableListBoxCamera.getSelectedIndex();
 	getData().cameraName = openableListBoxCamera.getSelectedItem();

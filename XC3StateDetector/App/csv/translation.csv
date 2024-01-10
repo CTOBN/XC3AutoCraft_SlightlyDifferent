@@ -1,4 +1,15 @@
 ﻿key,en-US,ja-JP
+Config,Config,環境設定
+en-US,English,英語
+ja-JP,Japanese,日本語
+This Application Language,This Application Language,このアプリの言語
+Game Language,Game Language,ゲームの言語
+Screenshot,Screenshot,スクリーンショット
+Change the save folder,Change the save folder,保存先を変更
+Example,Example,例
+This config is saved in the config.ini file in the same folder as the executable file,This config is saved in the config.ini file in the same folder as the executable file,この設定は実行ファイルと同じフォルダにあるconfig.iniに保存されます
+Don't delete config.ini,Don't delete config.ini,config.iniを削除しないでください
+Apply,Apply,適用
 Now Loading,Now Loading,読み込み中
 File,File,ファイル
 Open CSV File,Open CSV File,CSVファイルを開く

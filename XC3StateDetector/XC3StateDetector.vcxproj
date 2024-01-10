@@ -123,6 +123,7 @@
     <ClCompile Include="source\AccessoryTypeSelected.cpp" />
     <ClCompile Include="source\AccessoryTypeSelecting.cpp" />
     <ClCompile Include="source\Common.cpp" />
+    <ClCompile Include="source\Config.cpp" />
     <ClCompile Include="source\Context.cpp" />
     <ClCompile Include="source\Field.cpp" />
     <ClCompile Include="source\FieldLoading.cpp" />
@@ -349,6 +350,7 @@
     <ClInclude Include="include\AccessoryTypeSelected.hpp" />
     <ClInclude Include="include\AccessoryTypeSelecting.hpp" />
     <ClInclude Include="include\Common.hpp" />
+    <ClInclude Include="include\Config.hpp" />
     <ClInclude Include="include\Context.hpp" />
     <ClInclude Include="include\Field.hpp" />
     <ClInclude Include="include\FieldLoading.hpp" />

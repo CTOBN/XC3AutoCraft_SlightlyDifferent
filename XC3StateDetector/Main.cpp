@@ -1,5 +1,6 @@
 ﻿# include "Common.hpp"
 # include "Loading.hpp"
+# include "Config.hpp"
 # include "Setting.hpp"
 # include "Recording.hpp"
 
@@ -24,6 +25,7 @@ void Main()
 	App manager;
 	manager
 		.add<Loading>(U"Loading")
+		.add<Config>(U"Config")
 		.add<Setting>(U"Setting")
 		.add<Recording>(U"Recording");
 

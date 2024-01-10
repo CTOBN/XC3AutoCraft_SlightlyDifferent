@@ -11,6 +11,8 @@ public:
 	mutable ListBoxState listBoxState;
 	void emplace_back(String item);
 	void setItems(const Array<String>& items);
+	void setIndex(const size_t index);
+	void setIndexFromItem(const String& item);
 	size_t getSelectedIndex() const;
 	String getSelectedItem() const;
 	bool getIsOpen() const;

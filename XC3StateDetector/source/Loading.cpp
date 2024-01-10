@@ -10,6 +10,7 @@ Loading::Loading(const InitData& init)
 	getData().AppLanguage = Parse<String>(getData().ini[U"Language.AppLanguage"]);
 	getData().GameLanguage = Parse<String>(getData().ini[U"Language.GameLanguage"]);
 	getData().ScreenshotFolderPath = Parse<String>(getData().ini[U"Screenshot.FolderPath"]);
+	getData().ScreenshotFileName = Parse<String>(getData().ini[U"Screenshot.FileName"]);
 	getData().ScreenshotDateFormat = Parse<String>(getData().ini[U"Screenshot.DateFormat"]);
 	getData().ScreenshotFileFormat = Parse<String>(getData().ini[U"Screenshot.FileFormat"]);
 	getData().enableToastNotification = Parse<bool>(getData().ini[U"Notification.enableToastNotification"]);
