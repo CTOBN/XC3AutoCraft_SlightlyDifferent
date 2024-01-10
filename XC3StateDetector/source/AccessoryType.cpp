@@ -2,18 +2,18 @@
 
 HashTable<AccessoryType, String> AccessoryTypeToNameEN = {
 	{AccessoryType::Undefined, U"Undefined"},
-	{AccessoryType::Bracelet, U"Bracelet"},
+	{AccessoryType::Bangle, U"Bangle"},
 	{AccessoryType::Ring, U"Ring"},
-	{AccessoryType::Necklace, U"Necklace"},
-	{AccessoryType::Crown, U"Crown"}
+	{AccessoryType::Collar, U"Collar"},
+	{AccessoryType::Tiara, U"Tiara"}
 };
 
 HashTable<AccessoryType, String> AccessoryTypeToNameJP = {
 	{AccessoryType::Undefined, U"未定義"},
-	{AccessoryType::Bracelet, U"腕輪"},
+	{AccessoryType::Bangle, U"腕輪"},
 	{AccessoryType::Ring, U"指輪"},
-	{AccessoryType::Necklace, U"首飾り"},
-	{AccessoryType::Crown, U"冠"}
+	{AccessoryType::Collar, U"首飾り"},
+	{AccessoryType::Tiara, U"冠"}
 };
 
 HashTable<String, HashTable<AccessoryType, String>> AccessoryTypeToName = {
@@ -23,10 +23,10 @@ HashTable<String, HashTable<AccessoryType, String>> AccessoryTypeToName = {
 
 HashTable<String, AccessoryType> NameToAccessoryType = {
 	{U"Undefined", AccessoryType::Undefined},
-	{U"Bracelet", AccessoryType::Bracelet},
+	{U"Bangle", AccessoryType::Bangle},
 	{U"Ring", AccessoryType::Ring},
-	{U"Necklace", AccessoryType::Necklace},
-	{U"Crown", AccessoryType::Crown}
+	{U"Collar", AccessoryType::Collar},
+	{U"Tiara", AccessoryType::Tiara}
 };
 
 

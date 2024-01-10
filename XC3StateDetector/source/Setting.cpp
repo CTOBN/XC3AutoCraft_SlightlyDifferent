@@ -87,10 +87,10 @@ Setting::Setting(const InitData& init)
 	probabilityTable.push_back_row(
 		{
 			Translate[AppLanguage][U"Compatibility"],
-			Translate[AppLanguage][U"Bracelet"],
+			Translate[AppLanguage][U"Bangle"],
 			Translate[AppLanguage][U"Ring"],
-			Translate[AppLanguage][U"Necklace"],
-			Translate[AppLanguage][U"Crown"]
+			Translate[AppLanguage][U"Collar"],
+			Translate[AppLanguage][U"Tiara"]
 		}, { 0, 0, 0, 0, 0 });
 	for (size_t i = 0; i < TARGET_ACCSESORIES_COUNT_MAX; i++)
 	{

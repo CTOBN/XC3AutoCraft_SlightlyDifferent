@@ -137,13 +137,13 @@ double Accessory::getProbability(size_t index, AccessoryType type)
 {
 	switch (type)
 	{
-	case AccessoryType::Bracelet:
+	case AccessoryType::Bangle:
 		return ProbabilityBraceletList[index];
 	case AccessoryType::Ring:
 		return ProbabilityRingList[index];
-	case AccessoryType::Necklace:
+	case AccessoryType::Collar:
 		return ProbabilityNecklaceList[index];
-	case AccessoryType::Crown:
+	case AccessoryType::Tiara:
 		return ProbabilityCrownList[index];
 	default:
 		return 0;

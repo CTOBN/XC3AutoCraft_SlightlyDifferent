@@ -28,10 +28,10 @@ Serial Port connection succeeded,Serial Port connection succeeded,シリアル�
 Serial Port connection failed,Serial Port connection failed,シリアルポートの接続に失敗しました
 Unselected,Unselected,未選択
 Anything,Anything,任意
-Bracelet,Bracelet,腕輪
+Bangle,Bangle,腕輪
 Ring,Ring,指輪
-Necklace,Necklace,首飾り
-Crown,Crown,冠
+Collar,Collar,首飾り
+Tiara,Tiara,冠
 Unable to proceed,Unable to proceed,次に進めません
 Next,Next,次へ
 HDMI Capture is preparing,HDMI Capture is preparing,HDMIキャプチャーを準備しています

@@ -2,10 +2,10 @@
 
 enum class AccessoryType {
 	Undefined,
-	Bracelet,
+	Bangle,
 	Ring,
-	Necklace,
-	Crown
+	Collar,
+	Tiara
 };
 
 extern HashTable<AccessoryType, String> AccessoryTypeToNameEN;
