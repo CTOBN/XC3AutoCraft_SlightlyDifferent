@@ -33,11 +33,10 @@ struct ButtonByte
 struct GameManipulationByte
 {
 	static const uint8 Title_to_FieldLoading = 200;
-	static const uint8 Field_to_Camp = 201;
-	static const uint8 Camp_to_AccessoryMenu = 202;
-	static const uint8 AccessorySelected_to_Judge = 203;
-	static const uint8 Judge_to_AccessorySelected = 204;
-	static const uint8 GoingMainMenu_to_MainMenu = 205;
-	static const uint8 MainMenu_to_SystemMenu = 206;
-	static const uint8 SystemMenu_to_TitleLoading = 207;
+	static const uint8 Field_to_RestSpot = 201;
+	static const uint8 AccessorySelected_to_Judge = 202;
+	static const uint8 Judge_to_AccessorySelected = 203;
+	static const uint8 GoingMainMenu_to_MainMenu = 204;
+	static const uint8 MainMenu_to_SystemMenu = 205;
+	static const uint8 SystemMenu_to_TitleLoading = 206;
 };

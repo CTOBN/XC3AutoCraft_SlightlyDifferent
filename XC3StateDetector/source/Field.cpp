@@ -2,7 +2,7 @@
 #include "Context.hpp"
 #include "SerialInstruction.hpp"
 #include "Field.hpp"
-#include "Camp.hpp"
+#include "RestSpot.hpp"
 
 namespace xc3
 {
@@ -12,13 +12,13 @@ namespace xc3
 
 		if (not hasTransitioned)
 		{
-			context.serial.writeByte(GameManipulationByte::Field_to_Camp);
+			context.serial.writeByte(GameManipulationByte::Field_to_RestSpot);
 			transitionTime = Time::GetMillisec();
 			hasTransitioned = true;
 		}
 		if (isTimeToTransition())
 		{
-			context.setState(std::make_unique<Camp>());
+			context.setState(std::make_unique<RestSpot>());
 		}
 	}
 }

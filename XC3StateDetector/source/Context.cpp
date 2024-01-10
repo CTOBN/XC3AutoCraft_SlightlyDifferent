@@ -9,7 +9,7 @@ namespace xc3
 		{U"Title", U"タイトル画面です"},
 		{U"FieldLoading", U"フィールドをローディング中です"},
 		{U"Field", U"フィールドです"},
-		{U"Camp", U"休憩ポイントです"},
+		{U"RestSpot", U"休憩ポイントです"},
 		{U"RecognizeItemCount", U"アンノウンマターの数を認識しています"},
 		{U"AccessoryTypeSelecting", U"アクセサリの種類を選択しています"},
 		{U"AccessoryTypeSelected", U"アクセサリ選択画面です"},

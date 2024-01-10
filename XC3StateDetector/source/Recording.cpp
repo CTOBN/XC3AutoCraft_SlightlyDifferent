@@ -156,13 +156,13 @@ AccessoryType Recording::recognizeSelectingAccessoryType()
 	return judgedAccessoryType;
 }
 
-int8 Recording::recognizeSelectingCampMenu()
+int8 Recording::recognizeSelectingRestSpotMenu()
 {
 	webcam.getFrame(image);
 	Point clipPos = { 936, 881 };
 	Point clipSize = { 48, 48 };
 	uint8 threshold = 128;
-	int8 judgedCampMenu = 0;
+	int8 judgedRestSpotMenu = 0;
 	double similarityMax = 0;
 	Image clippedImage = image.clipped(clipPos, clipSize).thresholded(threshold);
 	for (size_t i = 0; i < 7; i++)
@@ -171,10 +171,10 @@ int8 Recording::recognizeSelectingCampMenu()
 		if (similarity > similarityMax)
 		{
 			similarityMax = similarity;
-			judgedCampMenu = i;
+			judgedRestSpotMenu = i;
 		}
 	}
-	return judgedCampMenu;
+	return judgedRestSpotMenu;
 }
 
 Accessory Recording::recognizeAccessory()
@@ -233,17 +233,17 @@ bool Recording::completeMission()
 	return compareAccessories();
 }
 
-// Campメニューからアクセサリクラフトを選択する
+// RestSpotメニューからアクセサリクラフトを選択する
 void Recording::selectAccessoryCraft()
 {
-	if (context.getCurrentStateName() != U"Camp" || context.isAccessoryCraftSelected)
+	if (context.getCurrentStateName() != U"RestSpot" || context.isAccessoryCraftSelected)
 	{
 		return;
 	}
-	int8 currentSelectingCampMenu = recognizeSelectingCampMenu();
-	int8 RightCount = (4 - currentSelectingCampMenu + 7) % 7;
-	int8 LeftCount = (currentSelectingCampMenu - 4 + 7) % 7;
-	if (not (0 <= currentSelectingCampMenu && currentSelectingCampMenu < 7))
+	int8 currentSelectingRestSpotMenu = recognizeSelectingRestSpotMenu();
+	int8 RightCount = (4 - currentSelectingRestSpotMenu + 7) % 7;
+	int8 LeftCount = (currentSelectingRestSpotMenu - 4 + 7) % 7;
+	if (not (0 <= currentSelectingRestSpotMenu && currentSelectingRestSpotMenu < 7))
 	{
 		// Console << U"認識できませんでした";
 		return;
@@ -449,9 +449,9 @@ void Recording::drawButtons()
 		{
 			context.setState(std::make_unique<xc3::Field>());
 		}
-		else if (gameSceneName == U"Camp")
+		else if (gameSceneName == U"RestSpot")
 		{
-			context.setState(std::make_unique<xc3::Camp>());
+			context.setState(std::make_unique<xc3::RestSpot>());
 		}
 		else if (gameSceneName == U"AccessoryMenu")
 		{

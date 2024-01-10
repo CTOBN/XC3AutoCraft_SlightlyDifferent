@@ -2,9 +2,9 @@
 
 namespace xc3
 {
-	class Camp : public State {
+	class RestSpot : public State {
 	public:
-		Camp();
+		RestSpot();
 		void handle(Context& context) override;
 	};
 }

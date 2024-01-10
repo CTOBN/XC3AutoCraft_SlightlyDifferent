@@ -238,20 +238,10 @@ void Title_to_FieldLoading()
 	pushButton(Button::A, BUTTON_INTERVAL);
 }
 
-void Field_to_Camp()
+void Field_to_RestSpot()
 {
 	// ネウロ湖のキャンプ前で[A調べる]
 	pushButton(Button::A, BUTTON_INTERVAL);
-}
-
-void Camp_to_AccessoryMenu()
-{
-	// 休憩ポイントメニューからアクセサリクラフトを選択
-	tiltLeftStick(Stick::MIN, Stick::NEUTRAL, STICK_INTERVAL); // 左スティックを左に傾ける
-	tiltLeftStick(Stick::MIN, Stick::NEUTRAL, STICK_INTERVAL); // 左スティックを左に傾ける
-	tiltLeftStick(Stick::MIN, Stick::NEUTRAL, STICK_INTERVAL); // 左スティックを左に傾ける
-	pushButton(Button::A, BUTTON_INTERVAL);
-	delay(3000);
 }
 
 void AccessorySelected_to_Judge()
@@ -295,8 +285,7 @@ void SystemMenu_to_TitleLoading()
 void (*xc3_macros[])() =
 {
 	Title_to_FieldLoading,
-	Field_to_Camp,
-	Camp_to_AccessoryMenu,
+	Field_to_RestSpot,
 	AccessorySelected_to_Judge,
 	Judge_to_AccessorySelected,
 	GoingMainMenu_to_MainMenu,

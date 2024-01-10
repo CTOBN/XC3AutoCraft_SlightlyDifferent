@@ -7,7 +7,7 @@
 
 # include "Title.hpp"
 # include "Field.hpp"
-# include "Camp.hpp"
+# include "RestSpot.hpp"
 # include "RecognizeItemCount.hpp"
 
 # include "AccessoryTypeSelected.hpp"
@@ -30,7 +30,7 @@ private:
 	HashTable<String, HashTable<String, String>>& Translate = getData().Translate;
 	String AppLanguage = getData().AppLanguage;
 
-	Array<String> CampMenuNames = { U"相談", U"レベルアップ", U"ジェムクラフト", U"料理", U"アクセサリークラフト", U"セーブ", U"クリーニング" };
+	Array<String> RestSpotMenuNames = { U"相談", U"レベルアップ", U"ジェムクラフト", U"料理", U"アクセサリークラフト", U"セーブ", U"クリーニング" };
 
 	const Point ABILITY_TEXT_AREA_POS{ 679, 516 };
 	const Array<Point> clipStatusPosList{ {698, 659}, {841, 659}, {985, 659}, {1128, 659} };
@@ -64,7 +64,7 @@ private:
 
 	double adjust_interval = 8000;
 
-	mutable double campThreshold = 242;
+	mutable double RestSpotThreshold = 242;
 
 	HashTable<uint8, String> commandByteToString = {
 		{ButtonByte::A, U"A"},
@@ -94,8 +94,7 @@ private:
 		{ButtonByte::Left, U"Left"},
 		{ButtonByte::Right, U"Right"},
 		{GameManipulationByte::Title_to_FieldLoading, U"Title_to_FieldLoading"},
-		{GameManipulationByte::Field_to_Camp, U"Field_to_Camp"},
-		{GameManipulationByte::Camp_to_AccessoryMenu, U"Camp_to_AccessoryMenu"},
+		{GameManipulationByte::Field_to_RestSpot, U"Field_to_RestSpot"},
 		{GameManipulationByte::AccessorySelected_to_Judge, U"AccessorySelected_to_Judge"},
 		{GameManipulationByte::Judge_to_AccessorySelected, U"Judge_to_AccessorySelected"},
 		{GameManipulationByte::GoingMainMenu_to_MainMenu, U"GoingMainMenu_to_MainMenu"},
@@ -125,9 +124,7 @@ private:
 
 	AccessoryType recognizeSelectingAccessoryType();
 
-	int8 recognizeSelectingCampMenu();
-
-	int8 recognizeSelectingCampMenuRepeat();
+	int8 recognizeSelectingRestSpotMenu();
 
 	Accessory recognizeAccessory();
 

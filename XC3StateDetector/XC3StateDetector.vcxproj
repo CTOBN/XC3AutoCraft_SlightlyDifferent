@@ -122,7 +122,6 @@
     <ClCompile Include="source\AccessoryType.cpp" />
     <ClCompile Include="source\AccessoryTypeSelected.cpp" />
     <ClCompile Include="source\AccessoryTypeSelecting.cpp" />
-    <ClCompile Include="source\Camp.cpp" />
     <ClCompile Include="source\Common.cpp" />
     <ClCompile Include="source\Context.cpp" />
     <ClCompile Include="source\Field.cpp" />
@@ -138,6 +137,7 @@
     <ClCompile Include="source\Pulldown.cpp" />
     <ClCompile Include="source\RecognizeItemCount.cpp" />
     <ClCompile Include="source\Recording.cpp" />
+    <ClCompile Include="source\RestSpot.cpp" />
     <ClCompile Include="source\Setting.cpp" />
     <ClCompile Include="source\State.cpp" />
     <ClCompile Include="source\StatusBoost.cpp" />
@@ -348,7 +348,6 @@
     <ClInclude Include="include\AccessoryType.hpp" />
     <ClInclude Include="include\AccessoryTypeSelected.hpp" />
     <ClInclude Include="include\AccessoryTypeSelecting.hpp" />
-    <ClInclude Include="include\Camp.hpp" />
     <ClInclude Include="include\Common.hpp" />
     <ClInclude Include="include\Context.hpp" />
     <ClInclude Include="include\Field.hpp" />
@@ -364,6 +363,7 @@
     <ClInclude Include="include\Pulldown.hpp" />
     <ClInclude Include="include\RecognizeItemCount.hpp" />
     <ClInclude Include="include\Recording.hpp" />
+    <ClInclude Include="include\RestSpot.hpp" />
     <ClInclude Include="include\SerialInstruction.hpp" />
     <ClInclude Include="include\Setting.hpp" />
     <ClInclude Include="include\State.hpp" />

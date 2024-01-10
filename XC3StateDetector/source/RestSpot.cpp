@@ -1,14 +1,14 @@
 ﻿#include "State.hpp"
 #include "Context.hpp"
-#include "Camp.hpp"
+#include "RestSpot.hpp"
 #include "RecognizeItemCount.hpp"
 #include "Pause.hpp"
 
 namespace xc3
 {
-	Camp::Camp() : State(U"Camp", 10000) {}
+	RestSpot::RestSpot() : State(U"RestSpot", 10000) {}
 
-	void Camp::handle(Context& context)
+	void RestSpot::handle(Context& context)
 	{
 		if (not hasTransitioned)
 		{
