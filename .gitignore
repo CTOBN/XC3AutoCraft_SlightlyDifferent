@@ -416,3 +416,7 @@ gmon.out
 
 # Intermediate folder
 Intermediate/
+
+# Files included with the application
+**/App/config.ini
+**/App/Screenshots/
