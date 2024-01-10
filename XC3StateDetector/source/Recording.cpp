@@ -218,12 +218,12 @@ void Recording::addAccessory(const Accessory& accessory)
 	RecognizedAccessories.push_back(accessory);
 }
 
-void Recording::recognizeUnknownMatterCount()
+void Recording::recognizeEnigmatterCount()
 {
 	size_t tensPlace = findMostSimilarNumber(UNKOWN_MATTER_NUMBER_TENS_PLACE_POS);
 	size_t onesPlace = findMostSimilarNumber(UNKOWN_MATTER_NUMBER_ONES_PLACE_POS);
-	size_t unknownMatterCount = tensPlace * 10 + onesPlace;
-	context.currentUnknownMatterCount = unknownMatterCount;
+	size_t EnigmatterCount = tensPlace * 10 + onesPlace;
+	context.currentEnigmatterCount = EnigmatterCount;
 }
 
 
@@ -291,13 +291,13 @@ void Recording::selectAccessoryCraft()
 	context.isAccessoryCraftSelected = true;
 }
 
-void Recording::countUnknownMatter()
+void Recording::countEnigmatter()
 {
 	if (context.getCurrentStateName() != U"RecognizeItemCount" || context.isUnkownMatterCountUpdated)
 	{
 		return;
 	}
-	recognizeUnknownMatterCount();
+	recognizeEnigmatterCount();
 	context.isUnkownMatterCountUpdated = true;
 }
 
@@ -360,7 +360,7 @@ void Recording::updateContext()
 		context.request();
 	}
 	selectAccessoryCraft();
-	countUnknownMatter();
+	countEnigmatter();
 	selectAccessoryType();
 	judgeAccessory();
 }
@@ -623,7 +623,7 @@ void Recording::draw() const
 
 	// 現在の状態を表示
 	FontAsset(U"TextFont")(U"{} : {}"_fmt(getData().Translate[AppLanguage][U"Current State"], getData().Translate[AppLanguage][context.getCurrentStateName()])).draw(StateInformationPos);
-	FontAsset(U"TextFont")(U"{} : {}"_fmt(getData().Translate[AppLanguage][U"UnknownMatter"], context.currentUnknownMatterCount)).draw(StateInformationPos.movedBy(0, 30));
+	FontAsset(U"TextFont")(U"{} : {}"_fmt(getData().Translate[AppLanguage][U"Enigmatter"], context.currentEnigmatterCount)).draw(StateInformationPos.movedBy(0, 30));
 	// FontAsset(U"TextFont")(getData().Translate[AppLanguage][context.message]).draw(1150, 510, Palette::Red);
 
 	menuBar.draw();

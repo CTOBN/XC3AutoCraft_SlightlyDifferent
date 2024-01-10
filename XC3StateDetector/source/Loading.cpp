@@ -89,12 +89,12 @@ Loading::Loading(const InitData& init)
 
 	for (int i = 0; i < 10; i++)
 	{
-		String path = UnknownMatterNumbersPath + U"/" + Format(i) + U".jpg";
+		String path = EnigmatterNumbersPath + U"/" + Format(i) + U".jpg";
 		getData().binarizedUnkownMatterNumbers.push_back(Image{ Resource(path) }.thresholded(128));
 		// Console << path << U" を読み込みました";
 	}
-	getData().binarizedUnkownMatterNumbers.push_back(Image{ Resource(U"images/UnknownMatterNumbers/null.jpg") }.thresholded(216));
-	// Console << U"images/UnknownMatterNumbers/null.jpg" << U" を読み込みました";
+	getData().binarizedUnkownMatterNumbers.push_back(Image{ Resource(U"images/EnigmatterNumbers/null.jpg") }.thresholded(216));
+	// Console << U"images/EnigmatterNumbers/null.jpg" << U" を読み込みました";
 
 	for (const auto& GameSceneName : getData().GameSceneNames)
 	{

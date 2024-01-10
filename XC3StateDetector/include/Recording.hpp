@@ -139,13 +139,13 @@ private:
 
 	void selectAccessoryCraft();
 
-	void recognizeUnknownMatterCount();
+	void recognizeEnigmatterCount();
 
 	bool compareAccessories();
 
 	bool completeMission();
 
-	void countUnknownMatter();
+	void countEnigmatter();
 
 	void selectAccessoryType();
 

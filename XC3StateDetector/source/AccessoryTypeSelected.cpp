@@ -18,7 +18,7 @@ namespace xc3
 		}
 		if (isTimeToTransition())
 		{
-			context.currentUnknownMatterCount -= 3;
+			context.currentEnigmatterCount -= 3;
 			context.setState(std::make_unique<Judge>());
 		}
 	}

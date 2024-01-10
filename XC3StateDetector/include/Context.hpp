@@ -18,7 +18,7 @@ namespace xc3
 		String getCurrentStateDescription() const;
 		bool getCurrentStateHasTransitioned() const;
 		Serial& serial;
-		size_t currentUnknownMatterCount = 0;
+		size_t currentEnigmatterCount = 0;
 		bool gotDesiredAccessory = false;
 		bool canMakeAccessory = false;
 		bool isAccessoryCraftSelected = true;

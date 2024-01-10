@@ -20,13 +20,13 @@ namespace xc3
 
 		if (context.isUnkownMatterCountUpdated) // アンノウンマターの数が更新されたなら
 		{
-			if (context.currentUnknownMatterCount >= 3) // アクセサリを作れる
+			if (context.currentEnigmatterCount >= 3) // アクセサリを作れる
 			{
 				context.setState(std::make_unique<AccessoryTypeSelecting>());
 			}
 			else // アクセサリを作れないなら一時中断
 			{
-				context.message = U"Lack of UnknownMatter";
+				context.message = U"Lack of Enigmatter";
 				context.setState(std::make_unique<Pause>());
 			}
 		}

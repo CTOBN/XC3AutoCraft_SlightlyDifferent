@@ -24,7 +24,7 @@ namespace xc3
 		{
 			context.setState(std::make_unique<GotDesiredAcc>());
 		}
-		else if (context.currentUnknownMatterCount >= 3) // アクセサリを作れる
+		else if (context.currentEnigmatterCount >= 3) // アクセサリを作れる
 		{
 			context.serial.writeByte(GameManipulationByte::Judge_to_AccessorySelected);
 			context.setState(std::make_unique<AccessoryTypeSelected>());
