@@ -15,6 +15,8 @@ struct GameData
 	Array<Image> binarizedAccessoryTypes;
 	Array<Image> binarizedEnigmatterNumbers;
 	Array<Image> binarizedGameScenes;
+	Array<Image> binarizedRestSpotMenus;
+	Array<String> RestSpotMenus = { U"Discuss", U"LevelUp", U"CraftGems", U"Cook", U"CraftAccessories", U"Save", U"CleanClothes" };
 	Array<String> GameSceneNames = { U"Undefined", U"Title", U"Field", U"Camp", U"AccessoryMenu" };
 	Serial serial;
 	size_t serialIndex = 0;

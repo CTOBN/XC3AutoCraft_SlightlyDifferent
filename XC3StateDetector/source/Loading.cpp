@@ -76,6 +76,13 @@ Loading::Loading(const InitData& init)
 		// Console << path << U" を読み込みました";
 	}
 
+	for (size_t i = 0; i < 7; i++)
+	{
+		String path = RestSpotMenuFolderPath + U"/" + U"ja-JP" + U"/" + getData().RestSpotMenus[i] + U".jpg";
+		getData().binarizedRestSpotMenus.push_back(Image{ Resource(path) }.thresholded(128));
+		// Console << path << U" を読み込みました";
+	}
+
 	for (String statusIconFileName : StatusTypeStringListEnglish)
 	{
 		if (statusIconFileName == U"Anything") continue;

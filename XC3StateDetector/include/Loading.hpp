@@ -18,6 +18,7 @@ private:
 	const String AccessoryTypeFolderPath = U"images/AccessoryType";
 	const String EnigmatterNumbersPath = U"images/EnigmatterNumbers";
 	const String GameScenesFolderPath = U"images/GameScenes";
+	const String RestSpotMenuFolderPath = U"images/RestSpotMenu";
 	Array<String> descriptionsImagesPathList;
 	Array<String> statusIconsPathList;
 	const Polygon diamond{ Vec2{ 10, 0 }, Vec2{ 55, 0 }, Vec2{ 65, 15 },

@@ -159,44 +159,22 @@ AccessoryType Recording::recognizeSelectingAccessoryType()
 int8 Recording::recognizeSelectingCampMenu()
 {
 	webcam.getFrame(image);
-	Array<Point> clipPosList = { { 535, 780 }, { 669, 796 }, { 820, 787 }, { 959, 807}, { 1098, 807 }, { 1211, 792 }, { 1372, 797 } };
-	Point clipSize = { 1, 1 };
-	uint8 threshold = 242;
-	int8 judgedCampMenu = -1;
+	Point clipPos = { 936, 881 };
+	Point clipSize = { 48, 48 };
+	uint8 threshold = 128;
+	int8 judgedCampMenu = 0;
+	double similarityMax = 0;
+	Image clippedImage = image.clipped(clipPos, clipSize).thresholded(threshold);
 	for (size_t i = 0; i < 7; i++)
 	{
-		Image clippedImage = image.clipped(clipPosList[i], clipSize).thresholded(threshold);
-		//　切り抜かれた画像の0, 0の位置の色が白なら、そのメニューが選択されている
-		if (clippedImage[0][0] == Color(255, 255, 255))
+		double similarity = calculateSimilarity(clippedImage, getData().binarizedRestSpotMenus[i]);
+		if (similarity > similarityMax)
 		{
+			similarityMax = similarity;
 			judgedCampMenu = i;
 		}
 	}
 	return judgedCampMenu;
-}
-
-// メニュー項目が点滅しているので2秒間計10回、recognizeSelectingCampMenuを繰り返し呼び出して、最大値を返す
-int8 Recording::recognizeSelectingCampMenuRepeat()
-{
-	Array<int8> menuSelections;
-	int8 repeatTimes = 10;
-
-	for (int i = 0; i < repeatTimes; ++i) {
-		int8 selectedMenu = recognizeSelectingCampMenu();
-		menuSelections.push_back(selectedMenu);
-		// Assuming 1 second delay between each capture
-		std::this_thread::sleep_for(std::chrono::milliseconds(200));
-	}
-
-	// Find the maximum selected menu
-	int8 maxMenu = -1;
-	for (int i = 0; i < menuSelections.size(); ++i) {
-		if (menuSelections[i] > maxMenu) {
-			maxMenu = menuSelections[i];
-		}
-	}
-
-	return maxMenu;
 }
 
 Accessory Recording::recognizeAccessory()
@@ -207,10 +185,6 @@ Accessory Recording::recognizeAccessory()
 	recognizedAccessory.setStatusBoosts(judgedStatusBoosts);
 	return recognizedAccessory;
 }
-
-
-
-
 
 void Recording::addAccessory(const Accessory& accessory)
 {
@@ -266,7 +240,7 @@ void Recording::selectAccessoryCraft()
 	{
 		return;
 	}
-	int8 currentSelectingCampMenu = recognizeSelectingCampMenuRepeat();
+	int8 currentSelectingCampMenu = recognizeSelectingCampMenu();
 	int8 RightCount = (4 - currentSelectingCampMenu + 7) % 7;
 	int8 LeftCount = (currentSelectingCampMenu - 4 + 7) % 7;
 	if (not (0 <= currentSelectingCampMenu && currentSelectingCampMenu < 7))
