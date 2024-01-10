@@ -1,0 +1,66 @@
+﻿key,en-US,ja-JP
+Now Loading,Now Loading,読み込み中
+File,File,ファイル
+Open CSV File,Open CSV File,CSVファイルを開く
+Save As,Save As,名前を付けて保存
+Exit,Exit,アプリを終了する
+Configuration,Configuration,環境設定
+Toast notification upon completion,Toast notification upon completion,完成時にトースト通知する
+Change the save destination of the screenshot,Change the save destination of the screenshot,スクリーンショットの保存先を変更
+Help,Help,ヘルプ
+Web Document,Web Document,Webマニュアル
+License Information,License Information,ライセンス情報
+Desired accessories,Desired accessories,希望のアクセサリー
+Special Effects,Special Effects,特殊効果
+Status,Status,ｽﾃｰﾀｽ
+Compatibility,Compat,互換
+Sum,Sum,合計
+Desire all accessories to have the same type of status regardless of special effects (Option),Desire all accessories to have the same type of status regardless of special effects (Option),特殊効果にかかわらず全て同じ種類のステータスのアクセサリを希望する (オプション)
+Select the type of accessory you want to make,Select the type of accessory you want to make,作るアクセサリの種類を選択してください
+There is a 0% chance that the desired accessory will be available,There is a 0% chance that the desired accessory will be available,目的のアクセサリーが出る可能性は0%です
+HDMI Capture,HDMI Capture,HDMIキャプチャー
+Please select a HDMI Capture,Please select a HDMI Capture,HDMIキャプチャーを選択してください
+Serial Port,Serial Port,シリアルポート
+Please select a Serial Port,Please select a Serial Port,シリアルポートを選択してください
+Connection test available(Option)→,Connection test available(Option)→,接続テストが可能です(オプション)→
+Serial connection test,Serial connection test,シリアル接続テスト
+Serial Port connection succeeded,Serial Port connection succeeded,シリアルポートの接続に成功しました
+Serial Port connection failed,Serial Port connection failed,シリアルポートの接続に失敗しました
+Unselected,Unselected,未選択
+Anything,Anything,任意
+Bracelet,Bracelet,腕輪
+Ring,Ring,指輪
+Necklace,Necklace,首飾り
+Crown,Crown,冠
+Unable to proceed,Unable to proceed,次に進めません
+Next,Next,次へ
+HDMI Capture is preparing,HDMI Capture is preparing,HDMIキャプチャーを準備しています
+Current State,Current State,現在の状態
+UnknownMatter,UnknownMatter,ｱﾝﾉｳﾝﾏﾀｰ
+Undefined,Undefined,未定義
+TitleLoading,TitleLoading,タイトル画面をローディング中
+Title,Title,タイトル画面
+FieldLoading,Loading Field,フィールドをローディング中
+Field,Field,フィールド
+Camp,Camp,休憩ポイント
+RecognizeItemCount,Recognizing UnknownMatter,アンノウンマターの数を認識しています
+AccessoryTypeSelecting,AccessoryTypeSelecting,アクセサリの種類を選択しています,
+AccessoryTypeSelected,AccessoryTypeSelected,アクセサリ選択画面
+Judge,Judging Accessory,アクセサリーを判断しています
+GotDesiredAcc,You got desired Accessory,目的のアクセサリを手に入れました
+GoingMainMenu,Opening Main Menu,メインメニューを開いています
+MainMenu,Main Menu,メインメニュー
+SystemMenu,System Menu,システムメニュー
+Pause,Pause,一時中断,
+Connect Virtual JoyCon,Connect Virtual JoyCon,仮想コントローラ接続
+3 times A Button,3 times A Button,3回Aボタンを押す
+Start Auto Craft,Start Auto Craft,自動クラフト開始
+Stop Auto Craft,Stop Auto Craft,自動クラフト停止
+Go to Setting,Go to Setting,設定画面へ
+Take Screenshot,Take Screenshot,スクリーンショットを撮る
+Folder,Folder,保存先
+Tweet,Tweet,ツイート
+You got desired Accessory,You got desired Accessory,目的のアクセサリを手に入れました
+Game scene could not be recognized,Game scene could not be recognized,ゲームシーンが認識できませんでした
+Lack of UnknownMatter,Lack of UnknownMatter,アンノウンマターが足りません
+Failed to get cursor for break point,Failed to get cursor for break point,休憩ポイントのカーソル取得に失敗しました
