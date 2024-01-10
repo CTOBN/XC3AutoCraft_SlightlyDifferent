@@ -275,10 +275,8 @@ void Setting::serialUpdate()
 	else
 	{
 		getData().serial = Serial{};
-		serialSelectionStatus = Translate[AppLanguage][U"Please select a serial port"];
+		serialSelectionStatus = Translate[AppLanguage][U"Please select a Serial Port"];
 		serialSelectionStatusColor = Palette::Red;
-
-		serialConnectionStatus = U"";
 	}
 }
 

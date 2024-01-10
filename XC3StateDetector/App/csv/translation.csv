@@ -42,7 +42,7 @@ TitleLoading,TitleLoading,タイトル画面をローディング中
 Title,Title,タイトル画面
 FieldLoading,Loading Field,フィールドをローディング中
 Field,Field,フィールド
-Camp,Camp,休憩ポイント
+RestSpot,RestSpot,休憩ポイント
 RecognizeItemCount,Recognizing UnknownMatter,アンノウンマターの数を認識しています
 AccessoryTypeSelecting,AccessoryTypeSelecting,アクセサリの種類を選択しています,
 AccessoryTypeSelected,AccessoryTypeSelected,アクセサリ選択画面
