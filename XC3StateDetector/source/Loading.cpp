@@ -8,10 +8,14 @@ Loading::Loading(const InitData& init)
 		throw Error { U"Failed to load `config.ini`" };
 	}
 	getData().AppLanguage = Parse<String>(getData().ini[U"Language.AppLanguage"]);
+	getData().GameLanguage = Parse<String>(getData().ini[U"Language.GameLanguage"]);
 	getData().ScreenshotFolderPath = Parse<String>(getData().ini[U"Screenshot.FolderPath"]);
 	getData().ScreenshotDateFormat = Parse<String>(getData().ini[U"Screenshot.DateFormat"]);
 	getData().ScreenshotFileFormat = Parse<String>(getData().ini[U"Screenshot.FileFormat"]);
 	getData().enableToastNotification = Parse<bool>(getData().ini[U"Notification.enableToastNotification"]);
+
+	String AppLanguage  = getData().AppLanguage;
+	String GameLanguage = getData().GameLanguage;
 
 
 	if (not TranslationCSV) // もし読み込みに失敗したら
@@ -70,15 +74,14 @@ Loading::Loading(const InitData& init)
 
 	for (uint16 i = 3428; i <= 3913; i += 5)
 	{
-		String path = descriptionJapaneseTemplateFolderPath + U"/" + Format(i) + U".jpg";
-		descriptionsImagesPathList.push_back(path);
-		getData().binarizedAbilities.push_back(Image{ path }.thresholded(128));
+		String path = SpecialEffectFolderPath + U"/" + GameLanguage + U"/" + Format(i) + U".jpg";
+		getData().binarizedSpecialEffects.push_back(Image{ path }.thresholded(128));
 		// Console << path << U" を読み込みました";
 	}
 
 	for (size_t i = 0; i < 7; i++)
 	{
-		String path = RestSpotMenuFolderPath + U"/" + U"ja-JP" + U"/" + getData().RestSpotMenus[i] + U".jpg";
+		String path = RestSpotMenuFolderPath + U"/" + GameLanguage + U"/" + getData().RestSpotMenus[i] + U".jpg";
 		getData().binarizedRestSpotMenus.push_back(Image{ Resource(path) }.thresholded(128));
 		// Console << path << U" を読み込みました";
 	}
@@ -113,7 +116,7 @@ Loading::Loading(const InitData& init)
 
 	for (const auto& GameSceneName : getData().GameSceneNames)
 	{
-		String path = GameScenesFolderPath + U"/" + GameSceneName + U".jpg";
+		String path = GameScenesFolderPath + U"/" + GameLanguage + U"/" + GameSceneName + U".jpg";
 		getData().binarizedGameScenes.push_back(Image{ Resource(path) }.thresholded(216));
 		// Console << path << U" を読み込みました";
 	}

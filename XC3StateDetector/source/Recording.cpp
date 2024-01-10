@@ -92,9 +92,9 @@ size_t Recording::findMostSimilarAbility() {
 	String judgedAbilityName = U"認識不可";
 	double similarityMax = 0;
 	Image clippedImage = image.clipped(ABILITY_TEXT_AREA_POS, ABILITY_TEXI_AREA_SIZE).thresholded(128);
-	for (size_t i = 0; i < getData().binarizedAbilities.size(); i++)
+	for (size_t i = 0; i < getData().binarizedSpecialEffects.size(); i++)
 	{
-		Image binarizedAbility = getData().binarizedAbilities[i];
+		Image binarizedAbility = getData().binarizedSpecialEffects[i];
 
 		double similarity = calculateSimilarity(clippedImage, binarizedAbility);
 		if (similarity > similarityMax)
@@ -453,7 +453,7 @@ void Recording::drawButtons()
 		{
 			context.setState(std::make_unique<xc3::RestSpot>());
 		}
-		else if (gameSceneName == U"AccessoryMenu")
+		else if (gameSceneName == U"CraftAccessories")
 		{
 			context.setState(std::make_unique<xc3::RecognizeItemCount>());
 		}

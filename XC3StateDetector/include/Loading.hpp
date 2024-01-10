@@ -13,13 +13,12 @@ public:
 private:
 	const CSV AccessoryCSV{ Resource(U"csv/accessory.csv") };
 	const CSV TranslationCSV{ Resource(U"csv/translation.csv") };
-	const String descriptionJapaneseTemplateFolderPath = U"images/Xenoblade3_Temp_Jp";
+	const String SpecialEffectFolderPath = U"images/SpecialEffect";
 	const String statusIconsFolderPath = U"images/StatusType";
 	const String AccessoryTypeFolderPath = U"images/AccessoryType";
 	const String EnigmatterNumbersPath = U"images/EnigmatterNumbers";
 	const String GameScenesFolderPath = U"images/GameScenes";
 	const String RestSpotMenuFolderPath = U"images/RestSpotMenu";
-	Array<String> descriptionsImagesPathList;
 	Array<String> statusIconsPathList;
 	const Polygon diamond{ Vec2{ 10, 0 }, Vec2{ 55, 0 }, Vec2{ 65, 15 },
 	Vec2{ 50, 35 }, Vec2{ 15, 35 }, Vec2{ 0, 15 } };

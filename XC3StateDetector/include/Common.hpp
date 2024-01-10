@@ -9,7 +9,7 @@ struct GameData
 	uint32 cameraIndex = 0;
 	String cameraName;
 	Array<Accessory> desiredAccessories;
-	Array<Image> binarizedAbilities;
+	Array<Image> binarizedSpecialEffects;
 	Array<Image> icons;
 	Array<Image> binarizedIcons;
 	Array<Image> binarizedAccessoryTypes;
@@ -17,7 +17,7 @@ struct GameData
 	Array<Image> binarizedGameScenes;
 	Array<Image> binarizedRestSpotMenus;
 	Array<String> RestSpotMenus = { U"Discuss", U"LevelUp", U"CraftGems", U"Cook", U"CraftAccessories", U"Save", U"CleanClothes" };
-	Array<String> GameSceneNames = { U"Undefined", U"Title", U"Field", U"RestSpot", U"AccessoryMenu" };
+	Array<String> GameSceneNames = { U"Undefined", U"Title", U"Field", U"RestSpot", U"CraftAccessories" };
 	Serial serial;
 	size_t serialIndex = 0;
 	String serialName;
@@ -34,6 +34,7 @@ struct GameData
 	INI ini{ U"config.ini" };
 
 	String AppLanguage;
+	String GameLanguage;
 	bool enableToastNotification = true;
 	String ScreenshotFolderPath;
 	String ScreenshotDateFormat;
