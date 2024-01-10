@@ -122,6 +122,11 @@ Resource(engine/soundfont/GMGSx.sf2.zstdcmp)
 Resource(csv/accessory.csv)
 Resource(csv/translation.csv)
 
+Resource(images/AccessoryType/Bangle.jpg)
+Resource(images/AccessoryType/Collar.jpg)
+Resource(images/AccessoryType/Ring.jpg)
+Resource(images/AccessoryType/Tiara.jpg)
+
 Resource(images/Xenoblade3_Temp_Jp/3428.jpg)
 Resource(images/Xenoblade3_Temp_Jp/3433.jpg)
 Resource(images/Xenoblade3_Temp_Jp/3438.jpg)

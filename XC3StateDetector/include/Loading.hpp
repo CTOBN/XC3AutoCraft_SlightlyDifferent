@@ -15,6 +15,7 @@ private:
 	const CSV TranslationCSV{ Resource(U"csv/translation.csv") };
 	const String descriptionJapaneseTemplateFolderPath = U"images/Xenoblade3_Temp_Jp";
 	const String statusIconsFolderPath = U"images/StatusType";
+	const String AccessoryTypeFolderPath = U"images/AccessoryType";
 	const String EnigmatterNumbersPath = U"images/EnigmatterNumbers";
 	const String GameScenesFolderPath = U"images/GameScenes";
 	Array<String> descriptionsImagesPathList;

@@ -82,7 +82,7 @@ namespace xc3
 		gotDesiredAccessory = false;
 		canMakeAccessory = false;
 		isJudged = true;
-		isUnkownMatterCountUpdated = true;
+		isEnigmatterCountUpdated = true;
 		isAccessoryTypeSelected = true;
 		isAccessoryCraftSelected = true;
 	}

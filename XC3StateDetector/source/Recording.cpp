@@ -44,9 +44,9 @@ size_t Recording::findMostSimilarNumber(const Point pos)
 	webcam.getFrame(image);
 
 	Image clippedImage = image.clipped(pos, UNKOWN_MATTER_NUMBER_SIZE).thresholded(128);
-	for (size_t i = 0; i < getData().binarizedUnkownMatterNumbers.size(); i++)
+	for (size_t i = 0; i < getData().binarizedEnigmatterNumbers.size(); i++)
 	{
-		Image binarizedNumber = getData().binarizedUnkownMatterNumbers[i];
+		Image binarizedNumber = getData().binarizedEnigmatterNumbers[i];
 
 		double similarity = calculateSimilarity(clippedImage, binarizedNumber);
 		if (similarity > similarityMax)
@@ -138,16 +138,18 @@ String Recording::findMostSimilarGameScene()
 AccessoryType Recording::recognizeSelectingAccessoryType()
 {
 	webcam.getFrame(image);
-	Array<Point> clipPosList = { { 237, 415 }, {237, 495 }, { 237, 575 }, {237, 655} };
-	Point clipSize = { 1, 1 };
-	uint8 threshold = 150;
+	Point clipPos = { 1152, 174 };
+	Point clipSize = { 56, 56 };
+	uint8 threshold = 128;
 	AccessoryType judgedAccessoryType = AccessoryType::Undefined;
+	double similarityMax = 0;
+	Image clippedImage = image.clipped(clipPos, clipSize).thresholded(threshold);
 	for (size_t i = 0; i < 4; i++)
 	{
-		Image clippedImage = image.clipped(clipPosList[i], clipSize).thresholded(threshold);
-		//　切り抜かれた画像の0, 0の位置の色が白なら、そのアクセサリが選択されている
-		if (clippedImage[0][0] == Color(255, 255, 255))
+		double similarity = calculateSimilarity(clippedImage, getData().binarizedAccessoryTypes[i]);
+		if (similarity > similarityMax)
 		{
+			similarityMax = similarity;
 			judgedAccessoryType = static_cast<AccessoryType>(i + 1);
 		}
 	}
@@ -293,12 +295,12 @@ void Recording::selectAccessoryCraft()
 
 void Recording::countEnigmatter()
 {
-	if (context.getCurrentStateName() != U"RecognizeItemCount" || context.isUnkownMatterCountUpdated)
+	if (context.getCurrentStateName() != U"RecognizeItemCount" || context.isEnigmatterCountUpdated)
 	{
 		return;
 	}
 	recognizeEnigmatterCount();
-	context.isUnkownMatterCountUpdated = true;
+	context.isEnigmatterCountUpdated = true;
 }
 
 void Recording::selectAccessoryType()
@@ -309,11 +311,22 @@ void Recording::selectAccessoryType()
 	}
 	AccessoryType currentSelectingAccessoryType = recognizeSelectingAccessoryType();
 	AccessoryType desiredAccessoryType = getData().selectedAccessoryType;
+	int8 UpCount = (static_cast<int8>(currentSelectingAccessoryType) - static_cast<int8>(desiredAccessoryType) + 4) % 4;
 	int8 DownCount = (static_cast<int8>(desiredAccessoryType) - static_cast<int8>(currentSelectingAccessoryType) + 4) % 4;
-	// Console << U"DownCount " << DownCount;
-	for (int i = 0; i < DownCount; i++)
+	
+	if (UpCount < DownCount)
 	{
-		getData().serial.writeByte(ButtonByte::LStickDown);
+		for (int i = 0; i < UpCount; i++)
+		{
+			getData().serial.writeByte(ButtonByte::LStickUp);
+		}
+	}
+	else
+	{
+		for (int i = 0; i < DownCount; i++)
+		{
+			getData().serial.writeByte(ButtonByte::LStickDown);
+		}
 	}
 	context.isAccessoryTypeSelected = true;
 }

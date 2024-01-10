@@ -87,13 +87,21 @@ Loading::Loading(const InitData& init)
 		// Console << path << U" を読み込みました";
 	}
 
+	for (size_t i = 0; i < 4; i++)
+	{
+		String accessoryTypeFileName = AccessoryTypeToNameEN.at(static_cast<AccessoryType>(i + 1));
+		String path = AccessoryTypeFolderPath + U"/" + accessoryTypeFileName + U".jpg";
+		getData().binarizedAccessoryTypes.push_back(Image{ Resource(path) }.thresholded(128));
+		// Console << path << U" を読み込みました";
+	}
+
 	for (int i = 0; i < 10; i++)
 	{
 		String path = EnigmatterNumbersPath + U"/" + Format(i) + U".jpg";
-		getData().binarizedUnkownMatterNumbers.push_back(Image{ Resource(path) }.thresholded(128));
+		getData().binarizedEnigmatterNumbers.push_back(Image{ Resource(path) }.thresholded(128));
 		// Console << path << U" を読み込みました";
 	}
-	getData().binarizedUnkownMatterNumbers.push_back(Image{ Resource(U"images/EnigmatterNumbers/null.jpg") }.thresholded(216));
+	getData().binarizedEnigmatterNumbers.push_back(Image{ Resource(U"images/EnigmatterNumbers/null.jpg") }.thresholded(216));
 	// Console << U"images/EnigmatterNumbers/null.jpg" << U" を読み込みました";
 
 	for (const auto& GameSceneName : getData().GameSceneNames)

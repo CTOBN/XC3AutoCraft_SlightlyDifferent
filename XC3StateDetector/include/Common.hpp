@@ -12,7 +12,8 @@ struct GameData
 	Array<Image> binarizedAbilities;
 	Array<Image> icons;
 	Array<Image> binarizedIcons;
-	Array<Image> binarizedUnkownMatterNumbers;
+	Array<Image> binarizedAccessoryTypes;
+	Array<Image> binarizedEnigmatterNumbers;
 	Array<Image> binarizedGameScenes;
 	Array<String> GameSceneNames = { U"Undefined", U"Title", U"Field", U"Camp", U"AccessoryMenu" };
 	Serial serial;

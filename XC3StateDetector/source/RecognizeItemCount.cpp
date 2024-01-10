@@ -14,11 +14,11 @@ namespace xc3
 		{
 			transitionTime = Time::GetMillisec();
 			hasTransitioned = true;
-			context.isUnkownMatterCountUpdated = false;
+			context.isEnigmatterCountUpdated = false;
 		}
 		if (not isTimeToTransition()) return; // 2秒経過していないなら何もしない
 
-		if (context.isUnkownMatterCountUpdated) // アンノウンマターの数が更新されたなら
+		if (context.isEnigmatterCountUpdated) // アンノウンマターの数が更新されたなら
 		{
 			if (context.currentEnigmatterCount >= 3) // アクセサリを作れる
 			{

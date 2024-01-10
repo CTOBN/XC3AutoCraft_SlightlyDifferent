@@ -22,7 +22,7 @@ namespace xc3
 		bool gotDesiredAccessory = false;
 		bool canMakeAccessory = false;
 		bool isAccessoryCraftSelected = true;
-		bool isUnkownMatterCountUpdated = true;
+		bool isEnigmatterCountUpdated = true;
 		bool isAccessoryTypeSelected = true;
 		bool isJudged = true;
 
