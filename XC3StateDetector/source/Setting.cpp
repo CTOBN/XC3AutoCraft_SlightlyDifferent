@@ -63,6 +63,7 @@ Setting::Setting(const InitData& init)
 	};
 
 	openableListBoxCamera.setItems(webcams);
+	openableListBoxCamera.setIndexFromItem(getData().HDMICapture);
 
 	for (const auto& info : getData().infos)
 	{
@@ -72,6 +73,7 @@ Setting::Setting(const InitData& init)
 	}
 
 	openableListBoxSerial.setItems(options);
+	openableListBoxSerial.setIndexFromItem(getData().SerialPort);
 
 	desiredAccessories_to_pullDowns();
 
