@@ -22,8 +22,8 @@ Config::Config(const InitData& init)
 
 	for (int i = 0; i < LanguageSelection.size(); ++i)
 	{
-		OpenableListBoxAppLanguage.emplace_back(Translate[AppLanguage][LanguageSelection[i]]);
-		OpenableListBoxGameLanguage.emplace_back(Translate[AppLanguage][LanguageSelection[i]]);
+		openableListBoxAppLanguage.emplace_back(Translate[AppLanguage][LanguageSelection[i]]);
+		openableListBoxGameLanguage.emplace_back(Translate[AppLanguage][LanguageSelection[i]]);
 	}
 
 	size_t AppLanguageIndex = 0;
@@ -35,7 +35,7 @@ Config::Config(const InitData& init)
 			break;
 		}
 	}
-	OpenableListBoxAppLanguage.setIndex(AppLanguageIndex);
+	openableListBoxAppLanguage.setIndex(AppLanguageIndex);
 
 	size_t GameLanguageIndex = 0;
 	for (size_t i = 0; i < LanguageSelection.size(); ++i)
@@ -46,49 +46,49 @@ Config::Config(const InitData& init)
 			break;
 		}
 	}
-	OpenableListBoxGameLanguage.setIndex(GameLanguageIndex);
+	openableListBoxGameLanguage.setIndex(GameLanguageIndex);
 
 	for (const auto& info : System::EnumerateWebcams())
 	{
-		OpenableListBoxHDMICapture.emplace_back(info.name);
+		openableListBoxHDMICapture.emplace_back(info.name);
 	};
-	OpenableListBoxHDMICapture.setIndexFromItem(HDMICapture);
+	openableListBoxHDMICapture.setIndexFromItem(HDMICapture);
 
 	for (const auto& info : System::EnumerateSerialPorts())
 	{
-		OpenableListBoxSerialPort.emplace_back(U"{} {}"_fmt(info.hardwareID, info.description));
+		openableListBoxSerialPort.emplace_back(U"{} {}"_fmt(info.hardwareID, info.description));
 	}
-	OpenableListBoxSerialPort.setIndexFromItem(getData().SerialPort);
+	openableListBoxSerialPort.setIndexFromItem(getData().SerialPort);
 
-	for (int i = 0; i < ScreenshotDateFormatSelection.size(); ++i)
+	for (int i = 0; i < screenshotDateFormatSelection.size(); ++i)
 	{
-		OpenableListBoxScreenshotDateFormat.emplace_back(ScreenshotDateFormatSelection[i]);
+		openableListBoxScreenshotDateFormat.emplace_back(screenshotDateFormatSelection[i]);
 	}
-	OpenableListBoxScreenshotDateFormat.setIndexFromItem(getData().ScreenshotDateFormat);
+	openableListBoxScreenshotDateFormat.setIndexFromItem(getData().ScreenshotDateFormat);
 
-	for (int i = 0; i < ScreenshotFileFormatSelection.size(); ++i)
+	for (int i = 0; i < screenshotFileFormatSelection.size(); ++i)
 	{
-		OpenableListBoxScreenshotFileFormat.emplace_back(ScreenshotFileFormatSelection[i]);
+		openableListBoxScreenshotFileFormat.emplace_back(screenshotFileFormatSelection[i]);
 	}
-	OpenableListBoxScreenshotFileFormat.setIndexFromItem(getData().ScreenshotFileFormat);
+	openableListBoxScreenshotFileFormat.setIndexFromItem(getData().ScreenshotFileFormat);
 
 	ScreenshotFileNameTextEditState.text = getData().ScreenshotFileName;
 }
 
 void Config::update()
 {
-	OpenableListBoxScreenshotFileFormat.update();
-	OpenableListBoxScreenshotDateFormat.update();
-	OpenableListBoxSerialPort.update();
-	OpenableListBoxHDMICapture.update();
-	OpenableListBoxGameLanguage.update();
-	OpenableListBoxAppLanguage.update();
-	AppLanguage = LanguageSelection[OpenableListBoxAppLanguage.getSelectedIndex()];
-	GameLanguage = LanguageSelection[OpenableListBoxGameLanguage.getSelectedIndex()];
-	HDMICapture = OpenableListBoxHDMICapture.getSelectedItem();
-	SerialPort = OpenableListBoxSerialPort.getSelectedItem();
-	ScreenshotDateFormat = OpenableListBoxScreenshotDateFormat.getSelectedItem();
-	ScreenshotFileFormat = OpenableListBoxScreenshotFileFormat.getSelectedItem();
+	openableListBoxScreenshotFileFormat.update();
+	openableListBoxScreenshotDateFormat.update();
+	openableListBoxSerialPort.update();
+	openableListBoxHDMICapture.update();
+	openableListBoxGameLanguage.update();
+	openableListBoxAppLanguage.update();
+	AppLanguage = LanguageSelection[openableListBoxAppLanguage.getSelectedIndex()];
+	GameLanguage = LanguageSelection[openableListBoxGameLanguage.getSelectedIndex()];
+	HDMICapture = openableListBoxHDMICapture.getSelectedItem();
+	SerialPort = openableListBoxSerialPort.getSelectedItem();
+	ScreenshotDateFormat = openableListBoxScreenshotDateFormat.getSelectedItem();
+	ScreenshotFileFormat = openableListBoxScreenshotFileFormat.getSelectedItem();
 	if (reload)
 	{
 		changeScene(U"Config");
@@ -112,8 +112,8 @@ void Config::draw() const
 	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"Notification Enable Toast"]).draw(notificationToastPos);
 	SimpleGUI::CheckBox(desireConsecutiveStatus, Translate[AppLanguage][U"Desire all accessories to have the same type of status regardless of special effects (Option)"], consecutiveStatusPos);
 	SimpleGUI::CheckBox(enableToastNotification, Translate[AppLanguage][U"Toast notification upon completion"], notificationToastPos);
-	OpenableListBoxScreenshotDateFormat.draw();
-	OpenableListBoxScreenshotFileFormat.draw();
+	openableListBoxScreenshotDateFormat.draw();
+	openableListBoxScreenshotFileFormat.draw();
 
 	if (SimpleGUI::Button(Translate[AppLanguage][U"Change the save CSV folder"], accessoryCSVFolderPathPos))
 	{
@@ -142,15 +142,15 @@ void Config::draw() const
 		}
 	}
 
-	if (SimpleGUI::TextBox(ScreenshotFileNameTextEditState, screenshotFileNamePos, ScreenshotFileNameTextWidth, ScreenshotFileNameMaxCharacters))
+	if (SimpleGUI::TextBox(ScreenshotFileNameTextEditState, screenshotFileNamePos, screenshotFileNameTextWidth, screenshotFileNameMaxCharacters))
 	{
 		ScreenshotFileName = ScreenshotFileNameTextEditState.text;
 	}
 
-	OpenableListBoxSerialPort.draw();
-	OpenableListBoxHDMICapture.draw();
-	OpenableListBoxGameLanguage.draw();
-	OpenableListBoxAppLanguage.draw();
+	openableListBoxSerialPort.draw();
+	openableListBoxHDMICapture.draw();
+	openableListBoxGameLanguage.draw();
+	openableListBoxAppLanguage.draw();
 
 	if (SimpleGUI::Button(Translate[AppLanguage][U"Apply"], applyButtonPos))
 	{
