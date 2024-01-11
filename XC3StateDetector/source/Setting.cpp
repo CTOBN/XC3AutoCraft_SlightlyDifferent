@@ -132,7 +132,7 @@ void Setting::csvFileToDesiredAccessories(FilePathView path)
 		for (size_t j = 0; j < Accessory::getSpecialEffectList(U"en-US").size(); j++)
 		{
 			if ((Accessory::getSpecialEffectList(U"en-US")[j] == csv.get<String>(i, 0))
-			 || (Accessory::getSpecialEffectList(U"en-US")[j] == csv.get<String>(i, 0)))
+			 || (Accessory::getSpecialEffectList(U"ja-JP")[j] == csv.get<String>(i, 0)))
 			{
 				index = j;
 				break;
