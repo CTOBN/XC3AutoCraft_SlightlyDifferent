@@ -363,43 +363,29 @@ void Setting::update()
 
 	if (const auto& item = menuBar.update())
 	{
-		if (item == MenuBarItemIndex{ 1, 0 })
+		// 「環境設定」が押されたら
+		if (item == MenuBarItemIndex{ 0, 0 })
 		{
-			// チェック状態を反転する
-			menuBar.setItemChecked(*item, (not menuBar.getItemChecked(*item)));
-			getData().enableToastNotification = menuBar.getItemChecked(MenuBarItemIndex{ 1, 0 });
-			getData().ini[U"Notification.enableToastNotification"] = getData().enableToastNotification;
-			getData().ini.save(U"config.ini");
+			assignDesiredAccessories();
+			changeScene(U"Config");
+		}
+
+		// 「終了」が押されたら
+		if (item == MenuBarItemIndex{ 0, 1 })
+		{
+			System::Exit();
 		}
 
 		// 「開く」が押されたら
-		if (item == MenuBarItemIndex{ 0, 0 })
+		if (item == MenuBarItemIndex{ 1, 0 })
 		{
 			openDesiredAccessories();
 		}
 
 		// 「名前を付けて保存」が押されたら
-		if (item == MenuBarItemIndex{ 0, 1 })
-		{
-			saveDesiredAccessories();
-		}
-
-		// 「スクリーンショットの保存先を変更」が押されたら
 		if (item == MenuBarItemIndex{ 1, 1 })
 		{
-			const auto result = Dialog::SelectFolder(getData().ScreenshotFolderPath);
-			if (result)
-			{
-				getData().ScreenshotFolderPath = result.value();
-				getData().ini[U"Screenshot.FolderPath"] = getData().ScreenshotFolderPath;
-				getData().ini.save(U"config.ini");
-			}
-		}
-
-		// 「終了」が押されたら
-		if (item == MenuBarItemIndex{ 0, 2 })
-		{
-			System::Exit();
+			saveDesiredAccessories();
 		}
 
 		// Webマニュアルが押されたら
@@ -409,7 +395,7 @@ void Setting::update()
 		}
 
 		// 「ライセンス情報」が押されたら
-		if (item == MenuBarItemIndex{ 2, 2 })
+		if (item == MenuBarItemIndex{ 2, 1 })
 		{
 			LicenseManager::ShowInBrowser();
 		}

@@ -164,8 +164,8 @@ private:
 
 	const Array<std::pair<String, Array<String>>> menus
 	{
-		{ Translate[AppLanguage][U"File"], { Translate[AppLanguage][U"Open CSV File"], Translate[AppLanguage][U"Save As"], Translate[AppLanguage][U"Exit"] }},
-		{ Translate[AppLanguage][U"Configuration"], { Translate[AppLanguage][U"Toast notification upon completion"], Translate[AppLanguage][U"Change the save destination of the screenshot"] }},
+		{ Translate[AppLanguage][U"App"], { Translate[AppLanguage][U"Configuration"], Translate[AppLanguage][U"Exit"] } },
+		{ Translate[AppLanguage][U"File"], { Translate[AppLanguage][U"Open CSV File"], Translate[AppLanguage][U"Save As"] }},
 		{ Translate[AppLanguage][U"Help"], { U"\U000F0625 {}"_fmt(Translate[AppLanguage][U"Web Document"]), U"\U000F0FC3 {}"_fmt(Translate[AppLanguage][U"License Information"]) }},
 	};
 	SimpleMenuBar menuBar{ menus };
