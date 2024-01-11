@@ -36,7 +36,7 @@ Setting::Setting(const InitData& init)
 {
 	for (int i = 0; i < TARGET_ACCSESORIES_COUNT_MAX; i++)
 	{
-		openableListBoxesAccessory.push_back(OpenableListBox{ ACCSESSORIE_FONT, accPulldownTablePos.movedBy(0, 31 * (i+1)), ACCESSORIES_CELL_WIDTH + 1, 30, 5 });
+		openableListBoxesAccessory.push_back(OpenableListBox{ ACCSESSORIE_FONT, AccessoryListBoxTablePos.movedBy(0, 31 * (i+1)), ACCESSORIES_CELL_WIDTH + 1, 30, 5 });
 	}
 
 	for (auto& openableListBoxAccessory : openableListBoxesAccessory)
@@ -48,7 +48,7 @@ Setting::Setting(const InitData& init)
 	{
 		for (int x = 0; x < 4; x++)
 		{
-			openableListBoxesStatusType.push_back(OpenableListBox{ ACCSESSORIE_FONT, accPulldownTablePos.movedBy(x * (STATUS_CELL_WIDTH + 1) + ACCESSORIES_CELL_WIDTH, (y+1) * 31), STATUS_CELL_WIDTH + 2, 20, 8});
+			openableListBoxesStatusType.push_back(OpenableListBox{ ACCSESSORIE_FONT, AccessoryListBoxTablePos.movedBy(x * (STATUS_CELL_WIDTH + 1) + ACCESSORIES_CELL_WIDTH, (y+1) * 31), STATUS_CELL_WIDTH + 2, 20, 8});
 		}
 	}
 
@@ -71,9 +71,9 @@ Setting::Setting(const InitData& init)
 	}
 	openableListBoxSerial.setIndexFromItem(getData().SerialPort);
 
-	desiredAccessories_to_pullDowns();
+	desiredAccessoriesToListBox();
 
-	accPulldownTable.push_back_row(
+	AccessoryListBoxTable.push_back_row(
 		{
 			Translate[AppLanguage][U"Special Effects"],
 			Translate[AppLanguage][U"Status"] + U"1",
@@ -161,7 +161,7 @@ void Setting::csvFileToDesiredAccessories(FilePathView path)
 	}
 }
 
-void Setting::desiredAccessories_to_pullDowns()
+void Setting::desiredAccessoriesToListBox()
 {
 	for (size_t i = 0; i < getData().desiredAccessories.size(); i++)
 	{
@@ -312,7 +312,7 @@ void Setting::openDesiredAccessories()
 	if (desiredAccessoryOpenPath)
 	{
 		csvFileToDesiredAccessories(desiredAccessoryOpenPath.value());
-		desiredAccessories_to_pullDowns();
+		desiredAccessoriesToListBox();
 	}
 }
 
@@ -405,7 +405,7 @@ void Setting::update()
 		for (const auto& dropped : DragDrop::GetDroppedFilePaths())
 		{
 			csvFileToDesiredAccessories(dropped.path);
-			desiredAccessories_to_pullDowns();
+			desiredAccessoriesToListBox();
 		}
 	}
 
@@ -477,7 +477,7 @@ void Setting::draw() const
 	openableListBoxCamera.draw();
 	openableListBoxSerial.draw();
 
-	accPulldownTable.draw(accPulldownTablePos);
+	AccessoryListBoxTable.draw(AccessoryListBoxTablePos);
 
 	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"Desired accessories"]).draw(20, ACCSESSORIE_TEXT_Y);
 

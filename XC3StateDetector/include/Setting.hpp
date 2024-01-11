@@ -17,7 +17,7 @@ public:
 
 	void assignDesiredAccessories() const;
 
-	void desiredAccessories_to_pullDowns();
+	void desiredAccessoriesToListBox();
 
 	void setProbability();
 
