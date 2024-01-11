@@ -139,6 +139,7 @@
     <ClCompile Include="source\RecognizeItemCount.cpp" />
     <ClCompile Include="source\Recording.cpp" />
     <ClCompile Include="source\RestSpot.cpp" />
+    <ClCompile Include="source\SeparativeSimpleGUI.cpp" />
     <ClCompile Include="source\Setting.cpp" />
     <ClCompile Include="source\State.cpp" />
     <ClCompile Include="source\StatusBoost.cpp" />
@@ -366,6 +367,7 @@
     <ClInclude Include="include\RecognizeItemCount.hpp" />
     <ClInclude Include="include\Recording.hpp" />
     <ClInclude Include="include\RestSpot.hpp" />
+    <ClInclude Include="include\SeparativeSimpleGUI.hpp" />
     <ClInclude Include="include\SerialInstruction.hpp" />
     <ClInclude Include="include\Setting.hpp" />
     <ClInclude Include="include\State.hpp" />

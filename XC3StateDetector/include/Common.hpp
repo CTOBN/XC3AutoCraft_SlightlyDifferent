@@ -1,6 +1,7 @@
 ﻿#pragma once
 # include <Siv3D.hpp>
 # include "Accessory.hpp"
+#include "SeparativeSimpleGUI.hpp"
 
 // 共有するデータ
 struct GameData
