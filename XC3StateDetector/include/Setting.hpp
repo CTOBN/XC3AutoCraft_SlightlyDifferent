@@ -44,6 +44,8 @@ public:
 
 	void csvFileToDesiredAccessories(FilePathView path);
 
+	void JSONtoDesiredAccessories(const FilePath& path);
+
 	void openDesiredAccessories();
 
 	void saveDesiredAccessories();

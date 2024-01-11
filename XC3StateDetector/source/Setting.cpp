@@ -161,6 +161,55 @@ void Setting::csvFileToDesiredAccessories(FilePathView path)
 	}
 }
 
+void Setting::JSONtoDesiredAccessories(const FilePath& path)
+{
+	getData().desiredAccessories.clear();
+	const JSON json = JSON::Load(path);
+	const bool desireConsecutiveStatus = json[U"desireConsecutiveStatus"].get<bool>();
+	const String AccessoryType = json[U"accessoryType"].get<String>();
+
+	for (const auto& accessoryJson : json[U"desiredAccessories"].arrayView())
+	{
+		const String specialEffect = accessoryJson[U"specialEffect"].get<String>();
+		size_t index = 0;
+		for (size_t i = 0; i < Accessory::getSpecialEffectList(U"en-US").size(); i++)
+		{
+			if ((Accessory::getSpecialEffectList(U"en-US")[i] == specialEffect)
+			 || (Accessory::getSpecialEffectList(U"ja-JP")[i] == specialEffect))
+			{
+				index = i;
+				break;
+			}
+		}
+		// JSONファイルのアクセサリの名前が不正な場合
+		if (index == Accessory::getSpecialEffectList(U"en-US").size())
+		{
+			continue;
+		}
+
+		Accessory accessory{ index };
+
+		for (const auto& statusType : accessoryJson[U"statusTypes"].arrayView())
+		{
+			const String statusTypeString = statusType.get<String>();
+		}
+		for (size_t j = 0; j < 4; j++)
+		{
+			String statusTypeString = accessoryJson[U"statusTypes"].arrayView()[j].get<String>();
+
+			// JSONファイルのステータスの名前が不正な場合、任意として扱う
+			StatusType statusType = StatusType::Anything;
+			if (StatusTypeStringListEnglish.contains(statusTypeString)
+			||  StatusTypeStringListJapanese.contains(statusTypeString))
+			{
+				statusType = StringToStatusType[statusTypeString];
+			}
+			accessory.setStatusBoost(StatusBoost{ statusType }, j);
+		}
+		getData().desiredAccessories.push_back(accessory);
+	}
+}
+
 void Setting::desiredAccessoriesToListBox()
 {
 	for (size_t i = 0; i < getData().desiredAccessories.size(); i++)
@@ -416,6 +465,8 @@ void Setting::update()
 		csvFileToDesiredAccessories(getData().AccessoryCSVFilePath);
 		desiredAccessoriesToListBox();
 	}
+
+
 
 	// 下のリストボックスから更新することで選択時のクリックで別のリストボックスが開かないようにする
 	for (auto it = std::rbegin(openableListBoxesAccessory); it != std::rend(openableListBoxesAccessory); ++it)
