@@ -350,6 +350,8 @@ void Setting::update()
 		changeScene(U"Config");
 	}
 
+	loadDefaultDesiredAccessoriesButton.update();
+
 	getData().cameraIndex = openableListBoxCamera.getSelectedIndex();
 	getData().cameraName = openableListBoxCamera.getSelectedItem();
 
@@ -407,6 +409,12 @@ void Setting::update()
 			csvFileToDesiredAccessories(dropped.path);
 			desiredAccessoriesToListBox();
 		}
+	}
+
+	if (loadDefaultDesiredAccessoriesButton.isPushed())
+	{
+		csvFileToDesiredAccessories(getData().AccessoryCSVFilePath);
+		desiredAccessoriesToListBox();
 	}
 
 	// 下のリストボックスから更新することで選択時のクリックで別のリストボックスが開かないようにする
@@ -522,6 +530,8 @@ void Setting::draw() const
 		assignDesiredAccessories();
 		goRecording = true;
 	}
+
+	loadDefaultDesiredAccessoriesButton.draw();
 }
 
 
