@@ -1,6 +1,5 @@
 ﻿# pragma once
 # include "Common.hpp"
-# include "Pulldown.hpp"
 # include "OpenableListBox.hpp"
 
 // 設定シーン
@@ -92,7 +91,7 @@ private:
 	mutable ColorF serialConnectionStatusColor = Palette::Red;
 	mutable bool goRecording = false;
 
-	SimpleTable accPulldownTable{ { ACCESSORIES_CELL_WIDTH, STATUS_CELL_WIDTH, STATUS_CELL_WIDTH, STATUS_CELL_WIDTH, STATUS_CELL_WIDTH}, {
+	SimpleTable AccessoryListBoxTable{ { ACCESSORIES_CELL_WIDTH, STATUS_CELL_WIDTH, STATUS_CELL_WIDTH, STATUS_CELL_WIDTH, STATUS_CELL_WIDTH}, {
 		.cellHeight = 30,
 		.variableWidth = true,
 		.font = tableFont,
@@ -100,7 +99,7 @@ private:
 		}
 	};
 
-	Vec2 accPulldownTablePos = { MENU_X, ACCSESSORIE_TEXT_Y + 50 };
+	Vec2 AccessoryListBoxTablePos = { MENU_X, ACCSESSORIE_TEXT_Y + 50 };
 
 	SimpleTable probabilityTable{ {CompatibilityCellWidth, PROBABILITY_CELL_WIDTH, PROBABILITY_CELL_WIDTH, PROBABILITY_CELL_WIDTH, PROBABILITY_CELL_WIDTH}, {
 		.cellHeight = 30,
