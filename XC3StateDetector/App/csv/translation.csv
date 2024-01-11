@@ -4,8 +4,11 @@ en-US,English,英語
 ja-JP,Japanese,日本語
 This Application Language,This Application Language,このアプリの言語
 Game Language,Game Language,ゲームの言語
+Craft Accessories,Craft Accessories,アクセサリークラフト
+Change the save CSV folder,Change the save CSV folder,CSVの保存先を変更
+"If you have a csv you want to load at startup, set it up here","If you have a csv you want to load at startup, set it up here",起動時に読み込みたいcsvがある場合はここで設定してください
 Screenshot,Screenshot,スクリーンショット
-Change the save folder,Change the save folder,保存先を変更
+Change the save Screenshot folder,Change the save Screenshot folder,スクリーンショットの保存先を変更
 Example,Example,例
 This config is saved in the config.ini file in the same folder as the executable file,This config is saved in the config.ini file in the same folder as the executable file,この設定は実行ファイルと同じフォルダにあるconfig.iniに保存されます
 Don't delete config.ini,Don't delete config.ini,config.iniを削除しないでください

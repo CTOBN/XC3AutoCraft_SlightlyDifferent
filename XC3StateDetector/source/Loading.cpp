@@ -9,11 +9,16 @@ Loading::Loading(const InitData& init)
 	}
 	getData().AppLanguage = Parse<String>(getData().ini[U"Language.AppLanguage"]);
 	getData().GameLanguage = Parse<String>(getData().ini[U"Language.GameLanguage"]);
+	getData().HDMICapture = Parse<String>(getData().ini[U"Device.HDMICapture"]);
+	getData().SerialPort = Parse<String>(getData().ini[U"Device.SerialPort"]);
+	getData().AccessoryCSVFolderPath = Parse<String>(getData().ini[U"CraftAccessories.AccessoryCSVFolderPath"]);
+	getData().AccessoryCSVFilePath = Parse<String>(getData().ini[U"CraftAccessories.AccessoryCSVFilePath"]);
+	getData().desireConsecutiveStatus = Parse<bool>(getData().ini[U"CraftAccessories.desireConsecutiveStatus"]);
+	getData().enableToastNotification = Parse<bool>(getData().ini[U"CraftAccessories.enableToastNotification"]);
 	getData().ScreenshotFolderPath = Parse<String>(getData().ini[U"Screenshot.FolderPath"]);
 	getData().ScreenshotFileName = Parse<String>(getData().ini[U"Screenshot.FileName"]);
 	getData().ScreenshotDateFormat = Parse<String>(getData().ini[U"Screenshot.DateFormat"]);
 	getData().ScreenshotFileFormat = Parse<String>(getData().ini[U"Screenshot.FileFormat"]);
-	getData().enableToastNotification = Parse<bool>(getData().ini[U"Notification.enableToastNotification"]);
 
 	String AppLanguage  = getData().AppLanguage;
 	String GameLanguage = getData().GameLanguage;

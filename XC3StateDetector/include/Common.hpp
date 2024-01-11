@@ -37,6 +37,8 @@ struct GameData
 	String GameLanguage;
 	String HDMICapture;
 	String SerialPort;
+	String AccessoryCSVFolderPath;
+	String AccessoryCSVFilePath;
 	bool enableToastNotification = true;
 	String ScreenshotFolderPath;
 	String ScreenshotFileName;

@@ -11,11 +11,14 @@ Config::Config(const InitData& init)
 	GameLanguage = Parse<String>(getData().ini[U"Language.GameLanguage"]);
 	HDMICapture = Parse<String>(getData().ini[U"Device.HDMICapture"]);
 	SerialPort = Parse<String>(getData().ini[U"Device.SerialPort"]);
+	AccessoryCSVFolderPath = Parse<String>(getData().ini[U"CraftAccessories.AccessoryCSVFolderPath"]);
+	AccessoryCSVFilePath = Parse<String>(getData().ini[U"CraftAccessories.AccessoryCSVFilePath"]);
+	desireConsecutiveStatus = Parse<bool>(getData().ini[U"CraftAccessories.desireConsecutiveStatus"]);
+	enableToastNotification = Parse<bool>(getData().ini[U"CraftAccessories.enableToastNotification"]);
 	ScreenshotFolderPath = Parse<String>(getData().ini[U"Screenshot.FolderPath"]);
 	ScreenshotFileName = Parse<String>(getData().ini[U"Screenshot.FileName"]);
 	ScreenshotDateFormat = Parse<String>(getData().ini[U"Screenshot.DateFormat"]);
 	ScreenshotFileFormat = Parse<String>(getData().ini[U"Screenshot.FileFormat"]);
-	enableToastNotification = Parse<bool>(getData().ini[U"Notification.enableToastNotification"]);
 
 	for (int i = 0; i < LanguageSelection.size(); ++i)
 	{
@@ -47,14 +50,15 @@ Config::Config(const InitData& init)
 
 	for (const auto& info : System::EnumerateWebcams())
 	{
-		HDMICaptures.push_back(info.name);
+		OpenableListBoxHDMICapture.emplace_back(info.name);
 	};
-	OpenableListBoxHDMICapture.setItems(HDMICaptures);
+	OpenableListBoxHDMICapture.setIndexFromItem(HDMICapture);
 
 	for (const auto& info : System::EnumerateSerialPorts())
 	{
 		OpenableListBoxSerialPort.emplace_back(U"{} {}"_fmt(info.hardwareID, info.description));
 	}
+	OpenableListBoxSerialPort.setIndexFromItem(getData().SerialPort);
 
 	for (int i = 0; i < ScreenshotDateFormatSelection.size(); ++i)
 	{
@@ -99,16 +103,37 @@ void Config::draw() const
 	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"This Application Language"]).draw(AppLanguagePos);
 	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"HDMI Capture"]).draw(HDMICapturePos);
 	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"Serial Port"]).draw(SerialPortPos);
-	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"Screenshot"]).draw(ScreenshotFolderPos);
+	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"Craft Accessories"]).draw(CraftAccessoryPos);
+	FontAsset(U"TextFont")(AccessoryCSVFolderPath).draw(AccessoryCSVFolderPathDrawPos);
+	FontAsset(U"TextFont")(AccessoryCSVFilePath).draw(AccessoryCSVFilePathDrawPos);
+	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"Screenshot"]).draw(ScreenshotPos);
 	String now = FormatDateTime(DateTime::Now(), ScreenshotDateFormat);
-	FontAsset(U"TextFont")(U"{} : {}{}{}{}"_fmt(Translate[AppLanguage][U"Example"], ScreenshotFolderPath, ScreenshotFileName, now, ScreenshotFileFormat)).draw(ScreenshotFolderPos.movedBy(0, 100));
+	FontAsset(U"TextFont")(U"{} : {}{}{}{}"_fmt(Translate[AppLanguage][U"Example"], ScreenshotFolderPath, ScreenshotFileName, now, ScreenshotFileFormat)).draw(ScreenshotFileExamplePos);
 	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"Notification Enable Toast"]).draw(NotificationToastPos);
-
+	SimpleGUI::CheckBox(desireConsecutiveStatus, Translate[AppLanguage][U"Desire all accessories to have the same type of status regardless of special effects (Option)"], ConsecutiveStatusPos);
 	SimpleGUI::CheckBox(enableToastNotification, Translate[AppLanguage][U"Toast notification upon completion"], NotificationToastPos);
 	OpenableListBoxScreenshotDateFormat.draw();
 	OpenableListBoxScreenshotFileFormat.draw();
 
-	if (SimpleGUI::Button(Translate[AppLanguage][U"Change the save folder"], ScreenshotFolderPos.movedBy(0, 50)))
+	if (SimpleGUI::Button(Translate[AppLanguage][U"Change the save CSV folder"], AccessoryCSVFolderPathPos))
+	{
+		const auto result = Dialog::SelectFolder(AccessoryCSVFolderPath);
+		if (result)
+		{
+			AccessoryCSVFolderPath = result.value();
+		}
+	}
+
+	if (SimpleGUI::Button(Translate[AppLanguage][U"If you have a csv you want to load at startup, set it up here"], AccessoryCSVFilePathPos))
+	{
+		const auto result = Dialog::OpenFile({ FileFilter::CSV() }, AccessoryCSVFilePath);
+		if (result)
+		{
+			AccessoryCSVFilePath = result.value();
+		}
+	}
+
+	if (SimpleGUI::Button(Translate[AppLanguage][U"Change the save Screenshot folder"], ScreenshotFolderPos))
 	{
 		const auto result = Dialog::SelectFolder(getData().ScreenshotFolderPath);
 		if (result)
@@ -133,6 +158,10 @@ void Config::draw() const
 		getData().GameLanguage = GameLanguage;
 		getData().HDMICapture = HDMICapture;
 		getData().SerialPort = SerialPort;
+		getData().AccessoryCSVFolderPath = AccessoryCSVFolderPath;
+		getData().AccessoryCSVFilePath = AccessoryCSVFilePath;
+		getData().desireConsecutiveStatus = desireConsecutiveStatus;
+		getData().enableToastNotification = enableToastNotification;
 		getData().ScreenshotFolderPath = ScreenshotFolderPath;
 		getData().ScreenshotFileName = ScreenshotFileName;
 		getData().ScreenshotDateFormat = ScreenshotDateFormat;
@@ -143,11 +172,14 @@ void Config::draw() const
 		getData().ini[U"Language.GameLanguage"] = GameLanguage;
 		getData().ini[U"Device.HDMICapture"] = HDMICapture;
 		getData().ini[U"Device.SerialPort"] = SerialPort;
+		getData().ini[U"CraftAccessories.AccessoryCSVFolderPath"] = AccessoryCSVFolderPath;
+		getData().ini[U"CraftAccessories.AccessoryCSVFilePath"] = AccessoryCSVFilePath;
+		getData().ini[U"CraftAccessories.desireConsecutiveStatus"] = desireConsecutiveStatus;
+		getData().ini[U"CraftAccessories.enableToastNotification"] = enableToastNotification;
 		getData().ini[U"Screenshot.FolderPath"] = ScreenshotFolderPath;
 		getData().ini[U"Screenshot.FileName"] = ScreenshotFileName;
 		getData().ini[U"Screenshot.DateFormat"] = ScreenshotDateFormat;
 		getData().ini[U"Screenshot.FileFormat"] = ScreenshotFileFormat;
-		getData().ini[U"Notification.enableToastNotification"] = enableToastNotification;
 		getData().ini.save(U"config.ini");
 		reload = true;
 	}
