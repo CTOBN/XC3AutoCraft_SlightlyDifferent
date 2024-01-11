@@ -57,22 +57,18 @@ Setting::Setting(const InitData& init)
 		openableListBoxStatusType.setItems(StatusTypeStringList[AppLanguage]);
 	}
 
+	openableListBoxCamera.emplace_back(Translate[AppLanguage][U"Unselected"]);
 	for (const auto& info : System::EnumerateWebcams())
 	{
-		webcams.push_back(info.name);
-	};
-
-	openableListBoxCamera.setItems(webcams);
+		openableListBoxCamera.emplace_back(info.name);
+	}
 	openableListBoxCamera.setIndexFromItem(getData().HDMICapture);
 
+	openableListBoxSerial.emplace_back(Translate[AppLanguage][U"Unselected"]);
 	for (const auto& info : getData().infos)
 	{
-		// Console << U"{} {}"_fmt(info.hardwareID, info.description);
-
-		options.push_back(U"{} {}"_fmt(info.hardwareID, info.description));
+		openableListBoxSerial.emplace_back(U"{} {}"_fmt(info.hardwareID, info.description));
 	}
-
-	openableListBoxSerial.setItems(options);
 	openableListBoxSerial.setIndexFromItem(getData().SerialPort);
 
 	desiredAccessories_to_pullDowns();

@@ -13,9 +13,6 @@ public:
 	HashTable<String, HashTable<String, String>>& Translate = getData().Translate;
 	String AppLanguage = getData().AppLanguage;
 
-	Array<String> webcams = { Translate[AppLanguage][U"Unselected"] };
-	Array<String> options = { Translate[AppLanguage][U"Unselected"] };
-
 	Setting(const InitData& init);
 
 	void assignDesiredAccessories() const;
