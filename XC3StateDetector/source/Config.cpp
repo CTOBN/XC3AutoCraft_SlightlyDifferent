@@ -98,24 +98,24 @@ void Config::update()
 void Config::draw() const
 {
 	DrawVerticalGradientBackground(ColorF{ 0.2, 0.5, 1.0 }, ColorF{ 0.5, 0.8, 1.0 });
-	FontAsset(U"TitleFont")(U"Config").draw(TitlePos);
-	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"Game Language"]).draw(GameLanguagePos);
-	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"This Application Language"]).draw(AppLanguagePos);
+	FontAsset(U"TitleFont")(U"Config").draw(titlePos);
+	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"Game Language"]).draw(gameLanguagePos);
+	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"This Application Language"]).draw(appLanguagePos);
 	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"HDMI Capture"]).draw(HDMICapturePos);
-	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"Serial Port"]).draw(SerialPortPos);
-	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"Craft Accessories"]).draw(CraftAccessoryPos);
-	FontAsset(U"TextFont")(AccessoryCSVFolderPath).draw(AccessoryCSVFolderPathDrawPos);
-	FontAsset(U"TextFont")(AccessoryCSVFilePath).draw(AccessoryCSVFilePathDrawPos);
-	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"Screenshot"]).draw(ScreenshotPos);
+	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"Serial Port"]).draw(serialPortPos);
+	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"Craft Accessories"]).draw(craftAccessoryPos);
+	FontAsset(U"TextFont")(AccessoryCSVFolderPath).draw(accessoryCSVFolderPathDrawPos);
+	FontAsset(U"TextFont")(AccessoryCSVFilePath).draw(accessoryCSVFilePathDrawPos);
+	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"Screenshot"]).draw(screenshotPos);
 	String now = FormatDateTime(DateTime::Now(), ScreenshotDateFormat);
-	FontAsset(U"TextFont")(U"{} : {}{}{}{}"_fmt(Translate[AppLanguage][U"Example"], ScreenshotFolderPath, ScreenshotFileName, now, ScreenshotFileFormat)).draw(ScreenshotFileExamplePos);
-	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"Notification Enable Toast"]).draw(NotificationToastPos);
-	SimpleGUI::CheckBox(desireConsecutiveStatus, Translate[AppLanguage][U"Desire all accessories to have the same type of status regardless of special effects (Option)"], ConsecutiveStatusPos);
-	SimpleGUI::CheckBox(enableToastNotification, Translate[AppLanguage][U"Toast notification upon completion"], NotificationToastPos);
+	FontAsset(U"TextFont")(U"{} : {}{}{}{}"_fmt(Translate[AppLanguage][U"Example"], ScreenshotFolderPath, ScreenshotFileName, now, ScreenshotFileFormat)).draw(screenshotFileExamplePos);
+	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"Notification Enable Toast"]).draw(notificationToastPos);
+	SimpleGUI::CheckBox(desireConsecutiveStatus, Translate[AppLanguage][U"Desire all accessories to have the same type of status regardless of special effects (Option)"], consecutiveStatusPos);
+	SimpleGUI::CheckBox(enableToastNotification, Translate[AppLanguage][U"Toast notification upon completion"], notificationToastPos);
 	OpenableListBoxScreenshotDateFormat.draw();
 	OpenableListBoxScreenshotFileFormat.draw();
 
-	if (SimpleGUI::Button(Translate[AppLanguage][U"Change the save CSV folder"], AccessoryCSVFolderPathPos))
+	if (SimpleGUI::Button(Translate[AppLanguage][U"Change the save CSV folder"], accessoryCSVFolderPathPos))
 	{
 		const auto result = Dialog::SelectFolder(AccessoryCSVFolderPath);
 		if (result)
@@ -124,7 +124,7 @@ void Config::draw() const
 		}
 	}
 
-	if (SimpleGUI::Button(Translate[AppLanguage][U"If you have a csv you want to load at startup, set it up here"], AccessoryCSVFilePathPos))
+	if (SimpleGUI::Button(Translate[AppLanguage][U"If you have a csv you want to load at startup, set it up here"], accessoryCSVFilePathPos))
 	{
 		const auto result = Dialog::OpenFile({ FileFilter::CSV() }, AccessoryCSVFilePath);
 		if (result)
@@ -133,7 +133,7 @@ void Config::draw() const
 		}
 	}
 
-	if (SimpleGUI::Button(Translate[AppLanguage][U"Change the save Screenshot folder"], ScreenshotFolderPos))
+	if (SimpleGUI::Button(Translate[AppLanguage][U"Change the save Screenshot folder"], screenshotFolderPos))
 	{
 		const auto result = Dialog::SelectFolder(getData().ScreenshotFolderPath);
 		if (result)
@@ -142,7 +142,7 @@ void Config::draw() const
 		}
 	}
 
-	if (SimpleGUI::TextBox(ScreenshotFileNameTextEditState, ScreenshotFileNamePos, ScreenshotFileNameTextWidth, ScreenshotFileNameMaxCharacters))
+	if (SimpleGUI::TextBox(ScreenshotFileNameTextEditState, screenshotFileNamePos, ScreenshotFileNameTextWidth, ScreenshotFileNameMaxCharacters))
 	{
 		ScreenshotFileName = ScreenshotFileNameTextEditState.text;
 	}
@@ -152,7 +152,7 @@ void Config::draw() const
 	OpenableListBoxGameLanguage.draw();
 	OpenableListBoxAppLanguage.draw();
 
-	if (SimpleGUI::Button(Translate[AppLanguage][U"Apply"], ApplyButtonPos))
+	if (SimpleGUI::Button(Translate[AppLanguage][U"Apply"], applyButtonPos))
 	{
 		getData().AppLanguage = AppLanguage;
 		getData().GameLanguage = GameLanguage;
