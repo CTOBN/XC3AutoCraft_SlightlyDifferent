@@ -62,8 +62,8 @@ private:
 	OpenableListBox openableListBoxGameLanguage{ font, gameLanguagePos.movedBy(0, 40), 130, 35, LanguageSelection.size() };
 	OpenableListBox openableListBoxHDMICapture{ font, HDMICapturePos.movedBy(0, 40), 800, 35, 2 };
 	OpenableListBox openableListBoxSerialPort{ font, serialPortPos.movedBy(0, 40), 800, 35, 2 };
-	OpenableListBox openableListBoxScreenshotDateFormat{ font, screenshotDateFormatPos, screenshotDateFormatWidth, 35, screenshotDateFormatSelection.size()};
-	OpenableListBox openableListBoxScreenshotFileFormat{ font, screenshotFileFormatPos, 90, 35, screenshotFileFormatSelection.size()};
+	OpenableListBox openableListBoxScreenshotDateFormat{ font, screenshotDateFormatPos, screenshotDateFormatWidth, 35, 3 };
+	OpenableListBox openableListBoxScreenshotFileFormat{ font, screenshotFileFormatPos, 90, 35, 3 };
 
 	SeparativeSimpleGUI::Button buttonChangeSaveJSONFolder;
 	SeparativeSimpleGUI::Button buttonChangeSaveJSONFile;
