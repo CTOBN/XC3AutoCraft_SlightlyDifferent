@@ -103,8 +103,6 @@ Setting::Setting(const InitData& init)
 		probabilityTable.push_back_row({ U"-", U"0", U"0", U"0", U"0" }, { 0, 1, 1, 1, 1 });
 	}
 	probabilityTable.push_back_row({ Translate[AppLanguage][U"Sum"], U"0", U"0", U"0", U"0" }, { 0, 1, 1, 1, 1 });
-
-	menuBar.setItemChecked(MenuBarItemIndex{ 1, 0 }, getData().enableToastNotification);
 }
 
 
@@ -399,15 +397,24 @@ void Setting::drawNotion() const
 
 void Setting::openDesiredAccessories()
 {
-	desiredAccessoryOpenPath = Dialog::OpenFile({ FileFilter::CSV() });
-	if (desiredAccessoryOpenPath)
+	desiredAccessoryOpenPath = Dialog::OpenFile({ FileFilter::CSV(), FileFilter::JSON() });
+	if (not desiredAccessoryOpenPath) return;
+
+	if (desiredAccessoryOpenPath.value().includes(U".csv"))
 	{
 		csvFileToDesiredAccessories(desiredAccessoryOpenPath.value());
 		desiredAccessoriesToListBox();
+		return;
+	}
+	if (desiredAccessoryOpenPath.value().includes(U".json"))
+	{
+		desireConsecutiveStatus = getDesireConsecutiveStatusFromJSON(desiredAccessoryOpenPath.value());
+		selectingAccessoryType = getAccessoryTypeFromJSON(desiredAccessoryOpenPath.value());
+		setOpenableListBoxAccessory(getAccessoriesFromJSON(desiredAccessoryOpenPath.value()));
 	}
 }
 
-void Setting::saveDesiredAccessories()
+void Setting::saveDesiredAccessoriesAsCSV()
 {
 	desiredAccessorySavePath = Dialog::SaveFile({ FileFilter::CSV() });
 	if (desiredAccessorySavePath)
@@ -425,6 +432,33 @@ void Setting::saveDesiredAccessories()
 			csv.newLine();
 		}
 		csv.save(desiredAccessorySavePath.value());
+	}
+}
+
+void Setting::saveRequirementAsJSON()
+{
+	Optional<FilePath> requirementSavePath = Dialog::SaveFile({ FileFilter::JSON() });
+	if (requirementSavePath)
+	{
+		assignDesiredAccessories();
+		JSON json;
+		json[U"desireConsecutiveStatus"] = desireConsecutiveStatus;
+		json[U"accessoryType"] = AccessoryTypeToName[AppLanguage][selectingAccessoryType];
+		Array<JSON> accessories;
+		for (const auto& acc : getData().desiredAccessories)
+		{
+			JSON accessory;
+			accessory[U"specialEffect"] = Accessory::getSpecialEffectList(AppLanguage)[acc.getIndex()];
+			Array<JSON> statusTypes;
+			for (size_t i = 0; i < 4; i++)
+			{
+				statusTypes.push_back(StatusTypeToString[AppLanguage][acc.getStatusBoosts()[i].type]);
+			}
+			accessory[U"statusTypes"] = statusTypes;
+			accessories.push_back(accessory);
+		}
+		json[U"desiredAccessories"] = accessories;
+		json.save(requirementSavePath.value());
 	}
 }
 
@@ -478,10 +512,16 @@ void Setting::update()
 			openDesiredAccessories();
 		}
 
-		// 「名前を付けて保存」が押されたら
+		// 「CSVとして保存」が押されたら
 		if (item == MenuBarItemIndex{ 1, 1 })
 		{
-			saveDesiredAccessories();
+			saveDesiredAccessoriesAsCSV();
+		}
+
+		// 「JSONとして保存」が押されたら
+		if (item == MenuBarItemIndex{ 1, 2 })
+		{
+			saveRequirementAsJSON();
 		}
 
 		// Webマニュアルが押されたら
@@ -502,8 +542,17 @@ void Setting::update()
 	{
 		for (const auto& dropped : DragDrop::GetDroppedFilePaths())
 		{
-			csvFileToDesiredAccessories(dropped.path);
-			desiredAccessoriesToListBox();
+			if (dropped.path.includes(U".csv"))
+			{
+				csvFileToDesiredAccessories(dropped.path);
+				desiredAccessoriesToListBox();
+			}
+			if (dropped.path.includes(U".json"))
+			{
+				desireConsecutiveStatus = getDesireConsecutiveStatusFromJSON(dropped.path);
+				selectingAccessoryType = getAccessoryTypeFromJSON(dropped.path);
+				setOpenableListBoxAccessory(getAccessoriesFromJSON(dropped.path));
+			}
 		}
 	}
 

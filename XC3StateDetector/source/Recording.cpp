@@ -12,8 +12,6 @@ Recording::Recording(const InitData& init)
 		webcam.start();
 		return webcam;
 	} };
-
-	menuBar.setItemChecked(MenuBarItemIndex{ 1, 0 }, getData().enableToastNotification);
 }
 
 

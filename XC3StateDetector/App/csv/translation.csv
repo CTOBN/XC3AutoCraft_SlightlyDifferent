@@ -17,15 +17,16 @@ Apply,Apply,適用
 Go to Setting,Go to Setting,設定画面へ
 Now Loading,Now Loading,読み込み中
 File,File,ファイル
-Open CSV File,Open CSV File,CSVファイルを開く
-Save As,Save As,名前を付けて保存
+Open File,Open File,ファイルを開く
+Save As CSV,Save As CSV,CSVとして保存
+Save As JSON,Save As JSON,JSONとして保存
 Exit,Exit,アプリを終了する
 Configuration,Configuration,環境設定
 Toast notification upon completion,Toast notification upon completion,完成時にトースト通知する
 Change the save destination of the screenshot,Change the save destination of the screenshot,スクリーンショットの保存先を変更
 Help,Help,ヘルプ
 Web Document,Web Document,Webマニュアル
-Load default desired accessories,Load default desired accessories,デフォルトの希望のアクセサリーを読み込む
+Load default accessory setting (JSON),Load default accessory setting (JSON),デフォルトのアクセサリー設定(JSON)を読み込む
 License Information,License Information,ライセンス情報
 Desired accessories,Desired accessories,希望のアクセサリー
 Special Effects,Special Effects,特殊効果

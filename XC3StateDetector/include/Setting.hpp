@@ -54,7 +54,9 @@ public:
 
 	void openDesiredAccessories();
 
-	void saveDesiredAccessories();
+	void saveDesiredAccessoriesAsCSV();
+
+	void saveRequirementAsJSON();
 
 private:
 	const int DESIRE_CONSENCUTIVE_STATUS_Y = 530;
@@ -184,7 +186,7 @@ private:
 	const Array<std::pair<String, Array<String>>> menus
 	{
 		{ Translate[AppLanguage][U"App"], { Translate[AppLanguage][U"Configuration"], Translate[AppLanguage][U"Exit"] } },
-		{ Translate[AppLanguage][U"File"], { Translate[AppLanguage][U"Open CSV File"], Translate[AppLanguage][U"Save As"] }},
+		{ Translate[AppLanguage][U"File"], { Translate[AppLanguage][U"Open File"], Translate[AppLanguage][U"Save As CSV"], Translate[AppLanguage][U"Save As JSON"] }},
 		{ Translate[AppLanguage][U"Help"], { U"\U000F0625 {}"_fmt(Translate[AppLanguage][U"Web Document"]), U"\U000F0FC3 {}"_fmt(Translate[AppLanguage][U"License Information"]) }},
 	};
 	SimpleMenuBar menuBar{ menus };
@@ -194,7 +196,7 @@ private:
 	
 	Font GoRecordingButtonFont{ 50 };
 	RoundRect GoRecordingRect{ GoRecordingButtonPos, 500, 100, 20 };
-	SeparativeSimpleGUI::Button loadDefaultDesiredAccessoriesButton { Translate[AppLanguage][U"Load default desired accessories"], 20, { 400, 55 } };
+	SeparativeSimpleGUI::Button loadDefaultDesiredAccessoriesButton { Translate[AppLanguage][U"Load default accessory setting (JSON)"], 20, { 400, 55 } };
 
 	void setOpenableListBoxAccessory(const Array<Accessory> accessories);
 };

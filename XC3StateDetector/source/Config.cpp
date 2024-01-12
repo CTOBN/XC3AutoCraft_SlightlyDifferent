@@ -113,7 +113,7 @@ void Config::update()
 
 	if (buttonChangeSaveJSONFile.isPushed())
 	{
-		const auto result = Dialog::OpenFile({ FileFilter::CSV() }, requirementJSONFilePath);
+		const auto result = Dialog::OpenFile({ FileFilter::JSON()}, requirementJSONFilePath);
 		if (result)
 		{
 			requirementJSONFilePath = result.value();
