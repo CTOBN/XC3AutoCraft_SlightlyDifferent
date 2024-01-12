@@ -62,7 +62,21 @@ private:
 
 	const double MENU_X = 10;
 	const int font_size = 15;
-	const int ACCESSORIES_FONT_SIZE = 20;
+	const HashTable<String, int32> fontSizeSpecialEffectList =
+	{
+		{ U"en-US", 15 },
+		{ U"ja-JP", 18 },
+	};
+
+	const HashTable<String, int32> fontSizeStatusTypeList =
+	{
+		{ U"en-US", 13 },
+		{ U"ja-JP", 18 },
+	};
+	int32 fontSizeSpecialEffect;
+	int32 fontSizeStatusType;
+	Font fontSpecialEffect;
+	Font fontStatusType;
 	const int CAMERA_FONT_SIZE = 18;
 	const int line_padding = 20;
 
@@ -70,7 +84,6 @@ private:
 	const Vec2 SerialTextPos = { MENU_X, 750 };
 	const Vec2 GoRecordingButtonPos = { 1350, 850 };
 
-	const Font ACCSESSORIE_FONT{ ACCESSORIES_FONT_SIZE };
 	const Font CAMERA_FONT{ CAMERA_FONT_SIZE };
 	const Font SERIAL_FONT{ CAMERA_FONT_SIZE };
 

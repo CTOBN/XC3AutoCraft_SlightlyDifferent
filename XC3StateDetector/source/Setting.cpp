@@ -34,9 +34,14 @@ Setting::Setting(const InitData& init)
 	: IScene{ init }
 
 {
+	fontSizeSpecialEffect = fontSizeSpecialEffectList.at(AppLanguage);
+	fontSizeStatusType = fontSizeStatusTypeList.at(AppLanguage);
+	fontSpecialEffect = Font{ fontSizeSpecialEffect };
+	fontStatusType = Font{ fontSizeStatusType };
+
 	for (int i = 0; i < TARGET_ACCSESORIES_COUNT_MAX; i++)
 	{
-		openableListBoxesAccessory.push_back(OpenableListBox{ ACCSESSORIE_FONT, AccessoryListBoxTablePos.movedBy(0, 31 * (i+1)), ACCESSORIES_CELL_WIDTH + 1, 30, 5 });
+		openableListBoxesAccessory.push_back(OpenableListBox{ fontSpecialEffect, AccessoryListBoxTablePos.movedBy(0, 31 * (i+1)), ACCESSORIES_CELL_WIDTH + 1, 30, 5 });
 	}
 
 	for (auto& openableListBoxAccessory : openableListBoxesAccessory)
@@ -48,7 +53,7 @@ Setting::Setting(const InitData& init)
 	{
 		for (int x = 0; x < 4; x++)
 		{
-			openableListBoxesStatusType.push_back(OpenableListBox{ ACCSESSORIE_FONT, AccessoryListBoxTablePos.movedBy(x * (STATUS_CELL_WIDTH + 1) + ACCESSORIES_CELL_WIDTH, (y+1) * 31), STATUS_CELL_WIDTH + 2, 20, 8});
+			openableListBoxesStatusType.push_back(OpenableListBox{ fontStatusType, AccessoryListBoxTablePos.movedBy(x * (STATUS_CELL_WIDTH + 1) + ACCESSORIES_CELL_WIDTH, (y+1) * 31), STATUS_CELL_WIDTH + 2, 30, 8});
 		}
 	}
 
