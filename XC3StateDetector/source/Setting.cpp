@@ -161,12 +161,39 @@ void Setting::csvFileToDesiredAccessories(FilePathView path)
 	}
 }
 
-void Setting::JSONtoDesiredAccessories(const FilePath& path)
+bool Setting::getDesireConsecutiveStatusFromJSON(const FilePath& path) const
 {
+	const JSON json = JSON::Load(path);
+	// JSONファイルに desireConsecutiveStatusがない場合や、値が bool型でない場合は falseを返す
+	if (not json[U"desireConsecutiveStatus"].isBool())
+	{
+		return false;
+	}
+	return json[U"desireConsecutiveStatus"].get<bool>();
+}
+
+AccessoryType Setting::getAccessoryTypeFromJSON(const FilePath& path) const
+{
+	AccessoryType accessoryType = AccessoryType::Undefined;
+	const JSON json = JSON::Load(path);
+	if (not json[U"accessoryType"].isString())
+	{
+		return accessoryType;
+	}
+	String accessoryTypeString = json[U"accessoryType"].get<String>();
+
+	if (not NameToAccessoryType.contains(accessoryTypeString))
+	{
+		return accessoryType;
+	}
+	return NameToAccessoryType.at(accessoryTypeString);
+}
+
+Array<Accessory> Setting::getAccessoriesFromJSON(const FilePath& path) const
+{
+	Array<Accessory> accessories;
 	getData().desiredAccessories.clear();
 	const JSON json = JSON::Load(path);
-	const bool desireConsecutiveStatus = json[U"desireConsecutiveStatus"].get<bool>();
-	const String AccessoryType = json[U"accessoryType"].get<String>();
 
 	for (const auto& accessoryJson : json[U"desiredAccessories"].arrayView())
 	{
@@ -202,12 +229,22 @@ void Setting::JSONtoDesiredAccessories(const FilePath& path)
 			if (StatusTypeStringListEnglish.contains(statusTypeString)
 			||  StatusTypeStringListJapanese.contains(statusTypeString))
 			{
-				statusType = StringToStatusType[statusTypeString];
+				statusType = StringToStatusType.at(statusTypeString);
 			}
 			accessory.setStatusBoost(StatusBoost{ statusType }, j);
 		}
-		getData().desiredAccessories.push_back(accessory);
+		accessories.push_back(accessory);
 	}
+	return accessories;
+}
+
+void Setting::loadRequirementsFromJSON()
+{
+	getData().desiredAccessories.clear();
+	getData().desireConsecutiveStatus = getDesireConsecutiveStatusFromJSON(getData().RequirementJSONFilePath);
+	getData().selectedAccessoryType = getAccessoryTypeFromJSON(getData().RequirementJSONFilePath);
+	getData().desiredAccessories = getAccessoriesFromJSON(getData().RequirementJSONFilePath);
+	desiredAccessoriesToListBox();
 }
 
 void Setting::desiredAccessoriesToListBox()
@@ -462,8 +499,7 @@ void Setting::update()
 
 	if (loadDefaultDesiredAccessoriesButton.isPushed())
 	{
-		csvFileToDesiredAccessories(getData().AccessoryCSVFilePath);
-		desiredAccessoriesToListBox();
+		loadRequirementsFromJSON();
 	}
 
 

@@ -44,7 +44,13 @@ public:
 
 	void csvFileToDesiredAccessories(FilePathView path);
 
-	void JSONtoDesiredAccessories(const FilePath& path);
+	bool getDesireConsecutiveStatusFromJSON(const FilePath& path) const;
+
+	AccessoryType getAccessoryTypeFromJSON(const FilePath& path) const;
+
+	Array<Accessory> getAccessoriesFromJSON(const FilePath& path) const;
+
+	void loadRequirementsFromJSON();
 
 	void openDesiredAccessories();
 

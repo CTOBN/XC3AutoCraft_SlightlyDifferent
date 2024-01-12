@@ -13,6 +13,7 @@ Loading::Loading(const InitData& init)
 	getData().SerialPort = Parse<String>(getData().ini[U"Device.SerialPort"]);
 	getData().AccessoryCSVFolderPath = Parse<String>(getData().ini[U"CraftAccessories.AccessoryCSVFolderPath"]);
 	getData().AccessoryCSVFilePath = Parse<String>(getData().ini[U"CraftAccessories.AccessoryCSVFilePath"]);
+	getData().RequirementJSONFilePath = Parse<String>(getData().ini[U"CraftAccessories.RequirementJSONFilePath"]);
 	getData().desireConsecutiveStatus = Parse<bool>(getData().ini[U"CraftAccessories.desireConsecutiveStatus"]);
 	getData().enableToastNotification = Parse<bool>(getData().ini[U"CraftAccessories.enableToastNotification"]);
 	getData().ScreenshotFolderPath = Parse<String>(getData().ini[U"Screenshot.FolderPath"]);

@@ -40,6 +40,7 @@ struct GameData
 	String SerialPort;
 	String AccessoryCSVFolderPath;
 	String AccessoryCSVFilePath;
+	String RequirementJSONFilePath;
 	bool enableToastNotification = true;
 	String ScreenshotFolderPath;
 	String ScreenshotFileName;
