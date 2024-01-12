@@ -157,7 +157,7 @@ void Config::update()
 		getData().ini[U"Screenshot.FileFormat"] = ScreenshotFileFormat;
 		getData().ini.save(U"config.ini");
 		OpenableListBox::closeCurrentOpeningListBox();
-		changeScene(U"Config");
+		changeScene(U"Config", 0.5s);
 	}
 
 	if (buttonGoToSetting.isPushed())
