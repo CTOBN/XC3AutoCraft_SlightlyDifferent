@@ -163,6 +163,10 @@ void Config::update()
 		changeScene(U"Config");
 	}
 
+	if (buttonGoToSetting.isPushed())
+	{
+		changeScene(U"Setting");
+	}
 }
 
 void Config::draw() const
