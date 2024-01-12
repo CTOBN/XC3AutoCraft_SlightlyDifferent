@@ -156,7 +156,6 @@ void Config::update()
 		getData().ini[U"Screenshot.DateFormat"] = ScreenshotDateFormat;
 		getData().ini[U"Screenshot.FileFormat"] = ScreenshotFileFormat;
 		getData().ini.save(U"config.ini");
-		reload = true;
 		OpenableListBox::closeCurrentOpeningListBox();
 		changeScene(U"Config");
 	}

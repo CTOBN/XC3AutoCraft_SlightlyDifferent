@@ -45,15 +45,15 @@ private:
 	String GameLanguage;
 	String HDMICapture;
 	String SerialPort;
-	mutable String requirementJSONFolderPath;
-	mutable String requirementJSONFilePath;
+	String requirementJSONFolderPath;
+	String requirementJSONFilePath;
 	mutable bool enableToastNotification;
-	mutable String ScreenshotFolderPath;
+	String ScreenshotFolderPath;
 	mutable String ScreenshotFileName;
-	mutable String ScreenshotDateFormat;
-	mutable String ScreenshotFileFormat;
+	String ScreenshotDateFormat;
+	String ScreenshotFileFormat;
 	mutable TextEditState ScreenshotFileNameTextEditState;
-	mutable String ScreenshotFileNameText;
+	String ScreenshotFileNameText;
 
 	Array<String> screenshotDateFormatSelection = { U"yyyy-MM-dd", U"yyyy-MM-dd HH.mm.ss", U"yyyy-MM-dd HH-mm-ss", U"yyyy年MM月dd日", U"yyyy年MM月dd日 HH時mm分ss秒" };
 	Array<String> screenshotFileFormatSelection = { U".jpg", U".jpeg", U".png"};
@@ -70,6 +70,4 @@ private:
 	SeparativeSimpleGUI::Button buttonChangeSaveScreenshotFolder;
 	SeparativeSimpleGUI::Button buttonApply;
 	SeparativeSimpleGUI::Button buttonGoToSetting;
-
-	mutable bool reload = false;
 };
