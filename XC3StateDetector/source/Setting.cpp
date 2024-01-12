@@ -247,11 +247,9 @@ Array<Accessory> Setting::getAccessoriesFromJSON(const FilePath& path) const
 
 void Setting::loadRequirementFromJSON()
 {
-	getData().desiredAccessories.clear();
 	desireConsecutiveStatus = getDesireConsecutiveStatusFromJSON(getData().requirementJSONFilePath);
 	selectingAccessoryType = getAccessoryTypeFromJSON(getData().requirementJSONFilePath);
-	getData().desiredAccessories = getAccessoriesFromJSON(getData().requirementJSONFilePath);
-	desiredAccessoriesToListBox();
+	setOpenableListBoxAccessory(getAccessoriesFromJSON(getData().requirementJSONFilePath));
 }
 
 void Setting::desiredAccessoriesToListBox()
@@ -633,6 +631,22 @@ void Setting::draw() const
 	}
 
 	loadDefaultDesiredAccessoriesButton.draw();
+}
+
+void Setting::setOpenableListBoxAccessory(const Array<Accessory> accessories)
+{
+	for (size_t i = 0; i < Min(openableListBoxesAccessory.size(), accessories.size()); i++)
+	{
+		const Accessory& accessory = accessories[i];
+		openableListBoxesAccessory[i].listBoxState.selectedItemIndex = accessory.getIndex();
+
+		Array<StatusBoost> statusBoosts = accessory.getStatusBoosts();
+		for (size_t j = 0; j < 4; j++)
+		{
+			size_t index = static_cast<size_t>(statusBoosts[j].type);
+			openableListBoxesStatusType[i * 4 + j].listBoxState.selectedItemIndex = index;
+		}
+	}
 }
 
 
