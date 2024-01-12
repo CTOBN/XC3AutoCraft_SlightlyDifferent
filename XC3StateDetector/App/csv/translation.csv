@@ -6,8 +6,8 @@ ja-JP,Japanese,日本語
 This Application Language,This Application Language,このアプリの言語
 Game Language,Game Language,ゲームの言語
 Craft Accessories,Craft Accessories,アクセサリークラフト
-Change the save CSV folder,Change the save CSV folder,CSVの保存先を変更
-"If you have a csv you want to load at startup, set it up here","If you have a csv you want to load at startup, set it up here",起動時に読み込みたいcsvがある場合はここで設定してください
+Change the save JSON folder,Change the save JSON folder,JSONの保存フォルダを変更
+"If you have a JSON you want to load, set it up here","If you have a csv you want to load, set it up here",読み込みたいJSONがある場合はここで設定してください
 Screenshot,Screenshot,スクリーンショット
 Change the save Screenshot folder,Change the save Screenshot folder,スクリーンショットの保存先を変更
 Example,Example,例

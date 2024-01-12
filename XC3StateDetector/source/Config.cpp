@@ -115,7 +115,7 @@ void Config::draw() const
 	openableListBoxScreenshotDateFormat.draw();
 	openableListBoxScreenshotFileFormat.draw();
 
-	if (SimpleGUI::Button(Translate[AppLanguage][U"Change the save CSV folder"], accessoryCSVFolderPathPos))
+	if (SimpleGUI::Button(Translate[AppLanguage][U"Change the save JSON folder"], accessoryCSVFolderPathPos))
 	{
 		const auto result = Dialog::SelectFolder(AccessoryCSVFolderPath);
 		if (result)
@@ -124,7 +124,7 @@ void Config::draw() const
 		}
 	}
 
-	if (SimpleGUI::Button(Translate[AppLanguage][U"If you have a csv you want to load at startup, set it up here"], accessoryCSVFilePathPos))
+	if (SimpleGUI::Button(Translate[AppLanguage][U"If you have a JSON you want to load, set it up here"], accessoryCSVFilePathPos))
 	{
 		const auto result = Dialog::OpenFile({ FileFilter::CSV() }, AccessoryCSVFilePath);
 		if (result)
