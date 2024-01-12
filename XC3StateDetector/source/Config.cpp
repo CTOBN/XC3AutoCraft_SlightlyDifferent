@@ -118,13 +118,13 @@ void Config::update()
 		}
 
 		// Webマニュアルが押されたら
-		if (item == MenuBarItemIndex{ 2, 0 })
+		if (item == MenuBarItemIndex{ 1, 0 })
 		{
 			System::LaunchBrowser(getData().WebManualURL);
 		}
 
 		// 「ライセンス情報」が押されたら
-		if (item == MenuBarItemIndex{ 2, 1 })
+		if (item == MenuBarItemIndex{ 1, 1 })
 		{
 			LicenseManager::ShowInBrowser();
 		}
