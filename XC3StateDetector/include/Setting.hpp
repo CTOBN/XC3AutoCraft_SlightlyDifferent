@@ -133,6 +133,8 @@ private:
 
 	Array<OpenableListBox> openableListBoxesAccessory;
 	Array<OpenableListBox> openableListBoxesStatusType;
+	mutable AccessoryType selectingAccessoryType;
+	mutable bool desireConsecutiveStatus;
 	OpenableListBox	openableListBoxCamera{ CAMERA_FONT, CameraTextPos.movedBy(0, 80), 300, 30, 3};
 	OpenableListBox openableListBoxSerial{ SERIAL_FONT, SerialTextPos.movedBy(0, 80), 700, 30, 3 };
 

@@ -57,6 +57,9 @@ Setting::Setting(const InitData& init)
 		}
 	}
 
+	desireConsecutiveStatus = getData().desireConsecutiveStatus;
+	selectingAccessoryType = getData().selectedAccessoryType;
+
 	for (auto& openableListBoxStatusType : openableListBoxesStatusType)
 	{
 		openableListBoxStatusType.setItems(StatusTypeStringList[AppLanguage]);
@@ -246,8 +249,8 @@ Array<Accessory> Setting::getAccessoriesFromJSON(const FilePath& path) const
 void Setting::loadRequirementFromJSON()
 {
 	getData().desiredAccessories.clear();
-	getData().desireConsecutiveStatus = getDesireConsecutiveStatusFromJSON(getData().requirementJSONFilePath);
-	getData().selectedAccessoryType = getAccessoryTypeFromJSON(getData().requirementJSONFilePath);
+	desireConsecutiveStatus = getDesireConsecutiveStatusFromJSON(getData().requirementJSONFilePath);
+	selectingAccessoryType = getAccessoryTypeFromJSON(getData().requirementJSONFilePath);
 	getData().desiredAccessories = getAccessoriesFromJSON(getData().requirementJSONFilePath);
 	desiredAccessoriesToListBox();
 }
@@ -309,7 +312,7 @@ void Setting::selectAccTypeButtonUpdate()
 		RectF r = probabilityTable.cellRegion(probabilityTablePos, 0, i + 1);
 		if (r.leftClicked())
 		{
-			getData().selectedAccessoryType = static_cast<AccessoryType>(i + 1);
+			selectingAccessoryType = static_cast<AccessoryType>(i + 1);
 		}
 	}
 }
@@ -329,10 +332,10 @@ void Setting::selectAccTypeButtonUpdate()
 bool Setting::canMake() const
 {
 	double epsilon = 1e-9;
-	if (getData().desireConsecutiveStatus) {
+	if (desireConsecutiveStatus) {
 		return true;
 	}
-	else if (getData().selectedAccessoryType != AccessoryType::Undefined && sumProbabilityList[static_cast<size_t>(getData().selectedAccessoryType) - 1] < epsilon)
+	else if (selectingAccessoryType != AccessoryType::Undefined && sumProbabilityList[static_cast<size_t>(selectingAccessoryType) - 1] < epsilon)
 	{
 		return false;
 	}
@@ -351,7 +354,7 @@ bool Setting::isSelectedCamera() const
 
 bool Setting::canGoRecording() const
 {
-	return getData().selectedAccessoryType != AccessoryType::Undefined && isSelectedCamera() && isSelectedSerialPort() && canMake();
+	return selectingAccessoryType != AccessoryType::Undefined && isSelectedCamera() && isSelectedSerialPort() && canMake();
 }
 
 void Setting::serialUpdate()
@@ -382,13 +385,13 @@ void Setting::drawNotion() const
 		FontAsset(U"TextFont")(Translate[AppLanguage][U"There is a 0% chance that the desired accessory will be available"]).draw(TextStyle::Outline(outlineScale, outlineColor), probabilityTablePos.movedBy(70, -50), Palette::Red);
 	}
 
-	if (getData().selectedAccessoryType == AccessoryType::Undefined)
+	if (selectingAccessoryType == AccessoryType::Undefined)
 	{
 		FontAsset(U"TextFont")(Translate[AppLanguage][U"Select the type of accessory you want to make"]).draw(TextStyle::Outline(outlineScale, outlineColor), probabilityTablePos.movedBy(70, -50), Palette::Red);
 	}
 	else
 	{
-		probabilityTable.cellRegion(probabilityTablePos, 0, static_cast<size_t>(getData().selectedAccessoryType)).drawFrame(4, 0, Palette::Red);
+		probabilityTable.cellRegion(probabilityTablePos, 0, static_cast<size_t>(selectingAccessoryType)).drawFrame(4, 0, Palette::Red);
 	}
 
 	if (getData().cameraIndex == 0)
@@ -460,6 +463,8 @@ void Setting::update()
 		if (item == MenuBarItemIndex{ 0, 0 })
 		{
 			assignDesiredAccessories();
+			getData().selectedAccessoryType = selectingAccessoryType;
+			getData().desireConsecutiveStatus = desireConsecutiveStatus;
 			OpenableListBox::closeCurrentOpeningListBox();
 			changeScene(U"Config");
 		}
@@ -536,7 +541,7 @@ void Setting::draw() const
 
 	SimpleGUI::CheckBox
 	(
-		getData().desireConsecutiveStatus,
+		desireConsecutiveStatus,
 		Translate[AppLanguage][U"Desire all accessories to have the same type of status regardless of special effects (Option)"],
 		Vec2{ MENU_X, DESIRE_CONSENCUTIVE_STATUS_Y }
 	);
@@ -598,7 +603,7 @@ void Setting::draw() const
 		}
 
 		// 作るアクセサリが選択されていない場合
-		if (getData().selectedAccessoryType == AccessoryType::Undefined)
+		if (selectingAccessoryType == AccessoryType::Undefined)
 		{
 			Line{ GoRecordingRect.topCenter(), probabilityTable.cellRegion(probabilityTablePos, 0, 2).br() }.drawArrow(10, SizeF{ 20, 20 }, Palette::Orange);
 		}
@@ -623,6 +628,8 @@ void Setting::draw() const
 					canGoRecording() ? Palette::White : Color{ 127, 127, 127, 255 }))
 	{
 		assignDesiredAccessories();
+		getData().selectedAccessoryType = selectingAccessoryType;
+		getData().desireConsecutiveStatus = desireConsecutiveStatus;
 		goRecording = true;
 	}
 
