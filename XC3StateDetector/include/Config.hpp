@@ -28,8 +28,7 @@ private:
 	const Vec2 requirementJSONFolderPathDrawPos = requirementJSONFolderPathPos.movedBy(0, 30);
 	const Vec2 requirementJSONFilePathPos = requirementJSONFolderPathDrawPos.movedBy(0, 50);
 	const Vec2 requirementJSONFilePathDrawPos = requirementJSONFilePathPos.movedBy(0, 30);
-	const Vec2 consecutiveStatusPos = requirementJSONFilePathDrawPos.movedBy(0, 50);
-	const Vec2 notificationToastPos = consecutiveStatusPos.movedBy(0, 50);
+	const Vec2 notificationToastPos = requirementJSONFilePathDrawPos.movedBy(0, 100);
 	const Vec2 screenshotPos = notificationToastPos.movedBy(0, 50);
 	const Vec2 screenshotFolderPos = screenshotPos.movedBy(0, 50);
 	const Vec2 screenshotFileNamePos = screenshotFolderPos.movedBy(screenshotButtonWidth + 20, 0);
@@ -48,7 +47,6 @@ private:
 	String SerialPort;
 	mutable String requirementJSONFolderPath;
 	mutable String requirementJSONFilePath;
-	mutable bool desireConsecutiveStatus;
 	mutable bool enableToastNotification;
 	mutable String ScreenshotFolderPath;
 	mutable String ScreenshotFileName;

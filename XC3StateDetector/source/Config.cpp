@@ -11,9 +11,8 @@ Config::Config(const InitData& init)
 	GameLanguage = Parse<String>(getData().ini[U"Language.GameLanguage"]);
 	HDMICapture = Parse<String>(getData().ini[U"Device.HDMICapture"]);
 	SerialPort = Parse<String>(getData().ini[U"Device.SerialPort"]);
-	requirementJSONFolderPath = Parse<String>(getData().ini[U"CraftAccessories.RequirementJSONFolderPath"]);
-	requirementJSONFilePath = Parse<String>(getData().ini[U"CraftAccessories.RequirementJSONFilePath"]);
-	desireConsecutiveStatus = Parse<bool>(getData().ini[U"CraftAccessories.desireConsecutiveStatus"]);
+	requirementJSONFolderPath = Parse<String>(getData().ini[U"CraftAccessories.requirementJSONFolderPath"]);
+	requirementJSONFilePath = Parse<String>(getData().ini[U"CraftAccessories.requirementJSONFilePath"]);
 	enableToastNotification = Parse<bool>(getData().ini[U"CraftAccessories.enableToastNotification"]);
 	ScreenshotFolderPath = Parse<String>(getData().ini[U"Screenshot.FolderPath"]);
 	ScreenshotFileName = Parse<String>(getData().ini[U"Screenshot.FileName"]);
@@ -138,7 +137,6 @@ void Config::update()
 		getData().SerialPort = SerialPort;
 		getData().requirementJSONFolderPath = requirementJSONFolderPath;
 		getData().requirementJSONFilePath = requirementJSONFilePath;
-		getData().desireConsecutiveStatus = desireConsecutiveStatus;
 		getData().enableToastNotification = enableToastNotification;
 		getData().ScreenshotFolderPath = ScreenshotFolderPath;
 		getData().ScreenshotFileName = ScreenshotFileName;
@@ -152,7 +150,6 @@ void Config::update()
 		getData().ini[U"Device.SerialPort"] = SerialPort;
 		getData().ini[U"CraftAccessories.requirementJSONFolderPath"] = requirementJSONFolderPath;
 		getData().ini[U"CraftAccessories.requirementJSONFilePath"] = requirementJSONFilePath;
-		getData().ini[U"CraftAccessories.desireConsecutiveStatus"] = desireConsecutiveStatus;
 		getData().ini[U"CraftAccessories.enableToastNotification"] = enableToastNotification;
 		getData().ini[U"Screenshot.FolderPath"] = ScreenshotFolderPath;
 		getData().ini[U"Screenshot.FileName"] = ScreenshotFileName;
@@ -186,7 +183,6 @@ void Config::draw() const
 	String now = FormatDateTime(DateTime::Now(), ScreenshotDateFormat);
 	FontAsset(U"TextFont")(U"{} : {}{}{}{}"_fmt(Translate[AppLanguage][U"Example"], ScreenshotFolderPath, ScreenshotFileName, now, ScreenshotFileFormat)).draw(screenshotFileExamplePos);
 	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"Notification Enable Toast"]).draw(notificationToastPos);
-	SimpleGUI::CheckBox(desireConsecutiveStatus, Translate[AppLanguage][U"Desire all accessories to have the same type of status regardless of special effects (Option)"], consecutiveStatusPos);
 	SimpleGUI::CheckBox(enableToastNotification, Translate[AppLanguage][U"Toast notification upon completion"], notificationToastPos);
 	openableListBoxScreenshotDateFormat.draw();
 	openableListBoxScreenshotFileFormat.draw();

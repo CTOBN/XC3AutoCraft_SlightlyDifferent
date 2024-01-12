@@ -13,7 +13,6 @@ Loading::Loading(const InitData& init)
 	getData().SerialPort = Parse<String>(getData().ini[U"Device.SerialPort"]);
 	getData().requirementJSONFolderPath = Parse<String>(getData().ini[U"CraftAccessories.requirementJSONFolderPath"]);
 	getData().requirementJSONFilePath = Parse<String>(getData().ini[U"CraftAccessories.requirementJSONFilePath"]);
-	getData().desireConsecutiveStatus = Parse<bool>(getData().ini[U"CraftAccessories.desireConsecutiveStatus"]);
 	getData().enableToastNotification = Parse<bool>(getData().ini[U"CraftAccessories.enableToastNotification"]);
 	getData().ScreenshotFolderPath = Parse<String>(getData().ini[U"Screenshot.FolderPath"]);
 	getData().ScreenshotFileName = Parse<String>(getData().ini[U"Screenshot.FileName"]);
