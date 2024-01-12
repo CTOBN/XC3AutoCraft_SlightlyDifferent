@@ -377,7 +377,7 @@ void Setting::drawNotion() const
 {
 	if (not canMake())
 	{
-		FontAsset(U"TextFont")(Translate[AppLanguage][U"There is a 0% chance that the desired accessory will be available"]).draw(TextStyle::Outline(outlineScale, outlineColor), probabilityTablePos.movedBy(70, -50), Palette::Red);
+		FontAsset(U"TextFont")(Translate[AppLanguage][U"There is a 0% chance that the desired accessory will be available"]).draw(TextStyle::Outline(outlineScale, outlineColor), probabilityTablePos.movedBy(0, -50), Palette::Red);
 	}
 
 	if (selectingAccessoryType == AccessoryType::Undefined)
