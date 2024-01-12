@@ -238,7 +238,7 @@ Array<Accessory> Setting::getAccessoriesFromJSON(const FilePath& path) const
 	return accessories;
 }
 
-void Setting::loadRequirementsFromJSON()
+void Setting::loadRequirementFromJSON()
 {
 	getData().desiredAccessories.clear();
 	getData().desireConsecutiveStatus = getDesireConsecutiveStatusFromJSON(getData().RequirementJSONFilePath);
@@ -499,7 +499,7 @@ void Setting::update()
 
 	if (loadDefaultDesiredAccessoriesButton.isPushed())
 	{
-		loadRequirementsFromJSON();
+		loadRequirementFromJSON();
 	}
 
 

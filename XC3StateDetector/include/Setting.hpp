@@ -50,7 +50,7 @@ public:
 
 	Array<Accessory> getAccessoriesFromJSON(const FilePath& path) const;
 
-	void loadRequirementsFromJSON();
+	void loadRequirementFromJSON();
 
 	void openDesiredAccessories();
 
