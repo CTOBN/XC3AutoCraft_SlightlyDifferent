@@ -26,7 +26,12 @@ HashTable<String, AccessoryType> NameToAccessoryType = {
 	{U"Bangle", AccessoryType::Bangle},
 	{U"Ring", AccessoryType::Ring},
 	{U"Collar", AccessoryType::Collar},
-	{U"Tiara", AccessoryType::Tiara}
+	{U"Tiara", AccessoryType::Tiara},
+	{U"未定義", AccessoryType::Undefined},
+	{U"腕輪", AccessoryType::Bangle},
+	{U"指輪", AccessoryType::Ring},
+	{U"首飾り", AccessoryType::Collar},
+	{U"冠", AccessoryType::Tiara}
 };
 
 
