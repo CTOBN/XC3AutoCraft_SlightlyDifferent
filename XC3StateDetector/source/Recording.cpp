@@ -471,6 +471,7 @@ void Recording::drawButtons()
 	if (SimpleGUI::Button(U"\U000F0493 {}"_fmt(Translate[AppLanguage][U"Go to Setting"]), Vec2{ buttonPos.movedBy(0, 200) }))
 	{
 		// 設定に遷移
+		OpenableListBox::closeCurrentOpeningListBox();
 		changeScene(U"Setting");
 	}
 

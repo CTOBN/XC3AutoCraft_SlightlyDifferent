@@ -19,6 +19,7 @@ public:
 	void update();
 	void draw() const;
 	RectF getDisplayRegion() const;
+	static void closeCurrentOpeningListBox();
 private:
 	static OpenableListBox* currentOpeningListBox;
 	Font m_font;

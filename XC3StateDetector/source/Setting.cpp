@@ -432,12 +432,14 @@ void Setting::update()
 {
 	if (goRecording)
 	{
+		OpenableListBox::closeCurrentOpeningListBox();
 		changeScene(U"Recording");
 	}
 	serialUpdate();
 
 	if (KeySpace.pressed())
 	{
+		OpenableListBox::closeCurrentOpeningListBox();
 		changeScene(U"Config");
 	}
 
@@ -458,6 +460,7 @@ void Setting::update()
 		if (item == MenuBarItemIndex{ 0, 0 })
 		{
 			assignDesiredAccessories();
+			OpenableListBox::closeCurrentOpeningListBox();
 			changeScene(U"Config");
 		}
 

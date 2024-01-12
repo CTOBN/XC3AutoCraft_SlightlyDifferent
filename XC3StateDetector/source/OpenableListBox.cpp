@@ -2,6 +2,15 @@
 
 OpenableListBox* OpenableListBox::currentOpeningListBox = nullptr;
 
+void OpenableListBox::closeCurrentOpeningListBox()
+{
+	if (OpenableListBox::currentOpeningListBox != nullptr)
+	{
+		OpenableListBox::currentOpeningListBox->m_isOpen = false;
+		OpenableListBox::currentOpeningListBox = nullptr;
+	}
+}
+
 OpenableListBox::OpenableListBox(const Font font, const Vec2& pos, const double width, const double height, const size_t displayCount)
 	: m_isOpen(false)
 	, m_font(font)
