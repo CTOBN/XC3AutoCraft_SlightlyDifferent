@@ -76,7 +76,7 @@ Config::Config(const InitData& init)
 
 	buttonChangeSaveJSONFolder = { Translate[AppLanguage][U"Change the save JSON folder"], 20, requirementJSONFolderPathPos };
 	buttonChangeSaveJSONFile = { Translate[AppLanguage][U"If you have a JSON you want to load, set it up here"], 20, requirementJSONFilePathPos };
-	buttonChangeSaveScreenshotFolder = { Translate[AppLanguage][U"Change the save Screenshot folder"], 20, screenshotFolderPos };
+	buttonChangeSaveScreenshotFolder = { Translate[AppLanguage][U"Change the save Screenshot folder"], 20, screenshotFolderPos, screenshotButtonWidth };
 	buttonApply = { Translate[AppLanguage][U"Apply"], 40, applyButtonPos };
 	buttonGoToSetting = { Translate[AppLanguage][U"Go to Setting"], 40, goToSettingButtonPos };
 }
@@ -160,6 +160,7 @@ void Config::update()
 		getData().ini[U"Screenshot.FileFormat"] = ScreenshotFileFormat;
 		getData().ini.save(U"config.ini");
 		reload = true;
+		changeScene(U"Config");
 	}
 
 }
