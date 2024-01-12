@@ -197,6 +197,7 @@ private:
 	Font GoRecordingButtonFont{ 50 };
 	RoundRect GoRecordingRect{ GoRecordingButtonPos, 500, 100, 20 };
 	SeparativeSimpleGUI::Button loadDefaultDesiredAccessoriesButton { Translate[AppLanguage][U"Load default accessory setting (JSON)"], 20, { 400, 55 } };
-
+	SeparativeSimpleGUI::Button clearAccessorySettingButton { Translate[AppLanguage][U"Clear accessory setting"], 20, { 900, 55 } };
 	void setOpenableListBoxAccessory(const Array<Accessory> accessories);
+	void clearAccessorySetting();
 };

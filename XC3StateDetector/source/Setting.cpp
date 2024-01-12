@@ -478,6 +478,7 @@ void Setting::update()
 	}
 
 	loadDefaultDesiredAccessoriesButton.update();
+	clearAccessorySettingButton.update();
 
 	getData().cameraIndex = openableListBoxCamera.getSelectedIndex();
 	getData().cameraName = openableListBoxCamera.getSelectedItem();
@@ -561,6 +562,10 @@ void Setting::update()
 		loadRequirementFromJSON();
 	}
 
+	if (clearAccessorySettingButton.isPushed())
+	{
+		clearAccessorySetting();
+	}
 
 
 	// 下のリストボックスから更新することで選択時のクリックで別のリストボックスが開かないようにする
@@ -680,6 +685,7 @@ void Setting::draw() const
 	}
 
 	loadDefaultDesiredAccessoriesButton.draw();
+	clearAccessorySettingButton.draw();
 }
 
 void Setting::setOpenableListBoxAccessory(const Array<Accessory> accessories)
@@ -696,6 +702,22 @@ void Setting::setOpenableListBoxAccessory(const Array<Accessory> accessories)
 			openableListBoxesStatusType[i * 4 + j].listBoxState.selectedItemIndex = index;
 		}
 	}
+}
+
+void Setting::clearAccessorySetting()
+{
+	for (auto& openableListBoxAccessory : openableListBoxesAccessory)
+	{
+		openableListBoxAccessory.listBoxState.selectedItemIndex = 0;
+	}
+
+	for (auto& openableListBoxStatusType : openableListBoxesStatusType)
+	{
+		openableListBoxStatusType.listBoxState.selectedItemIndex = 0;
+	}
+
+	desireConsecutiveStatus = false;
+	selectingAccessoryType = AccessoryType::Undefined;
 }
 
 
