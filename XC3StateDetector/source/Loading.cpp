@@ -11,9 +11,8 @@ Loading::Loading(const InitData& init)
 	getData().GameLanguage = Parse<String>(getData().ini[U"Language.GameLanguage"]);
 	getData().HDMICapture = Parse<String>(getData().ini[U"Device.HDMICapture"]);
 	getData().SerialPort = Parse<String>(getData().ini[U"Device.SerialPort"]);
-	getData().AccessoryCSVFolderPath = Parse<String>(getData().ini[U"CraftAccessories.AccessoryCSVFolderPath"]);
-	getData().AccessoryCSVFilePath = Parse<String>(getData().ini[U"CraftAccessories.AccessoryCSVFilePath"]);
-	getData().RequirementJSONFilePath = Parse<String>(getData().ini[U"CraftAccessories.RequirementJSONFilePath"]);
+	getData().requirementJSONFolderPath = Parse<String>(getData().ini[U"CraftAccessories.requirementJSONFolderPath"]);
+	getData().requirementJSONFilePath = Parse<String>(getData().ini[U"CraftAccessories.requirementJSONFilePath"]);
 	getData().desireConsecutiveStatus = Parse<bool>(getData().ini[U"CraftAccessories.desireConsecutiveStatus"]);
 	getData().enableToastNotification = Parse<bool>(getData().ini[U"CraftAccessories.enableToastNotification"]);
 	getData().ScreenshotFolderPath = Parse<String>(getData().ini[U"Screenshot.FolderPath"]);

@@ -31,13 +31,29 @@ namespace SeparativeSimpleGUI
 		m_rrect = m_rect.rounded(RoundSize);
 	}
 
+	void Button::updateValues()
+	{
+		const auto dtext = m_font(m_label);
+		const double labelWidth = Math::Ceil(dtext.region().w);
+		m_width = labelWidth + 40;
+		m_center = { m_pos.x + m_width / 2.0, m_pos.y + m_font.height() / 2.0 };
+		m_rect = { Arg::center = m_center, m_width, (double)m_font.height() };
+		m_labelPos = { (m_rect.x + (m_width - labelWidth) / 2.0), (m_center.y - m_font.height() / 2.0 + FontYOffset) };
+		m_rrect = m_rect.rounded(RoundSize);
+	}
+
 	bool Button::isPushed() const
 	{
 		return m_pushed;
 	}
 
-	void Button::update()
+	void Button::update(const Optional<String> label)
 	{
+		if (label.has_value())
+		{
+			m_label = label.value();
+			updateValues();
+		}
 		m_mouseOver = (m_enabled && m_rect.mouseOver());
 		m_pushed = (m_mouseOver && Cursor::OnClientRect() && MouseL.down());
 	}
@@ -65,4 +81,6 @@ namespace SeparativeSimpleGUI
 			Cursor::RequestStyle(CursorStyle::Hand);
 		}
 	}
+
+
 } // namespace SeparativeSimpleGUI

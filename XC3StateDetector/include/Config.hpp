@@ -24,11 +24,11 @@ private:
 	const Vec2 HDMICapturePos = { 20, 300 };
 	const Vec2 serialPortPos = { 20, 400 };
 	const Vec2 craftAccessoryPos = { 20, 500 };
-	const Vec2 accessoryCSVFolderPathPos = craftAccessoryPos.movedBy(0, 50);
-	const Vec2 accessoryCSVFolderPathDrawPos = accessoryCSVFolderPathPos.movedBy(0, 50);
-	const Vec2 accessoryCSVFilePathPos = accessoryCSVFolderPathDrawPos.movedBy(0, 50);
-	const Vec2 accessoryCSVFilePathDrawPos = accessoryCSVFilePathPos.movedBy(0, 50);
-	const Vec2 consecutiveStatusPos = accessoryCSVFilePathDrawPos.movedBy(0, 50);
+	const Vec2 requirementJSONFolderPathPos = craftAccessoryPos.movedBy(0, 50);
+	const Vec2 requirementJSONFolderPathDrawPos = requirementJSONFolderPathPos.movedBy(0, 50);
+	const Vec2 requirementJSONFilePathPos = requirementJSONFolderPathDrawPos.movedBy(0, 50);
+	const Vec2 requirementJSONFilePathDrawPos = requirementJSONFilePathPos.movedBy(0, 50);
+	const Vec2 consecutiveStatusPos = requirementJSONFilePathDrawPos.movedBy(0, 50);
 	const Vec2 notificationToastPos = consecutiveStatusPos.movedBy(0, 50);
 	const Vec2 screenshotPos = { 20, 850 };
 	const Vec2 screenshotFolderPos = screenshotPos.movedBy(0, 50);
@@ -36,15 +36,16 @@ private:
 	const Vec2 screenshotDateFormatPos = screenshotFileNamePos.movedBy(screenshotFileNameTextWidth, 0);
 	const Vec2 screenshotFileFormatPos = screenshotDateFormatPos.movedBy(screenshotDateFormatWidth, 0);
 	const Vec2 screenshotFileExamplePos = screenshotFolderPos.movedBy(0, 50);
-	const Vec2 applyButtonPos = { 1700, 950 };
+	const Vec2 applyButtonPos = { 1700, 900 };
 
+	HashTable<String, HashTable<String, String>>& Translate = getData().Translate;
 	Array<String> LanguageSelection = { U"en-US", U"ja-JP" };
 	String AppLanguage;
 	String GameLanguage;
 	String HDMICapture;
 	String SerialPort;
-	mutable String AccessoryCSVFolderPath;
-	mutable String AccessoryCSVFilePath;
+	mutable String requirementJSONFolderPath;
+	mutable String requirementJSONFilePath;
 	mutable bool desireConsecutiveStatus;
 	mutable bool enableToastNotification;
 	mutable String ScreenshotFolderPath;
@@ -64,7 +65,10 @@ private:
 	OpenableListBox openableListBoxScreenshotDateFormat{ font, screenshotDateFormatPos, screenshotDateFormatWidth, 35, screenshotDateFormatSelection.size()};
 	OpenableListBox openableListBoxScreenshotFileFormat{ font, screenshotFileFormatPos, 90, 35, screenshotFileFormatSelection.size()};
 
-	HashTable<String, HashTable<String, String>>& Translate = getData().Translate;
+	SeparativeSimpleGUI::Button buttonChangeSaveJSONFolder;
+	SeparativeSimpleGUI::Button buttonChangeSaveJSONFile;
+	SeparativeSimpleGUI::Button buttonChangeSaveScreenshotFolder;
+	SeparativeSimpleGUI::Button buttonApply;
 
 	mutable bool reload = false;
 };

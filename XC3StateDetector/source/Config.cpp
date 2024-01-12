@@ -11,8 +11,8 @@ Config::Config(const InitData& init)
 	GameLanguage = Parse<String>(getData().ini[U"Language.GameLanguage"]);
 	HDMICapture = Parse<String>(getData().ini[U"Device.HDMICapture"]);
 	SerialPort = Parse<String>(getData().ini[U"Device.SerialPort"]);
-	AccessoryCSVFolderPath = Parse<String>(getData().ini[U"CraftAccessories.AccessoryCSVFolderPath"]);
-	AccessoryCSVFilePath = Parse<String>(getData().ini[U"CraftAccessories.AccessoryCSVFilePath"]);
+	requirementJSONFolderPath = Parse<String>(getData().ini[U"CraftAccessories.RequirementJSONFolderPath"]);
+	requirementJSONFilePath = Parse<String>(getData().ini[U"CraftAccessories.RequirementJSONFilePath"]);
 	desireConsecutiveStatus = Parse<bool>(getData().ini[U"CraftAccessories.desireConsecutiveStatus"]);
 	enableToastNotification = Parse<bool>(getData().ini[U"CraftAccessories.enableToastNotification"]);
 	ScreenshotFolderPath = Parse<String>(getData().ini[U"Screenshot.FolderPath"]);
@@ -73,6 +73,11 @@ Config::Config(const InitData& init)
 	openableListBoxScreenshotFileFormat.setIndexFromItem(getData().ScreenshotFileFormat);
 
 	ScreenshotFileNameTextEditState.text = getData().ScreenshotFileName;
+
+	buttonChangeSaveJSONFolder = { Translate[AppLanguage][U"Change the save JSON folder"], 20, requirementJSONFolderPathPos };
+	buttonChangeSaveJSONFile = { Translate[AppLanguage][U"If you have a JSON you want to load, set it up here"], 20, requirementJSONFilePathPos };
+	buttonChangeSaveScreenshotFolder = { Translate[AppLanguage][U"Change the save Screenshot folder"], 20, screenshotFolderPos };
+	buttonApply = { Translate[AppLanguage][U"Apply"], 40, applyButtonPos };
 }
 
 void Config::update()
@@ -83,57 +88,38 @@ void Config::update()
 	openableListBoxHDMICapture.update();
 	openableListBoxGameLanguage.update();
 	openableListBoxAppLanguage.update();
+
+	buttonChangeSaveJSONFolder.update(Translate[AppLanguage][U"Change the save JSON folder"]);
+	buttonChangeSaveJSONFile.update(Translate[AppLanguage][U"If you have a JSON you want to load, set it up here"]);
+	buttonChangeSaveScreenshotFolder.update(Translate[AppLanguage][U"Change the save Screenshot folder"]);
+	buttonApply.update(Translate[AppLanguage][U"Apply"]);
+
 	AppLanguage = LanguageSelection[openableListBoxAppLanguage.getSelectedIndex()];
 	GameLanguage = LanguageSelection[openableListBoxGameLanguage.getSelectedIndex()];
 	HDMICapture = openableListBoxHDMICapture.getSelectedItem();
 	SerialPort = openableListBoxSerialPort.getSelectedItem();
 	ScreenshotDateFormat = openableListBoxScreenshotDateFormat.getSelectedItem();
 	ScreenshotFileFormat = openableListBoxScreenshotFileFormat.getSelectedItem();
-	if (reload)
-	{
-		changeScene(U"Config");
-	}
-}
 
-void Config::draw() const
-{
-	DrawVerticalGradientBackground(ColorF{ 0.2, 0.5, 1.0 }, ColorF{ 0.5, 0.8, 1.0 });
-	FontAsset(U"TitleFont")(U"Config").draw(titlePos);
-	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"Game Language"]).draw(gameLanguagePos);
-	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"This Application Language"]).draw(appLanguagePos);
-	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"HDMI Capture"]).draw(HDMICapturePos);
-	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"Serial Port"]).draw(serialPortPos);
-	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"Craft Accessories"]).draw(craftAccessoryPos);
-	FontAsset(U"TextFont")(AccessoryCSVFolderPath).draw(accessoryCSVFolderPathDrawPos);
-	FontAsset(U"TextFont")(AccessoryCSVFilePath).draw(accessoryCSVFilePathDrawPos);
-	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"Screenshot"]).draw(screenshotPos);
-	String now = FormatDateTime(DateTime::Now(), ScreenshotDateFormat);
-	FontAsset(U"TextFont")(U"{} : {}{}{}{}"_fmt(Translate[AppLanguage][U"Example"], ScreenshotFolderPath, ScreenshotFileName, now, ScreenshotFileFormat)).draw(screenshotFileExamplePos);
-	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"Notification Enable Toast"]).draw(notificationToastPos);
-	SimpleGUI::CheckBox(desireConsecutiveStatus, Translate[AppLanguage][U"Desire all accessories to have the same type of status regardless of special effects (Option)"], consecutiveStatusPos);
-	SimpleGUI::CheckBox(enableToastNotification, Translate[AppLanguage][U"Toast notification upon completion"], notificationToastPos);
-	openableListBoxScreenshotDateFormat.draw();
-	openableListBoxScreenshotFileFormat.draw();
-
-	if (SimpleGUI::Button(Translate[AppLanguage][U"Change the save JSON folder"], accessoryCSVFolderPathPos))
+	if (buttonChangeSaveJSONFolder.isPushed())
 	{
-		const auto result = Dialog::SelectFolder(AccessoryCSVFolderPath);
+		const auto result = Dialog::SelectFolder(requirementJSONFolderPath);
 		if (result)
 		{
-			AccessoryCSVFolderPath = result.value();
+			requirementJSONFolderPath = result.value();
 		}
 	}
 
-	if (SimpleGUI::Button(Translate[AppLanguage][U"If you have a JSON you want to load, set it up here"], accessoryCSVFilePathPos))
+	if (buttonChangeSaveJSONFile.isPushed())
 	{
-		const auto result = Dialog::OpenFile({ FileFilter::CSV() }, AccessoryCSVFilePath);
+		const auto result = Dialog::OpenFile({ FileFilter::CSV() }, requirementJSONFilePath);
 		if (result)
 		{
-			AccessoryCSVFilePath = result.value();
+			requirementJSONFilePath = result.value();
 		}
 	}
 
-	if (SimpleGUI::Button(Translate[AppLanguage][U"Change the save Screenshot folder"], screenshotFolderPos))
+	if (buttonChangeSaveScreenshotFolder.isPushed())
 	{
 		const auto result = Dialog::SelectFolder(getData().ScreenshotFolderPath);
 		if (result)
@@ -142,24 +128,14 @@ void Config::draw() const
 		}
 	}
 
-	if (SimpleGUI::TextBox(ScreenshotFileNameTextEditState, screenshotFileNamePos, screenshotFileNameTextWidth, screenshotFileNameMaxCharacters))
-	{
-		ScreenshotFileName = ScreenshotFileNameTextEditState.text;
-	}
-
-	openableListBoxSerialPort.draw();
-	openableListBoxHDMICapture.draw();
-	openableListBoxGameLanguage.draw();
-	openableListBoxAppLanguage.draw();
-
-	if (SimpleGUI::Button(Translate[AppLanguage][U"Apply"], applyButtonPos))
+	if (buttonApply.isPushed())
 	{
 		getData().AppLanguage = AppLanguage;
 		getData().GameLanguage = GameLanguage;
 		getData().HDMICapture = HDMICapture;
 		getData().SerialPort = SerialPort;
-		getData().AccessoryCSVFolderPath = AccessoryCSVFolderPath;
-		getData().AccessoryCSVFilePath = AccessoryCSVFilePath;
+		getData().requirementJSONFolderPath = requirementJSONFolderPath;
+		getData().requirementJSONFilePath = requirementJSONFilePath;
 		getData().desireConsecutiveStatus = desireConsecutiveStatus;
 		getData().enableToastNotification = enableToastNotification;
 		getData().ScreenshotFolderPath = ScreenshotFolderPath;
@@ -172,8 +148,8 @@ void Config::draw() const
 		getData().ini[U"Language.GameLanguage"] = GameLanguage;
 		getData().ini[U"Device.HDMICapture"] = HDMICapture;
 		getData().ini[U"Device.SerialPort"] = SerialPort;
-		getData().ini[U"CraftAccessories.AccessoryCSVFolderPath"] = AccessoryCSVFolderPath;
-		getData().ini[U"CraftAccessories.AccessoryCSVFilePath"] = AccessoryCSVFilePath;
+		getData().ini[U"CraftAccessories.requirementJSONFolderPath"] = requirementJSONFolderPath;
+		getData().ini[U"CraftAccessories.requirementJSONFilePath"] = requirementJSONFilePath;
 		getData().ini[U"CraftAccessories.desireConsecutiveStatus"] = desireConsecutiveStatus;
 		getData().ini[U"CraftAccessories.enableToastNotification"] = enableToastNotification;
 		getData().ini[U"Screenshot.FolderPath"] = ScreenshotFolderPath;
@@ -183,4 +159,41 @@ void Config::draw() const
 		getData().ini.save(U"config.ini");
 		reload = true;
 	}
+
+}
+
+void Config::draw() const
+{
+	DrawVerticalGradientBackground(ColorF{ 0.2, 0.5, 1.0 }, ColorF{ 0.5, 0.8, 1.0 });
+	FontAsset(U"TitleFont")(U"Config").draw(titlePos);
+	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"Game Language"]).draw(gameLanguagePos);
+	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"This Application Language"]).draw(appLanguagePos);
+	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"HDMI Capture"]).draw(HDMICapturePos);
+	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"Serial Port"]).draw(serialPortPos);
+	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"Craft Accessories"]).draw(craftAccessoryPos);
+	FontAsset(U"TextFont")(requirementJSONFolderPath).draw(requirementJSONFolderPathDrawPos);
+	FontAsset(U"TextFont")(requirementJSONFilePath).draw(requirementJSONFilePathDrawPos);
+	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"Screenshot"]).draw(screenshotPos);
+	String now = FormatDateTime(DateTime::Now(), ScreenshotDateFormat);
+	FontAsset(U"TextFont")(U"{} : {}{}{}{}"_fmt(Translate[AppLanguage][U"Example"], ScreenshotFolderPath, ScreenshotFileName, now, ScreenshotFileFormat)).draw(screenshotFileExamplePos);
+	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"Notification Enable Toast"]).draw(notificationToastPos);
+	SimpleGUI::CheckBox(desireConsecutiveStatus, Translate[AppLanguage][U"Desire all accessories to have the same type of status regardless of special effects (Option)"], consecutiveStatusPos);
+	SimpleGUI::CheckBox(enableToastNotification, Translate[AppLanguage][U"Toast notification upon completion"], notificationToastPos);
+	openableListBoxScreenshotDateFormat.draw();
+	openableListBoxScreenshotFileFormat.draw();
+
+	if (SimpleGUI::TextBox(ScreenshotFileNameTextEditState, screenshotFileNamePos, screenshotFileNameTextWidth, screenshotFileNameMaxCharacters))
+	{
+		ScreenshotFileName = ScreenshotFileNameTextEditState.text;
+	}
+
+	openableListBoxSerialPort.draw();
+	openableListBoxHDMICapture.draw();
+	openableListBoxGameLanguage.draw();
+	openableListBoxAppLanguage.draw();
+
+	buttonChangeSaveJSONFolder.draw();
+	buttonChangeSaveJSONFile.draw();
+	buttonChangeSaveScreenshotFolder.draw();
+	buttonApply.draw();
 }

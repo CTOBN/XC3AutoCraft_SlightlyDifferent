@@ -241,9 +241,9 @@ Array<Accessory> Setting::getAccessoriesFromJSON(const FilePath& path) const
 void Setting::loadRequirementFromJSON()
 {
 	getData().desiredAccessories.clear();
-	getData().desireConsecutiveStatus = getDesireConsecutiveStatusFromJSON(getData().RequirementJSONFilePath);
-	getData().selectedAccessoryType = getAccessoryTypeFromJSON(getData().RequirementJSONFilePath);
-	getData().desiredAccessories = getAccessoriesFromJSON(getData().RequirementJSONFilePath);
+	getData().desireConsecutiveStatus = getDesireConsecutiveStatusFromJSON(getData().requirementJSONFilePath);
+	getData().selectedAccessoryType = getAccessoryTypeFromJSON(getData().requirementJSONFilePath);
+	getData().desiredAccessories = getAccessoriesFromJSON(getData().requirementJSONFilePath);
 	desiredAccessoriesToListBox();
 }
 
