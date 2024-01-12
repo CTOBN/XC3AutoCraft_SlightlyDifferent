@@ -36,7 +36,9 @@ private:
 	const Vec2 screenshotDateFormatPos = screenshotFileNamePos.movedBy(screenshotFileNameTextWidth, 0);
 	const Vec2 screenshotFileFormatPos = screenshotDateFormatPos.movedBy(screenshotDateFormatWidth, 0);
 	const Vec2 screenshotFileExamplePos = screenshotFolderPos.movedBy(0, 50);
-	const Vec2 applyButtonPos = { 1700, 900 };
+
+	const Vec2 applyButtonPos = { 1600, 50 };
+	const Vec2 goToSettingButtonPos = applyButtonPos.movedBy(0, 70);
 
 	HashTable<String, HashTable<String, String>>& Translate = getData().Translate;
 	Array<String> LanguageSelection = { U"en-US", U"ja-JP" };
@@ -69,6 +71,7 @@ private:
 	SeparativeSimpleGUI::Button buttonChangeSaveJSONFile;
 	SeparativeSimpleGUI::Button buttonChangeSaveScreenshotFolder;
 	SeparativeSimpleGUI::Button buttonApply;
+	SeparativeSimpleGUI::Button buttonGoToSetting;
 
 	mutable bool reload = false;
 };

@@ -78,6 +78,7 @@ Config::Config(const InitData& init)
 	buttonChangeSaveJSONFile = { Translate[AppLanguage][U"If you have a JSON you want to load, set it up here"], 20, requirementJSONFilePathPos };
 	buttonChangeSaveScreenshotFolder = { Translate[AppLanguage][U"Change the save Screenshot folder"], 20, screenshotFolderPos };
 	buttonApply = { Translate[AppLanguage][U"Apply"], 40, applyButtonPos };
+	buttonGoToSetting = { Translate[AppLanguage][U"Go to Setting"], 40, goToSettingButtonPos };
 }
 
 void Config::update()
@@ -93,6 +94,7 @@ void Config::update()
 	buttonChangeSaveJSONFile.update(Translate[AppLanguage][U"If you have a JSON you want to load, set it up here"]);
 	buttonChangeSaveScreenshotFolder.update(Translate[AppLanguage][U"Change the save Screenshot folder"]);
 	buttonApply.update(Translate[AppLanguage][U"Apply"]);
+	buttonGoToSetting.update(Translate[AppLanguage][U"Go to Setting"]);
 
 	AppLanguage = LanguageSelection[openableListBoxAppLanguage.getSelectedIndex()];
 	GameLanguage = LanguageSelection[openableListBoxGameLanguage.getSelectedIndex()];
@@ -196,4 +198,5 @@ void Config::draw() const
 	buttonChangeSaveJSONFile.draw();
 	buttonChangeSaveScreenshotFolder.draw();
 	buttonApply.draw();
+	buttonGoToSetting.draw();
 }
