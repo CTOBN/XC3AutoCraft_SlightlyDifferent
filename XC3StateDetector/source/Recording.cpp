@@ -398,10 +398,10 @@ void Recording::drawRecognizedAccessories() const
 	for (int i = 0; i < recognizedAccessoriesSize; i++)
 	{
 		const Accessory& acc = RecognizedAccessories[recognizedAccessoriesSize - i - 1];
-		FontAsset(U"AccessoryFont")(Accessory::getSpecialEffectList(AppLanguage)[acc.getIndex()]).draw(recognizedAccessoriesPos.movedBy(0, i * 30));
+		fontAccessory(Accessory::getSpecialEffectList(AppLanguage)[acc.getIndex()]).draw(recognizedAccessoriesPos.movedBy(0, i * 30));
 		for (int j = 0; j < 4; j++)
 		{
-			FontAsset(U"AccessoryFont")(StatusTypeToString[getData().AppLanguage][acc.getStatusBoosts()[j].type]).drawAt(recognizedAccessoriesPos.movedBy(600 + j * 90, 10 + i * 30));
+			fontAccessory(StatusTypeToString[getData().AppLanguage][acc.getStatusBoosts()[j].type]).drawAt(recognizedAccessoriesPos.movedBy(600 + j * 90, 10 + i * 30));
 		}
 	}
 }
@@ -413,10 +413,10 @@ void Recording::drawDesiredAccessories() const
 	for (int i = 0; i < getData().desiredAccessories.size(); i++)
 	{
 		Accessory& acc = getData().desiredAccessories[i];
-		FontAsset(U"AccessoryFont")(Accessory::getSpecialEffectList(AppLanguage)[acc.getIndex()]).draw(desiredAccessoriesPos.movedBy(0, i * 30));
+		fontAccessory(Accessory::getSpecialEffectList(AppLanguage)[acc.getIndex()]).draw(desiredAccessoriesPos.movedBy(0, i * 30));
 		for (int j = 0; j < 4; j++)
 		{
-			FontAsset(U"AccessoryFont")(StatusTypeToString[getData().AppLanguage][acc.getStatusBoosts()[j].type]).drawAt(desiredAccessoriesPos.movedBy(600 + j * 90, 10 + i * 30));
+			fontAccessory(StatusTypeToString[getData().AppLanguage][acc.getStatusBoosts()[j].type]).drawAt(desiredAccessoriesPos.movedBy(600 + j * 90, 10 + i * 30));
 		}
 	}
 }

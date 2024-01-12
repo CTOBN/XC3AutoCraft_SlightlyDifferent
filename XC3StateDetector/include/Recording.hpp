@@ -30,6 +30,14 @@ private:
 	HashTable<String, HashTable<String, String>>& Translate = getData().Translate;
 	String AppLanguage = getData().AppLanguage;
 
+	const HashTable<String, int32> fontSizeAccessory =
+	{
+		{ U"en-US", 12 },
+		{ U"ja-JP", 15 },
+	};
+
+	Font fontAccessory { fontSizeAccessory.at(AppLanguage), Typeface::Bold };
+
 	Array<String> RestSpotMenuNames = { U"相談", U"レベルアップ", U"ジェムクラフト", U"料理", U"アクセサリークラフト", U"セーブ", U"クリーニング" };
 
 	const Point ABILITY_TEXT_AREA_POS{ 679, 516 };
