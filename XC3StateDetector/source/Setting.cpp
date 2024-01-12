@@ -108,7 +108,6 @@ Setting::Setting(const InitData& init)
 }
 
 
-
 void Setting::assignDesiredAccessories() const
 {
 	getData().desiredAccessories.clear();
