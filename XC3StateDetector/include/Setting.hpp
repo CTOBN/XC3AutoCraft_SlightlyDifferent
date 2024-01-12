@@ -191,8 +191,6 @@ private:
 	};
 	SimpleMenuBar menuBar{ menus };
 
-	Optional<FilePath> desiredAccessoryOpenPath;
-	Optional<FilePath> desiredAccessorySavePath;
 	
 	Font GoRecordingButtonFont{ 50 };
 	RoundRect GoRecordingRect{ GoRecordingButtonPos, 500, 100, 20 };

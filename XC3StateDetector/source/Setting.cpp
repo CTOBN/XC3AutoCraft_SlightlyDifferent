@@ -397,7 +397,7 @@ void Setting::drawNotion() const
 
 void Setting::openDesiredAccessories()
 {
-	desiredAccessoryOpenPath = Dialog::OpenFile({ FileFilter::CSV(), FileFilter::JSON() });
+	Optional<FilePath> desiredAccessoryOpenPath = Dialog::OpenFile({ FileFilter::CSV(), FileFilter::JSON() });
 	if (not desiredAccessoryOpenPath) return;
 
 	if (desiredAccessoryOpenPath.value().includes(U".csv"))
@@ -416,7 +416,7 @@ void Setting::openDesiredAccessories()
 
 void Setting::saveDesiredAccessoriesAsCSV()
 {
-	desiredAccessorySavePath = Dialog::SaveFile({ FileFilter::CSV() });
+	Optional<FilePath> desiredAccessorySavePath = Dialog::SaveFile({ FileFilter::CSV() });
 	if (desiredAccessorySavePath)
 	{
 		assignDesiredAccessories();
@@ -437,7 +437,7 @@ void Setting::saveDesiredAccessoriesAsCSV()
 
 void Setting::saveRequirementAsJSON()
 {
-	Optional<FilePath> requirementSavePath = Dialog::SaveFile({ FileFilter::JSON() });
+	Optional<FilePath> requirementSavePath = Dialog::SaveFile({ FileFilter::JSON() }, getData().requirementJSONFolderPath );
 	if (requirementSavePath)
 	{
 		assignDesiredAccessories();
