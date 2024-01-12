@@ -19,6 +19,13 @@ Config::Config(const InitData& init)
 	ScreenshotDateFormat = Parse<String>(getData().ini[U"Screenshot.DateFormat"]);
 	ScreenshotFileFormat = Parse<String>(getData().ini[U"Screenshot.FileFormat"]);
 
+	menus =
+	{
+		{ Translate[AppLanguage][U"App"], { Translate[AppLanguage][U"Exit"] }},
+		{ Translate[AppLanguage][U"Help"], { U"\U000F0625 {}"_fmt(Translate[AppLanguage][U"Web Document"]), U"\U000F0FC3 {}"_fmt(Translate[AppLanguage][U"License Information"]) } },
+	};
+	menuBar = SimpleMenuBar{ menus };
+
 	for (int i = 0; i < LanguageSelection.size(); ++i)
 	{
 		openableListBoxAppLanguage.emplace_back(Translate[AppLanguage][LanguageSelection[i]]);
@@ -101,6 +108,27 @@ void Config::update()
 	SerialPort = openableListBoxSerialPort.getSelectedItem();
 	ScreenshotDateFormat = openableListBoxScreenshotDateFormat.getSelectedItem();
 	ScreenshotFileFormat = openableListBoxScreenshotFileFormat.getSelectedItem();
+
+	if (const auto& item = menuBar.update())
+	{
+		// 「終了」が押されたら
+		if (item == MenuBarItemIndex{ 0, 1 })
+		{
+			System::Exit();
+		}
+
+		// Webマニュアルが押されたら
+		if (item == MenuBarItemIndex{ 2, 0 })
+		{
+			System::LaunchBrowser(getData().WebManualURL);
+		}
+
+		// 「ライセンス情報」が押されたら
+		if (item == MenuBarItemIndex{ 2, 1 })
+		{
+			LicenseManager::ShowInBrowser();
+		}
+	}
 
 	if (buttonChangeSaveJSONFolder.isPushed())
 	{
@@ -185,6 +213,8 @@ void Config::draw() const
 	SimpleGUI::CheckBox(enableToastNotification, Translate[AppLanguage][U"Toast notification upon completion"], notificationToastPos);
 	openableListBoxScreenshotDateFormat.draw();
 	openableListBoxScreenshotFileFormat.draw();
+
+	menuBar.draw();
 
 	if (SimpleGUI::TextBox(ScreenshotFileNameTextEditState, screenshotFileNamePos, screenshotFileNameTextWidth, screenshotFileNameMaxCharacters))
 	{

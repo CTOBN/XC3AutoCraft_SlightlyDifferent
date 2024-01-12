@@ -41,6 +41,9 @@ private:
 
 	HashTable<String, HashTable<String, String>>& Translate = getData().Translate;
 	Array<String> LanguageSelection = { U"en-US", U"ja-JP" };
+	Array<std::pair<String, Array<String>>> menus;
+	SimpleMenuBar menuBar;
+
 	String AppLanguage;
 	String GameLanguage;
 	String HDMICapture;
