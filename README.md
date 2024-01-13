@@ -6,6 +6,9 @@ PC上でゲーム状況を認識する**XC3StateDetector**と
 Nintendo Switchにボタン入力を送信する**XC3KeyCommander**の
 2つのプログラムが連動し、予め設定したアクセサリーが出るまでクラフトを続けます。
 
+##デモ
+![XC3StateDetector_DEMO](https://github.com/eightgamedev/XC3AutoCraft/assets/47023171/92eeb3f1-e5d4-43d9-847f-6379cf6ae5be)
+
 ## このアプリについて
 - このアプリの他にArduino等のいくつかの機器が必要になります。予めご了承ください。
 - アクセサリークラフトに特化しているのでユーザーはマクロを作る必要がありません。
