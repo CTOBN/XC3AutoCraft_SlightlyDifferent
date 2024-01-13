@@ -5,8 +5,9 @@ class VirtualJoyCon
 {
 public:
 	VirtualJoyCon() = delete;
-	VirtualJoyCon(Serial& serial, Vec2 L_pos, Vec2 R_pos);
+	VirtualJoyCon(Serial& serial, JoyConGUI joyConGUI);
 	void sendButtonSerial();
+	void updateLED();
 	void update();
 	void draw() const;
 private:

@@ -63,10 +63,9 @@ private:
 	const Point STATUS_ICON_SIZE = { 30, 30 };
 
 	const Vec2 JOYCON_GUI_POS_Left = { 1100, 250 };
-	const Vec2 JOYCON_GUI_POS_Right = { 1200, 250 };
 	const Point desiredAccessoriesPos = { 1000, 580 };
 	const Point recognizedAccessoriesPos = { 30, 580 };
-	VirtualJoyCon virtualJoyCon{ getData().serial, JOYCON_GUI_POS_Left, JOYCON_GUI_POS_Right };
+	VirtualJoyCon virtualJoyCon{ getData().serial, JoyConGUI{ JOYCON_GUI_POS_Left} };
 	Array<uint8> currentSerialBytes;
 	uint8 lastSerialByte;
 

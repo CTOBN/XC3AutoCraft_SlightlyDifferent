@@ -2,9 +2,9 @@
 #include "JoyConGUI.hpp"
 #include "VirtualJoyCon.hpp"
 
-VirtualJoyCon::VirtualJoyCon(Serial& serial, Vec2 L_pos, Vec2 R_pos) :
+VirtualJoyCon::VirtualJoyCon(Serial& serial, JoyConGUI joyConGUI) :
 	m_serial(serial),
-	m_joyConGUI(L_pos, R_pos)
+	m_joyConGUI(joyConGUI)
 {
 	m_buttons =
 	{
@@ -83,10 +83,17 @@ void VirtualJoyCon::sendButtonSerial()
 	}
 }
 
+void VirtualJoyCon::updateLED()
+{
+	m_joyConGUI.setLEDStatusLeft(m_serial.isOpen(), 0);
+	m_joyConGUI.setLEDStatusRight(m_serial.isOpen(), 0);
+}
+
 void VirtualJoyCon::update()
 {
 	m_joyConGUI.update();
 	sendButtonSerial();
+	updateLED();
 }
 
 void VirtualJoyCon::draw() const
