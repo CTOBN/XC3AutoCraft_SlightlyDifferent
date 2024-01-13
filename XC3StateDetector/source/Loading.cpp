@@ -1,11 +1,18 @@
 ﻿# include "Loading.hpp"
 
 Loading::Loading(const InitData& init)
-		: IScene{ init }
+	: IScene{ init }
 {
 	if (not getData().ini)
 	{
-		throw Error { U"Failed to load `config.ini`" };
+		if (System::DefaultLanguage() == U"ja-JP")
+		{
+			throw Error(U"`config.ini` の読み込みに失敗しました\nファイルが実行ファイルと同じフォルダに存在するか確認してください");
+		}
+		else
+		{
+			throw Error(U"Failed to load `config.ini`\n, please check if the file exists in the same folder as the executable file");
+		}
 	}
 	getData().AppLanguage = Parse<String>(getData().ini[U"Language.AppLanguage"]);
 	getData().GameLanguage = Parse<String>(getData().ini[U"Language.GameLanguage"]);
