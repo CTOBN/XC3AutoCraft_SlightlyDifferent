@@ -65,19 +65,19 @@ Setting::Setting(const InitData& init)
 		openableListBoxStatusType.setItems(StatusTypeStringList[AppLanguage]);
 	}
 
-	openableListBoxCamera.emplace_back(Translate[AppLanguage][U"Unselected"]);
+	openableListBoxHDMICapture.emplace_back(Translate[AppLanguage][U"Unselected"]);
 	for (const auto& info : System::EnumerateWebcams())
 	{
-		openableListBoxCamera.emplace_back(info.name);
+		openableListBoxHDMICapture.emplace_back(info.name);
 	}
-	openableListBoxCamera.setIndexFromItem(getData().HDMICapture);
+	openableListBoxHDMICapture.setIndexFromItem(getData().HDMICapture);
 
-	openableListBoxSerial.emplace_back(Translate[AppLanguage][U"Unselected"]);
+	openableListBoxSerialPort.emplace_back(Translate[AppLanguage][U"Unselected"]);
 	for (const auto& info : getData().infos)
 	{
-		openableListBoxSerial.emplace_back(U"{} {}"_fmt(info.hardwareID, info.description));
+		openableListBoxSerialPort.emplace_back(U"{} {}"_fmt(info.hardwareID, info.description));
 	}
-	openableListBoxSerial.setIndexFromItem(getData().SerialPort);
+	openableListBoxSerialPort.setIndexFromItem(getData().SerialPort);
 
 	desiredAccessoriesToListBox();
 
@@ -339,17 +339,17 @@ bool Setting::canMake() const
 
 bool Setting::isSelectedSerialPort() const
 {
-	return getData().serialIndex != 0;
+	return getData().serialPortIndex != 0;
 }
 
-bool Setting::isSelectedCamera() const
+bool Setting::isSelectedHDMICapture() const
 {
-	return getData().cameraIndex != 0;
+	return getData().HDMICaptureIndex != 0;
 }
 
 bool Setting::canGoRecording() const
 {
-	return selectingAccessoryType != AccessoryType::Undefined && isSelectedCamera() && isSelectedSerialPort() && canMake();
+	return selectingAccessoryType != AccessoryType::Undefined && isSelectedHDMICapture() && isSelectedSerialPort() && canMake();
 }
 
 void Setting::serialUpdate()
@@ -389,9 +389,9 @@ void Setting::drawNotion() const
 		probabilityTable.cellRegion(probabilityTablePos, 0, static_cast<size_t>(selectingAccessoryType)).drawFrame(4, 0, Palette::Red);
 	}
 
-	if (getData().cameraIndex == 0)
+	if (getData().HDMICaptureIndex == 0)
 	{
-		FontAsset(U"TextFont")(Translate[AppLanguage][U"Please select a HDMI Capture"]).draw(TextStyle::Outline(outlineScale, outlineColor), CameraTextPos.movedBy(0, 40), Palette::Red);
+		FontAsset(U"TextFont")(Translate[AppLanguage][U"Please select a HDMI Capture"]).draw(TextStyle::Outline(outlineScale, outlineColor), HDMICaptureTextPos.movedBy(0, 40), Palette::Red);
 	}
 }
 
@@ -467,24 +467,18 @@ void Setting::update()
 	if (goRecording)
 	{
 		OpenableListBox::closeCurrentOpeningListBox();
-		changeScene(U"Recording");
+		changeScene(U"Recording", 0.5s);
 	}
 	serialUpdate();
-
-	if (KeySpace.pressed())
-	{
-		OpenableListBox::closeCurrentOpeningListBox();
-		changeScene(U"Config");
-	}
 
 	loadDefaultDesiredAccessoriesButton.update();
 	clearAccessorySettingButton.update();
 
-	getData().cameraIndex = openableListBoxCamera.getSelectedIndex();
-	getData().cameraName = openableListBoxCamera.getSelectedItem();
+	getData().HDMICaptureIndex = openableListBoxHDMICapture.getSelectedIndex();
+	getData().HDMICaptureName = openableListBoxHDMICapture.getSelectedItem();
 
-	getData().serialIndex = openableListBoxSerial.getSelectedIndex();
-	getData().serialName = openableListBoxSerial.getSelectedItem();
+	getData().serialPortIndex = openableListBoxSerialPort.getSelectedIndex();
+	getData().serialPortName = openableListBoxSerialPort.getSelectedItem();
 
 	setProbability();
 	selectAccTypeButtonUpdate();
@@ -498,7 +492,7 @@ void Setting::update()
 			getData().selectedAccessoryType = selectingAccessoryType;
 			getData().desireConsecutiveStatus = desireConsecutiveStatus;
 			OpenableListBox::closeCurrentOpeningListBox();
-			changeScene(U"Config");
+			changeScene(U"Config", 0.5s);
 		}
 
 		// 「終了」が押されたら
@@ -582,8 +576,8 @@ void Setting::update()
 		openableListBoxStatusType.update();
 	}
 
-	openableListBoxCamera.update();
-	openableListBoxSerial.update();
+	openableListBoxHDMICapture.update();
+	openableListBoxSerialPort.update();
 }
 
 void Setting::draw() const
@@ -602,7 +596,7 @@ void Setting::draw() const
 
 	if (isSelectedSerialPort() && SimpleGUI::Button(Translate[AppLanguage][U"Serial connection test"], SerialTextPos.movedBy(720, 80)))
 	{
-		if (getData().serial.open(getData().infos[getData().serialIndex - 1].port))
+		if (getData().serial.open(getData().infos[getData().serialPortIndex - 1].port))
 		{
 			serialConnectionStatus = Translate[AppLanguage][U"Serial Port connection succeeded"];
 			serialConnectionStatusColor = Palette::Green;
@@ -617,7 +611,7 @@ void Setting::draw() const
 	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"Serial Port"]).draw(SerialTextPos);
 	drawSerialStatus();
 
-	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"HDMI Capture"]).draw(CameraTextPos);
+	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"HDMI Capture"]).draw(HDMICaptureTextPos);
 
 	// 候補が下に展開されるので逆順に描画
 	for (auto it = std::rbegin(openableListBoxesAccessory); it != std::rend(openableListBoxesAccessory); ++it)
@@ -633,8 +627,8 @@ void Setting::draw() const
 		openableListBoxStatusType.draw();
 	}
 
-	openableListBoxCamera.draw();
-	openableListBoxSerial.draw();
+	openableListBoxHDMICapture.draw();
+	openableListBoxSerialPort.draw();
 
 	AccessoryListBoxTable.draw(AccessoryListBoxTablePos);
 
@@ -660,15 +654,15 @@ void Setting::draw() const
 		}
 
 		// カメラが選択されていない場合
-		if (not isSelectedCamera())
+		if (not isSelectedHDMICapture())
 		{
-			Line{ GoRecordingRect.leftCenter(), openableListBoxCamera.getDisplayRegion().rightCenter()}.drawArrow(10, SizeF{20, 20}, Palette::Orange);
+			Line{ GoRecordingRect.leftCenter(), openableListBoxHDMICapture.getDisplayRegion().rightCenter()}.drawArrow(10, SizeF{20, 20}, Palette::Orange);
 		}
 
 		// シリアルポートが選択されていない場合
 		if (not isSelectedSerialPort())
 		{
-			Line{ GoRecordingRect.leftCenter(), openableListBoxSerial.getDisplayRegion().rightCenter() }.drawArrow(10, SizeF{20, 20}, Palette::Orange);
+			Line{ GoRecordingRect.leftCenter(), openableListBoxSerialPort.getDisplayRegion().rightCenter() }.drawArrow(10, SizeF{20, 20}, Palette::Orange);
 		}
 	}
 	if (DentButton( canGoRecording() ? Translate[AppLanguage][U"Next"] : Translate[AppLanguage][U"Unable to proceed"],

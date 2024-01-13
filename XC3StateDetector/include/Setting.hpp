@@ -28,7 +28,7 @@ public:
 
 	bool isSelectedSerialPort() const;
 
-	bool isSelectedCamera() const;
+	bool isSelectedHDMICapture() const;
 
 	bool canGoRecording() const;
 
@@ -82,7 +82,7 @@ private:
 	const int CAMERA_FONT_SIZE = 18;
 	const int line_padding = 20;
 
-	const Vec2 CameraTextPos = { MENU_X, 600 };
+	const Vec2 HDMICaptureTextPos = { MENU_X, 600 };
 	const Vec2 SerialTextPos = { MENU_X, 750 };
 	const Vec2 GoRecordingButtonPos = { 1350, 850 };
 
@@ -137,8 +137,8 @@ private:
 	Array<OpenableListBox> openableListBoxesStatusType;
 	mutable AccessoryType selectingAccessoryType;
 	mutable bool desireConsecutiveStatus;
-	OpenableListBox	openableListBoxCamera{ CAMERA_FONT, CameraTextPos.movedBy(0, 80), 300, 30, 3};
-	OpenableListBox openableListBoxSerial{ SERIAL_FONT, SerialTextPos.movedBy(0, 80), 700, 30, 3 };
+	OpenableListBox	openableListBoxHDMICapture{ CAMERA_FONT, HDMICaptureTextPos.movedBy(0, 80), 300, 30, 3};
+	OpenableListBox openableListBoxSerialPort{ SERIAL_FONT, SerialTextPos.movedBy(0, 80), 700, 30, 3 };
 
 	HashTable<std::pair<StatusType, AccessoryType>, double> statusTypeLotteryRateTable = {
 		{{StatusType::Anything, AccessoryType::Undefined}, 1},

@@ -160,6 +160,7 @@ void Config::update()
 	if (buttonApply.isPushed())
 	{
 		getData().AppLanguage = AppLanguage;
+		if (getData().GameLanguage != GameLanguage) getData().needToReloadGameLanguageDependentImages = true;
 		getData().GameLanguage = GameLanguage;
 		getData().HDMICapture = HDMICapture;
 		getData().SerialPort = SerialPort;
@@ -191,7 +192,15 @@ void Config::update()
 	if (buttonGoToSetting.isPushed())
 	{
 		OpenableListBox::closeCurrentOpeningListBox();
-		changeScene(U"Setting");
+
+		if (getData().needToReloadGameLanguageDependentImages)
+		{
+			changeScene(U"Loading", 0.5s);
+		}
+		else
+		{
+			changeScene(U"Setting", 0.5s);
+		}
 	}
 }
 

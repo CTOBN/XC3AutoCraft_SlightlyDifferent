@@ -54,8 +54,8 @@ private:
 	Webcam webcam;
 	DynamicTexture texture;
 	Image image;
-	const Point CAMERA_RESOLUTION = { 1920, 1080 };
-	const Point VIDEO_DISPLAY_SIZE = CAMERA_RESOLUTION / 2;
+	const Point HDMICaptureRsolution = { 1920, 1080 };
+	const Point VIDEO_DISPLAY_SIZE = HDMICaptureRsolution / 2;
 	String currentSpecialEffect;
 
 	const Point buttonPos = { 1400, 70 };

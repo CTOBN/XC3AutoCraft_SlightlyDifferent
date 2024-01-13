@@ -38,7 +38,6 @@ private:
 
 	const Vec2 applyButtonPos = { 1600, 50 };
 	const Vec2 goToSettingButtonPos = applyButtonPos.movedBy(0, 70);
-
 	HashTable<String, HashTable<String, String>>& Translate = getData().Translate;
 	Array<String> LanguageSelection = { U"en-US", U"ja-JP" };
 	Array<std::pair<String, Array<String>>> menus;
