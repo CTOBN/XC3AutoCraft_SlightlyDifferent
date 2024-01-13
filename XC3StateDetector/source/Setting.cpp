@@ -65,19 +65,19 @@ Setting::Setting(const InitData& init)
 		openableListBoxStatusType.setItems(StatusTypeStringList[AppLanguage]);
 	}
 
-	openableListBoxCamera.emplace_back(Translate[AppLanguage][U"Unselected"]);
+	openableListBoxHDMICapture.emplace_back(Translate[AppLanguage][U"Unselected"]);
 	for (const auto& info : System::EnumerateWebcams())
 	{
-		openableListBoxCamera.emplace_back(info.name);
+		openableListBoxHDMICapture.emplace_back(info.name);
 	}
-	openableListBoxCamera.setIndexFromItem(getData().HDMICapture);
+	openableListBoxHDMICapture.setIndexFromItem(getData().HDMICapture);
 
-	openableListBoxSerial.emplace_back(Translate[AppLanguage][U"Unselected"]);
+	openableListBoxSerialPort.emplace_back(Translate[AppLanguage][U"Unselected"]);
 	for (const auto& info : getData().infos)
 	{
-		openableListBoxSerial.emplace_back(U"{} {}"_fmt(info.hardwareID, info.description));
+		openableListBoxSerialPort.emplace_back(U"{} {}"_fmt(info.hardwareID, info.description));
 	}
-	openableListBoxSerial.setIndexFromItem(getData().SerialPort);
+	openableListBoxSerialPort.setIndexFromItem(getData().SerialPort);
 
 	desiredAccessoriesToListBox();
 
@@ -474,11 +474,11 @@ void Setting::update()
 	loadDefaultDesiredAccessoriesButton.update();
 	clearAccessorySettingButton.update();
 
-	getData().cameraIndex = openableListBoxCamera.getSelectedIndex();
-	getData().cameraName = openableListBoxCamera.getSelectedItem();
+	getData().cameraIndex = openableListBoxHDMICapture.getSelectedIndex();
+	getData().cameraName = openableListBoxHDMICapture.getSelectedItem();
 
-	getData().serialIndex = openableListBoxSerial.getSelectedIndex();
-	getData().serialName = openableListBoxSerial.getSelectedItem();
+	getData().serialIndex = openableListBoxSerialPort.getSelectedIndex();
+	getData().serialName = openableListBoxSerialPort.getSelectedItem();
 
 	setProbability();
 	selectAccTypeButtonUpdate();
@@ -576,8 +576,8 @@ void Setting::update()
 		openableListBoxStatusType.update();
 	}
 
-	openableListBoxCamera.update();
-	openableListBoxSerial.update();
+	openableListBoxHDMICapture.update();
+	openableListBoxSerialPort.update();
 }
 
 void Setting::draw() const
@@ -627,8 +627,8 @@ void Setting::draw() const
 		openableListBoxStatusType.draw();
 	}
 
-	openableListBoxCamera.draw();
-	openableListBoxSerial.draw();
+	openableListBoxHDMICapture.draw();
+	openableListBoxSerialPort.draw();
 
 	AccessoryListBoxTable.draw(AccessoryListBoxTablePos);
 
@@ -656,13 +656,13 @@ void Setting::draw() const
 		// カメラが選択されていない場合
 		if (not isSelectedCamera())
 		{
-			Line{ GoRecordingRect.leftCenter(), openableListBoxCamera.getDisplayRegion().rightCenter()}.drawArrow(10, SizeF{20, 20}, Palette::Orange);
+			Line{ GoRecordingRect.leftCenter(), openableListBoxHDMICapture.getDisplayRegion().rightCenter()}.drawArrow(10, SizeF{20, 20}, Palette::Orange);
 		}
 
 		// シリアルポートが選択されていない場合
 		if (not isSelectedSerialPort())
 		{
-			Line{ GoRecordingRect.leftCenter(), openableListBoxSerial.getDisplayRegion().rightCenter() }.drawArrow(10, SizeF{20, 20}, Palette::Orange);
+			Line{ GoRecordingRect.leftCenter(), openableListBoxSerialPort.getDisplayRegion().rightCenter() }.drawArrow(10, SizeF{20, 20}, Palette::Orange);
 		}
 	}
 	if (DentButton( canGoRecording() ? Translate[AppLanguage][U"Next"] : Translate[AppLanguage][U"Unable to proceed"],
