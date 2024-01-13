@@ -329,7 +329,7 @@ void Recording::judgeAccessory()
 		const ToastNotificationItem toast{
 			.title = toastTitle, // 通知のタイトル
 			.message = toastMessage, // 通知のメッセージ
-			.actions = { U"通知を消す" } // アクションボタン
+			.actions = { Translate[AppLanguage][U"close"] } // アクションボタン
 		};
 		Platform::Windows::ToastNotification::Show(toast);
 		// Console << toastTitle << toastMessage;
