@@ -1,13 +1,24 @@
 ﻿# include "JoyConGUI.hpp"
 
-JoyConGUI::JoyConGUI(Vec2 L_pos, Vec2 R_pos)
+JoyConGUI::JoyConGUI(Vec2 L_pos)
 	: m_joyConLPos{ L_pos }
-	, m_joyConRPos{ R_pos }
+	, m_joyConRPos{ L_pos.movedBy(210, 0) }
+	, m_joyConGripPos{ L_pos.movedBy(105, 0) }
 {
 	const Vec2 size = Vec2{ 5.27, 15.33 };
-	RectF base{ Arg::center = m_joyConLPos, size };
+	RectF base = { Arg::center = m_joyConGripPos, size };
 
+	// center grip
+	const Vec2 basetc = base.topCenter();
+	m_center_grip = RectF{ Arg::topCenter = basetc.movedBy(0.0, 0.55), Vec2{ 6.2, 14.63 } };
 
+	for (size_t i = 0; i < 4; ++i)
+	{
+		m_LEDDisplaysLeft << RectF{ Arg::topCenter = basetc.movedBy(-2.1, 0.5 * i + 6.3), m_LEDDisplaySize };
+		m_LEDDisplaysRight << RectF{ Arg::topCenter = basetc.movedBy(2.1, 0.5 * i + 6.3), m_LEDDisplaySize };
+	}
+	
+	base = { Arg::center = m_joyConLPos, size };
 	// body
 	{
 		body_left_1 = Circle{ base.pos.movedBy(3.0, 3.6), 3.0 };
@@ -48,8 +59,8 @@ JoyConGUI::JoyConGUI(Vec2 L_pos, Vec2 R_pos)
 	m_minus = RectF{ Arg::center = base.tl().movedBy(4.03, 2.0), Vec2{ 0.8, 0.2 } };
 
 	// L, ZL
-	m_L = RectF{ base.tl().movedBy(2.0, -0.1), Vec2{ 2.8, 0.8 } }.rounded(0.3, 0.3, 0, 0);
-	m_ZL = RectF{ base.tl().movedBy(2.0, -1.8), Vec2{ 2.8, 1.6 } }.rounded(0.3, 0.3, 0, 0);
+	m_L = RectF{ Arg::center = base.tl().movedBy(3.6, 0.25), Vec2{ 2.55, 0.8 } }.rounded(0.3, 0.3, 0, 0);
+	m_ZL = RectF{ Arg::center = base.tl().movedBy(3.6, -1.2), Vec2{ 2.55, 1.6 } }.rounded(0.3, 0.3, 0.1, 0.1);
 
 	base = { Arg::center = m_joyConRPos, size };
 
@@ -89,8 +100,8 @@ JoyConGUI::JoyConGUI(Vec2 L_pos, Vec2 R_pos)
 	m_plus = Shape2D::Plus(0.4, 0.2, baseTr.movedBy(-4.03, 2.0));
 
 	// R, ZR
-	m_R = RectF{ baseTr.movedBy(-4.8, -0.1), Vec2{ 2.8, 0.8 } }.rounded(0.3, 0.3, 0, 0);
-	m_ZR = RectF{ baseTr.movedBy(-4.8, -1.8), Vec2{ 2.8, 1.6 } }.rounded(0.3, 0.3, 0, 0);
+	m_R = RectF{ Arg::center = baseTr.movedBy(-3.6, 0.25), Vec2{ 2.55, 0.8 } }.rounded(0.3, 0.3, 0, 0);
+	m_ZR = RectF{ Arg::center = baseTr.movedBy(-3.6, -1.2), Vec2{ 2.55, 1.6 } }.rounded(0.3, 0.3, 0.1, 0.1);
 }
 
 bool JoyConGUI::getButtonA() const
@@ -427,6 +438,7 @@ void JoyConGUI::updateJoyConR()
 	RStickDirection = calculateStickDirectionAsVector(m_right_stick, m_right_click);
 }
 
+
 void JoyConGUI::drawButtonLLetters() const
 {
 	const ScopedCustomShader2D shader{ Font::GetPixelShader(m_font.method()) };
@@ -571,6 +583,35 @@ void JoyConGUI::drawJoyConR() const
 	drawButtonRLetters();
 }
 
+void JoyConGUI::drawJoyConGrip() const
+{
+	Transformer2D t{ Mat3x2::Scale(20, m_joyConGripPos), TransformCursor::Yes };
+	m_center_grip.draw(m_joyConGripColor);
+	for (size_t i = 0; i < 4; ++i)
+	{
+		m_LEDDisplaysLeft[i].draw(m_LEDStatusLeft[i] ? m_LEDColorActive : m_LEDColorInactive);
+		m_LEDDisplaysRight[i].draw(m_LEDStatusRight[i] ? m_LEDColorActive : m_LEDColorInactive);
+	}
+}
+
+void JoyConGUI::setLEDStatusLeft(bool status, size_t index)
+{
+	if (index >= 4)
+	{
+		throw Error{ U"Index out of range in setLEDStatusLeft" };
+	}
+	m_LEDStatusLeft[index] = status;
+}
+
+void JoyConGUI::setLEDStatusRight(bool status, size_t index)
+{
+	if (index >= 4)
+	{
+		throw Error{ U"Index out of range in setLEDStatusRight" };
+	}
+	m_LEDStatusRight[index] = status;
+}
+
 void JoyConGUI::update()
 {
 	updateJoyConL();
@@ -583,4 +624,7 @@ void JoyConGUI::draw() const
 	drawJoyConL();
 	// 右ジョイコン
 	drawJoyConR();
+	// ジョイコングリップ
+	drawJoyConGrip();
+
 }

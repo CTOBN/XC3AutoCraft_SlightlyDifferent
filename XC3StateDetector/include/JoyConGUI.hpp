@@ -3,7 +3,7 @@
 class JoyConGUI {
 public:
 	JoyConGUI() = default;
-	JoyConGUI(Vec2 L_pos, Vec2 R_pos);
+	JoyConGUI(Vec2 L_pos);
 	enum struct Direction
 	{
 		Up,
@@ -44,18 +44,10 @@ public:
 
 	Vec2 getLStickValue() const;
 	Vec2 getRStickValue() const;
-	Vec2 calculateStickValue(const Circle& circle, const Circle innerCircle) const;
-	Vec2 calculateStickDirectionAsVector(const Circle& circle, const Circle innerCircle) const;
-	int8 calculateStickDirectionAsInt(const Circle& circle, const Circle innerCircle) const;
-	bool isMouseOverArc(const Circle& circle, const Circle& innerCircle, Direction direction) const;
-	void updateLStickDirection();
-	void updateRStickDirection();
-	void updateJoyConL();
-	void updateJoyConR();
-	void drawButtonLLetters() const;
-	void drawButtonRLetters() const;
-	void drawJoyConL() const;
-	void drawJoyConR() const;
+
+	void setLEDStatusLeft(bool status, size_t index);
+	void setLEDStatusRight(bool status, size_t index);
+
 	void update();
 	void draw() const;
 private:
@@ -88,6 +80,8 @@ private:
 		bool Right = false;
 	};
 
+	Array<bool> m_LEDStatusLeft = { false, false, false, false };
+	Array<bool> m_LEDStatusRight = { false, false, false, false };
 
 	Button button;
 
@@ -111,16 +105,27 @@ private:
 	// 右ジョイコンの色
 	const ColorF m_joyConRColor = Palette::Tomato;
 
+	// ジョイコンのグリップの色
+	const ColorF m_joyConGripColor = Palette::Black;
+
+	// ジョイコンのLEDのアクティブの色
+	const ColorF m_LEDColorActive = Palette::Yellow;
+
+	// ジョイコンのLEDの非アクティブの色
+	const ColorF m_LEDColorInactive = Palette::White;
+
 	// ジョイコンのサイズ
 	const double m_joyConSize = 400.0;
 
 	// ジョイコンの角度
 	const double m_joyConAngle = 0.0;
 
+	// ジョイコンの位置
 	const Vec2 m_joyConLPos = Vec2{ 0.0, 0.0 };
 
-	// ジョイコンの位置
 	const Vec2 m_joyConRPos = Vec2{ 0.0, 0.0 };
+
+	const Vec2 m_joyConGripPos = Vec2{ 0.0, 0.0 };
 
 	const double m_Stick_radius = 1.2;
 
@@ -130,6 +135,11 @@ private:
 	Vec2 RStickValue = { 128, 128 };
 	Vec2 LStickDirection = { 0, 0 };
 	Vec2 RStickDirection = { 0, 0 };
+
+	RectF m_center_grip;
+	Array<RectF> m_LEDDisplaysLeft;
+	Array<RectF> m_LEDDisplaysRight;
+	Vec2 m_LEDDisplaySize = { 0.2, 0.2 };
 
 	Circle body_left_1;
 	RectF  body_left_2;
@@ -188,4 +198,17 @@ private:
 	const Glyph glyph_HOME = m_font.getGlyph(U'⌂');
 	const Glyph glyph_CAPTURE = m_font.getGlyph(U'○');
 
+	Vec2 calculateStickValue(const Circle& circle, const Circle innerCircle) const;
+	Vec2 calculateStickDirectionAsVector(const Circle& circle, const Circle innerCircle) const;
+	int8 calculateStickDirectionAsInt(const Circle& circle, const Circle innerCircle) const;
+	bool isMouseOverArc(const Circle& circle, const Circle& innerCircle, Direction direction) const;
+	void updateLStickDirection();
+	void updateRStickDirection();
+	void updateJoyConL();
+	void updateJoyConR();
+	void drawButtonLLetters() const;
+	void drawButtonRLetters() const;
+	void drawJoyConL() const;
+	void drawJoyConR() const;
+	void drawJoyConGrip() const;
 };
