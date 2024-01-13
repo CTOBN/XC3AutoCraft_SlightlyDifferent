@@ -486,7 +486,7 @@ void Recording::drawButtons()
 		}
 	}
 	// スクリーンショットの保存先を開く
-	if (SimpleGUI::Button(Translate[AppLanguage][U"Folder"], Vec2{ buttonPos.movedBy(250, 250) }))
+	if (SimpleGUI::Button(Translate[AppLanguage][U"Folder"], Vec2{ buttonPos.movedBy(350, 250) }))
 	{
 		System::LaunchFile(getData().ScreenshotFolderPath);
 		// Console << getData().ScreenshotFolderPath;
