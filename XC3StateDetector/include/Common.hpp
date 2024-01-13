@@ -45,6 +45,8 @@ struct GameData
 	String ScreenshotFileName;
 	String ScreenshotDateFormat;
 	String ScreenshotFileFormat;
+
+	bool needToReloadGameLanguageDependentImages = false;
 };
 
 // 共有するデータの型を指定

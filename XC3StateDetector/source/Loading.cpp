@@ -3,18 +3,25 @@
 Loading::Loading(const InitData& init)
 	: IScene{ init }
 {
-	loadConfigINI();
-	loadTranslationCSV();
-	loadAccessoryCSV();
-	loadStatusIcons();
-	loadAccessoryTypeImages();
-	loadEnigmatterNumbers();
+	if (not getData().needToReloadGameLanguageDependentImages)
+	{
+		loadConfigINI();
+		loadTranslationCSV();
+		loadAccessoryCSV();
+		loadStatusIcons();
+		loadAccessoryTypeImages();
+		loadEnigmatterNumbers();
+	}
 
 	String GameLanguage = getData().GameLanguage;
-
+	getData().binarizedSpecialEffects.clear();
+	getData().binarizedGameScenes.clear();
+	getData().binarizedRestSpotMenus.clear();
 	loadSpecialEffectImages(GameLanguage);
 	loadGameScenes(GameLanguage);
 	loadRestSpotMenus(GameLanguage);
+
+	getData().needToReloadGameLanguageDependentImages = false;
 }
 
 void Loading::update()
@@ -29,36 +36,6 @@ void Loading::draw() const
 	diamond.draw(Scene::Center().x - 33, Scene::Center().y - 315, Palette::Springgreen);
 	ring.drawFrame(0, 20, Palette::Springgreen);
 	FontAsset(U"TitleFont")(U"Now Loading").drawAt(Scene::Center());
-}
-
-void Loading::loadSpecialEffectImages(const String gameLanguage)
-{
-	for (uint16 i = 3428; i <= 3913; i += 5)
-	{
-		String path = SpecialEffectFolderPath + U"/" + gameLanguage + U"/" + Format(i) + U".jpg";
-		getData().binarizedSpecialEffects.push_back(Image{ path }.thresholded(128));
-		// Console << path << U" を読み込みました";
-	}
-}
-
-void Loading::loadGameScenes(const String gameLanguage)
-{
-	for (const auto& GameSceneName : getData().GameSceneNames)
-	{
-		String path = GameScenesFolderPath + U"/" + gameLanguage + U"/" + GameSceneName + U".jpg";
-		getData().binarizedGameScenes.push_back(Image{ Resource(path) }.thresholded(216));
-		// Console << path << U" を読み込みました";
-	}
-}
-
-void Loading::loadRestSpotMenus(const String gameLanguage)
-{
-	for (const auto& RestSpotMenuName : getData().RestSpotMenus)
-	{
-		String path = RestSpotMenuFolderPath + U"/" + gameLanguage + U"/" + RestSpotMenuName + U".jpg";
-		getData().binarizedRestSpotMenus.push_back(Image{ Resource(path) }.thresholded(128));
-		// Console << path << U" を読み込みました";
-	}
 }
 
 void Loading::loadConfigINI()
@@ -180,6 +157,34 @@ void Loading::loadEnigmatterNumbers()
 	// Console << U"images/EnigmatterNumbers/null.jpg" << U" を読み込みました";
 }
 
+void Loading::loadSpecialEffectImages(const String gameLanguage)
+{
+	for (uint16 i = 3428; i <= 3913; i += 5)
+	{
+		String path = SpecialEffectFolderPath + U"/" + gameLanguage + U"/" + Format(i) + U".jpg";
+		getData().binarizedSpecialEffects.push_back(Image{ path }.thresholded(128));
+		// Console << path << U" を読み込みました";
+	}
+}
 
+void Loading::loadGameScenes(const String gameLanguage)
+{
+	for (const auto& GameSceneName : getData().GameSceneNames)
+	{
+		String path = GameScenesFolderPath + U"/" + gameLanguage + U"/" + GameSceneName + U".jpg";
+		getData().binarizedGameScenes.push_back(Image{ Resource(path) }.thresholded(216));
+		// Console << path << U" を読み込みました";
+	}
+}
+
+void Loading::loadRestSpotMenus(const String gameLanguage)
+{
+	for (const auto& RestSpotMenuName : getData().RestSpotMenus)
+	{
+		String path = RestSpotMenuFolderPath + U"/" + gameLanguage + U"/" + RestSpotMenuName + U".jpg";
+		getData().binarizedRestSpotMenus.push_back(Image{ Resource(path) }.thresholded(128));
+		// Console << path << U" を読み込みました";
+	}
+}
 
 
