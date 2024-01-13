@@ -571,7 +571,7 @@ void Recording::draw() const
 	if (not webcam)
 	{
 		Rect{ {0, 0}, VIDEO_DISPLAY_SIZE }.draw(Palette::Black);
-		Circle{ {VIDEO_DISPLAY_SIZE.x / 2, VIDEO_DISPLAY_SIZE.y / 2}, 100 }
+		Circle{ {VIDEO_DISPLAY_SIZE.x / 2, VIDEO_DISPLAY_SIZE.y / 2}, 200 }
 		.drawArc(Scene::Time() * 180_deg, 300_deg, 5, 5, Palette::White);
 		FontAsset(U"TextFont")(getData().Translate[AppLanguage][U"HDMI Capture is preparing"]).drawAt({ VIDEO_DISPLAY_SIZE.x / 2, VIDEO_DISPLAY_SIZE.y / 2 - 20 }, Palette::White);
 		FontAsset(U"TextFont")(getData().HDMICaptureName).drawAt({ VIDEO_DISPLAY_SIZE.x / 2, VIDEO_DISPLAY_SIZE.y / 2 + 20 }, Palette::White);
