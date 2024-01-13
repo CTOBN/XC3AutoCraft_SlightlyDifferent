@@ -470,7 +470,7 @@ void Recording::drawButtons()
 	{
 		// 設定に遷移
 		OpenableListBox::closeCurrentOpeningListBox();
-		changeScene(U"Setting");
+		changeScene(U"Setting", 0.5s);
 	}
 
 	if (webcam && SimpleGUI::Button(U"\U000F0E51 {}"_fmt(Translate[AppLanguage][U"Take Screenshot"]), Vec2{ buttonPos.movedBy(0, 250) }))
