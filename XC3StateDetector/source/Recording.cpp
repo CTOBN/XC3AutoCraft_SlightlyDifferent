@@ -186,7 +186,7 @@ Accessory Recording::recognizeAccessory()
 
 void Recording::addAccessory(const Accessory& accessory)
 {
-	if (RecognizedAccessories.size() == 15) {
+	if (RecognizedAccessories.size() == 14) {
 		RecognizedAccessories.pop_front();
 	}
 	RecognizedAccessories.push_back(accessory);
