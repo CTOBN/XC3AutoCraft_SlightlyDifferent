@@ -7,7 +7,7 @@ Nintendo Switchにボタン入力を送信する**XC3KeyCommander**の
 2つのプログラムが連動し、予め設定したアクセサリーが出るまでクラフトを続けます。
 
 ## デモ
-![XC3StateDetector_DEMO](https://github.com/eightgamedev/XC3AutoCraft/assets/47023171/418d9ae1-73ba-4178-a851-9192cd0528e0)
+![XC3StateDetector_DEMO](https://github.com/eightgamedev/XC3AutoCraft/assets/47023171/b880efe5-ce19-4a58-859e-3694353766d1)
 
 ## このアプリについて
 - このアプリの他にArduino等のいくつかの機器が必要になります。予めご了承ください。
