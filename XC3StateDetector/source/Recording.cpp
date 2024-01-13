@@ -186,7 +186,7 @@ Accessory Recording::recognizeAccessory()
 
 void Recording::addAccessory(const Accessory& accessory)
 {
-	if (RecognizedAccessories.size() == 15) {
+	if (RecognizedAccessories.size() == 14) {
 		RecognizedAccessories.pop_front();
 	}
 	RecognizedAccessories.push_back(accessory);
@@ -329,7 +329,7 @@ void Recording::judgeAccessory()
 		const ToastNotificationItem toast{
 			.title = toastTitle, // 通知のタイトル
 			.message = toastMessage, // 通知のメッセージ
-			.actions = { U"通知を消す" } // アクションボタン
+			.actions = { Translate[AppLanguage][U"close"] } // アクションボタン
 		};
 		Platform::Windows::ToastNotification::Show(toast);
 		// Console << toastTitle << toastMessage;
@@ -486,7 +486,7 @@ void Recording::drawButtons()
 		}
 	}
 	// スクリーンショットの保存先を開く
-	if (SimpleGUI::Button(Translate[AppLanguage][U"Folder"], Vec2{ buttonPos.movedBy(250, 250) }))
+	if (SimpleGUI::Button(Translate[AppLanguage][U"Folder"], Vec2{ buttonPos.movedBy(350, 250) }))
 	{
 		System::LaunchFile(getData().ScreenshotFolderPath);
 		// Console << getData().ScreenshotFolderPath;
@@ -571,7 +571,7 @@ void Recording::draw() const
 	if (not webcam)
 	{
 		Rect{ {0, 0}, VIDEO_DISPLAY_SIZE }.draw(Palette::Black);
-		Circle{ {VIDEO_DISPLAY_SIZE.x / 2, VIDEO_DISPLAY_SIZE.y / 2}, 100 }
+		Circle{ {VIDEO_DISPLAY_SIZE.x / 2, VIDEO_DISPLAY_SIZE.y / 2}, 200 }
 		.drawArc(Scene::Time() * 180_deg, 300_deg, 5, 5, Palette::White);
 		FontAsset(U"TextFont")(getData().Translate[AppLanguage][U"HDMI Capture is preparing"]).drawAt({ VIDEO_DISPLAY_SIZE.x / 2, VIDEO_DISPLAY_SIZE.y / 2 - 20 }, Palette::White);
 		FontAsset(U"TextFont")(getData().HDMICaptureName).drawAt({ VIDEO_DISPLAY_SIZE.x / 2, VIDEO_DISPLAY_SIZE.y / 2 + 20 }, Palette::White);
@@ -588,8 +588,20 @@ void Recording::draw() const
 
 	// 現在の状態を表示
 	FontAsset(U"TextFont")(U"{} : {}"_fmt(getData().Translate[AppLanguage][U"Current State"], getData().Translate[AppLanguage][context.getCurrentStateName()])).draw(StateInformationPos);
-	FontAsset(U"TextFont")(U"{} : {}"_fmt(getData().Translate[AppLanguage][U"Enigmatter"], context.currentEnigmatterCount)).draw(StateInformationPos.movedBy(0, 30));
+	FontAsset(U"TextFont")(U"{} : {}"_fmt(getData().Translate[AppLanguage][U"Enigmatter Count"], context.currentEnigmatterCount)).draw(StateInformationPos.movedBy(0, 30));
 	// FontAsset(U"TextFont")(getData().Translate[AppLanguage][context.message]).draw(1150, 510, Palette::Red);
+
+	FontAsset(U"TextFont")(U"{} : {}"_fmt(
+		getData().Translate[AppLanguage][U"Accessory Type"],
+		AccessoryTypeToName[AppLanguage][getData().selectedAccessoryType]))
+		.draw(StateInformationPos.movedBy(0, 60));
+
+	FontAsset(U"TextFont")(U"{} : {}"_fmt(
+		getData().Translate[AppLanguage][U"Desire consecutive status"],
+		getData().desireConsecutiveStatus
+			? getData().Translate[AppLanguage][U"Yes"]
+			: getData().Translate[AppLanguage][U"No"]))
+		.draw(StateInformationPos.movedBy(0, 90));
 
 	menuBar.draw();
 }

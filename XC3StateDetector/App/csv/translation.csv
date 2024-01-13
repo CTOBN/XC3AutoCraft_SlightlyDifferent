@@ -55,7 +55,11 @@ Unable to proceed,Unable to proceed,次に進めません
 Next,Next,次へ
 HDMI Capture is preparing,HDMI Capture is preparing,HDMIキャプチャーを準備しています
 Current State,Current State,現在の状態
-Enigmatter,Enigmatter,ｱﾝﾉｳﾝﾏﾀｰ
+Enigmatter Count,Enigmatter Count,ｱﾝﾉｳﾝﾏﾀｰの数
+Accessory Type,Accessory Type,アクセサリの種類
+Desire consecutive status,Desire consecutive status,同じ種類のステータスを希望する
+Yes,Yes,はい
+No,No,いいえ
 Undefined,Undefined,未定義
 TitleLoading,TitleLoading,タイトル画面をローディング中
 Title,Title,タイトル画面
@@ -80,6 +84,7 @@ Take Screenshot,Take Screenshot,スクリーンショットを撮る
 Folder,Folder,保存先
 Tweet,Tweet,ツイート
 You got desired Accessory,You got desired Accessory,目的のアクセサリを手に入れました
+close,close,閉じる
 Game scene could not be recognized,Game scene could not be recognized,ゲームシーンが認識できませんでした
 Lack of UnknownMatter,Lack of UnknownMatter,アンノウンマターが足りません
 Failed to get cursor for break point,Failed to get cursor for break point,休憩ポイントのカーソル取得に失敗しました
