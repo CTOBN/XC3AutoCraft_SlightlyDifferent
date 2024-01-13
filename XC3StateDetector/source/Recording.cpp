@@ -588,8 +588,20 @@ void Recording::draw() const
 
 	// 現在の状態を表示
 	FontAsset(U"TextFont")(U"{} : {}"_fmt(getData().Translate[AppLanguage][U"Current State"], getData().Translate[AppLanguage][context.getCurrentStateName()])).draw(StateInformationPos);
-	FontAsset(U"TextFont")(U"{} : {}"_fmt(getData().Translate[AppLanguage][U"Enigmatter"], context.currentEnigmatterCount)).draw(StateInformationPos.movedBy(0, 30));
+	FontAsset(U"TextFont")(U"{} : {}"_fmt(getData().Translate[AppLanguage][U"Enigmatter Count"], context.currentEnigmatterCount)).draw(StateInformationPos.movedBy(0, 30));
 	// FontAsset(U"TextFont")(getData().Translate[AppLanguage][context.message]).draw(1150, 510, Palette::Red);
+
+	FontAsset(U"TextFont")(U"{} : {}"_fmt(
+		getData().Translate[AppLanguage][U"Accessory Type"],
+		AccessoryTypeToName[AppLanguage][getData().selectedAccessoryType]))
+		.draw(StateInformationPos.movedBy(0, 60));
+
+	FontAsset(U"TextFont")(U"{} : {}"_fmt(
+		getData().Translate[AppLanguage][U"Desire consecutive status"],
+		getData().desireConsecutiveStatus
+			? getData().Translate[AppLanguage][U"Yes"]
+			: getData().Translate[AppLanguage][U"No"]))
+		.draw(StateInformationPos.movedBy(0, 90));
 
 	menuBar.draw();
 }
