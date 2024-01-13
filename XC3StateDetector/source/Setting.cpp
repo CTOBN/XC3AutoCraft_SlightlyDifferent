@@ -467,15 +467,9 @@ void Setting::update()
 	if (goRecording)
 	{
 		OpenableListBox::closeCurrentOpeningListBox();
-		changeScene(U"Recording");
+		changeScene(U"Recording", 0.5s);
 	}
 	serialUpdate();
-
-	if (KeySpace.pressed())
-	{
-		OpenableListBox::closeCurrentOpeningListBox();
-		changeScene(U"Config");
-	}
 
 	loadDefaultDesiredAccessoriesButton.update();
 	clearAccessorySettingButton.update();
@@ -498,7 +492,7 @@ void Setting::update()
 			getData().selectedAccessoryType = selectingAccessoryType;
 			getData().desireConsecutiveStatus = desireConsecutiveStatus;
 			OpenableListBox::closeCurrentOpeningListBox();
-			changeScene(U"Config");
+			changeScene(U"Config", 0.5s);
 		}
 
 		// 「終了」が押されたら
