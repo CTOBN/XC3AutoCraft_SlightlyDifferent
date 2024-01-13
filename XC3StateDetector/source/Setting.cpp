@@ -339,17 +339,17 @@ bool Setting::canMake() const
 
 bool Setting::isSelectedSerialPort() const
 {
-	return getData().serialIndex != 0;
+	return getData().serialPortIndex != 0;
 }
 
-bool Setting::isSelectedCamera() const
+bool Setting::isSelectedHDMICapture() const
 {
-	return getData().cameraIndex != 0;
+	return getData().HDMICaptureIndex != 0;
 }
 
 bool Setting::canGoRecording() const
 {
-	return selectingAccessoryType != AccessoryType::Undefined && isSelectedCamera() && isSelectedSerialPort() && canMake();
+	return selectingAccessoryType != AccessoryType::Undefined && isSelectedHDMICapture() && isSelectedSerialPort() && canMake();
 }
 
 void Setting::serialUpdate()
@@ -389,9 +389,9 @@ void Setting::drawNotion() const
 		probabilityTable.cellRegion(probabilityTablePos, 0, static_cast<size_t>(selectingAccessoryType)).drawFrame(4, 0, Palette::Red);
 	}
 
-	if (getData().cameraIndex == 0)
+	if (getData().HDMICaptureIndex == 0)
 	{
-		FontAsset(U"TextFont")(Translate[AppLanguage][U"Please select a HDMI Capture"]).draw(TextStyle::Outline(outlineScale, outlineColor), CameraTextPos.movedBy(0, 40), Palette::Red);
+		FontAsset(U"TextFont")(Translate[AppLanguage][U"Please select a HDMI Capture"]).draw(TextStyle::Outline(outlineScale, outlineColor), HDMICaptureTextPos.movedBy(0, 40), Palette::Red);
 	}
 }
 
@@ -474,11 +474,11 @@ void Setting::update()
 	loadDefaultDesiredAccessoriesButton.update();
 	clearAccessorySettingButton.update();
 
-	getData().cameraIndex = openableListBoxHDMICapture.getSelectedIndex();
-	getData().cameraName = openableListBoxHDMICapture.getSelectedItem();
+	getData().HDMICaptureIndex = openableListBoxHDMICapture.getSelectedIndex();
+	getData().HDMICaptureName = openableListBoxHDMICapture.getSelectedItem();
 
-	getData().serialIndex = openableListBoxSerialPort.getSelectedIndex();
-	getData().serialName = openableListBoxSerialPort.getSelectedItem();
+	getData().serialPortIndex = openableListBoxSerialPort.getSelectedIndex();
+	getData().serialPortName = openableListBoxSerialPort.getSelectedItem();
 
 	setProbability();
 	selectAccTypeButtonUpdate();
@@ -596,7 +596,7 @@ void Setting::draw() const
 
 	if (isSelectedSerialPort() && SimpleGUI::Button(Translate[AppLanguage][U"Serial connection test"], SerialTextPos.movedBy(720, 80)))
 	{
-		if (getData().serial.open(getData().infos[getData().serialIndex - 1].port))
+		if (getData().serial.open(getData().infos[getData().serialPortIndex - 1].port))
 		{
 			serialConnectionStatus = Translate[AppLanguage][U"Serial Port connection succeeded"];
 			serialConnectionStatusColor = Palette::Green;
@@ -611,7 +611,7 @@ void Setting::draw() const
 	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"Serial Port"]).draw(SerialTextPos);
 	drawSerialStatus();
 
-	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"HDMI Capture"]).draw(CameraTextPos);
+	FontAsset(U"SubtitleFont")(Translate[AppLanguage][U"HDMI Capture"]).draw(HDMICaptureTextPos);
 
 	// 候補が下に展開されるので逆順に描画
 	for (auto it = std::rbegin(openableListBoxesAccessory); it != std::rend(openableListBoxesAccessory); ++it)
@@ -654,7 +654,7 @@ void Setting::draw() const
 		}
 
 		// カメラが選択されていない場合
-		if (not isSelectedCamera())
+		if (not isSelectedHDMICapture())
 		{
 			Line{ GoRecordingRect.leftCenter(), openableListBoxHDMICapture.getDisplayRegion().rightCenter()}.drawArrow(10, SizeF{20, 20}, Palette::Orange);
 		}

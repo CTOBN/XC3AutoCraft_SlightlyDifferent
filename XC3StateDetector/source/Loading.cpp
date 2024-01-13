@@ -26,7 +26,7 @@ Loading::Loading(const InitData& init)
 
 void Loading::update()
 {
-	changeScene(U"Setting");
+	changeScene(U"Setting", 0.5s);
 }
 
 void Loading::draw() const

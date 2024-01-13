@@ -5,10 +5,10 @@ Recording::Recording(const InitData& init)
 	: IScene{ init }
 {
 	// 非同期タスクを開始
-	const uint32 CameraIndex = getData().cameraIndex - 1;
+	const uint32 HDMICaptureIndex = getData().HDMICaptureIndex - 1;
 
-	task = AsyncTask<Webcam>{ [CameraIndex, this]() {
-		Webcam webcam{ CameraIndex, Size{ this->CAMERA_RESOLUTION }, StartImmediately::No };
+	task = AsyncTask<Webcam>{ [HDMICaptureIndex, this]() {
+		Webcam webcam{ HDMICaptureIndex, Size{ this->HDMICaptureRsolution }, StartImmediately::No };
 		webcam.start();
 		return webcam;
 	} };
@@ -352,7 +352,7 @@ void Recording::updateContext()
 
 bool Recording::openSerialPort() const
 {
-	if (getData().serial.open(getData().infos[getData().serialIndex - 1].port))
+	if (getData().serial.open(getData().infos[getData().serialPortIndex - 1].port))
 	{
 		// Console << U"シリアルポートを開きました";
 		return true;
@@ -574,7 +574,7 @@ void Recording::draw() const
 		Circle{ {VIDEO_DISPLAY_SIZE.x / 2, VIDEO_DISPLAY_SIZE.y / 2}, 100 }
 		.drawArc(Scene::Time() * 180_deg, 300_deg, 5, 5, Palette::White);
 		FontAsset(U"TextFont")(getData().Translate[AppLanguage][U"HDMI Capture is preparing"]).drawAt({ VIDEO_DISPLAY_SIZE.x / 2, VIDEO_DISPLAY_SIZE.y / 2 - 20 }, Palette::White);
-		FontAsset(U"TextFont")(getData().cameraName).drawAt({ VIDEO_DISPLAY_SIZE.x / 2, VIDEO_DISPLAY_SIZE.y / 2 + 20 }, Palette::White);
+		FontAsset(U"TextFont")(getData().HDMICaptureName).drawAt({ VIDEO_DISPLAY_SIZE.x / 2, VIDEO_DISPLAY_SIZE.y / 2 + 20 }, Palette::White);
 	}
 	if (texture)
 	{

@@ -7,8 +7,8 @@
 struct GameData
 {
 	HashTable<String, HashTable<String, String>> Translate;
-	uint32 cameraIndex = 0;
-	String cameraName;
+	uint32 HDMICaptureIndex = 0;
+	String HDMICaptureName;
 	Array<Accessory> desiredAccessories;
 	Array<Image> binarizedSpecialEffects;
 	Array<Image> icons;
@@ -20,8 +20,8 @@ struct GameData
 	Array<String> RestSpotMenus = { U"Discuss", U"LevelUp", U"CraftGems", U"Cook", U"CraftAccessories", U"Save", U"CleanClothes" };
 	Array<String> GameSceneNames = { U"Undefined", U"Title", U"Field", U"RestSpot", U"CraftAccessories" };
 	Serial serial;
-	size_t serialIndex = 0;
-	String serialName;
+	size_t serialPortIndex = 0;
+	String serialPortName;
 
 	// すべて同じ能力上昇値のアクセサリを希望するか
 	bool desireConsecutiveStatus = false;

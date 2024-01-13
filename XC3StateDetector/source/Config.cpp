@@ -195,11 +195,11 @@ void Config::update()
 
 		if (getData().needToReloadGameLanguageDependentImages)
 		{
-			changeScene(U"Loading");
+			changeScene(U"Loading", 0.5s);
 		}
 		else
 		{
-			changeScene(U"Setting");
+			changeScene(U"Setting", 0.5s);
 		}
 	}
 }
