@@ -5,9 +5,47 @@
 # include "Recording.hpp"
 
 
+#if USE_TEST
+#include "Test.hpp"
+
+class TestRunner
+{
+public:
+	static int run()
+	{
+		Console.open();
+
+		doctest::Context context;
+
+		// overrides
+		context.setOption("no-breaks", true); // don't break in the debugger when assertions fail
+
+		int result = context.run(); // run
+
+		if (context.shouldExit()) // important - query flags (and --exit) rely on the user doing this
+			return result; // propagate the result of the tests
+
+		// テスト実行
+		bool testSuccess = result == 0;
+		if (!testSuccess)
+		{
+			// テスト失敗時
+
+			// 失敗に気づきやすいようにキー入力を待つようにする
+			// 失敗時にはゲーム画面は表示されず、コンソール画面のみ表示される
+			static_cast<void>(std::getchar());
+		}
+
+		return testSuccess;
+	}
+};
+#endif
 
 void Main()
 {
+#if USE_TEST
+	TestRunner::run();
+#endif
 	const String applicationName = U"XC3StateDetector";
 	const String version = U"v1.0.0";
 	Window::SetTitle(U"{} {}"_fmt(applicationName, version));
