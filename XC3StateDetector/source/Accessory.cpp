@@ -50,9 +50,9 @@ bool Accessory::hasSameStatusTypeOrMore(const Accessory& other) const
 	HashTable<StatusType, int8> thisStatusTypesCount;
 	HashTable<StatusType, int8> otherStatusTypesCount;
 
-	for (size_t i = 0; i < m_statusBoosts.size(); ++i)
+	for (size_t i = 0; i < 4; ++i)
 	{
-		if (m_statusBoosts[i].type == StatusType::Anything)
+		if (other.m_statusBoosts[i].type == StatusType::Anything)
 		{
 			continue;
 		}
