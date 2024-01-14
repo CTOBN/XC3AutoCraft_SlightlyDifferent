@@ -9,6 +9,9 @@ Nintendo Switchにボタン入力を送信する**XC3KeyCommander**の
 ## デモ
 ![XC3StateDetector_DEMO](https://github.com/eightgamedev/XC3AutoCraft/assets/47023171/b880efe5-ce19-4a58-859e-3694353766d1)
 
+## 紹介動画
+[アクセサリーを完全自動化！ XC3AutoCraft 紹介動画](https://www.youtube.com/watch?v=fSytPmym8lA)
+
 ## このアプリについて
 - このアプリの他にArduino等のいくつかの機器が必要になります。予めご了承ください。
 - アクセサリークラフトに特化しているのでユーザーはマクロを作る必要がありません。
@@ -103,11 +106,14 @@ SN: HIDGF
 画像提供：[ゼノブレイド3 アクセサリークラフトの効率を上げる便利ツールが完成しました！](https://hyperts.net/xenoblade3-craft-tool/)
 
 ## 使用ライブラリ
-XC3StateDetectorは**OpenSiv3D**を使用しています。
-OpenSiv3Dを含む各ライブラリのライセンスについてはXC3StateDetector起動後F1キー、または画面上部のヘルプ->ライセンス情報からご確認ください。
+XC3StateDetectorは以下のMITライセンスライブラリを使用しています。
+- [OpenSiv3D](https://github.com/Siv3D/OpenSiv3D)
+- [doctest](https://github.com/doctest)
 
-XC3KeyCommanderは**NintendoSwitchControlLibrary**を使用しています。
-NintendoSwitchControlLibraryのライセンスについては[https://github.com/lefmarna/NintendoSwitchControlLibrary](https://github.com/lefmarna/NintendoSwitchControlLibrary)からご確認ください。
+OpenSiv3Dを含む各ライブラリのライセンス情報につきましてはXC3StateDetector起動後F1キー、または画面上部のヘルプ->ライセンス情報からも確認することができます。
+
+XC3KeyCommanderは以下のMITライセンスライブラリを使用しています。
+- [NintendoSwitchControlLibrary](https://github.com/lefmarna/NintendoSwitchControlLibrary)
 
 ## 問い合わせ
 質問・バグ報告・改善案などがありましたらIssueを作成するか[Twitterアカウント @ito_eight](https://twitter.com/ito_eight)のDMにてお知らせください。
