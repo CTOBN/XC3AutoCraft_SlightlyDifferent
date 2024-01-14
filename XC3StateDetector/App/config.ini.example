@@ -2,12 +2,19 @@
 AppLanguage = ja-JP
 GameLanguage = ja-JP
 
+[Device]
+HDMICapture = 
+SerialPort = 
+
+[CraftAccessories]
+requirementJSONFolderPath = Requirements/
+requirementJSONFilePath = 
+enableToastNotification = true
 
 [Screenshot]
 FolderPath = Screenshots/
+FileName = XC3StateDetector
 DateFormat = yyyy-MM-dd HH.mm.ss
-FileFormat = png
+FileFormat = .jpg
 
-[Notification]
-enableToastNotification = true
 
