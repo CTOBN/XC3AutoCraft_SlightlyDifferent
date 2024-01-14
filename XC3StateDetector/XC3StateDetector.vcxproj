@@ -145,6 +145,7 @@
     <ClCompile Include="source\StatusBoost.cpp" />
     <ClCompile Include="source\StatusType.cpp" />
     <ClCompile Include="source\SystemMenu.cpp" />
+    <ClCompile Include="source\Test.cpp" />
     <ClCompile Include="source\Title.cpp" />
     <ClCompile Include="source\TitleLoading.cpp" />
     <ClCompile Include="source\VirtualJoyCon.cpp" />

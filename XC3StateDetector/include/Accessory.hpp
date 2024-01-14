@@ -3,12 +3,12 @@
 #include "StatusType.hpp"
 #include "StatusBoost.hpp" // Include StatusBoost header file
 
-
 class Accessory
 {
 public:
 	Accessory() = delete;
 	Accessory(const size_t& index);
+	Accessory(const size_t& index, const Array<StatusBoost>& boosts);
 	// コピーコンストラクタ
 	Accessory(const Accessory& other);
 	size_t getIndex() const;

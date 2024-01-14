@@ -21,6 +21,12 @@ Accessory::Accessory(const size_t& index)
 {
 }
 
+Accessory::Accessory(const size_t& index, const Array<StatusBoost>& statusBoosts)
+	: m_index(index)
+	, m_statusBoosts(statusBoosts)
+{
+}
+
 Accessory::Accessory(const Accessory& other)
 	: m_index(other.m_index)
 	, m_statusBoosts(other.m_statusBoosts)
