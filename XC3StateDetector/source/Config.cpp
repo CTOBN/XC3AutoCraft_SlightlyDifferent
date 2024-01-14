@@ -112,7 +112,7 @@ void Config::update()
 	if (const auto& item = menuBar.update())
 	{
 		// 「終了」が押されたら
-		if (item == MenuBarItemIndex{ 0, 1 })
+		if (item == MenuBarItemIndex{ 0, 0 })
 		{
 			System::Exit();
 		}
