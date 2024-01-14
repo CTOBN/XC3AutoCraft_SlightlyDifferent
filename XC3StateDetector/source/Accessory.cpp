@@ -47,31 +47,63 @@ void Accessory::setStatusBoosts(const Array<StatusBoost>& boosts)
 {
 	m_statusBoosts = boosts;
 }
-
-/// @brief 他のアクセサリーの各ステータスタイプの数が、このアクセサリーのそれと同じか、それ以上であるかを判定する
-/// @param other 比較対象のアクセサリー
-/// @return 他のアクセサリーの各ステータスタイプの数が、このアクセサリーのそれと同じか、それ以上であるか
-bool Accessory::hasSameStatusTypeOrMore(const Accessory& other) const
+ 
+HashTable<StatusType, int8> Accessory::getStatusTypesCountTable() const
 {
-	HashTable<StatusType, int8> thisStatusTypesCount;
-	HashTable<StatusType, int8> otherStatusTypesCount;
-
+	HashTable<StatusType, int8> statusTypesCount;
 	for (size_t i = 0; i < 4; ++i)
 	{
-		if (other.m_statusBoosts[i].type == StatusType::Anything)
+		if (m_statusBoosts[i].type != StatusType::Anything)
+		{
+			statusTypesCount[m_statusBoosts[i].type] += 1;
+		}
+	}
+	return statusTypesCount;
+}
+
+///// @brief 他のアクセサリーの各ステータスタイプの数が、このアクセサリーのそれと同じか、それ以上であるかを判定する
+///// @param other 比較対象のアクセサリー
+///// @return 他のアクセサリーの各ステータスタイプの数が、このアクセサリーのそれと同じか、それ以上であるか
+//bool Accessory::hasSameStatusOrSuperior(const Accessory& other) const
+//{
+//	HashTable<StatusType, int8> thisStatusTypesCount = getStatusTypesCountTable();
+//	HashTable<StatusType, int8> otherStatusTypesCount = other.getStatusTypesCountTable();
+//
+//	// 自身のステータスタイプの数が、比較対象のそれと同じか、それ以上であるかを判定する
+//	for (auto& pair : thisStatusTypesCount)
+//	{
+//		if (thisStatusTypesCount[pair.first] < otherStatusTypesCount[pair.first])
+//		{
+//			return false;
+//		}
+//	}
+//	return true;
+//}
+
+bool Accessory::hasSameStatusOrSuperior(const Accessory& other) const
+{
+	// 自身と比較対象の各要素の個数を数える
+	HashTable<StatusType, int> countThis, countOther;
+	for (const auto& element : m_statusBoosts) {
+		++countThis[element.type];
+	}
+	for (const auto& element : other.m_statusBoosts) {
+		if (element.type == StatusType::Anything)
 		{
 			continue;
 		}
-		thisStatusTypesCount[m_statusBoosts[i].type] += 1;
-		otherStatusTypesCount[other.m_statusBoosts[i].type] += 1;
+		++countOther[element.type];
 	}
-	for (auto& pair : otherStatusTypesCount)
+
+	// 自身の全ての要素が比較対象に含まれているかを判定する
+	for (const auto& pair : countOther)
 	{
-		if (thisStatusTypesCount[pair.first] < pair.second)
+		if (countThis[pair.first] < pair.second)
 		{
 			return false;
 		}
 	}
+
 	return true;
 }
 

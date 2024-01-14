@@ -15,7 +15,8 @@ public:
 	void setStatusBoost(const StatusBoost& boost, const size_t i);
 	void setStatusBoosts(const Array<StatusBoost>& boosts);
 	Array<StatusBoost> getStatusBoosts() const;
-	bool hasSameStatusTypeOrMore(const Accessory& other) const;
+	HashTable<StatusType, int8> getStatusTypesCountTable() const;
+	bool hasSameStatusOrSuperior(const Accessory& other) const;
 	static size_t getID(size_t index);
 	static String getSpecialEffectDetailJapanese(size_t index);
 	static Array<String> getSpecialEffectDetailJapaneseList();

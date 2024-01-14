@@ -212,7 +212,7 @@ bool Recording::compareAccessories()
 		bool isAnyAccessory = (desiredAcc.getIndex() == 1);
 		bool isSameAccessory = (currentAccessory.getIndex() == desiredAcc.getIndex());
 
-		if ((isAnyAccessory || isSameAccessory) && currentAccessory.hasSameStatusTypeOrMore(desiredAcc))
+		if ((isAnyAccessory || isSameAccessory) && currentAccessory.hasSameStatusOrSuperior(desiredAcc))
 		{
 			return true;
 		}
