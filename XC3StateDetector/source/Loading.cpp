@@ -162,7 +162,7 @@ void Loading::loadSpecialEffectImages(const String gameLanguage)
 	for (uint16 i = 3428; i <= 3913; i += 5)
 	{
 		String path = SpecialEffectFolderPath + U"/" + gameLanguage + U"/" + Format(i) + U".jpg";
-		getData().binarizedSpecialEffects.push_back(Image{ path }.thresholded(128));
+		getData().binarizedSpecialEffects.push_back( Image{ Resource(path) }.thresholded(128));
 		// Console << path << U" を読み込みました";
 	}
 }
