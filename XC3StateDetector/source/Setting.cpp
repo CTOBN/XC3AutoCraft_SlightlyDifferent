@@ -245,6 +245,10 @@ Array<Accessory> Setting::getAccessoriesFromJSON(const FilePath& path) const
 
 void Setting::loadRequirementFromJSON()
 {
+	if (not getData().requirementJSONFilePath)
+	{
+		return;
+	}
 	desireConsecutiveStatus = getDesireConsecutiveStatusFromJSON(getData().requirementJSONFilePath);
 	selectingAccessoryType = getAccessoryTypeFromJSON(getData().requirementJSONFilePath);
 	setOpenableListBoxAccessory(getAccessoriesFromJSON(getData().requirementJSONFilePath));
