@@ -42,6 +42,11 @@ Nintendo Switchにボタン入力を送信する**XC3KeyCommander**の
 - Arduino IDE 1.8.13
 - Arduino AVR Boards 1.8.3
 
+## ダウンロード
+こちらから最新版の**XC3AutoCraft.zip**をダウンロードしてください。
+
+[https://github.com/eightgamedev/XC3AutoCraft/releases/tag/v1.0.0](https://github.com/eightgamedev/XC3AutoCraft/releases/tag/v1.0.0)
+
 ## 機器の準備
 1. Arduino LeonardoとFT232RLをジャンパーワイヤー3本で接続する。
 接続箇所は以下の表の通りです。基盤に印字されている文字を確認し接続してください。
