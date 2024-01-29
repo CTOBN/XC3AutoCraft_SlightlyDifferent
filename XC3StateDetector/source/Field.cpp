@@ -6,7 +6,7 @@
 
 namespace xc3
 {
-	Field::Field() : State(U"Field", 6000) {}
+	Field::Field(GameData config) : State(U"Field", 6000, config) {}
 
 	void Field::handle(Context& context) {
 
@@ -18,7 +18,7 @@ namespace xc3
 		}
 		if (isTimeToTransition())
 		{
-			context.setState(std::make_unique<RestSpot>());
+			context.setState(std::make_unique<RestSpot>(config));
 		}
 	}
 }

@@ -4,7 +4,7 @@ namespace xc3
 {
 	class MainMenu : public State {
 	public:
-		MainMenu();
+		MainMenu(GameData config);
 		void handle(Context& context) override;
 	};
 }

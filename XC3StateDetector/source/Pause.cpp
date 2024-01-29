@@ -4,7 +4,7 @@
 
 namespace xc3
 {
-	Pause::Pause() : State(U"Pause", 0) {}
+	Pause::Pause(GameData config) : State(U"Pause", 0, config) {}
 
 	void Pause::handle(Context& context) {
 		return;

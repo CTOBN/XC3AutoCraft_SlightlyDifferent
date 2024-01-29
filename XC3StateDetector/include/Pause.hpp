@@ -4,7 +4,7 @@ namespace xc3
 {
 	class Pause : public State {
 	public:
-		Pause();
+		Pause(GameData config);
 		void handle(Context& context) override;
 	};
 

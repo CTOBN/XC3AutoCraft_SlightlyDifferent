@@ -5,7 +5,7 @@
 
 namespace xc3
 {
-	AccessoryTypeSelecting::AccessoryTypeSelecting() : State(U"AccessoryTypeSelecting", 1000) {}
+	AccessoryTypeSelecting::AccessoryTypeSelecting(GameData config) : State(U"AccessoryTypeSelecting", 1000, config) {}
 
 	void AccessoryTypeSelecting::handle(Context& context)
 	{
@@ -17,7 +17,7 @@ namespace xc3
 		}
 		if (isTimeToTransition())
 		{
-			context.setState(std::make_unique<AccessoryTypeSelected>());
+			context.setState(std::make_unique<AccessoryTypeSelected>(config));
 		}
 	}
 }

@@ -4,7 +4,7 @@ namespace xc3
 {
 	class Field : public State {
 	public:
-		Field();
+		Field(GameData config);
 		void handle(Context& context) override;
 	};
 

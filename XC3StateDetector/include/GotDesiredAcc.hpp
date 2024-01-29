@@ -4,7 +4,7 @@ namespace xc3
 {
 	class GotDesiredAcc : public State {
 	public:
-		GotDesiredAcc();
+		GotDesiredAcc(GameData config);
 		void handle(Context& context) override;
 	};
 }

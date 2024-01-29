@@ -88,3 +88,4 @@ close,close,閉じる
 Game scene could not be recognized,Game scene could not be recognized,ゲームシーンが認識できませんでした
 Lack of UnknownMatter,Lack of UnknownMatter,アンノウンマターが足りません
 Failed to get cursor for break point,Failed to get cursor for break point,休憩ポイントのカーソル取得に失敗しました
+Attempt Count,Attempt Count,試行回数

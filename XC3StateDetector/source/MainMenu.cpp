@@ -6,7 +6,7 @@
 
 namespace xc3
 {
-	MainMenu::MainMenu() : State(U"MainMenu", 3000) {}
+	MainMenu::MainMenu(GameData config) : State(U"MainMenu", 3000, config) {}
 
 	void MainMenu::handle(Context& context)
 	{
@@ -18,7 +18,7 @@ namespace xc3
 		}
 		if (isTimeToTransition())
 		{
-			context.setState(std::make_unique<SystemMenu>());
+			context.setState(std::make_unique<SystemMenu>(config));
 		}
 	}
 }

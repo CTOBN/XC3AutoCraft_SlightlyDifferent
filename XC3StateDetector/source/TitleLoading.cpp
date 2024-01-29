@@ -5,7 +5,7 @@
 
 namespace xc3
 {
-	TitleLoading::TitleLoading() : State(U"TitleLoading", 24000) {}
+	TitleLoading::TitleLoading(GameData config) : State(U"TitleLoading", 24000, config) {}
 
 	void TitleLoading::handle(Context& context)
 	{
@@ -16,7 +16,7 @@ namespace xc3
 		}
 		if (isTimeToTransition())
 		{
-			context.setState(std::make_unique<xc3::Title>());
+			context.setState(std::make_unique<xc3::Title>(config));
 		}
 	}
 }

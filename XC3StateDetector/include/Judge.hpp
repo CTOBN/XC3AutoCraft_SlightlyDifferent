@@ -4,7 +4,7 @@ namespace xc3
 {
 	class Judge : public State {
 	public:
-		Judge();
+		Judge(GameData config);
 		void handle(Context& context) override;
 	};
 }

@@ -4,7 +4,7 @@ namespace xc3
 {
 	class RestSpot : public State {
 	public:
-		RestSpot();
+		RestSpot(GameData config);
 		void handle(Context& context) override;
 	};
 }

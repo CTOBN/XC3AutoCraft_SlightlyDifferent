@@ -4,7 +4,7 @@ namespace xc3
 {
 	class FieldLoading : public State {
 	public:
-		FieldLoading();
+		FieldLoading(GameData config);
 		void handle(Context& context) override;
 	};
 }

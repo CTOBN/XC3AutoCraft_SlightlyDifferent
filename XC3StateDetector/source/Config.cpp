@@ -14,6 +14,7 @@ Config::Config(const InitData& init)
 	requirementJSONFolderPath = Parse<String>(getData().ini[U"CraftAccessories.requirementJSONFolderPath"]);
 	requirementJSONFilePath = Parse<String>(getData().ini[U"CraftAccessories.requirementJSONFilePath"]);
 	enableToastNotification = Parse<bool>(getData().ini[U"CraftAccessories.enableToastNotification"]);
+	adjustmentForCaptureDelayMs = Parse<int>(getData().ini[U"CraftAccessories.adjustmentForCaptureDelayMs"]);
 	ScreenshotFolderPath = Parse<String>(getData().ini[U"Screenshot.FolderPath"]);
 	ScreenshotFileName = Parse<String>(getData().ini[U"Screenshot.FileName"]);
 	ScreenshotDateFormat = Parse<String>(getData().ini[U"Screenshot.DateFormat"]);

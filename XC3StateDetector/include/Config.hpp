@@ -50,6 +50,7 @@ private:
 	String requirementJSONFolderPath;
 	String requirementJSONFilePath;
 	mutable bool enableToastNotification;
+	mutable int adjustmentForCaptureDelayMs;
 	String ScreenshotFolderPath;
 	mutable String ScreenshotFileName;
 	String ScreenshotDateFormat;

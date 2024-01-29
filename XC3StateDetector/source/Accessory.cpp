@@ -96,9 +96,9 @@ bool Accessory::hasSameStatusOrSuperior(const Accessory& other) const
 	}
 
 	// 自身の全ての要素が比較対象に含まれているかを判定する
-	for (const auto& pair : countOther)
+	for (const auto& pair : StatusTypeToString_EN)
 	{
-		if (countThis[pair.first] < pair.second)
+		if (pair.first != StatusType::Anything && countThis[pair.first] < countOther[pair.first])
 		{
 			return false;
 		}

@@ -3,11 +3,12 @@
 
 namespace xc3
 {
-	State::State(String name, int64 duration)
+	State::State(String name, int64 duration, GameData config)
 		: name(name)
 		, transitionDuration(duration)
 		, transitionTime(0)
 		, hasTransitioned(false)
+		, config(config)
 	{}
 	State::~State() {};
 

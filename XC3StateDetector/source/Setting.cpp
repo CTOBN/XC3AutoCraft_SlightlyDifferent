@@ -70,6 +70,7 @@ Setting::Setting(const InitData& init)
 	{
 		openableListBoxHDMICapture.emplace_back(info.name);
 	}
+
 	openableListBoxHDMICapture.setIndexFromItem(getData().HDMICapture);
 
 	openableListBoxSerialPort.emplace_back(Translate[AppLanguage][U"Unselected"]);

@@ -19,6 +19,7 @@ namespace xc3
 		bool getCurrentStateHasTransitioned() const;
 		Serial& serial;
 		size_t currentEnigmatterCount = 0;
+		size_t currentAttemptCount = 0;
 		bool gotDesiredAccessory = false;
 		bool canMakeAccessory = false;
 		bool isAccessoryCraftSelected = true;

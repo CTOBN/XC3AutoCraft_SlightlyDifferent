@@ -5,7 +5,7 @@
 
 namespace xc3
 {
-	FieldLoading::FieldLoading() : State(U"FieldLoading", 22000) {}
+	FieldLoading::FieldLoading(GameData config) : State(U"FieldLoading", 22000, config) {}
 
 	void FieldLoading::handle(Context& context)
 	{
@@ -16,7 +16,7 @@ namespace xc3
 		}
 		if (isTimeToTransition())
 		{
-			context.setState(std::make_unique<Field>());
+			context.setState(std::make_unique<Field>(config));
 		}
 	}
 }

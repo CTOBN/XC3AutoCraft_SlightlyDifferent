@@ -10,6 +10,7 @@ SerialPort =
 requirementJSONFolderPath = Requirements/
 requirementJSONFilePath = 
 enableToastNotification = true
+adjustmentForCaptureDelayMs = 0
 
 [Screenshot]
 FolderPath = Screenshots/

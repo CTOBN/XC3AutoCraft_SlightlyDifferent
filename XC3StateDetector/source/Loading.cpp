@@ -58,6 +58,7 @@ void Loading::loadConfigINI()
 	getData().requirementJSONFolderPath = Parse<String>(getData().ini[U"CraftAccessories.requirementJSONFolderPath"]);
 	getData().requirementJSONFilePath = Parse<String>(getData().ini[U"CraftAccessories.requirementJSONFilePath"]);
 	getData().enableToastNotification = Parse<bool>(getData().ini[U"CraftAccessories.enableToastNotification"]);
+	getData().adjustmentForCaptureDelayMs = Parse<int>(getData().ini[U"CraftAccessories.adjustmentForCaptureDelayMs"]);
 	getData().ScreenshotFolderPath = Parse<String>(getData().ini[U"Screenshot.FolderPath"]);
 	getData().ScreenshotFileName = Parse<String>(getData().ini[U"Screenshot.FileName"]);
 	getData().ScreenshotDateFormat = Parse<String>(getData().ini[U"Screenshot.DateFormat"]);

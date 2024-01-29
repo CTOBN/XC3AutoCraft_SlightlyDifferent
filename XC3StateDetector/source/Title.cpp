@@ -6,7 +6,7 @@
 
 namespace xc3
 {
-	Title::Title() : State(U"Title", 2000) {}
+	Title::Title(GameData config) : State(U"Title", 2000, config) {}
 
 	void Title::handle(Context& context)
 	{
@@ -19,7 +19,7 @@ namespace xc3
 
 		if (isTimeToTransition())
 		{
-			context.setState(std::make_unique<FieldLoading>());
+			context.setState(std::make_unique<FieldLoading>(config));
 		}
 	}
 }

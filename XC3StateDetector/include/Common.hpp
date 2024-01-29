@@ -41,6 +41,7 @@ struct GameData
 	String requirementJSONFolderPath;
 	String requirementJSONFilePath;
 	bool enableToastNotification = true;
+	int adjustmentForCaptureDelayMs = 0;
 	String ScreenshotFolderPath;
 	String ScreenshotFileName;
 	String ScreenshotDateFormat;

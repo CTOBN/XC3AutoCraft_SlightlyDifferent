@@ -4,7 +4,7 @@
 
 namespace xc3
 {
-	GotDesiredAcc::GotDesiredAcc() : State(U"GotDesiredAcc", 0) {}
+	GotDesiredAcc::GotDesiredAcc(GameData config) : State(U"GotDesiredAcc", 0, config) {}
 	void GotDesiredAcc::handle(Context& context)
 	{
 		return;

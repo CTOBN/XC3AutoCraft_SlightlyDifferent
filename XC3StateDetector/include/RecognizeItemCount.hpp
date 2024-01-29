@@ -4,7 +4,7 @@ namespace xc3
 {
 	class RecognizeItemCount : public State {
 	public:
-		RecognizeItemCount();
+		RecognizeItemCount(GameData config);
 		void handle(Context& context) override;
 	};
 

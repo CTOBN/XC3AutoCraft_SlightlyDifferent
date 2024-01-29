@@ -6,7 +6,7 @@
 
 namespace xc3
 {
-	RecognizeItemCount::RecognizeItemCount() : State(U"RecognizeItemCount", 2000) {}
+	RecognizeItemCount::RecognizeItemCount(GameData config) : State(U"RecognizeItemCount", 2000, config) {}
 
 	void RecognizeItemCount::handle(Context& context)
 	{
@@ -22,12 +22,12 @@ namespace xc3
 		{
 			if (context.currentEnigmatterCount >= 3) // アクセサリを作れる
 			{
-				context.setState(std::make_unique<AccessoryTypeSelecting>());
+				context.setState(std::make_unique<AccessoryTypeSelecting>(config));
 			}
 			else // アクセサリを作れないなら一時中断
 			{
 				context.message = U"Lack of Enigmatter";
-				context.setState(std::make_unique<Pause>());
+				context.setState(std::make_unique<Pause>(config));
 			}
 		}
 	}

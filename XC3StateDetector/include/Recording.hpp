@@ -165,4 +165,6 @@ private:
 	void drawRecognizedAccessories() const;
 
 	void drawDesiredAccessories() const;
+
+	void getNewWebcamFrame();
 };

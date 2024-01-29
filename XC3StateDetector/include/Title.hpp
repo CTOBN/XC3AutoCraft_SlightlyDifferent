@@ -4,7 +4,7 @@ namespace xc3
 {
 	class Title : public State {
 	public:
-		Title();
+		Title(GameData config);
 		void handle(Context& context) override;
 	};
 

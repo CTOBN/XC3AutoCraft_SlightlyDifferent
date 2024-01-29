@@ -8,7 +8,7 @@ Recording::Recording(const InitData& init)
 	const uint32 HDMICaptureIndex = getData().HDMICaptureIndex - 1;
 
 	task = AsyncTask<Webcam>{ [HDMICaptureIndex, this]() {
-		Webcam webcam{ HDMICaptureIndex, Size{ this->HDMICaptureRsolution }, StartImmediately::No };
+		Webcam webcam{ HDMICaptureIndex, Size{ this->HDMICaptureRsolution }};
 		webcam.start();
 		return webcam;
 	} };
@@ -39,7 +39,7 @@ size_t Recording::findMostSimilarNumber(const Point pos)
 {
 	size_t judgedNumber = 0;
 	double similarityMax = 0;
-	webcam.getFrame(image);
+	getNewWebcamFrame();
 
 	Image clippedImage = image.clipped(pos, UNKOWN_MATTER_NUMBER_SIZE).thresholded(128);
 	for (size_t i = 0; i < getData().binarizedEnigmatterNumbers.size(); i++)
@@ -60,7 +60,7 @@ size_t Recording::findMostSimilarNumber(const Point pos)
 Array<StatusBoost> Recording::findMostSimilarStatusBoost()
 {
 	Array<StatusBoost> result;
-	webcam.getFrame(image);
+	getNewWebcamFrame();
 
 	for (int i = 0; i < 4; i++)
 	{
@@ -84,12 +84,13 @@ Array<StatusBoost> Recording::findMostSimilarStatusBoost()
 }
 
 size_t Recording::findMostSimilarAbility() {
-	webcam.getFrame(image);
+	getNewWebcamFrame();
 
 	size_t judgedIndex = 0;
 	String judgedAbilityName = U"認識不可";
 	double similarityMax = 0;
 	Image clippedImage = image.clipped(ABILITY_TEXT_AREA_POS, ABILITY_TEXI_AREA_SIZE).thresholded(128);
+
 	for (size_t i = 0; i < getData().binarizedSpecialEffects.size(); i++)
 	{
 		Image binarizedAbility = getData().binarizedSpecialEffects[i];
@@ -111,7 +112,7 @@ size_t Recording::findMostSimilarAbility() {
 
 String Recording::findMostSimilarGameScene()
 {
-	webcam.getFrame(image);
+	getNewWebcamFrame();
 	Point clipPos = { 1665, 1030 };
 	Point clipSize = { 233, 30 };
 	uint8 threshold = 216;
@@ -135,7 +136,7 @@ String Recording::findMostSimilarGameScene()
 
 AccessoryType Recording::recognizeSelectingAccessoryType()
 {
-	webcam.getFrame(image);
+	getNewWebcamFrame();
 	Point clipPos = { 1152, 174 };
 	Point clipSize = { 56, 56 };
 	uint8 threshold = 128;
@@ -156,7 +157,7 @@ AccessoryType Recording::recognizeSelectingAccessoryType()
 
 int8 Recording::recognizeSelectingRestSpotMenu()
 {
-	webcam.getFrame(image);
+	getNewWebcamFrame();
 	Point clipPos = { 936, 881 };
 	Point clipSize = { 48, 48 };
 	uint8 threshold = 128;
@@ -285,7 +286,7 @@ void Recording::selectAccessoryType()
 	AccessoryType desiredAccessoryType = getData().selectedAccessoryType;
 	int8 UpCount = (static_cast<int8>(currentSelectingAccessoryType) - static_cast<int8>(desiredAccessoryType) + 4) % 4;
 	int8 DownCount = (static_cast<int8>(desiredAccessoryType) - static_cast<int8>(currentSelectingAccessoryType) + 4) % 4;
-	
+
 	if (UpCount < DownCount)
 	{
 		for (int i = 0; i < UpCount; i++)
@@ -428,7 +429,7 @@ void Recording::drawButtons()
 		openSerialPort();
 	}
 
-	if (SimpleGUI::Button(Translate[AppLanguage][U"3 times A Button"], Vec2{buttonPos.movedBy(300, 0)}))
+	if (SimpleGUI::Button(Translate[AppLanguage][U"3 times A Button"], Vec2{ buttonPos.movedBy(300, 0) }))
 	{
 		getData().serial.writeByte(ButtonByte::A);
 		getData().serial.writeByte(ButtonByte::A);
@@ -441,19 +442,19 @@ void Recording::drawButtons()
 		String gameSceneName = findMostSimilarGameScene();
 		if (gameSceneName == U"Title")
 		{
-			context.setState(std::make_unique<xc3::Title>());
+			context.setState(std::make_unique<xc3::Title>(getData()));
 		}
 		else if (gameSceneName == U"Field")
 		{
-			context.setState(std::make_unique<xc3::Field>());
+			context.setState(std::make_unique<xc3::Field>(getData()));
 		}
 		else if (gameSceneName == U"RestSpot")
 		{
-			context.setState(std::make_unique<xc3::RestSpot>());
+			context.setState(std::make_unique<xc3::RestSpot>(getData()));
 		}
 		else if (gameSceneName == U"CraftAccessories")
 		{
-			context.setState(std::make_unique<xc3::RecognizeItemCount>());
+			context.setState(std::make_unique<xc3::RecognizeItemCount>(getData()));
 		}
 		else
 		{
@@ -465,7 +466,7 @@ void Recording::drawButtons()
 	{
 		context.deleteState();
 	}
-	
+
 	if (SimpleGUI::Button(U"\U000F0493 {}"_fmt(Translate[AppLanguage][U"Go to Setting"]), Vec2{ buttonPos.movedBy(0, 200) }))
 	{
 		// 設定に遷移
@@ -475,7 +476,7 @@ void Recording::drawButtons()
 
 	if (webcam && SimpleGUI::Button(U"\U000F0E51 {}"_fmt(Translate[AppLanguage][U"Take Screenshot"]), Vec2{ buttonPos.movedBy(0, 250) }))
 	{
-		webcam.getFrame(image);
+		getNewWebcamFrame();
 		if (FileSystem::Exists(getData().ScreenshotFolderPath))
 		{
 			// String now = U"{}"_fmt(DateTime::Now()).replace(U":", U".");
@@ -492,7 +493,7 @@ void Recording::drawButtons()
 		// Console << getData().ScreenshotFolderPath;
 	}
 
-	if (SimpleGUI::Button(U"\U000F0544 {}"_fmt(Translate[AppLanguage][U"Tweet"]), Vec2{buttonPos.movedBy(0, 300)}))
+	if (SimpleGUI::Button(U"\U000F0544 {}"_fmt(Translate[AppLanguage][U"Tweet"]), Vec2{ buttonPos.movedBy(0, 300) }))
 	{
 		// ツイート投稿画面を開く
 		Twitter::OpenTweetWindow(U"#XC3AutoCraft");
@@ -530,10 +531,7 @@ void Recording::update()
 		// 起動が完了した Webcam をタスクから取得
 		webcam = task.get();
 	}
-	if (webcam.hasNewFrame())
-	{
-		webcam.getFrame(texture);
-	}
+	getNewWebcamFrame();
 
 	drawButtons();
 	virtualJoyCon.update();
@@ -578,7 +576,7 @@ void Recording::draw() const
 	}
 	if (texture)
 	{
-		texture.resized(960, 540).draw(Point{ 0, SimpleMenuBar::MenuBarHeight});
+		texture.resized(960, 540).draw(Point{ 0, SimpleMenuBar::MenuBarHeight });
 	}
 
 	drawRecognizedAccessories();
@@ -599,9 +597,19 @@ void Recording::draw() const
 	FontAsset(U"TextFont")(U"{} : {}"_fmt(
 		getData().Translate[AppLanguage][U"Desire consecutive status"],
 		getData().desireConsecutiveStatus
-			? getData().Translate[AppLanguage][U"Yes"]
-			: getData().Translate[AppLanguage][U"No"]))
+		? getData().Translate[AppLanguage][U"Yes"]
+		: getData().Translate[AppLanguage][U"No"]))
 		.draw(StateInformationPos.movedBy(0, 90));
 
+	FontAsset(U"TextFont")(U"{} : {}"_fmt(getData().Translate[AppLanguage][U"Attempt Count"], context.currentAttemptCount)).draw(StateInformationPos.movedBy(0, 120));
+
 	menuBar.draw();
+}
+
+void Recording::getNewWebcamFrame() {
+	if (webcam.hasNewFrame())
+	{
+		webcam.getFrame(texture);
+		webcam.getFrame(image);
+	}
 }
